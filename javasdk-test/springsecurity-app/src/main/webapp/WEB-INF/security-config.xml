@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2011, salesforce.com, inc.
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided
+    that the following conditions are met:
+
+       Redistributions of source code must retain the above copyright notice, this list of conditions and the
+       following disclaimer.
+
+       Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+       the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+       Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+       promote products derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+    TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+    <!-- Force.com OAuth security config -->
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider ref="oauthAuthenticationProvider"/>
+    </security:authentication-manager>
+        
+    <bean id="oauthAuthenticationProvider" class="com.force.sdk.springsecurity.OAuthAuthenticationProvider">
+        <property name="oauthConnector" ref="oauthConnector" />
+    </bean>
+    
+    <bean id="oauthConnector" class="com.force.sdk.oauth.connector.ForceOAuthConnector">
+        <property name="connectionName" value="config" /> <!-- Loads from config.properties in src/main/resources -->
+    </bean>
+    <!--  This filter redirects the user to the OAuth login page -->
+    <bean id="authenticationProcessingFilterEntryPoint" class="com.force.sdk.springsecurity.AuthenticationProcessingFilterEntryPoint">
+        <property name="oauthConnector" ref="oauthConnector" />
+    </bean>
+    <!-- This filter is invoked after OAuth login to exchange token for an access token -->
+    <bean id="authenticationFilter" class="com.force.sdk.springsecurity.AuthenticationProcessingFilter">
+        <property name="authenticationManager" ref="authenticationManager" />
+        <property name="authenticationSuccessHandler">
+            <bean class="com.force.sdk.springsecurity.AuthenticationSuccessHandler">
+			    <property name="defaultTargetUrl" value="/login_success.html" />
+	        </bean>
+	    </property>
+	    <property name="oauthConnector" ref="oauthConnector" />
+	    <property name="filterProcessesUrl" value="/login" />
+	    <property name="authenticationEntryPoint" ref="authenticationProcessingFilterEntryPoint" />
+    </bean>
+    
+    <!-- This filter is invoked during logout -->
+    <!-- sets this as the authentication filter over the default -->
+    <bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <constructor-arg index="0">
+            <bean class="com.force.sdk.springsecurity.LogoutSuccessHandler">
+                <property name="defaultTargetUrl" value="/logout_success.html" />
+                <property name="logoutFromForceDotCom" value="true" />
+                <property name="oauthConnector" ref="oauthConnector" />
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <list>
+                <bean class="com.force.sdk.springsecurity.ForceLogoutHandler"/>
+                <bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+            </list>
+        </constructor-arg>
+        <property name="filterProcessesUrl" value="/logout" />
+    </bean>
+       
+	<!-- Configure Spring Security -->
+	<security:http entry-point-ref="authenticationProcessingFilterEntryPoint" >
+	    <security:anonymous />
+        <security:intercept-url pattern="/secured_page.html" access="ROLE_USER" />
+	    <!-- sets this as the authentication filter over the default -->
+	    <security:custom-filter position="FORM_LOGIN_FILTER" ref="authenticationFilter"/>
+	    <security:custom-filter position="LOGOUT_FILTER" ref="logoutFilter"/>
+	</security:http>
+
+</beans>

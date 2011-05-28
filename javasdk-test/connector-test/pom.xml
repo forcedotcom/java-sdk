@@ -1,0 +1,94 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.force.sdk</groupId>
+  <artifactId>force-connector-test</artifactId>
+  <name>force-connector-test</name>
+
+
+  <parent>
+    <groupId>com.force.sdk</groupId>
+    <artifactId>force-sdk-test</artifactId>
+    <version>22.0.0-BETA</version>
+  </parent>
+
+  <build>
+
+    <testResources>
+      <testResource>
+        <directory>${basedir}/src/test/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </testResource>
+    </testResources>
+
+    <plugins>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <environmentVariables>
+            <FORCE_ENVVARCONN_URL>
+              force://${endpoint}/services/Soap/u/${force.apiVersion};user=${user};password=${password}
+            </FORCE_ENVVARCONN_URL>
+          </environmentVariables>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <configuration>
+          <!-- Use Findbugs exclude filter from test resources -->
+          <excludeFilterFile>${project.build.testOutputDirectory}/findbugs-exclude.xml</excludeFilterFile>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.force.api</groupId>
+      <artifactId>force-metadata-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.api</groupId>
+      <artifactId>force-partner-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.api</groupId>
+      <artifactId>force-wsc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-connector</artifactId>
+      <version>${force.sdk.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.force.qa</groupId>
+      <artifactId>qa-utils</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+    </dependency>
+  </dependencies>
+
+</project>

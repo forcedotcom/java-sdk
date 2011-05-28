@@ -1,0 +1,252 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <groupId>com.force.sdk</groupId>
+    <artifactId>force-sdk</artifactId>
+    <version>22.0.0-BETA</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.force.sdk</groupId>
+  <artifactId>force-sdk-test</artifactId>
+  <name>force-sdk-test</name>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>qa-utils</module>
+    <module>springsecurity-app</module>
+    <module>mock-oauth-server</module>
+    <module>connector-test</module>
+    <module>jpa-test</module>
+    <module>jpa-test-beanvalidation</module>
+    <module>jpa-test-connection</module>
+    <module>jpa-test-query</module>
+    <module>jpa-test-schema</module>
+    <module>codegen-test</module>
+    <module>oauth-test</module>
+    <module>springsecurity-test</module>
+    <module>springsecurity-integration-test</module>
+  </modules>
+
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.force.sdk</groupId>
+        <artifactId>force-springsecurity</artifactId>
+        <version>${force.sdk.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.force.qa</groupId>
+        <artifactId>qa-utils</artifactId>
+        <version>${force.sdk.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>${testng.version}</version>
+        <!--Dont set this scope or prepare to spend hours figuring out why DN breaks until you change it back-->
+      </dependency>
+      <dependency>
+        <groupId>com.force.sdk</groupId>
+        <artifactId>force-codegen</artifactId>
+        <version>${force.sdk.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.force.sdk</groupId>
+        <artifactId>force-connector-test</artifactId>
+        <classifier>tests</classifier>
+        <version>${force.sdk.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.force.sdk</groupId>
+        <artifactId>force-jpa</artifactId>
+        <version>${force.sdk.version}</version>
+        <optional>true</optional>
+      </dependency>
+      <dependency>
+        <groupId>com.force.sdk</groupId>
+        <artifactId>force-jpa-test</artifactId>
+        <classifier>tests</classifier>
+        <version>${force.sdk.version}</version>
+        <!--Dont set this scope or prepare to spend hours figuring out why DN breaks until you change it back-->
+      </dependency>
+      <dependency>
+        <groupId>com.google.collections</groupId>
+        <artifactId>google-collections</artifactId>
+        <version>${google.collections.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-httpclient</groupId>
+        <artifactId>commons-httpclient</artifactId>
+        <version>${commons.httpclient.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>${commons.io.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.datanucleus</groupId>
+        <artifactId>datanucleus-core</artifactId>
+        <scope>runtime</scope>
+        <version>${datanucleus.core.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.datanucleus</groupId>
+        <artifactId>datanucleus-enhancer</artifactId>
+        <version>${datanucleus.enhancer.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>org.springframework.orm</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>org.springframework.transaction</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-test</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <defaultGoal>verify</defaultGoal>
+  
+    <filters>
+      <filter>../qa-utils/src/main/resources/force-sdk-test.properties</filter>
+    </filters>
+  
+    <pluginManagement>
+      <plugins>
+      
+        <!--
+        Allows us to convert the force-sdk-test.properties file
+        into pom properties. 
+        -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>properties-maven-plugin</artifactId>
+          <version>1.0-alpha-2</version>
+          <executions>
+            <execution>
+              <phase>initialize</phase>
+              <goals>
+                <goal>read-project-properties</goal>
+              </goals>
+              <configuration>
+                <files>
+                  <file>../qa-utils/src/main/resources/force-sdk-test.properties</file>
+                </files>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.datanucleus</groupId>
+          <artifactId>maven-datanucleus-plugin</artifactId>
+          <version>${datanucleus.enhancer.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.datanucleus</groupId>
+              <artifactId>datanucleus-core</artifactId>
+              <version>${datanucleus.core.version}</version>
+              <scope>runtime</scope>
+            </dependency>
+            <dependency>
+              <groupId>org.datanucleus</groupId>
+              <artifactId>datanucleus-enhancer</artifactId>
+              <version>${datanucleus.enhancer.version}</version>
+              <scope>runtime</scope>
+            </dependency>
+            <dependency>
+              <groupId>org.datanucleus</groupId>
+              <artifactId>datanucleus-rdbms</artifactId>
+              <version>${datanucleus.enhancer.version}</version>
+              <scope>runtime</scope>
+              <optional>true</optional>
+            </dependency>
+            <dependency>
+              <groupId>org.datanucleus</groupId>
+              <artifactId>datanucleus-jpa</artifactId>
+              <version>${datanucleus.jpa.version}</version>
+              <scope>runtime</scope>
+              <optional>true</optional>
+            </dependency>
+          </dependencies>
+        </plugin>
+        
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${surefire.version}</version>
+          <configuration>
+            <argLine>${test.vm.argLine}</argLine>
+          </configuration>
+        </plugin>
+        
+        <!-- 
+        Make sure test classes are included in the packaged JAR.
+        They are shared across test projects.
+        -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>jar-test-classes</id>
+              <goals>
+                <goal>test-jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <configuration>
+            <!-- Force Checkstyle to run on src/test/java directory -->
+            <!-- See bug at http://jira.codehaus.org/browse/MCHECKSTYLE-153 -->
+            <sourceDirectory>${project.build.testSourceDirectory}</sourceDirectory>
+          </configuration>
+        </plugin>       
+       
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    
+    <plugins>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <configuration>
+          <!-- Force Findbugs to run in the test class files directory -->
+          <classFilesDirectory>${project.build.testOutputDirectory}</classFilesDirectory>
+          <!-- For test projects, skip checks for returning mutable objects -->
+          <omitVisitors>FindReturnRef</omitVisitors>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>

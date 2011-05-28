@@ -1,0 +1,88 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <parent>
+    <groupId>com.force.sdk</groupId>
+    <artifactId>force-sdk</artifactId>
+    <version>22.0.0-BETA</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.force.sdk</groupId>
+  <artifactId>force-codegen</artifactId>
+  <name>force-codegen</name>
+
+  <properties>
+    <stringtemplate.version>3.2</stringtemplate.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>DataNucleus_Repos2</id>
+      <name>DataNucleus Repository</name>
+      <url>http://www.datanucleus.org/downloads/maven2</url>
+    </repository>
+  </repositories>
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <configuration>
+          <!-- Use Findbugs exclude filter from test resources -->
+          <excludeFilterFile>${project.build.testOutputDirectory}/findbugs-exclude.xml</excludeFilterFile>
+        </configuration>
+      </plugin>
+      
+    </plugins>
+  </build>
+
+
+  <dependencies>
+    <dependency>
+      <groupId>com.force.api</groupId>
+      <artifactId>force-wsc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-connector</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-jpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.collections</groupId>
+      <artifactId>google-collections</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>mockit</groupId>
+      <artifactId>jmockit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jpa_2.0_spec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.antlr</groupId>
+      <artifactId>stringtemplate</artifactId>
+      <version>${stringtemplate.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>

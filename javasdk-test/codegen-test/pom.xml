@@ -1,0 +1,149 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.force.sdk</groupId>
+  <artifactId>force-codegen-test</artifactId>
+  <name>force-codegen-test</name>
+
+  <parent>
+    <groupId>com.force.sdk</groupId>
+    <artifactId>force-sdk-test</artifactId>
+    <version>22.0.0-BETA</version>
+  </parent>
+
+
+  <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+
+    <testResources>
+      <testResource>
+        <directory>${basedir}/src/test/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/persistence.xml</include>
+        </includes>
+      </testResource>
+    </testResources>
+
+    <plugins>
+
+      <!-- Generate test files using codegen for JPA CRUD tests -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-test-sources</phase>
+            <goals>
+              <goal>java</goal>
+            </goals>
+            <configuration>
+              <mainClass>com.force.sdk.codegen.JPATestClassGenerator</mainClass>          
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Add the generated-test-files directory to be compiled -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-test-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>target/generated-test-files</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.datanucleus</groupId>
+        <artifactId>maven-datanucleus-plugin</artifactId>
+        <configuration>
+          <metadataIncludes>**/*.class</metadataIncludes>
+          <mappingIncludes>**/*.class</mappingIncludes>
+          <verbose>true</verbose>
+          <enhancerName>ASM</enhancerName>
+          <log4jConfiguration>${basedir}/src/test/resources/log4j.xml</log4jConfiguration>
+          <api>JPA</api>
+        </configuration>
+        <executions>
+          <execution>
+            <id>Force_Codegen_Test</id>
+            <phase>process-test-classes</phase>
+            <goals>
+              <goal>enhance</goal>
+            </goals>
+            <configuration>
+              <metadataDirectory>${basedir}/target/test-classes</metadataDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${surefire.version}</version>
+        <configuration>
+          <suiteXmlFiles>
+            <suiteXmlFile>testng.xml</suiteXmlFile>
+          </suiteXmlFiles>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <!-- Override force-sdk-test configuration because files exist in src/main/java -->
+          <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-codegen</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-connector</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-jpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.qa</groupId>
+      <artifactId>qa-utils</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jpa_2.0_spec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+    </dependency>
+  </dependencies>
+
+</project>

@@ -1,0 +1,84 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.force.sdk</groupId>
+  <artifactId>force-springsecurity-test</artifactId>
+  <name>force-springsecurity-test</name>
+
+  <parent>
+    <groupId>com.force.sdk</groupId>
+    <artifactId>force-sdk-test</artifactId>
+    <version>22.0.0-BETA</version>
+  </parent>
+
+
+  <build>
+    <testResources>
+      <testResource>
+        <directory>${basedir}/src/test/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </testResource>
+    </testResources>
+
+
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-connector</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-oauth</artifactId>
+    </dependency>
+     <dependency>
+      <groupId>com.force.api</groupId>
+      <artifactId>force-partner-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.api</groupId>
+      <artifactId>force-wsc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+    </dependency>
+     <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+    </dependency>
+     <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+    </dependency>
+     <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+    </dependency>
+     <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-springsecurity</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>mockit</groupId>
+      <artifactId>jmockit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+    </dependency>
+  </dependencies>
+
+</project>

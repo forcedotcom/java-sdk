@@ -1,0 +1,107 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.force.sdk</groupId>
+  <artifactId>force-oauth-test</artifactId>
+  <name>force-oauth-test</name>
+
+  <parent>
+    <groupId>com.force.sdk</groupId>
+    <artifactId>force-sdk-test</artifactId>
+    <version>22.0.0-BETA</version>
+  </parent>
+
+  <build>
+
+    <testResources>
+      <testResource>
+        <directory>${basedir}/src/test/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </testResource>
+    </testResources>
+
+    <plugins>
+    
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${surefire.version}</version>
+        <configuration>
+          <environmentVariables>
+            <FORCE_CONNURLENVVAR_URL>
+              force://${endpoint};oauth_key=${force.test.oauth.key};oauth_secret=${force.test.oauth.secret}
+            </FORCE_CONNURLENVVAR_URL>
+          </environmentVariables>
+          <systemPropertyVariables>
+            <loginConfigPath>${basedir}/src/test/resources</loginConfigPath>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+      
+    </plugins>
+
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-oauth</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.qa</groupId>
+      <artifactId>qa-utils</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.api</groupId>
+      <artifactId>force-partner-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.api</groupId>
+      <artifactId>force-wsc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-connector</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-connector-test</artifactId>
+      <classifier>tests</classifier>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>mockit</groupId>
+      <artifactId>jmockit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+    </dependency>
+  </dependencies>
+
+</project>

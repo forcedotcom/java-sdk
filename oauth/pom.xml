@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <groupId>com.force.sdk</groupId>
+    <artifactId>force-sdk</artifactId>
+    <version>22.0.0-BETA</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.force.sdk</groupId>
+  <artifactId>force-oauth</artifactId>
+  <name>force-oauth</name>
+
+
+  <repositories>
+    <repository>
+      <id>com.springsource.repository.bundles.release</id>
+      <name>SpringSource Enterprise Bundle Repository - SpringSource Releases</name>
+      <url>http://repository.springsource.com/maven/bundles/release</url>
+    </repository>
+    <repository>
+      <id>com.springsource.repository.bundles.external</id>
+      <name>SpringSource Enterprise Bundle Repository - External Releases</name>
+      <url>http://repository.springsource.com/maven/bundles/external</url>
+    </repository>
+    <repository>
+      <id>com.springsource.repository.bundles.snapshot</id>
+      <name>SpringSource Enterprise Bundle Repository - Snapshot Releases</name>
+      <url>http://repository.springsource.com/maven/bundles/snapshot</url>
+    </repository>
+  </repositories>
+
+  <build>
+    <plugins>
+    
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+      </plugin>
+      
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.force.api</groupId>
+      <artifactId>force-partner-api</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.force.api</groupId>
+      <artifactId>force-wsc</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-connector</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.json-simple</groupId>
+      <artifactId>json-simple</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+</project>

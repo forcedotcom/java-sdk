@@ -1,0 +1,199 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <parent>
+    <groupId>com.force.sdk</groupId>
+    <artifactId>force-sdk</artifactId>
+    <version>22.0.0-BETA</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.force.sdk</groupId>
+  <artifactId>force-jpa</artifactId>
+  <name>force-jpa</name>
+
+
+  <repositories>
+    <repository>
+      <id>DataNucleus_Repos2</id>
+      <name>DataNucleus Repository</name>
+      <url>http://www.datanucleus.org/downloads/maven2</url>
+    </repository>
+  </repositories>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.datanucleus</groupId>
+          <artifactId>maven-datanucleus-plugin</artifactId>
+          <version>${datanucleus.enhancer.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.datanucleus</groupId>
+              <artifactId>datanucleus-core</artifactId>
+              <version>${datanucleus.core.version}</version>
+              <scope>runtime</scope>
+            </dependency>
+            <dependency>
+              <groupId>org.datanucleus</groupId>
+              <artifactId>datanucleus-enhancer</artifactId>
+              <version>${datanucleus.enhancer.version}</version>
+              <scope>runtime</scope>
+            </dependency>
+            <dependency>
+              <groupId>org.datanucleus</groupId>
+              <artifactId>datanucleus-rdbms</artifactId>
+              <version>${datanucleus.rdbms.version}</version>
+              <scope>runtime</scope>
+              <optional>true</optional>
+            </dependency>
+            <dependency>
+              <groupId>org.datanucleus</groupId>
+              <artifactId>datanucleus-jpa</artifactId>
+              <version>${datanucleus.jpa.version}</version>
+              <scope>runtime</scope>
+              <optional>true</optional>
+            </dependency>
+          </dependencies>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <!-- Register force-jpa as a Datanucleus plugin -->
+            <manifestEntries>
+              <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+              <Bundle-Name>force.com</Bundle-Name>
+              <Bundle-SymbolicName>com.force.sdk.jpa</Bundle-SymbolicName>
+              <Bundle-Version>${force.sdk.version}</Bundle-Version>
+              <Bundle-Vendor>SalesForce</Bundle-Vendor>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <archive>
+            <!-- Register force-jpa-jar-with-dependencies as a Datanucleus plugin -->
+            <manifestEntries>
+              <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+              <Bundle-Name>force.com</Bundle-Name>
+              <Bundle-SymbolicName>com.force.sdk.jpa</Bundle-SymbolicName>
+              <Bundle-Version>${force.sdk.version}</Bundle-Version>
+              <Bundle-Vendor>SalesForce</Bundle-Vendor>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.datanucleus</groupId>
+        <artifactId>maven-datanucleus-plugin</artifactId>
+        <version>${datanucleus.enhancer.version}</version>
+        <configuration>
+          <metadataIncludes>com/force/sdk/jpa/entities/**/*.class, com/force/sdk/jpa/model/**/*.class</metadataIncludes>
+          <mappingIncludes>com/force/sdk/jpa/entities/**/*.class, com/force/sdk/jpa/model/**/*.class</mappingIncludes>
+          <verbose>true</verbose>
+          <enhancerName>ASM</enhancerName>
+          <api>JPA</api>
+        </configuration>
+        <executions>
+          <execution>
+            <id>Force_JPA_Model</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>enhance</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>Force_JPA_Test</id>
+            <phase>process-test-classes</phase>
+            <goals>
+              <goal>enhance</goal>
+            </goals>
+            <configuration>
+              <metadataDirectory>${basedir}/target/test-classes</metadataDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <configuration>
+          <!-- Use Findbugs exclude filter from test resources -->
+          <excludeFilterFile>${project.build.testOutputDirectory}/findbugs-exclude.xml</excludeFilterFile>
+        </configuration>
+      </plugin>
+    </plugins>
+
+  </build>
+
+
+  <dependencies>
+    <dependency>
+      <groupId>com.force.api</groupId>
+      <artifactId>force-metadata-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.api</groupId>
+      <artifactId>force-partner-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.api</groupId>
+      <artifactId>force-wsc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-connector</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.jdo</groupId>
+      <artifactId>jdo2-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.transaction</groupId>
+      <artifactId>jta</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jpa_2.0_spec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.datanucleus</groupId>
+      <artifactId>datanucleus-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.datanucleus</groupId>
+      <artifactId>datanucleus-jpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.datanucleus</groupId>
+      <artifactId>datanucleus-enhancer</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>mockit</groupId>
+      <artifactId>jmockit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>

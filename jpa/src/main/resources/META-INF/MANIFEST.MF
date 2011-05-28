@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: force.com
+Bundle-SymbolicName: com.force.sdk.jpa
+Bundle-Vendor: SalesForce
+Bundle-Version: 21.0.0-SNAPSHOT

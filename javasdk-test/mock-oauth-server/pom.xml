@@ -1,0 +1,93 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.force.samples</groupId>
+  <artifactId>force-mock-oauth-server-app</artifactId>
+  <name>force-mock-oauth-server-app</name>
+  <packaging>war</packaging>
+  <version>22.0.0-BETA</version>
+  <properties>
+    <force.sdk.version>22.0.0-BETA</force.sdk.version>
+    
+    <apache.cxf.version>2.3.0</apache.cxf.version>
+    <!-- Need to upgrade when http://jira.codehaus.org/browse/MCHECKSTYLE-147 is fixed -->
+    <checkstyle.plugin.version>2.4</checkstyle.plugin.version>
+    <jackson.version>1.8.0</jackson.version>
+    <java.compile.version>1.6</java.compile.version>
+  </properties>
+  <build>
+    <defaultGoal>install</defaultGoal>
+    <finalName>services</finalName>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>${java.compile.version}</source>
+          <target>${java.compile.version}</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${checkstyle.plugin.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>com.force.sdk</groupId>
+            <artifactId>force-build-tools</artifactId>
+            <version>${force.sdk.version}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <configLocation>checkstyle/force-sdk-checks.xml</configLocation>
+          <includeTestSourceDirectory>true</includeTestSourceDirectory>
+          <suppressionsLocation>checkstyle/force-sdk-suppressions.xml</suppressionsLocation>
+          <violationSeverity>warning</violationSeverity>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <!-- Even though we skip deploy, we need to specify
+         this so that deploy can execute from main. -->
+  <distributionManagement>
+    <repository>
+      <id>force.repo</id>
+      <name>Force.com Repository</name>
+      <url>${force.repo.url}</url>
+    </repository>
+    <snapshotRepository>
+      <id>force.repo.snapshot</id>
+      <name>Force.com Snapshot Repository</name>
+      <url>${force.repo.snapshot.url}</url>
+    </snapshotRepository>
+  </distributionManagement>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+      <version>${apache.cxf.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-databinding-aegis</artifactId>
+      <version>${apache.cxf.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.xmlbeans</groupId>
+      <artifactId>xmlbeans</artifactId>
+      <version>${apache.cxf.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-jaxrs</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+  </dependencies>
+</project>

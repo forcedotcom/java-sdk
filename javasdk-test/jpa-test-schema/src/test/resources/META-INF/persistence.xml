@@ -1,0 +1,833 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2011, salesforce.com, inc.
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided
+    that the following conditions are met:
+
+       Redistributions of source code must retain the above copyright notice, this list of conditions and the
+       following disclaimer.
+
+       Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+       the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+       Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+       promote products derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+    TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
+
+-->
+
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+
+    <!-- This PU is for setting up the dynamic org on which all tests are run -->
+    <persistence-unit name="testDNJpaPersistence">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
+    <!-- This PU is for setting up tests needing the ExistingCustomObject -->
+    <persistence-unit name="setupExistingCustomObject">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.SetupExistingCustomObject</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
+    <persistence-unit name="testCreateColumnsOnExistingObjects">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.ExistingCustomObject</class>
+      <class>com.force.sdk.jpa.schema.entities.ExistingCustomObjectExtension1</class>
+      <class>com.force.sdk.jpa.schema.entities.User</class>
+      <class>com.force.sdk.jpa.schema.entities.UserCustomFields</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
+    <!-- Primary key generation strategy -->
+    <persistence-unit name="testNegativePrimaryKey_TABLE">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.PkTestEntity1</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    <persistence-unit name="testNegativePrimaryKey_AUTO">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.PkTestEntity2</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    <persistence-unit name="testNegativePrimaryKey_SEQUENCE">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.PkTestEntity3</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.AllOrNothing" value="true" />
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    <!-- Primary key non string primary key -->
+    <persistence-unit name="testNonStringPrimaryKey">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.PkTestEntity4</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    <!-- Primary key composite primary key -->
+    <persistence-unit name="testCompositePrimaryKey">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.PkTestEntity5</class>
+      <class>com.force.sdk.jpa.schema.entities.PkTestEntity5PK</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    <!-- Column with Table specification -->
+    <persistence-unit name="testColumnWithTable">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.ColumnWithTable</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    
+    <!-- Inheritance strategy -->
+    <persistence-unit name="testNegativeInheritance_JOINED">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.InheritanceTestBase1</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    <persistence-unit name="testNegativeInheritance_TABLE_PER_CLASS">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.InheritanceTestBase2</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.AllOrNothing" value="true" />
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    <persistence-unit name="testNegativeInheritance_JoinColumnOnSubtype">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.InheritanceTestBase3</class>
+      <class>com.force.sdk.jpa.schema.entities.InheritanceTestSubclass</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.AllOrNothing" value="true"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>   
+
+	<!-- @AttributeOverride, @AssociationOverride -->
+    <persistence-unit name="testMappedSuperclass">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.MappedSuperclassEntity</class>
+      <class>com.force.sdk.jpa.schema.entities.MappedSubclassEntity</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.AllOrNothing" value="true"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit> 
+    
+    <!-- @SecondaryTable -->
+    <persistence-unit name="testSecondaryTable">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.SecondaryTableEntity</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    
+    <!-- @Embeddable -->
+    <persistence-unit name="testEmbeddable">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.Embeddable</class>
+      <class>com.force.sdk.jpa.schema.entities.EmbeddableBase</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    
+    <!-- @Lob -->
+    <persistence-unit name="testLob">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.LobTest</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.AllOrNothing" value="true"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    
+    <!-- @ManyToMany test -->
+    <persistence-unit name="testManyToMany">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.JoinColumnTestMany</class>
+      <class>com.force.sdk.jpa.schema.entities.JoinColumnTestMany2</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    
+    <!-- @OneToMany test -->
+    <persistence-unit name="testOneToMany">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.JoinColumnTestOne</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    
+    <!-- @JoinTable test -->
+    <persistence-unit name="testJoinTable">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.JoinTableTest</class>
+      <class>com.force.sdk.jpa.schema.entities.JoinColumnTestMany3</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+        
+    <persistence-unit name="testStandardFieldLinking">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.User</class>
+      <class>com.force.sdk.jpa.schema.entities.StandardFieldLinkingEntity</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+     
+    <persistence-unit name="testNonStrictPicklistNonString">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.NonStrictPicklistNonStringEntity</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    
+    <persistence-unit name="testNonStrictPicklistNonStringMP">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.NonStrictPicklistNonStringMPEntity</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    
+    <persistence-unit name="testNonStrictPicklistValue">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.NonStrictPicklistValueEntity</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
+    <persistence-unit name="testNonStrictPicklistValueMP">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.NonStrictPicklistValueMPEntity</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    
+    <persistence-unit name="testNonStrictPicklistOrdinal">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.NonStrictPicklistOrdinalEntity</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
+    <persistence-unit name="testNonStrictPicklistOrdinalMP">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.NonStrictPicklistOrdinalMPEntity</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
+    <!-- @EmbeddableId -->
+    <persistence-unit name="testEmbeddableId">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>     
+      <class>com.force.sdk.jpa.schema.entities.PkTestEntity6</class>
+      <class>com.force.sdk.jpa.schema.entities.EmbeddableId</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.AllOrNothing" value="true"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
+    <persistence-unit name="testSequenceGenerator">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.SequenceGeneratorTest</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.AllOrNothing" value="true"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
+    <persistence-unit name="testTableGenerator">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.TableGeneratorTest</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
+
+    <persistence-unit name="testUniqueConstraint">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.UniqueConstraintTest</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
+
+    <!-- testExtendEntityClassesStandardFieldsOnly -->
+    <persistence-unit name="testExtendEntityClassesStandardFieldsOnly">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.extend.AudiA8</class>
+      <class>com.force.sdk.jpa.schema.entities.extend.Car</class>
+      <class>com.force.sdk.jpa.schema.entities.extend.Vehicle</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    
+    <!-- testExtendEntityClassesStandardWithCustomFields -->
+    <persistence-unit name="testExtendEntityClassesStandardWithCustomFields">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.extend.Animal</class>
+      <class>com.force.sdk.jpa.schema.entities.extend.Bear</class>
+      <class>com.force.sdk.jpa.schema.entities.extend.Mammal</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    
+    <!-- testExtendEntityClassesWithOneToManyRelationship -->
+    <persistence-unit name="testExtendEntityClassesWithOneToManyRelationship">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.extend.AbstractParentEntity</class>
+      <class>com.force.sdk.jpa.schema.entities.extend.ChildWithAbstractParentEntity</class>
+      <class>com.force.sdk.jpa.schema.entities.extend.ConcreteParentEntity</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
+    <persistence-unit name="testExtendOneLevel">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.extend.OneLevelParent</class>
+      <class>com.force.sdk.jpa.schema.entities.extend.OneLevelChild</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
+    <!-- The DN enhancer inspects persistence.xml and will only enhance explicitly listed classes
+      or classes that are implicitly retrieved if exclude-unlisted-classes is set to false. -->
+    <persistence-unit name="dummyDNEnhancerPU">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    
+    <persistence-unit name="testAutoCreateSchemaFalse">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.ExistingCustomObject</class>
+      <class>com.force.sdk.jpa.schema.entities.ExistingCustomObjectExtension1</class>
+      <class>com.force.sdk.jpa.schema.entities.SimpleValidEntity</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="false" />
+        <property name="datanucleus.autoCreateWarnOnError" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+    
+    <persistence-unit name="testDeleteSchema">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.SimpleValidEntity</class>
+      <class>com.force.sdk.jpa.schema.entities.ExistingCustomObject</class>
+      <class>com.force.sdk.jpa.schema.entities.ExistingCustomObjectExtension1</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.autoCreateWarnOnError" value="false" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
+    <persistence-unit name="testNonCustomizableStandardObjectWithCustomField">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.NonCustomizableStandardObjectWithCustomField</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+     	<property name="datanucleus.autoCreateSchema" value="true"/> <!-- Test only reproduces if autoCreateSchema=true -->
+     	<property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+      	<property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
+    <persistence-unit name="testNewCustomObjectWithInvalidTableName">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.NewCustomObjectWithInvalidTableName</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+     	<property name="datanucleus.autoCreateSchema" value="true"/>
+     	<property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+      	<property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
+    <persistence-unit name="testCustomObjectWithPrefixDifferentFromOrgNamespace">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.CustomObjectWithPrefixDifferentFromOrgNamespace</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+     	<property name="datanucleus.autoCreateSchema" value="true"/>
+     	<property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+      	<property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
+    <persistence-unit name="testNumericTypePrecision">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.AllNumericTypes</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+     	<property name="datanucleus.autoCreateSchema" value="true"/> <!-- Test only reproduces if autoCreateSchema=true -->
+     	<property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+      	<property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
+    <persistence-unit name="ProviderContract">
+      <class>com.force.sdk.jpa.schema.entities.ProviderTestEntity</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+      	<property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
+</persistence>
