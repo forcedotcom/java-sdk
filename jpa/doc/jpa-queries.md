@@ -31,7 +31,7 @@ The following sample shows a simple JPQL query and iteration of the query result
     
         try {
             String jpqlQuery = "SELECT u " +
-                    "FROM User u WHERE FirstName = :firstName";
+                    "FROM User u WHERE u.FirstName = :firstName";
             Query q = em.createQuery(jpqlQuery);
             // Bind the named parameter into the query
             q.setParameter("firstName", "Bob");
@@ -321,7 +321,7 @@ The following examples use this field in a ParentEntity class:
     private Set<ChildTestEntity> children;
 
 ##### Child Entities
-This query returns ParentEntity records that have empty children.
+This query returns ParentEntity records that have no children.
 
     em.createQuery(
         "SELECT o FROM ParentEntity o
@@ -359,14 +359,14 @@ You can filter by a field other than **name** by using a <code>MEMBER_OF_FIELD</
     ).setHint(QueryHints.MEMBER_OF_FIELD, "gender").getResultList();
 
 ##### Multi-Select Picklists
-This query returns Entity records that have a a picklist value of 'ONE'  in the **multiPickValue** field.
+This query returns Entity records that have a picklist value of 'ONE'  in the **multiPickValue** field.
 
     em.createQuery(
         "SELECT o FROM Entity o 
         WHERE 'ONE' MEMBER OF o.multiPickValue"
     ).getResultList();
 
-Use a semi-colon to check for multiple values in a picklist (boolean AND). Use a comma to check for one of multiple values (boolean OR). For example, this query returns Entity records that have a multiPickValue field including both ('AAA' and 'BBB') values or a 'CCC' value - ('AAA' && 'BBB') || 'CCC'.
+Use a semicolon to check for multiple values in a picklist (boolean AND). Use a comma to check for one of multiple values (boolean OR). For example, this query returns Entity records that have a multiPickValue field including both ('AAA' and 'BBB') values or a 'CCC' value - ('AAA' && 'BBB') || 'CCC'.
 
     SELECT o FROM Entity o 
     WHERE 'AAA;BBB,CCC' MEMBER OF o.multiPickValue
