@@ -26,12 +26,11 @@
 
 package com.force.sdk.oauth.mock;
 
-import java.io.IOException;
-
-import org.testng.Assert;
-
 import com.force.sdk.oauth.connector.ForceOAuthConnectionInfo;
 import com.force.sdk.oauth.connector.TokenRetrievalService;
+import org.testng.Assert;
+
+import java.io.IOException;
 
 /**
  * 
@@ -76,13 +75,13 @@ public class MockTokenRetrievalService implements TokenRetrievalService {
         boolean foundKey = false;
         boolean foundSecret = false;
         for (int i = 0; i < paramArray.length; i++) {
-            String[] nameValue = paramArray[i].split("=");
-            if ("client_id".equals(nameValue[0])) {
-                Assert.assertEquals(nameValue[1], oauthKey, "Wrong OAuth key used when attempting connection");
+            if(paramArray[i].startsWith("client_id")) {
+                Assert.assertEquals(paramArray[i].substring("client_id=".length()), oauthKey, "Wrong OAuth key used when attempting connection");
                 foundKey = true;
             }
-            if ("client_secret".equals(nameValue[0])) {
-                Assert.assertEquals(nameValue[1], oauthSecret, "Wrong OAuth secret used when attempting connection");
+
+            if(paramArray[i].startsWith("client_secret")) {
+                Assert.assertEquals(paramArray[i].substring("client_secret=".length()), oauthSecret, "Wrong OAuth key used when attempting connection");
                 foundSecret = true;
             }
         }
