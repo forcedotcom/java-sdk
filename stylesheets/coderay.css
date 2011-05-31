@@ -1,0 +1,170 @@
+/**
+ * Copyright (c) 2011, salesforce.com, inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided
+ * that the following conditions are met:
+ *
+ *    Redistributions of source code must retain the above copyright notice, this list of conditions and the
+ *    following disclaimer.
+ *
+ *    Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+ *    the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *
+ *    Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+ *    promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+ * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+pre, .CodeRay {
+ background-color: #f0f0f0;
+ border: 1px solid silver;
+ padding: 18px 36px 18px 36px;
+ font-family: 'Monaco', monospace;
+ color: #333;
+ font-size: 12px;
+ overflow: auto;
+}
+.CodeRay .prompt {
+ color: #6F5EEE;
+  
+}
+.CodeRay .command {
+ color: #6F5EEE;
+  
+}
+.CodeRay .output {
+ color: #333;
+}
+.CodeRay pre { margin: 0px }
+
+div.CodeRay { }
+
+span.CodeRay { white-space: pre; border: 0px; padding: 2px }
+
+table.CodeRay { border-collapse: collapse; width: 100%; padding: 2px }
+table.CodeRay td { padding: 2px 4px; vertical-align: top }
+
+.CodeRay .line_numbers, .CodeRay .no {
+ background-color: #def;
+ color: gray;
+ text-align: right;
+}
+.CodeRay .line_numbers tt {   }
+.CodeRay .line_numbers .highlighted { color: red }
+.CodeRay .no { padding: 0px 4px }
+.CodeRay .code { width: 100% }
+
+ol.CodeRay { font-size: 10pt }
+ol.CodeRay li { white-space: pre }
+
+.CodeRay .code pre { overflow: auto }
+
+.CodeRay .debug { color:white ! important; background:blue ! important; }
+
+.CodeRay .af { color:#00C }
+.CodeRay .an { color:#007 }
+.CodeRay .at { color:#f08 }
+.CodeRay .av { color:#700 }
+.CodeRay .aw { color:#C00 }
+.CodeRay .bi { color:#509; }
+.CodeRay .c { color:#888; }
+
+.CodeRay .ch { color:#04D }
+.CodeRay .ch .k { color:#04D }
+.CodeRay .ch .dl { color:#039 }
+
+.CodeRay .cl { color:#B06; }
+.CodeRay .cm { color:#A08; }
+.CodeRay .co { color:#036; }
+.CodeRay .cr { color:#0A0 }
+.CodeRay .cv { color:#369 }
+.CodeRay .de { color:#B0B; }
+.CodeRay .df { color:#099; }
+.CodeRay .di { color:#088; }
+.CodeRay .dl { color:black }
+.CodeRay .do { color:#970 }
+.CodeRay .dt { color:#34b }
+.CodeRay .ds { color:#D42; }
+.CodeRay .e { color:#666; }
+.CodeRay .en { color:#800; }
+.CodeRay .er { color:#F00; }
+.CodeRay .ex { color:#F00; }
+.CodeRay .fl { color:#60E; }
+.CodeRay .fu { color:#06B; }
+.CodeRay .gv { color:#d70; }
+.CodeRay .hx { color:#058; }
+.CodeRay .i { color:#00D; }
+.CodeRay .ic { color:#B44; }
+
+.CodeRay .il { color: black }
+.CodeRay .il .il {  }
+.CodeRay .il .il .il {  }
+.CodeRay .il .idl { color: #666 }
+.CodeRay .idl {   color: #666; }
+
+.CodeRay .im { color:#f00; }
+.CodeRay .in { color:#B2B; }
+.CodeRay .iv { color:#33B }
+.CodeRay .la { color:#970; }
+.CodeRay .lv { color:#963 }
+.CodeRay .oc { color:#40E; }
+.CodeRay .of { color:#000; }
+.CodeRay .op { }
+.CodeRay .pc { color:#038; }
+.CodeRay .pd { color:#369; }
+.CodeRay .pp { color:#579; }
+.CodeRay .ps { color:#00C;   }
+.CodeRay .pt { color:#349; }
+.CodeRay .r, .kw { color:#080; }
+
+.CodeRay .ke { color: #808; }
+.CodeRay .ke .dl { color: #606; }
+.CodeRay .ke .ch { color: #80f; }
+.CodeRay .vl { color: #088; }
+
+.CodeRay .rx { fff0ff }
+.CodeRay .rx .k { color:#808 }
+.CodeRay .rx .dl { color:#404 }
+.CodeRay .rx .mod { color:#C2C }
+.CodeRay .rx .fu { color:#404;   }
+
+.CodeRay .s { color: #D20; }
+.CodeRay .s .s { }
+.CodeRay .s .s .s { }
+.CodeRay .s .k { }
+.CodeRay .s .ch { color: #b0b; }
+.CodeRay .s .dl { color: #710; }
+
+.CodeRay .sh { color:#2B2 }
+.CodeRay .sh .k { }
+.CodeRay .sh .dl { color:#161 }
+
+.CodeRay .sy { color:#A60 }
+.CodeRay .sy .k { color:#A60 }
+.CodeRay .sy .dl { color:#630 }
+
+.CodeRay .ta { color:#070 }
+.CodeRay .tf { color:#070; }
+.CodeRay .ts { color:#D70; }
+.CodeRay .ty { color:#339; }
+.CodeRay .v { color:#036 }
+.CodeRay .xt { color:#444 }
+
+.CodeRay .ins { }
+.CodeRay .del { }
+.CodeRay .chg { color: #aaf; }
+.CodeRay .head { color: #f8f;  }
+
+.CodeRay .ins .ins { color: #080; }
+.CodeRay .del .del { color: #800; }
+.CodeRay .chg .chg { color: #66f; }
+.CodeRay .head .head { color: #f4f; }

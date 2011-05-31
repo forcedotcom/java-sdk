@@ -1,0 +1,545 @@
+<!--
+
+    Copyright (c) 2011, salesforce.com, inc.
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided
+    that the following conditions are met:
+
+       Redistributions of source code must retain the above copyright notice, this list of conditions and the
+       following disclaimer.
+
+       Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+       the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+       Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+       promote products derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+    TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
+
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Database.com Java SDK - Force.com Data Types</title>
+	<link type="text/css" rel="stylesheet" href="stylesheets/docs.css" media="screen" />
+	<link type="text/css" rel="stylesheet" href="stylesheets/header.css" media="screen" />
+	<link type="text/css" rel="stylesheet" href="stylesheets/coderay.css" media="screen" />
+</head>
+<body>
+
+  <div id="force-header"> 
+    <h1><a href="force-sdk-overview.html">Database.com Java SDK</a></h1>
+  </div>
+<div id="bodywrap">
+	<div id="docsnav">
+    <!--
+
+    Copyright (c) 2011, salesforce.com, inc.
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided
+    that the following conditions are met:
+
+       Redistributions of source code must retain the above copyright notice, this list of conditions and the
+       following disclaimer.
+
+       Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+       the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+       Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+       promote products derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+    TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
+
+-->
+
+<ul> <li> <h3>Getting started</h3> <ul> 
+
+<li><a href="force-sdk-overview">Introduction</a></li>
+
+ <li><a href="quick-start">Quick Start</a></li>
+
+ <li><a href="sts">SpringSource Tool Suite</a></li>
+
+ <li><a href="java-database-terminology">Database.com Terminology</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Persistence</h3> <ul> 
+ 
+ <li><a href="jpa-provider">JPA Provider Overview</a></li>
+
+ <li><a href="jpa-config-persistence">Configuration</a></li>
+
+ <li><a href="jpa-annotations-standard">Standard JPA Annotations</a></li>
+
+ <li><a href="jpa-annotations-custom">Custom Database.com Annotations</a></li>
+
+ <li><a href="jpa-cud">Creating, Updating, and Deleting Data</a></li>
+
+ <li><a href="jpa-transactions">Transactions</a></li>
+  
+ <li><a href="jpa-queries">Querying with JPQL</a></li>
+
+ <li><a href="jpa-queries-soql">Querying with SOQL</a></li>
+
+ <li><a href="database-com-datatypes">Database.com Data Types</a></li>
+
+ <li><a href="java-db-com-datatypes-map">Java to Database.com Data Types</a></li>
+
+ <li><a href="jpa-spec-support">JPA 2.0 Specification Support</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Authentication</h3> <ul> 
+ 
+ <li><a href="oauth-auth">OAuth Authentication</a></li>
+
+ <li><a href="spring-security">Spring Security Plugin</a></li>
+
+ <li><a href="retrieve-user-data">Retrieving User Data</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Low-level Connector</h3> <ul> <li><a href="connection-url">Connection Configuration</a></li>
+
+ <li><a href="native-api">Native API Clients</a></li>
+
+ </ul> </li>
+
+ </ul>
+ 
+<!--
+	topic 'quick-start',        'Quick Start Guide'
+	topic 'sts',                'SpringSource Tool Suite'
+	topic 'java-force-terminology', 'Force.com Terminology'
+end
+
+section 'persistence', "Persistence" do
+	topic 'jpa-provider',             'JPA Provider Overview'
+	topic 'jpa-config-persistence',   'Configuration'
+	topic 'jpa-annotations-standard', 'Standard JPA Annotations'
+	topic 'jpa-annotations-custom',   'Custom Force.com Annotations'
+	topic 'jpa-cud',                  'Creating, Updating, and Deleting Data'
+	topic 'jpa-queries',              'Querying with JPQL'
+	topic 'jpa-queries-soql',         'Querying with SOQL'
+	topic 'force-datatypes',          'Force.com Data Types'
+	topic 'java-force-datatypes-map', 'Java to Force.com Data Types'
+	topic 'jpa-spec-support',         'JPA 2.0 Specification Support'
+end
+
+section 'authentication', "Authentication" do
+	topic 'oauth-auth'  ,       'OAuth Authentication'
+	topic 'spring-security',    'Spring Security Plugin'
+	topic 'retrieve-user-data',    'Retrieving User Data'
+end
+
+section 'connector', "Low-level Connector" do
+	topic 'connection-url',     'Connection Configuration'
+  topic 'native-api',         'Native API Clients'
+end
+
+-->
+
+	</div>
+
+	<div id="content">
+		<div class="topic_content">
+      <h1>Force.com Data Types</h1>
+
+<p>Force.com has its own built-in list of data types optimized for building business applications. To see how these data types map to standard Java data types, see <a href="java-db-com-datatypes-map#mapForceToJava">Mapping Force.com to Java Data Types</a>.</p>
+
+<p>Note: Field names in Java classes must start with a lowercase letter to match bean-naming conventions. For example, use <code>String id</code> instead of <code>String Id</code>.</p>
+
+<p>For information on primary key fields, see <a href="jpa-provider#primaryKeys">Primary Keys</a>.</p>
+
+<p>The rest of this section highlights useful information about a subset of Force.com data types. For a list of all the data types, see <a href="java-db-com-datatypes-map#mapForceToJava">Mapping Force.com to Java Data Types</a>.</p>
+
+<ul>
+<li><a href="#text">Text Fields</a></li>
+<li><a href="#number">Number Fields</a></li>
+<li><a href="#autoNumber">Auto Number Fields</a></li>
+<li><a href="#currency">Currency Fields</a></li>
+<li><a href="#date">Date Fields</a></li>
+<li><a href="#picklist">Enumeration (Picklist) Fields</a></li>
+<li><a href="#restrictedPicklist">Restricted Versus Non-Restricted Picklists</a></li>
+<li><a href="#email">Email Fields</a></li>
+<li><a href="#phone">Phone Fields</a></li>
+<li><a href="#percent">Percent Fields</a></li>
+<li><a href="#formula">Formula Fields</a></li>
+<li><a href="#relFields">Relationship Fields</a></li>
+<li><a href="#binaryFields">Binary (Base64) Fields</a></li>
+</ul>
+
+
+<p><a name="text"> </a></p>
+
+<h2>Text Fields</h2>
+
+<p>The Force.com Text data type is used for string and character fields.</p>
+
+<p>The length of Text fields is controlled by the length attribute of the <code>@Column</code> annotation. For example:</p>
+
+<pre><code>@Column(length=1)
+String flag;
+</code></pre>
+
+<p>This code defines a Text field called flag of length 1. The default length is 255.</p>
+
+<p><a name="number"> </a></p>
+
+<h2>Number Fields</h2>
+
+<p>The Force.com Number data type is used for numbers of various sizes. The precision and scale is set by the <code>@Column</code> annotation.
+For example:</p>
+
+<pre><code>@Column(precision=1, scale=0)
+int digit;
+</code></pre>
+
+<p>This code defines an integer that can range from 0 to 9. The default precision and scale are 18 and 0 for integers and 18 and
+2 for floats and doubles. For more information, see <a href="java-db-com-datatypes-map#mapForceToJava">Mapping Force.com to Java Data Types</a>.</p>
+
+<p><a name="autoNumber"> </a></p>
+
+<h2>Auto Number Fields</h2>
+
+<p>To create a Force.com auto number field, use <code>@CustomField(type=FieldType.AutoNumber</code>) with an int or Integer
+Java type. For example:</p>
+
+<pre><code>@CustomField(type=FieldType.AutoNumber)
+int referenceNum;
+</code></pre>
+
+<p>The default start value for the number is 0. Use the optional <code>startValue</code> attribute for a different start value. Auto number fields are read only.</p>
+
+<p><a name="currency"> </a></p>
+
+<h2>Currency Fields</h2>
+
+<p>To create a Force.com currency field, use a BigDecimal Java type. You can also use another number type in Java, but you must add a  <code>@CustomField(type=FieldType.Currency)</code> annotation. For example:</p>
+
+<pre><code>@CustomField(type=FieldType.Currency)
+double revenue;
+</code></pre>
+
+<p><a name="date"> </a></p>
+
+<h2>Date Fields</h2>
+
+<p>Force.com has two date types: Date and Date/Time. Date doesn't include hours, minutes, and seconds. By default, the
+Database.com JPA provider maps <code>java.util.Calendar</code> to Date/Time and <code>java.util.Date</code> to Date. You can customize
+this behavior using the JPA <code>@Temporal</code> annotation. For example, the following two Java fields are both mapped to a Date/Time
+field in Force.com.</p>
+
+<pre><code>java.util.Calendar lastUpdated;
+
+@Temporal(TemporalType.TIMESTAMP)
+java.util.Date dateCreated;
+</code></pre>
+
+<p>Similarly, you can use the <code>@Temporal</code> annotation to map a <code>java.util.Calendar</code> to a Date field. This example maps
+both Java fields to Date fields.</p>
+
+<pre><code>java.util.Date birthDate;
+
+@Temporal(TemporalType.DATE)
+java.util.Calendar transactionDate;
+</code></pre>
+
+<p>The <code>java.util.GregorianCalendar</code> class can be used instead of <code>java.util.Calendar</code>.</p>
+
+<p><a name="picklist"> </a></p>
+
+<h2>Enumeration (Picklist) Fields</h2>
+
+<p>Force.com supports enumerations as a data type. Enumerations are referred to as picklists and multi-select picklists in Force.com
+terminology. Define picklist values by using a Java enumeration. For example:</p>
+
+<pre><code>public enum Varietal { Cabernet_Sauvignon, Syrah, Pinot_Noir, Zinfandel }
+
+@Enumerated
+private Varietal varietal;
+</code></pre>
+
+<p>By default, Force.com stores ordinal values for the selected value. For example, if you set the varietal variable to Syrah, the
+value 1 is stored in the database. To store the value strings instead of ordinals, use <code>@Enumerated(EnumType.STRING)</code>.</p>
+
+<pre><code>public enum Varietal { Cabernet_Sauvignon, Syrah, Pinot_Noir, Zinfandel }
+
+@Enumerated(EnumType.STRING)
+private Varietal varietal;
+</code></pre>
+
+<p>Force.com also supports multi-value selections. To pick multiple varietals for a single wine, use an array type instead.</p>
+
+<pre><code>public enum Varietal { Cabernet_Sauvignon, Syrah, Pinot_Noir, Zinfandel }
+
+@Enumerated(EnumType.STRING)
+private Varietal[] varietal;
+</code></pre>
+
+<p><a name="restrictedPicklist"> </a></p>
+
+<h2>Restricted Versus Non-Restricted Picklists</h2>
+
+<p>Force.com supports two types of picklists: restricted and non-restricted. A restricted picklist only allows valid enumeration
+values. The field type should match the type of the enum representing the picklist values for picklists or an array of the enum
+type for multi-select picklists. For example:</p>
+
+<pre><code>public enum Varietal { Cabernet_Sauvignon, Syrah, Pinot_Noir, Zinfandel }
+
+@Enumerated(EnumType.STRING)
+private Varietal varietal;
+
+// If this was multi-select, type would be Varietal[] instead
+//private Varietal[] varietal;
+</code></pre>
+
+<p>A non-restricted picklist allows any string value and is not restricted to the enumeration values. Instead of using the enum
+type, the field type is a String or String[] for picklists and multi-select picklists respectively. To define which enum values
+available by default, use the custom <code>@PicklistValue</code> annotation. For example:</p>
+
+<pre><code>public enum Varietal { Cabernet_Sauvignon, Syrah, Pinot_Noir, Zinfandel }
+
+@CustomField(type=FieldType.Picklist)
+// You could use @Enumerated instead of the @CustomField declaration
+//@Enumerated(EnumType.STRING)
+@PicklistValue(Varietal.class)
+// note the field type is String
+private String varietal;
+
+// If this was multi-select, type would be String[] instead
+//private String[] varietal;
+</code></pre>
+
+<p>Since non-restricted picklists are not limited to enum values, they don't support <code>@Enumerated(EnumType.ORDINAL)</code>. We recommend that you use <code>@Enumeration</code> for restricted picklists and <code>@CustomField(type=FieldType.Picklist)</code> for
+non-restricted picklists.</p>
+
+<p><a name="email"> </a></p>
+
+<h2>Email Fields</h2>
+
+<p>To create a Force.com email field, use <code>@CustomField(type=FieldType.Email)</code> with a String Java type. For example:</p>
+
+<pre><code>@CustomField(type=FieldType.Email)
+String orderEmail;
+</code></pre>
+
+<p><a name="phone"> </a></p>
+
+<h2>Phone Fields</h2>
+
+<p>To create a Force.com phone field, use <code>@CustomField(type=FieldType.Phone)</code> with a String Java type. For example:</p>
+
+<pre><code>@CustomField(type=FieldType.Email)
+String orderEmail;
+</code></pre>
+
+<p><a name="percent"> </a></p>
+
+<h2>Percent Fields</h2>
+
+<p>To create a Force.com percent field, use <code>@CustomField(type=FieldType.Percent)</code> with any Java type that <a href="java-db-com-datatypes-map">maps to a Force.com Number field</a>, such as int or double. For example:</p>
+
+<pre><code>@CustomField(type=FieldType.Percent)
+int mainVarietalPercent;
+</code></pre>
+
+<p><a name="formula"> </a></p>
+
+<h2>Formula Fields</h2>
+
+<p>A formula is a field whose value is derived from other fields, expressions, or values. For more information about formula fields,
+see <a href="http://na1.salesforce.com/help/doc/en/customize_formulas.htm">Building Formulas</a>.</p>
+
+<p>To create a Force.com formula field, use a <code>@CustomField</code> annotation with a String Java type. For example:</p>
+
+<pre><code>@CustomField(type=FieldType.Text, formula="formulaValue")
+String snazzyFormula;
+</code></pre>
+
+<p>Formula fields are read only. A formula can return a Currency, Date, DateTime, Number, Percent, or Text FieldType. To see how these types map to Java data types, see <a href="java-db-com-datatypes-map#mapForceToJava">Mapping Force.com to Java Data Types</a>.</p>
+
+<p>Use the optional <code>treatBlankAs</code> attribute to control how blank values are interpreted. The default value is
+<code>TreatBlanksAs.BlankAsBlank</code>.</p>
+
+<p><a name="relFields"> </a></p>
+
+<h2>Relationship Fields</h2>
+
+<p>Force.com supports two types of relationships between entities: Lookup and Master-Detail. You can perform
+join queries on entities connected by a relationship field.</p>
+
+<h3>Master-Detail</h3>
+
+<p>A master-detail relationship links entities so that the master record controls certain behaviors of any detail records. For
+example, when a master record is deleted, the related detail records are also deleted. The ownership and security settings
+of a detail record are determined by the master record and can't be changed for a detail record.</p>
+
+<h3>Lookup</h3>
+
+<p>A lookup relationship is a foreign key to another entity, but it has no effect on deletion, record ownership, or security
+settings.</p>
+
+<p>For more details on working with Lookup and Master-Detail fields, see <a href="http://na1.salesforce.com/help/doc/en/overview_of_custom_object_relationships.htm">Overview of Relationships</a>.</p>
+
+<p>Define Lookup or Master-Detail relationship fields in Java classes by using a <code>@ManyToOne</code> annotation on the field in the
+class on the many side of a relationship and a <code>@OneToMany</code> annotation on the field in the class on the one side of the relationship.
+The following sections include code examples for Lookup and Master-Detail fields.</p>
+
+<h3>@ManyToOne Annotation</h3>
+
+<p>Use the <code>@ManyToOne</code> annotation on a field to model the many side of a relationship. By default, the Database.com JPA provider
+maps this annotation to a Lookup relationship field. Use an <code>@CustomField(type = FieldType.MasterDetail)</code>
+annotation to define it as a Master-Detail relationship field instead.</p>
+
+<p>For example, if a Wine Java entity has a many-to-one relationship to a Producer entity, the relationship is defined in the Wine
+entity as a producer Lookup field with a <code>@ManyToOne</code> annotation.</p>
+
+<pre><code>@ManyToOne
+private Producer producer;
+</code></pre>
+
+<p>To set the Lookup field name in Force.com to be something other than producer, use the <code>@Column</code> annotation.</p>
+
+<pre><code>@Column(name = "wine_producer")
+@ManyToOne
+private Producer producer;
+</code></pre>
+
+<p>Change the Lookup field to a Master-Detail field by including an <code>@CustomField(type = FieldType.MasterDetail)</code> annotation.</p>
+
+<pre><code>@ManyToOne
+@CustomField(type = FieldType.MasterDetail)
+private Producer producer;
+</code></pre>
+
+<h3>@OneToMany Annotation</h3>
+
+<p>Use the <code>@OneToMany</code> annotation to model the one side of a relationship. Every <code>@OneToMany</code> annotation must have a field
+with a <code>@ManyToOne</code> annotation on the many side of the relationship. The Database.com JPA provider requires that an <code>@OneToMany</code>
+annotation must include a <code>mappedBy</code> attribute with a value matching the foreign key field name in the related JPA entity.</p>
+
+<p>For example, a Producer entity with a one-to-many relationship to the Wine entity could point to a collection of wines. The
+<code>mappedBy</code> attribute value is producer to match the field name of the Lookup field in the Wine entity.</p>
+
+<pre><code>@OneToMany(mappedBy="producer")
+private Collection&lt;Wine&gt; wines;
+</code></pre>
+
+<p>To automatically persist all child records in a collection when you persist the parent record, see the <code>CascadeType.PERSIST</code>
+attribute for the parent <code>@OneToMany</code> field. You must explicitly set the parent field for each child record in the collection. In
+this example, you must set the producer field for each Wine in the collection.</p>
+
+<p>The Database.com JPA provider supports List, Set, and Map collections for an <code>@OneToMany</code> field on the one-side of the
+relationship.The Database.com JPA provider dynamically builds these collections and doesn't explicitly store them in Database.com.</p>
+
+<p>The default key for a Map is the id field. The value of the id field for a new object is <code>null</code> until the object is persisted to
+Database.com so you can only insert one new entry into a map using the default key. The alternative is to use the <code>@MapKey</code>
+standard annotation to set a different field as the key. Entries must have a unique key value. To continue the earlier example,
+the Producer entity could use a map to track the related wines. The key of the map is the wine name.</p>
+
+<pre><code>@OneToMany(mappedBy="producer")
+@MapKey(name="wineName")
+private Map&lt;String, Wine&gt; wines;
+</code></pre>
+
+<h3>Unsupported JPA Annotations</h3>
+
+<p>The Database.com JPA provider doesn't support:</p>
+
+<ul>
+<li><strong>One-to-one relationships using the <code>@OneToOne</code> annotation</strong>—Merge the entities into one entity instead.</li>
+<li><strong>Many-to-many relationships using the <code>@ManyToMany</code> annotation</strong>—Use a custom junction entity with two <code>@ManyToOne</code>
+relationship fields connecting the two entities instead.</li>
+</ul>
+
+
+<p><a name="cascade"> </a></p>
+
+<h3>Cascading Persistence and Deletion</h3>
+
+<p>JPA defines attributes that control cascading behavior for relationship fields. For example, if record A references record B, a
+cascading deletion of record A would also delete record B. The Database.com JPA provider supports a subset of the JPA cascading
+attributes for <code>@OneToMany</code> fields and ignores any cascading attributes for <code>@ManyToOne</code> fields. The supported attributes for
+<code>@OneToMany</code> fields are:</p>
+
+<h4>CascadeType.PERSIST</h4>
+
+<p>When this attribute is enabled, persisting a parent record also persists all child records in its collection if you explicitly
+set the parent field for each child record in the collection. Otherwise, it is up to you to persist child records individually
+as well as the parent in the same transaction.</p>
+
+<h4>CascadeType.REMOVE</h4>
+
+<p>When this attribute is enabled for Lookup fields, removing a parent entity also removes all child entities in its collection.
+Otherwise, it is up to you to remove child entities individually. This attribute is always enabled for Master-Detail fields.
+Removing a parent Master-Detail always removes its children.</p>
+
+<h4>CascadeType.ALL</h4>
+
+<p>Shorthand for enabling <code>CascadeType.PERSIST</code> and <code>CascadeType.REMOVE</code>.
+The following JPA attributes are not configurable for <code>@OneToMany</code> fields. This list explains the behavior related to these
+attributes for the Database.com JPA provider.</p>
+
+<h4>CascadeType.MERGE</h4>
+
+<p>Merging (updating) a parent entity always merges the child entities in its collection.</p>
+
+<h4>CascadeType.REFRESH</h4>
+
+<p>Refreshing a parent entity always refreshes the child entities in its collection.</p>
+
+<h4>CascadeType.DETACH</h4>
+
+<p>Detaching a parent always detaches the child entities in its collection.</p>
+
+<p>For more information on cascading attributes, see the <a href="http://www.datanucleus.org/products/accessplatform.html">DataNucleus documentation</a>.</p>
+
+<p><a name="binaryFields"> </a></p>
+
+<h2>Binary (Base64) Fields</h2>
+
+<p>Force.com only supports binary values for <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_objects_attachment.htm">Attachment</a>, <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_objects_document.htm">Document</a>, or <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_objects_scontrol.htm">Scontrol</a> standard objects. You can't use byte[] fields
+to represent binary (blob) data in custom Database.com entities.</p>
+
+<p>In Java classes representing Attachment, Document, or Scontrol standard objects, use a byte[] field for the base64–encoded
+data in the Body or Binary field. The BodyLength field defines the length of the data in the Body or Binary field. In the
+Document object, you can specify a URL to the document instead of storing the binary data directly in the record.</p>
+
+<p>A sample Java class representing a Document includes body and bodyLength fields:</p>
+
+<pre><code>public class Document {
+    // base64-encoded binary data
+    private byte[] body;
+    // size of the binary data in bytes
+    private int bodyLength;
+
+    // more fields
+}
+</code></pre>
+
+		</div>
+	</div>
+</div>
+</body>
+</html>

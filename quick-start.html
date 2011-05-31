@@ -31,7 +31,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Database.com Java SDK - Database.com Java SDK reference documentation</title>
+	<title>Database.com Java SDK - Quick Start</title>
 	<link type="text/css" rel="stylesheet" href="stylesheets/docs.css" media="screen" />
 	<link type="text/css" rel="stylesheet" href="stylesheets/header.css" media="screen" />
 	<link type="text/css" rel="stylesheet" href="stylesheets/coderay.css" media="screen" />
@@ -163,15 +163,89 @@ end
 
 	<div id="content">
 		<div class="topic_content">
-      <h1>Database.com Java SDK reference documentation</h1>
+      <h1>Quick start</h1>
 
-<p>Welcome to the Database.com Java SDK reference documentation.</p>
+<p>This quick start walks you through creating a new Spring MVC application from a template that defines a simple JPA entity stored in Database.com. You can use this template as a starting point for your own web application.</p>
 
-<p>Database.com is the cloud database that powers Force.com and all the applications built on the platform, including Sales Cloud, Service Cloud and Chatter from salesforce.com.</p>
+<h2>Prerequisites</h2>
 
-<p>If you are a Force.com developer, you are already using Database.com. The cloud database manages the data model for your application, stores all data and automatically exposes your data through APIs.</p>
+<ul>
+<li>Username, password and <a href="http://na1.salesforce.com/help/doc/en/user_security_token.htm">security token</a> for a <a href="http://www.developerforce.com/events/regular/registration.php?d=70130000000EjHb">Force.com Developer Edition account</a> or other system administrator account on a Salesforce organization.</li>
+<li><a href="http://maven.apache.org/download.html">Maven 3</a></li>
+<li><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">A recent JDK 1.6</a>, like 1.6.0_24</li>
+</ul>
 
-<p>Use the links to the left to browse the documentation. Happy Coding!</p>
+
+<h3>A word about Maven before you get started</h3>
+
+<p>Many of the commands in this quick start trigger downloads of additional Maven dependencies. If you have never used Maven before or if you are going through this quick start on a new machine or with a new user account, this can be slow initially. However, once the modules are downloaded, they are cached in a local repository and subsequent commands execute quicker.</p>
+
+<h2>1. Create a new project from a template</h2>
+
+<p>Navigate to the directory where you want to create the new project and create it from a Maven archetype by executing the following command:</p>
+
+<pre><code>mvn archetype:generate -DarchetypeCatalog=http://repo.t.salesforce.com/archiva/repository/releases/archetype-catalog.xml -DarchetypeGroupId=com.force.sdk -DarchetypeArtifactId=springmvc-archetype
+</code></pre>
+
+<p>You will be prompted for a couple of properties for your project. You only need to fill out two: groupId and artifactId. Set groupId to the Java package name for your code and artifactId to your application's name:</p>
+
+<pre><code>Define value for property 'groupId': : org.docsample
+Define value for property 'artifactId': : hellocloud
+</code></pre>
+
+<p>Press <strong>Enter</strong> for the <strong>version</strong> and <strong>package</strong> options to select the default values. Finally, press <strong>Enter</strong> again to confirm your property selections.</p>
+
+<p>Both groupId and artifactId are Maven specific terms, but it is a common practice to map groupId to your Java package name and artifactId to your application name. Maven creates a new project in a directory with the same name as the artifactId.</p>
+
+<h2>2. Set the connection URL for Database.com</h2>
+
+<p>The template application that you just created defines a simple JPA entity in a persistence unit called <code>forceDatabase</code>. The Database.com JPA provider will look for a connection URL in an environment variable called <code>FORCE_&lt;UPPERCASE_PERSISTENCE_UNIT_NAME&gt;_URL</code>; in this case, <code>FORCE_FORCEDATABASE_URL</code>.</p>
+
+<p>For Linux, set this variable by running the following command after replacing the user and password with your own username and password. Remember to append your security token to the password and to enclose the URL in quotes.</p>
+
+<pre><code>export FORCE_FORCEDATABASE_URL="force://login.salesforce.com;user=scott@acme.com;password=tigerVXoAIbgYSMOhSEVtcGxgt4mRP"
+</code></pre>
+
+<p>For Windows, set this variable by running the following command after replacing the user and password with your own username and password.</p>
+
+<pre><code>set FORCE_FORCEDATABASE_URL=force://login.salesforce.com;user=scott@acme.com;password=tigerVXoAIbgYSMOhSEVtcGxgt4mRP
+</code></pre>
+
+<p>For more information about connection URLs, see <a href="connection-url">Connection URLs</a>.</p>
+
+<h2>3. Build and run your application</h2>
+
+<p>Building your application is simple. First, navigate into the <code>hellocloud</code> directory for your template application.</p>
+
+<pre><code>cd hellocloud
+</code></pre>
+
+<p>Next, build the project and start a Tomcat server running the <code>hellocloud</code> application.</p>
+
+<pre><code>mvn tomcat:run-war
+</code></pre>
+
+<p>Navigate to <a href="http://localhost:8080/hellocloud">http://localhost:8080/hellocloud</a> where you should see a welcome screen. When Tomcat started up, the Database.com JPA provider automatically created a new entity in Database.com called MyEntity. You can create new records of this entity from the "Create a MyEntity Record" link.</p>
+
+<h2>4. Next Steps</h2>
+
+<p>The Database.com SDK is not tied to any particular runtime. You can now proceed to deploy the application on your own server, Cloud Foundry, EC2 or other cloud runtimes as long as you can make HTTPS connections to Database.com.</p>
+
+<p>If you want to take a look at an application that is built out a little bit more, you can look at the "Music Library" application here: <a href="https://github.com/forcedotcom/javasample-musiclib">https://github.com/forcedotcom/javasample-musiclib</a>. You can clone this project by running:</p>
+
+<pre><code>git clone git://github.com/forcedotcom/javasample-musiclib.git
+</code></pre>
+
+<p>If Tomcat is still running your quick start application, stop the server.</p>
+
+<p>Now, build and run the musiclib application.</p>
+
+<pre><code>mvn tomcat:run-war
+</code></pre>
+
+<p>And see it at <a href="http://localhost:8080/musiclib">http://localhost:8080/musiclib</a>. It will pick up the same connection parameters that you already set up and create entities in the same Force.com organization.</p>
+
+<p>Happy coding.</p>
 
 		</div>
 	</div>

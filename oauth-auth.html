@@ -31,7 +31,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Database.com Java SDK - Database.com Java SDK reference documentation</title>
+	<title>Database.com Java SDK - OAuth Authentication</title>
 	<link type="text/css" rel="stylesheet" href="stylesheets/docs.css" media="screen" />
 	<link type="text/css" rel="stylesheet" href="stylesheets/header.css" media="screen" />
 	<link type="text/css" rel="stylesheet" href="stylesheets/coderay.css" media="screen" />
@@ -163,15 +163,87 @@ end
 
 	<div id="content">
 		<div class="topic_content">
-      <h1>Database.com Java SDK reference documentation</h1>
+      <h1>OAuth Authentication</h1>
 
-<p>Welcome to the Database.com Java SDK reference documentation.</p>
+<p>Your Java applications can use Force.com user accounts for authentication and identity management. The Force.com Java SDK simplifies the process of authenticating users in Force.com using the OAuth protocol.</p>
 
-<p>Database.com is the cloud database that powers Force.com and all the applications built on the platform, including Sales Cloud, Service Cloud and Chatter from salesforce.com.</p>
+<h2>Force.com OAuth Connector</h2>
 
-<p>If you are a Force.com developer, you are already using Database.com. The cloud database manages the data model for your application, stores all data and automatically exposes your data through APIs.</p>
+<p>The Force.com OAuth Connector is a library of classes that handles most of the details of the OAuth handshake for you.</p>
 
-<p>Use the links to the left to browse the documentation. Happy Coding!</p>
+<p><a name="createRAA"> </a></p>
+
+<h3>Prerequisite:Creating a Force.com Remote Access Application</h3>
+
+<p>Before you can use OAuth to authenticate users for your application, you must create a remote access application in Force.com. This generates the consumer key and secret that you'll need for the OAuth configuration.</p>
+
+<ol>
+<li>Log in at <code>https://login.salesforce.com</code>.</li>
+<li>Click <em>Your Name</em> > <strong>Setup</strong> > <strong>Develop</strong> > <strong>Remote Access</strong>.</li>
+<li>Click <strong>New</strong>.</li>
+<li>Enter your application name in the Application field and your email in the Contact Email field.</li>
+<li>Enter a Callback URL for your application. This is the URL that the user will be returned to after they approve access for the application. To use the Force.com OAuth Connector, your callback URL must be https://&lt;applicationName>.&lt;host>/_auth, where &lt;applicationName> and &lt;host> point to where your application is hosted. If you're testing your application on your localhost, the URL can be http://localhost:&lt;port>/&lt;applicationName>/_auth, where &lt;port> is the port used on the localhost. If you are running your application somewhere other than localhost, your URL must use HTTPS.</li>
+<li>Click <strong>Save</strong>.</li>
+</ol>
+
+
+<p>You'll now see your application in the list of remote access applications. Click on your application to see the details and retrieve the automatically generated consumer key and secret. The consumer key and secret are the values that you'll use for {$oauthKey} and {$oauthSecret} when you configure the Force.com OAuth Connector in your application.</p>
+
+<h3>Configuring the Force.com OAuth Connector</h3>
+
+<p>To use the connector, add the following servlet filter to your application's <code>web.xml</code> file:</p>
+
+<pre><code>&lt;!-- Enables Security --&gt;
+&lt;filter&gt;
+    &lt;filter-name&gt;AuthFilter&lt;/filter-name&gt;
+    &lt;filter-class&gt;com.force.sdk.oauth.AuthFilter&lt;/filter-class&gt;
+         &lt;init-param&gt;
+            &lt;param-name&gt;connectionName&lt;/param-name&gt;
+            &lt;param-value&gt;nameOfConnectionToUse&lt;/param-value&gt;
+        &lt;/init-param&gt;
+
+
+         &lt;!-- Optional parameters --&gt;
+         &lt;init-param&gt;
+            &lt;param-name&gt;securityContextStorageMethod&lt;/param-name&gt;
+            &lt;param-value&gt;typeOfSecurityContextStorageMethod&lt;/param-value&gt;
+        &lt;/init-param&gt;
+         &lt;init-param&gt;
+            &lt;param-name&gt;secure-key-file&lt;/param-name&gt;
+            &lt;param-value&gt;name Of Key-File&lt;/param-value&gt;
+        &lt;/init-param&gt;
+         &lt;init-param&gt;
+            &lt;param-name&gt;storeUsername&lt;/param-name&gt;
+            &lt;param-value&gt;set to false to not store user name in the security context.&lt;/param-value&gt;
+        &lt;/init-param&gt;
+&lt;/filter&gt;
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;AuthFilter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</code></pre>
+
+<p>The OAuth Connector uses the Force.com API Connector to access the Force.com APIs. The <code>connectionName</code> is used to look up OAuth properties defined in an environment variable, or a Java system property, or in a properties file on the classpath. For more information, see <a href="connection-url">Force.com Database Connections</a>. Other <code>init-param</code> values can be configured to customize behavior:</p>
+
+<ul>
+<li><code>securityContextStorageMethod</code> - Control whether data about the authenticated user is stored in a server side session or an encrypted browser cookie. The default is <code>cookie</code>. Set this to <code>session</code> to use sessions. Sessions should only be used if sticky load balancing is available or if the application runs with a single instance.</li>
+<li><p><code>secure-key-file</code> - AES encryption is used to encrypt the data about the authenticated user when it is stored in a browser cookie. This is only used if browser cookie storage is on. If cookies are used and no file is specified, a key is automatically generated. However, this should only be done for development purposes because it will be problematic in a multi-instance deployment since each instance will generate a different key. The key is base-64 encoded. For example, replace <em>yourKeyGoesHere</em> with a secure key in the following file. For more information on AES, see <a href="http://java.sun.com/developer/technicalArticles/Security/AES/AES_v1.html">Using AES with Java Technology</a>.</p>
+
+<pre><code>  # A valid key in base 64 encoding.   
+  private-key=yourKeyGoesHere  
+</code></pre></li>
+<li><p><code>storeUsername</code> - Flag that sets whether or not the username is stored in the user data. This enables you to avoid storing usernames in browser cookies, but it can be used to prevent username storage in sessions too. Default is true.</p></li>
+</ul>
+
+
+<p>The <code>filter-mapping</code> element above contains a url-pattern of "/*". This redirects every URL through the filter. It is not required to do this. If your application requires only certain URL patterns to be authenticated, you can configure the filter to match a subset of requests. However, the filter must always include the "/_auth*" URL pattern. Otherwise, the OAuth callback won't be properly handled. For example, if you only wanted to check for authentication for "/Secure" your configuration would look like this:</p>
+
+<pre><code>&lt;filter-mapping&gt;
+    &lt;filter-name&gt;AuthFilter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/Secure&lt;/url-pattern&gt;
+    &lt;url-pattern&gt;/_auth*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</code></pre>
 
 		</div>
 	</div>

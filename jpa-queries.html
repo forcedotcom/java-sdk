@@ -1,0 +1,695 @@
+<!--
+
+    Copyright (c) 2011, salesforce.com, inc.
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided
+    that the following conditions are met:
+
+       Redistributions of source code must retain the above copyright notice, this list of conditions and the
+       following disclaimer.
+
+       Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+       the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+       Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+       promote products derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+    TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
+
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Database.com Java SDK - Querying with JPQL</title>
+	<link type="text/css" rel="stylesheet" href="stylesheets/docs.css" media="screen" />
+	<link type="text/css" rel="stylesheet" href="stylesheets/header.css" media="screen" />
+	<link type="text/css" rel="stylesheet" href="stylesheets/coderay.css" media="screen" />
+</head>
+<body>
+
+  <div id="force-header"> 
+    <h1><a href="force-sdk-overview.html">Database.com Java SDK</a></h1>
+  </div>
+<div id="bodywrap">
+	<div id="docsnav">
+    <!--
+
+    Copyright (c) 2011, salesforce.com, inc.
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided
+    that the following conditions are met:
+
+       Redistributions of source code must retain the above copyright notice, this list of conditions and the
+       following disclaimer.
+
+       Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+       the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+       Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+       promote products derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+    TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
+
+-->
+
+<ul> <li> <h3>Getting started</h3> <ul> 
+
+<li><a href="force-sdk-overview">Introduction</a></li>
+
+ <li><a href="quick-start">Quick Start</a></li>
+
+ <li><a href="sts">SpringSource Tool Suite</a></li>
+
+ <li><a href="java-database-terminology">Database.com Terminology</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Persistence</h3> <ul> 
+ 
+ <li><a href="jpa-provider">JPA Provider Overview</a></li>
+
+ <li><a href="jpa-config-persistence">Configuration</a></li>
+
+ <li><a href="jpa-annotations-standard">Standard JPA Annotations</a></li>
+
+ <li><a href="jpa-annotations-custom">Custom Database.com Annotations</a></li>
+
+ <li><a href="jpa-cud">Creating, Updating, and Deleting Data</a></li>
+
+ <li><a href="jpa-transactions">Transactions</a></li>
+  
+ <li><a href="jpa-queries">Querying with JPQL</a></li>
+
+ <li><a href="jpa-queries-soql">Querying with SOQL</a></li>
+
+ <li><a href="database-com-datatypes">Database.com Data Types</a></li>
+
+ <li><a href="java-db-com-datatypes-map">Java to Database.com Data Types</a></li>
+
+ <li><a href="jpa-spec-support">JPA 2.0 Specification Support</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Authentication</h3> <ul> 
+ 
+ <li><a href="oauth-auth">OAuth Authentication</a></li>
+
+ <li><a href="spring-security">Spring Security Plugin</a></li>
+
+ <li><a href="retrieve-user-data">Retrieving User Data</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Low-level Connector</h3> <ul> <li><a href="connection-url">Connection Configuration</a></li>
+
+ <li><a href="native-api">Native API Clients</a></li>
+
+ </ul> </li>
+
+ </ul>
+ 
+<!--
+	topic 'quick-start',        'Quick Start Guide'
+	topic 'sts',                'SpringSource Tool Suite'
+	topic 'java-force-terminology', 'Force.com Terminology'
+end
+
+section 'persistence', "Persistence" do
+	topic 'jpa-provider',             'JPA Provider Overview'
+	topic 'jpa-config-persistence',   'Configuration'
+	topic 'jpa-annotations-standard', 'Standard JPA Annotations'
+	topic 'jpa-annotations-custom',   'Custom Force.com Annotations'
+	topic 'jpa-cud',                  'Creating, Updating, and Deleting Data'
+	topic 'jpa-queries',              'Querying with JPQL'
+	topic 'jpa-queries-soql',         'Querying with SOQL'
+	topic 'force-datatypes',          'Force.com Data Types'
+	topic 'java-force-datatypes-map', 'Java to Force.com Data Types'
+	topic 'jpa-spec-support',         'JPA 2.0 Specification Support'
+end
+
+section 'authentication', "Authentication" do
+	topic 'oauth-auth'  ,       'OAuth Authentication'
+	topic 'spring-security',    'Spring Security Plugin'
+	topic 'retrieve-user-data',    'Retrieving User Data'
+end
+
+section 'connector', "Low-level Connector" do
+	topic 'connection-url',     'Connection Configuration'
+  topic 'native-api',         'Native API Clients'
+end
+
+-->
+
+	</div>
+
+	<div id="content">
+		<div class="topic_content">
+      <h1>Querying with JPQL</h1>
+
+<p>JPA supports Java Persistence Query Language (JPQL), a platform-independent object-oriented query language.</p>
+
+<p>Note: Although JPA supports native queries with SQL, the Database.com JPA provider doesn't support SQL. Instead,
+the Database.com JPA provider supports <a href="jpa-queries-soql">native queries with SOQL</a>.</p>
+
+<p>You can also bypass JPA and execute a <a href="native-api">query() call</a> using the Web services API.</p>
+
+<p>The most portable approach to writing queries is to use JPQL, but it is your
+choice to use JPQL, SOQL, or the Web services API.</p>
+
+<p>The JPQL syntax resembles SQL, but it executes against JPA entities rather than directly against database tables. Since JPQL is a JPA standard, it is the preferred approach for building queries with the Database.com JPA provider.</p>
+
+<p>For complete information on JPQL syntax, see the <a href="http://www.datanucleus.org/products/accessplatform/jpa/jpql.html">DataNucleus documentation</a>.</p>
+
+<p>The following sample shows a simple JPQL query and iteration of the query results.</p>
+
+<pre><code>private void sampleJpqlQuery()
+    throws Exception
+{
+    EntityManagerFactory factory =
+        Persistence.createEntityManagerFactory(persistenceUnitName);
+    EntityManager em = factory.createEntityManager();
+
+    try {
+        String jpqlQuery = "SELECT u " +
+                "FROM User u WHERE u.FirstName = :firstName";
+        Query q = em.createQuery(jpqlQuery);
+        // Bind the named parameter into the query
+        q.setParameter("firstName", "Bob");
+
+        List&lt;User&gt; results = (List)q.getResultList();
+        int size = results.size();
+        User user;
+        for (int i = 0; i &lt; size; i++) {
+            user = results.get(i);
+            System.out.println("Email: " + user.getEmail());
+            System.out.println("LastName: " + user.getLastName() + "\n");
+        }
+    catch (Exception e) {
+        e.printStackTrace();
+        throw e;
+    }
+    finally {
+        em.close();
+    }
+}
+</code></pre>
+
+<p>Note: A query that contains the entity alias in the SELECT clause returns all <a href="#eagerVsLazy">eagerly fetched fields</a> for the entity. For example, this query returns all eagerly fetched fields for the User entity.</p>
+
+<pre><code>SELECT u FROM User u
+</code></pre>
+
+<p><a name="bulkDelete"> </a></p>
+
+<h3>Bulk Delete and Queries</h3>
+
+<p>As well as querying records, JPQL supports deleting records.</p>
+
+<p>Note: Records deleted with JPQL don't participate in all-or-nothing transactions or trigger cascading deletion for
+child records. Don't use bulk delete with JPQL if you want the option to roll back the deletions as part of a transaction
+or use cascade deletion. Use the <code>remove()</code> method in <code>EntityManager</code> to delete individual records instead.</p>
+
+<p>To delete a set of records, call <code>executeUpdate()</code> on a <code>Query</code> object representing a delete operation. For example:</p>
+
+<pre><code>public void sampleJpqlQueryDelete(EntityManager em)
+    throws Exception
+{
+    String jpqlDelete = "DELETE FROM Wine__c WHERE varietal = 'Zinfandel'";
+    Query q = em.createQuery(jpqlDelete);
+    int deletedRecords = q.executeUpdate();
+}
+</code></pre>
+
+<p>To delete a set of records without storing them in the Recycle Bin, set a hint on your query. For example:</p>
+
+<pre><code>public void sampleJpqlQueryDelete(EntityManager em)
+    throws Exception
+{
+    String jpqlDelete = "DELETE FROM Wine__c WHERE varietal = 'Zinfandel'";
+    Query q = em.createQuery(jpqlDelete).setHint(QueryHints.EMPTY_RECYCLE_BIN, true);
+    int deletedRecords = q.executeUpdate();
+}
+</code></pre>
+
+<p>Note: Although JPQL supports a similar syntax for UPDATE, the Database.com JPA provider doesn't support updating records with JPQL.</p>
+
+<h2>JPQL Date (Temporal) Functions</h2>
+
+<p>JPA supports date literals, such as <a href="http://www.datanucleus.org/products/accessplatform/jpa/jpql_functions.html">CURRENT_DATE</a>, in JPQL to perform comparisons with Date or Date/Time fields. For
+example, the following JPQL query returns users that have logged in before today:</p>
+
+<pre><code>SELECT Email, LastName FROM User WHERE LastLoginDate &lt; CURRENT_DATE
+</code></pre>
+
+<p>Note: The Database.com JPA provider doesn't support the CURRENT_TIME and CURRENT_TIMESTAMP JPA date literals.</p>
+
+<p>The Database.com JPA provider also supports <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_calls_soql_select_dateformats.htm">date literals</a>, such as TOMORROW, that aren't part of the JPA specification. The CURRENT_DATE JPA date literal is equivalent to the TODAY Database.com date literal.</p>
+
+<p>To use Database.com date literals, use a query hint. For example:</p>
+
+<pre><code>EntityManagerFactory factory =
+    Persistence.createEntityManagerFactory(persistenceUnitName);
+EntityManager em = factory.createEntityManager();
+
+try {
+    String jpqlQuery = "SELECT Email, LastName " +
+            "FROM User WHERE LastLoginDate &gt; CURRENT_DATE";
+    Query q = em.createQuery(jpqlQuery).setHint(
+                  QueryHints.CURRENT_DATE, "YESTERDAY");
+    List&lt;User&gt; results = (List)q.getResultList();
+}
+catch (Exception e) {
+    e.printStackTrace();
+    throw e;
+}
+finally {
+    em.close();
+}
+</code></pre>
+
+<p>To include multiple date literals in one query, use a <code>String[]</code> for the hint. The hints are substituted in the query in the order
+they are listed in the <code>String[]</code>. For example:</p>
+
+<pre><code>String jpqlQuery = "SELECT Email, LastName " +
+    "FROM User " +
+    "WHERE LastLoginDate &lt; CURRENT_DATE AND LastLoginDate &gt; CURRENT_DATE";
+    Query q = em.createQuery(jpqlQuery).setHint(
+                  QueryHints.CURRENT_DATE, new String[]{"TOMORROW", "YESTERDAY"});
+    List&lt;User&gt; results = (List)q.getResultList();
+</code></pre>
+
+<p>The DataNucleus Access Platform supports date (temporal) functions, such as YEAR(dateField). These are not supported
+by the Database.com JPA provider, which instead supports <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_calls_soql_select_date_functions.htm">date functions</a>, such as CALENDAR_YEAR(dateField). Use native queries with SOQL to work with the SOQL date functions.</p>
+
+<p><a name="jpqlJoins"> </a></p>
+
+<h2>JPQL Joins</h2>
+
+<p>You often want to retrieve related data from multiple objects in one query to avoid having to merge results
+from multiple queries in your code. The Database.com JPA provider provides a few different ways to join data from related entities in one JPQL query.</p>
+
+<ul>
+<li><a href="#implicitJoins">Implicit Joins</a></li>
+<li><a href="#explicitJoins">Explicit Joins</a></li>
+<li><a href="#inJoins">IN Joins</a></li>
+<li><a href="#semiAntiJoins">Semi-Joins and Anti-Joins</a></li>
+<li><a href="#relJoins">Relationship Joins</a></li>
+<li><a href="#childMapJoins">Child-Map Joins</a></li>
+</ul>
+
+
+<p><a name="implicitJoins"> </a></p>
+
+<h3>Implicit Joins</h3>
+
+<p>The Database.com JPA provider automatically performs implicit joins on JQPL queries that reference a parent entity with an
+<code>@OneToMany</code> field related to a collection or map of child entity records.</p>
+
+<p>For example, a Producer entity with a one-to-many
+relationship to a Wine entity could point to a collection of wines. If you query the Producer entity and retrieve the collection
+of wines from the result set, the Database.com JPA provider creates an implicit join to fetch the collection of wines.</p>
+
+<pre><code>// Exception handling omitted for brevity
+List&lt;Producer&gt; jpqlResult =
+    (List&lt;ParentTestEntity&gt;)em.createQuery("SELECT p from Producer p)").getResultList();
+// Collection/Map records are lazily fetched by default.
+// The actual loading of the collection happens when the next line is executed.
+ArrayList&lt;Wine&gt; wines = (ArrayList&lt;Wine&gt;)jpqlResult.get(0).getWines();
+String wineName = wines.get(0).getName();
+</code></pre>
+
+<p>If you add the <code>FetchType.EAGER</code> attribute to the <code>@OneToMany</code> annotation in Producer.java, the collection of wines is
+returned without the need for a second query in the background.</p>
+
+<p>Note: If you use a native SOQL query instead of JPQL, there is no implicit join; you would have to write a sub-query
+referencing the parent-to-child relationship.</p>
+
+<h4>Ordering with @OrderBy</h4>
+
+<p>An implicit join returns the elements in a collection or map in random order. To order the results, add an <code>@OrderBy</code> annotation
+to the <code>@OneToMany</code> field. For example, the following <code>@OrderBy</code> annotation sorts the elements in the collection by the name
+field in the Wine entity:</p>
+
+<pre><code>@OneToMany(mappedBy="producer")
+@OrderBy(value="name ASC")
+private Collection&lt;Wine&gt; wines;
+</code></pre>
+
+<p><a name="AnnotationJoinFilter"> </a></p>
+
+<h4>Filtering with @JoinFilter</h4>
+
+<p>The custom Database.com <code>@JoinFilter</code> annotation enables implicit queries to include a WHERE clause to filter the returned
+child collection or map. The following code shows a collection field. When the collection is returned in an implicit query, the
+child joined entity is aliased as w and the query results are filtered by the <code>w.name LIKE 'Chateau%'</code> WHERE clause.</p>
+
+<pre><code>@OneToMany(mappedBy="producer")
+@JoinFilter(alias="w", value="w.name LIKE 'Chateau%'")
+private Collection&lt;Wine&gt; wines;
+</code></pre>
+
+<p><a name="explicitJoins"> </a></p>
+
+<h3>Explicit Joins</h3>
+
+<p>You can use the JOIN syntax in JPQL queries to perform explicit joins that navigate a parent-to-child or a child-to-parent
+relationship. In this sample, a ParentEntity has relationships to ChildEntity and User entities. The query joins to the other
+entities using the relationship fields.</p>
+
+<pre><code>SELECT p
+FROM ParentEntity p
+    JOIN p.childEntities c
+    JOIN p.ownerId o
+WHERE c.name = 'sample1')
+    AND o.username LIKE 'bob%'
+</code></pre>
+
+<p>Note: The Database.com JPA provider always performs outer joins, so there is no difference in the query results if you
+use JOIN or LEFT OUTER JOIN.</p>
+
+<p><a name="inJoins"> </a></p>
+
+<h3>IN Joins</h3>
+
+<p>In some cases, you can use an IN clause instead of JOIN. For example:</p>
+
+<pre><code>SELECT p
+FROM ParentEntity p
+    IN (o.childEntities) c
+WHERE c.name = 'sample1'
+</code></pre>
+
+<p>This query is equivalent to a similar query using the JOIN syntax.</p>
+
+<pre><code>SELECT p
+FROM ParentEntity p
+    JOIN (o.childEntities) c
+WHERE c.name = 'sample1'
+</code></pre>
+
+<p><a name="semiAntiJoins"> </a></p>
+
+<h3>Semi-Joins and Anti-Joins</h3>
+
+<p>A semi-join is a subquery on another object in an IN clause to restrict the records returned. For example:</p>
+
+<pre><code>SELECT p
+FROM ParentEntity p
+WHERE id IN (
+    SELECT c.parent FROM ChildEntity c
+    WHERE c.name = 'sample1'
+)
+</code></pre>
+
+<p>An anti-join is a subquery on another object in a NOT IN clause to restrict the records returned. For example:</p>
+
+<pre><code>SELECT p
+FROM ParentEntity p
+WHERE id NOT IN (
+    SELECT c.parent FROM ChildEntity c
+    WHERE c.name = 'sample1'
+)
+</code></pre>
+
+<p>For more information on semi- and anti-joins in SOQL, see the <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_calls_soql_select_comparisonoperators.htm#semi_and_anti">Web Services API Developer's Guide</a>.</p>
+
+<p><a name="relJoins"> </a></p>
+
+<h3>Relationship Joins</h3>
+
+<p>Relationships between entities in Database.com are represented by a lookup or master-detail field in a child entity. You can't
+create relationships with other field types. For more information, see <a href="database-com-datatypes#relFields">Relationship Fields</a>.</p>
+
+<p>For each relationship between objects, there is a relationshipName property that enables you to traverse the relationship
+in a query. For more information about relationships, see <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_calls_soql_relationships.htm">Understanding Relationship Names</a>.</p>
+
+<p>In a JPQL query, you can navigate child-to-parent relationships using a dot notation to perform a join. For example, the
+c.ParentEntity.name notation in the following query navigates the child-to-parent relationship to reference the name field
+in the parent entity.</p>
+
+<pre><code>SELECT c
+FROM ChildEntity c
+WHERE c.ParentEntity.name in ('Parent1', 'Parent2')
+</code></pre>
+
+<p>Note: You can't navigate parent-to-child relationships like you can in native SOQL queries. However, it's easier to
+take advantage of implicit joins in JPQL queries for querying parent-to-child relationships.</p>
+
+<p>For more information about the number of levels of relationships that you can traverse in a query, see <a href="#fetchDepth">Fetch Depth</a>.</p>
+
+<p><a name="childMapJoins"> </a></p>
+
+<h3>Child-Map Joins</h3>
+
+<p>If you are joining a parent entity to a child entity represented by a map, you can use the <code>key()</code>, <code>value()</code>, and <code>entry()</code>
+functions in a JPQL query to select and filter records. Let's look at MapParentEntity class with an <code>@OneToMany</code> children
+field containing a map of child MapChildEntity records.</p>
+
+<pre><code>@OneToMany(mappedBy="parent", cascade=CascadeType.ALL)
+@MapKey(name="name")
+private Map&lt;String, MapChildEntity&gt; children;
+</code></pre>
+
+<h4>key()</h4>
+
+<p>Use <code>key()</code> in the SELECT and WHERE to select and filter records based on the map's key. In this sample, <code>key()</code> is used in
+the WHERE clause to return a filtered map.</p>
+
+<pre><code>SELECT o
+FROM MapParentEntity o
+    JOIN o.children c
+WHERE key(c) = 'sample1'
+</code></pre>
+
+<p>The next sample is similar and shows <code>key()</code> in the SELECT and WHERE clauses. The second column in the result is a <code>List&lt;String></code> which matches the WHERE clause filter.</p>
+
+<pre><code>SELECT o.name, key(c)
+FROM MapParentEntity o
+JOIN o.children c
+WHERE key(c) = 'sample1'
+</code></pre>
+
+<h4>value()</h4>
+
+<p>Use <code>value()</code> in a SELECT clause to return a List of values from the child collection. This sample returns
+<code>List&lt;MapChildEntity></code> for <code>value()</code>.</p>
+
+<pre><code>SELECT o.name, value(c)
+FROM MapParentEntity o
+    JOIN o.children c
+WHERE key(c) = 'sample1'
+</code></pre>
+
+<h4>entry()</h4>
+
+<p>Use <code>entry()</code> in a SELECT clause when you want to return the key-value pair for a map entry. This sample returns
+<code>List&lt;Map.Entry&lt;String, MapChildEntity>></code> for <code>entry()</code>.</p>
+
+<pre><code>SELECT o.name, entry(c)
+FROM MapParentEntity o
+    JOIN o.children c
+WHERE key(c) = 'sample1'
+</code></pre>
+
+<p>Note the following when using these functions:</p>
+
+<ul>
+<li>You can only use one of the <code>key()</code>, <code>value()</code>, and <code>entry()</code> functions in a single SELECT clause.</li>
+<li>Map joins are always eager joins so there is only one query used to return the keys, values, or entries.</li>
+</ul>
+
+
+<p><a name="isEmpty"> </a></p>
+
+<h3>IS EMPTY Comparison Operator</h3>
+
+<p>You can use the [NOT] IS EMPTY comparison operator to select parent entities whose children or multi-select picklist field values are empty.</p>
+
+<p>The following examples use this field in a ParentEntity class:</p>
+
+<pre><code>@OneToMany(mappedBy="parent", cascade=CascadeType.ALL)
+private Set&lt;ChildTestEntity&gt; children;
+</code></pre>
+
+<h5>Child Entities</h5>
+
+<p>This query returns ParentEntity records that have no children.</p>
+
+<pre><code>em.createQuery(
+    "SELECT o FROM ParentEntity o
+    WHERE o.children IS EMPTY"
+).getResultList();
+</code></pre>
+
+<h5>Multi-Select Picklists</h5>
+
+<p>This query returns Entity records with no picklist values in the <strong>multiPickValue</strong> field.</p>
+
+<pre><code>em.createQuery(
+    "SELECT o FROM Entity o
+    WHERE o.multiPickValue IS EMPTY"
+).getResultList();
+</code></pre>
+
+<p><a name="memberOf"> </a></p>
+
+<h3>MEMBER OF Comparison Operator</h3>
+
+<p>You can use the [NOT] MEMBER OF comparison operator to select parent entities whose children or multi-select picklist field values match defined criteria.</p>
+
+<h5>Child Entities</h5>
+
+<p>The Database.com JPA provider uses the <b>name</b> standard field by default to filter for matching child entities.</p>
+
+<p>This query returns ParentEntity records that contain at least one child whose name is 'entity1'.</p>
+
+<pre><code>em.createQuery(
+    "SELECT o FROM ParentEntity o
+    WHERE 'entity1' MEMBER OF o.children"
+).getResultList();
+</code></pre>
+
+<p>You can filter by a field other than <strong>name</strong> by using a <code>MEMBER_OF_FIELD</code> query hint. This query returns ParentEntity records that contain at least one child whose gender is 'Female' .</p>
+
+<pre><code>em.createQuery(
+    "SELECT o FROM ParentEntity o
+    WHERE 'Female' MEMBER OF o.children"
+).setHint(QueryHints.MEMBER_OF_FIELD, "gender").getResultList();
+</code></pre>
+
+<h5>Multi-Select Picklists</h5>
+
+<p>This query returns Entity records that have a picklist value of 'ONE'  in the <strong>multiPickValue</strong> field.</p>
+
+<pre><code>em.createQuery(
+    "SELECT o FROM Entity o 
+    WHERE 'ONE' MEMBER OF o.multiPickValue"
+).getResultList();
+</code></pre>
+
+<p>Use a semicolon to check for multiple values in a picklist (boolean AND). Use a comma to check for one of multiple values (boolean OR). For example, this query returns Entity records that have a multiPickValue field including both ('AAA' and 'BBB') values or a 'CCC' value - ('AAA' &amp;&amp; 'BBB') || 'CCC'.</p>
+
+<pre><code>SELECT o FROM Entity o 
+WHERE 'AAA;BBB,CCC' MEMBER OF o.multiPickValue
+</code></pre>
+
+<p><a name="eagerVsLazy"> </a></p>
+
+<h2>Eager Versus Lazy Fetch Types</h2>
+
+<p>There are two different fetch types for fields in a record returned by a query: lazy or eager. If a field has an eager fetch type,
+it is loaded at the time the query is executed, and the field is populated in the query results. If a field has a lazy fetch type, the
+query results don't include the data for the field. When the field is accessed by a getter method, for example a separate
+query executes in the background and returns the actual field data.</p>
+
+<p>Fields of the following data types are members of a default fetch group and are eagerly loaded by default.</p>
+
+<dl>
+  <dt><b>Primitives</b></dt>
+    <dd>
+    <ul>
+        <li>boolean</li>
+        <li>byte</li>
+        <li>char</li>
+        <li>double</li>
+        <li>float</li>
+        <li>int</li>
+        <li>long</li>
+        <li>short</li>
+    </ul>
+    </dd>
+  
+  <dt><b>Object Wrappers for Primitives</b></dt>
+    <dd>
+    <ul>
+        <li>Boolean</li>
+        <li>Byte</li>
+        <li>Character</li>
+        <li>Double</li>
+        <li>Float</li>
+        <li>Integer</li>
+        <li>Long</li>
+        <li>Short</li>
+    </ul>
+    </dd>
+
+  <dt><b>Others</b></dt>
+    <dd>
+    <ul>
+        <li>String</li>
+        <li>Number</li>
+        <li>Enum</li>
+        <li>BigDecimal</li>
+        <li>BigInteger</li>
+        <li>Date</li>
+        <li>Calendar</li>
+        <li>GregorianCalendar</li>
+    </ul>
+    </dd>
+</dl>
+
+
+<p>These default eager data types are standard for DataNucleus, except for Calendar and GregorianCalendar, which are
+eagerly loaded by the Database.com JPA provider to support optimistic transactions.</p>
+
+<p>You can also explicitly mark a field as eager or lazy by adding the <code>FetchType.EAGER</code> or <code>FetchType.LAZY</code> attribute to an
+<code>@Basic</code>, <code>@OneToMany</code>, or <code>@ManyToOne</code> annotation.</p>
+
+<p>Note: A separate query is executed when you access the data for any lazily loaded field.</p>
+
+<p><a name="fetchDepth"> </a></p>
+
+<h3>Fetch Depth</h3>
+
+<p>Fetch depth is the number of levels of relationships traversed and fetched for a query. Consider a Grandchild entity with a
+lookup relationship to a Child entity that has a lookup relationship to a Parent entity. If a query references the child-to-parent
+relationships from the Grandchild to Child entities and the Child to Parent entities, you must set the fetch depth to two to
+retrieve <code>FetchType.EAGER</code> fields for the Parent entity.</p>
+
+<p>A query doesn't return an error if it references <code>FetchType.EAGER</code> fields that exceed the fetch depth; it just returns data
+within the fetch depth. Setting fetch depth to zero means that you only get data for the entity in the FROM clause and relationships
+are ignored.</p>
+
+<p>The default fetch depth is one. You can change the default fetch depth by setting the <strong>datanucleus.maxFetchDepth</strong>
+property in <code>persistence.xml</code>. You can also change the fetch depth for an individual query by using a query hint. For
+example, to set the fetch depth to two in a JPQL query:</p>
+
+<pre><code>em.createQuery("SELECT o FROM SampleEntity o)", SampleEntity.class)
+    .setHint(QueryHints.MAX_FETCH_DEPTH, 2).getResultList();
+</code></pre>
+
+<p>Similarly, you can use a query hint in a <code>find()</code> method to set the fetch depth to two:</p>
+
+<pre><code>em.find(SampleEntity.class, "entityIdHere",
+    Collections.singletonMap(QueryHints.MAX_FETCH_DEPTH, (Object)2 ));
+</code></pre>
+
+<p>For child-to-parent relationships, the maximum fetch depth is five.</p>
+
+<p><strong>Caution:</strong> A query containing a parent-to-child relationship can only traverse one relationship level. Setting query
+depth greater than one on <code>FetchType.EAGER</code> parent-to-child relationships will result in an error.</p>
+
+		</div>
+	</div>
+</div>
+</body>
+</html>

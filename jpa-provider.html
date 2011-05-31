@@ -1,0 +1,309 @@
+<!--
+
+    Copyright (c) 2011, salesforce.com, inc.
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided
+    that the following conditions are met:
+
+       Redistributions of source code must retain the above copyright notice, this list of conditions and the
+       following disclaimer.
+
+       Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+       the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+       Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+       promote products derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+    TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
+
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Database.com Java SDK - Database.com JPA Provider</title>
+	<link type="text/css" rel="stylesheet" href="stylesheets/docs.css" media="screen" />
+	<link type="text/css" rel="stylesheet" href="stylesheets/header.css" media="screen" />
+	<link type="text/css" rel="stylesheet" href="stylesheets/coderay.css" media="screen" />
+</head>
+<body>
+
+  <div id="force-header"> 
+    <h1><a href="force-sdk-overview.html">Database.com Java SDK</a></h1>
+  </div>
+<div id="bodywrap">
+	<div id="docsnav">
+    <!--
+
+    Copyright (c) 2011, salesforce.com, inc.
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided
+    that the following conditions are met:
+
+       Redistributions of source code must retain the above copyright notice, this list of conditions and the
+       following disclaimer.
+
+       Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+       the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+       Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+       promote products derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+    TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
+
+-->
+
+<ul> <li> <h3>Getting started</h3> <ul> 
+
+<li><a href="force-sdk-overview">Introduction</a></li>
+
+ <li><a href="quick-start">Quick Start</a></li>
+
+ <li><a href="sts">SpringSource Tool Suite</a></li>
+
+ <li><a href="java-database-terminology">Database.com Terminology</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Persistence</h3> <ul> 
+ 
+ <li><a href="jpa-provider">JPA Provider Overview</a></li>
+
+ <li><a href="jpa-config-persistence">Configuration</a></li>
+
+ <li><a href="jpa-annotations-standard">Standard JPA Annotations</a></li>
+
+ <li><a href="jpa-annotations-custom">Custom Database.com Annotations</a></li>
+
+ <li><a href="jpa-cud">Creating, Updating, and Deleting Data</a></li>
+
+ <li><a href="jpa-transactions">Transactions</a></li>
+  
+ <li><a href="jpa-queries">Querying with JPQL</a></li>
+
+ <li><a href="jpa-queries-soql">Querying with SOQL</a></li>
+
+ <li><a href="database-com-datatypes">Database.com Data Types</a></li>
+
+ <li><a href="java-db-com-datatypes-map">Java to Database.com Data Types</a></li>
+
+ <li><a href="jpa-spec-support">JPA 2.0 Specification Support</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Authentication</h3> <ul> 
+ 
+ <li><a href="oauth-auth">OAuth Authentication</a></li>
+
+ <li><a href="spring-security">Spring Security Plugin</a></li>
+
+ <li><a href="retrieve-user-data">Retrieving User Data</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Low-level Connector</h3> <ul> <li><a href="connection-url">Connection Configuration</a></li>
+
+ <li><a href="native-api">Native API Clients</a></li>
+
+ </ul> </li>
+
+ </ul>
+ 
+<!--
+	topic 'quick-start',        'Quick Start Guide'
+	topic 'sts',                'SpringSource Tool Suite'
+	topic 'java-force-terminology', 'Force.com Terminology'
+end
+
+section 'persistence', "Persistence" do
+	topic 'jpa-provider',             'JPA Provider Overview'
+	topic 'jpa-config-persistence',   'Configuration'
+	topic 'jpa-annotations-standard', 'Standard JPA Annotations'
+	topic 'jpa-annotations-custom',   'Custom Force.com Annotations'
+	topic 'jpa-cud',                  'Creating, Updating, and Deleting Data'
+	topic 'jpa-queries',              'Querying with JPQL'
+	topic 'jpa-queries-soql',         'Querying with SOQL'
+	topic 'force-datatypes',          'Force.com Data Types'
+	topic 'java-force-datatypes-map', 'Java to Force.com Data Types'
+	topic 'jpa-spec-support',         'JPA 2.0 Specification Support'
+end
+
+section 'authentication', "Authentication" do
+	topic 'oauth-auth'  ,       'OAuth Authentication'
+	topic 'spring-security',    'Spring Security Plugin'
+	topic 'retrieve-user-data',    'Retrieving User Data'
+end
+
+section 'connector', "Low-level Connector" do
+	topic 'connection-url',     'Connection Configuration'
+  topic 'native-api',         'Native API Clients'
+end
+
+-->
+
+	</div>
+
+	<div id="content">
+		<div class="topic_content">
+      <h1>Database.com JPA Provider</h1>
+
+<p>The Database.com JPA provider enables you to persist data in the database of your Force.com organization. JPA is an abstraction layer that lets you implement your persistence layer in standard Java code without having to focus on the specific APIs, terminology, or query language of Force.com.</p>
+
+<p>If you're not familiar with JPA, you should start with <a href="http://download.oracle.com/javaee/6/tutorial/doc/bnbpz.html">Oracle's Introduction to the Java Persistence API</a>.</p>
+
+<p>It's important to understand that Database.com is different in several aspects from standard
+relational databases and the Database.com JPA provider reflects this difference. This section describes how the
+Database.com JPA provider differs from other implementations of the JPA specification.</p>
+
+<p>The Database.com JPA provider is built on top of <a href="http://www.datanucleus.org/products/accessplatform/index.html">DataNucleus Access Platform</a>. The Database.com JPA provider officially supports the properties listed in the sample <a href="jpa-config-persistence">persistence.xml</a> file. Other properties that are part of the DataNucleus JPA provider haven’t been tested.</p>
+
+<p>The Database.com Java SDK doesn't support JDO.</p>
+
+<p>The Database.com JPA provider implements a <a href="jpa-spec-support">subset of the JPA 2.0 specification</a>.</p>
+
+<h2>Data types</h2>
+
+<p>Database.com has many of the same data types as other relational databases, but the types and their
+names are shaped by business needs. For example, there are Phone and URL types. In most cases, you don't have
+to concern yourself with Database.com data types. Your Java types are translated automatically into the
+appropriate Database.com data type.</p>
+
+<p>You can read more about data types here:</p>
+
+<ul>
+<li><a href="database-com-datatypes">Database.com data types</a></li>
+<li><a href="java-db-com-datatypes-map">Data type mappings</a></li>
+</ul>
+
+
+<p><a name="primaryKeys"> </a></p>
+
+<h2>Primary Keys</h2>
+
+<p>Every entity in Database.com has a primary key that is an automatically generated string. A sample
+primary key value is a0x30000000H7js.</p>
+
+<p>The JPA standard allows you to define a variety of primary key types. These are not all supported by the
+Database.com JPA provider, which has the following constraints for the primary key:</p>
+
+<ul>
+<li>The primary key Java type must be String</li>
+<li>Only the GenerationType.IDENTITY strategy is supported</li>
+<li>Composite primary keys are not supported</li>
+<li>Fields, including the primary key, must always start with a lowercase letter. You can't use Id instead of id.</li>
+</ul>
+
+
+<p>You can declare your primary key as follows:</p>
+
+<pre><code>@Id
+@GeneratedValue(strategy=GenerationType.IDENTITY)
+String id;
+</code></pre>
+
+<p>The id field name is a reserved system field and can't be used by non-primary-key fields.</p>
+
+<p>If you want to use a field name other than id for the primary key field in your Java class, use the @Column
+standard annotation. For example:</p>
+
+<pre><code>@Id
+@Column(name="id")
+@GeneratedValue(strategy=GenerationType.IDENTITY)
+String sfdcId;
+</code></pre>
+
+<p>Note: Primary keys in Database.com have two formats: a 15-character case-sensitive string and an
+18-character case-insensitive string. API calls always return 18–character values, but API requests also accept
+15-character values. If you use the Database.com JPA provider or an API call, you always use the 18-character
+format.</p>
+
+<h2>Entities</h2>
+
+<p>JPA entities are stored in Database.com as sObjects (the Database.com equivalent of a database table). The JPA provider automatically creates and updates the database schema based on the JPA entity classes in your application.</p>
+
+<p>Most of the <a href="jpa-annotations-standard">standard JPA annotations</a> work as expected and an additional set of <a href="jpa-annotations-custom">custom annotations</a> are also available to customize behavior specific to Database.com.</p>
+
+<h2>Relationships</h2>
+
+<p>Database.com supports both @ManyToOne and @OneToMany relationships. @OneToMany is not explicitly managed in the database. It is inferred from a @ManyToOne relationship in the opposite direction. Therefore you can't have an entity that references another entity with @OneToMany without also having the opposite @ManyToOne relationship. @OneToOne and @ManyToMany relationships are not supported.</p>
+
+<h2>Transactions</h2>
+
+<p>The Database.com JPA provider uses the Web services API to access Database.com so transactions are
+demarcated at the HTTP request boundary. A single transaction can't span multiple requests. Therefore, the full set of transaction semantics you would expect from a database is not available.</p>
+
+<p>Read more:</p>
+
+<ul>
+<li><a href="jpa-config-persistence">Configuring transaction properties in persistence.xml</a></li>
+<li><a href="jpa-transactions">Transactions</a></li>
+</ul>
+
+
+<h2>Queries</h2>
+
+<p>You can use JPQL to execute queries on your entities with some limitations. For example, you can't perform joins between entities that don't have an explicit relationship and you can't evaluate expressions.</p>
+
+<p>Read more:</p>
+
+<ul>
+<li><a href="jpa-spec-support#4-query-language">JPA query support</a></li>
+<li><a href="jpa-queries">JPA query guide</a></li>
+</ul>
+
+
+<h2>Resource Limits</h2>
+
+<p>Applications that store data in Database.com using the JPA provider are subjected to the same limits as any other use of your Force.com organization. The JPA provider uses the Web Services API and Metadata API. You can read about the limits for these APIs here:</p>
+
+<ul>
+<li><a href="http://www.salesforce.com/us/developer/docs/api/index.htm">Web Services API</a></li>
+<li><a href="http://www.salesforce.com/us/developer/docs/api_meta/index.htm">Metadata API</a></li>
+</ul>
+
+
+<h3>Concurrent, long-running API request limit</h3>
+
+<p>You can only execute a limited number of long-running, concurrent requests. The threshold for a long-running request is currently 20 seconds. If your limit is, for example, 25 requests and you currently have 25 active requests that have run for longer than 20 seconds, then you can't make any more requests.</p>
+
+<h3>Total, daily API request limit</h3>
+
+<p>You can only execute a certain total number of API calls within a rolling 24 hour period. You can see your current consumption and limit by logging into your organization and clicking <em>Your Name</em> > <strong>Setup</strong> > (<strong>Administration Setup</strong>) > <strong>Company Profile</strong> > <strong>Company Information</strong> and looking at the <strong>API Requests, Last 24 Hours</strong> field. The first number is your current consumption. The second number in parentheses is your limit.</p>
+
+<h3>Storage limit</h3>
+
+<p>You have limits on both file storage and record storage. File storage is consumed by storing documents and attachments. Record storage is a limit on the total number of records in all your entities. You can find your storage consumption and limits under <em>Your Name</em> > <strong>Setup</strong> > (<strong>Administration Setup</strong>) > <strong>Data Management</strong> > <strong>Storage Usage</strong>.</p>
+
+<h2>Other limits</h2>
+
+<p>There are other limits that are specific to the operation you are performing. For example, if you are <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_calls_create.htm">inserting records</a>, you can only insert 200 records in one operation. You can read more about these limits in the API docs:</p>
+
+<ul>
+<li><a href="http://www.salesforce.com/us/developer/docs/api/index.htm">Web Services API</a></li>
+<li><a href="http://www.salesforce.com/us/developer/docs/api_meta/index.htm">Metadata API</a></li>
+</ul>
+
+
+		</div>
+	</div>
+</div>
+</body>
+</html>

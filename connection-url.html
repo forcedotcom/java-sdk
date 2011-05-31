@@ -1,0 +1,334 @@
+<!--
+
+    Copyright (c) 2011, salesforce.com, inc.
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided
+    that the following conditions are met:
+
+       Redistributions of source code must retain the above copyright notice, this list of conditions and the
+       following disclaimer.
+
+       Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+       the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+       Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+       promote products derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+    TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
+
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Database.com Java SDK - Connection Configuration</title>
+	<link type="text/css" rel="stylesheet" href="stylesheets/docs.css" media="screen" />
+	<link type="text/css" rel="stylesheet" href="stylesheets/header.css" media="screen" />
+	<link type="text/css" rel="stylesheet" href="stylesheets/coderay.css" media="screen" />
+</head>
+<body>
+
+  <div id="force-header"> 
+    <h1><a href="force-sdk-overview.html">Database.com Java SDK</a></h1>
+  </div>
+<div id="bodywrap">
+	<div id="docsnav">
+    <!--
+
+    Copyright (c) 2011, salesforce.com, inc.
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided
+    that the following conditions are met:
+
+       Redistributions of source code must retain the above copyright notice, this list of conditions and the
+       following disclaimer.
+
+       Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+       the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+       Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+       promote products derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+    TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
+
+-->
+
+<ul> <li> <h3>Getting started</h3> <ul> 
+
+<li><a href="force-sdk-overview">Introduction</a></li>
+
+ <li><a href="quick-start">Quick Start</a></li>
+
+ <li><a href="sts">SpringSource Tool Suite</a></li>
+
+ <li><a href="java-database-terminology">Database.com Terminology</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Persistence</h3> <ul> 
+ 
+ <li><a href="jpa-provider">JPA Provider Overview</a></li>
+
+ <li><a href="jpa-config-persistence">Configuration</a></li>
+
+ <li><a href="jpa-annotations-standard">Standard JPA Annotations</a></li>
+
+ <li><a href="jpa-annotations-custom">Custom Database.com Annotations</a></li>
+
+ <li><a href="jpa-cud">Creating, Updating, and Deleting Data</a></li>
+
+ <li><a href="jpa-transactions">Transactions</a></li>
+  
+ <li><a href="jpa-queries">Querying with JPQL</a></li>
+
+ <li><a href="jpa-queries-soql">Querying with SOQL</a></li>
+
+ <li><a href="database-com-datatypes">Database.com Data Types</a></li>
+
+ <li><a href="java-db-com-datatypes-map">Java to Database.com Data Types</a></li>
+
+ <li><a href="jpa-spec-support">JPA 2.0 Specification Support</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Authentication</h3> <ul> 
+ 
+ <li><a href="oauth-auth">OAuth Authentication</a></li>
+
+ <li><a href="spring-security">Spring Security Plugin</a></li>
+
+ <li><a href="retrieve-user-data">Retrieving User Data</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Low-level Connector</h3> <ul> <li><a href="connection-url">Connection Configuration</a></li>
+
+ <li><a href="native-api">Native API Clients</a></li>
+
+ </ul> </li>
+
+ </ul>
+ 
+<!--
+	topic 'quick-start',        'Quick Start Guide'
+	topic 'sts',                'SpringSource Tool Suite'
+	topic 'java-force-terminology', 'Force.com Terminology'
+end
+
+section 'persistence', "Persistence" do
+	topic 'jpa-provider',             'JPA Provider Overview'
+	topic 'jpa-config-persistence',   'Configuration'
+	topic 'jpa-annotations-standard', 'Standard JPA Annotations'
+	topic 'jpa-annotations-custom',   'Custom Force.com Annotations'
+	topic 'jpa-cud',                  'Creating, Updating, and Deleting Data'
+	topic 'jpa-queries',              'Querying with JPQL'
+	topic 'jpa-queries-soql',         'Querying with SOQL'
+	topic 'force-datatypes',          'Force.com Data Types'
+	topic 'java-force-datatypes-map', 'Java to Force.com Data Types'
+	topic 'jpa-spec-support',         'JPA 2.0 Specification Support'
+end
+
+section 'authentication', "Authentication" do
+	topic 'oauth-auth'  ,       'OAuth Authentication'
+	topic 'spring-security',    'Spring Security Plugin'
+	topic 'retrieve-user-data',    'Retrieving User Data'
+end
+
+section 'connector', "Low-level Connector" do
+	topic 'connection-url',     'Connection Configuration'
+  topic 'native-api',         'Native API Clients'
+end
+
+-->
+
+	</div>
+
+	<div id="content">
+		<div class="topic_content">
+      <h1>Connection Configuration</h1>
+
+<p>Java applications run with the permissions and sharing of the user that authenticates the application with Database.com. You can configure a JPA connection URL that sets a default integration user to authenticate your application with Database.com. This allows a connection to the database before users authenticate with their own credentials.</p>
+
+<p>If your application requires a user to log in to use some or all of the application, the application runs with the permissions and sharing of the user after they log in.</p>
+
+<p>The Database.com Java SDK includes an OAuth Connector that simplifies the process of using OAuth to authenticate Database.com users.</p>
+
+<h2>Typical Web Application Authentication Scenarios</h2>
+
+<p>This section describes some typical authentication scenarios for Web applications. It is not an exhaustive list and you can use a different scheme for authenticating your applications.</p>
+
+<h3>Application Allows Anonymous Access</h3>
+
+<p>Any user can access the application without authentication.</p>
+
+<p>You must configure JPA connection information for the default integration user that authenticates your application with Database.com. No OAuth credentials are needed since users don't need to authenticate.</p>
+
+<h3>Application Requires User Authentication</h3>
+
+<p>A user must authenticate with their Database.com credentials before accessing the application.</p>
+
+<p>You must configure JPA connection information for the default integration user that authenticates your application with Database.com. This user is used when your application needs to create schema in Database.com. You must configure OAuth credentials if you want to use OAuth to authenticate users.</p>
+
+<h3>Application Requires a Mix of User Authentication and Anonymous Access</h3>
+
+<p>A user can access some application pages without authentication, but they must authenticate with their Database.com credentials before accessing protected application pages.</p>
+
+<p>You must configure JPA connection information for the default integration user that authenticates your application with Database.com. This user is used when your application needs to connect to Database.com. You must configure OAuth credentials if you want to use OAuth to authenticate users.</p>
+
+<p>The next section describes the various options for configuring your JPA connection or OAuth credentials. These options offer you flexibility for managing your configuration information in different environments. For example, you may want to manage authentication information differently in development, staging, and production environments.</p>
+
+<p>You can encode the authentication information in a URL or you can split the information into a few separate properties.</p>
+
+<h2>Connection URLs</h2>
+
+<p>You can encode the JPA connection information for the default integration user and the OAuth credentials in a connection URL using key-value pairs. A connection URL must include credentials in the <em>username</em> and <em>password</em> parameters. If you are using OAuth, also include the <em>oauth_key</em> and <em>oauth_secret</em> parameters.</p>
+
+<p>The format of a connection URL that includes JPA connection information for the default integration user and OAuth credentials is:</p>
+
+<pre>
+  <code>force://login.salesforce.com;user=<em>user@salesforcedoc.org</em>;password=<em>samplePassword</em>;oauth_key=<em>xyz</em>;oauth_secret=<em>abc</em></code>
+</pre>
+
+
+<p>Substitute values in the <em>user</em> and <em>password</em> fields with the username and password for the default integration user.</p>
+
+<p>If you are using OAuth, substitute values in the <em>oauth_key</em> and <em>oauth_secret</em> fields with the OAuth consumer key and secret. To generate a consumer key and secret for your application, see <a href="oauth-auth#RAA">remote access applications</a>.</p>
+
+<p>There is also an optional <em>timeout</em> parameter, which is the number of milliseconds to wait to establish a connection before
+timing out. This parameter is equivalent to the <strong>datanucleus.datastoreReadTimeout</strong> property in <code>persistence.xml</code>. This connection URL shows sample usage:</p>
+
+<pre>
+  <code>force://login.salesforce.com;user=<em>user@salesforcedoc.org</em>;password=<em>samplePassword</em>;timeout=<em>10000</em></code>
+</pre>
+
+
+<h2>Configuring Connection URLs</h2>
+
+<p>There are multiple options for configuring a connection URL. These options offer you flexibility for managing your configuration information in different environments. For example, you
+may want to manage authentication information differently in development, staging, and production environments.</p>
+
+<p>The Database.com JPA provider looks for a connection URL in the following order. The first matching configuration is used.</p>
+
+<ol>
+<li><a href="#UrlEnvVar">Connection URL in Environment Variable</a></li>
+<li><a href="#UrlJavaSysProp">Connection URL in Java System Property</a></li>
+<li><a href="#propFile">Connection URL in Properties file in the Classpath</a></li>
+</ol>
+
+
+<p><a name="UrlEnvVar"> </a></p>
+
+<h3>Connection URL in Environment Variable</h3>
+
+<p>You can set the connection URL in an environment
+variable. The name of the environment variable depends on values in your application's <a href="jpa-config-persistence#authProps"><code>persistence.xml</code></a> file. If a <code>persistence-unit</code> element contains a <strong>force.ConnectionName</strong> property, the name depends on the property value; otherwise, it depends on the <code>persistence-unit</code> name.</p>
+
+<p>For example, if you have a <code>&lt;persistence-unit name="persistenceUnitName"></code> element, set the authentication
+information for this persistence unit in an environment variable named FORCE_<em>PERSISTENCEUNITNAME</em>_URL. However, if the <code>persistence-unit</code> contains <code>&lt;property name="force.ConnectionName" value="forceDatabase"/></code>, the environment variable name should be FORCE_<em>FORCEDATABASE</em>_URL.</p>
+
+<p>Note: The environment variable name must contain all uppercase characters including the name of the
+<code>persistence-unit</code> element or the <strong>force.ConnectionName</strong> property converted to uppercase characters.</p>
+
+<p>If you use an environment variable to set the authentication information, you must include <code>&lt;property
+name="datanucleus.storeManagerType" value="force"/></code> in the <code>persistence-unit</code> element in your application's
+<code>persistence.xml</code> file.</p>
+
+<p><a name="UrlJavaSysProp"> </a></p>
+
+<h3>Connection URL in Java System Property</h3>
+
+<p>You can set the connection URL in a Java system
+property. The name of the Java system property depends on values in your application's <code>persistence.xml</code> file. If a
+<code>persistence-unit</code> element contains a <strong>force.ConnectionName</strong> property, the name of the Java system property depends
+on the <strong>force.ConnectionName</strong> property value; otherwise, it depends on the <code>persistence-unit</code> name.</p>
+
+<p>For example, if you have a <code>&lt;persistence-unit name="persistenceUnitName"></code> element, set the authentication
+information for this persistence unit in a Java system property named force.<em>persistenceUnitName</em>.url.</p>
+
+<p>Note: The Java system property name is case sensitive.</p>
+
+<p>The following code shows you how to set the authentication information in a Java system property:</p>
+
+<pre><code>System.setProperty("force.persistenceUnitName.url",
+    "force://login.salesforce.com;user=user@salesforcedoc.org;password=samplePassword");
+</code></pre>
+
+<p>If you use a Java system property to set the authentication information, you must include <code>&lt;property
+name="datanucleus.storeManagerType" value="force"/></code> in the <code>persistence-unit</code> element in your application's
+<code>persistence.xml</code> file.</p>
+
+<p><a name="propFile"> </a></p>
+
+<h3>Connection Properties File</h3>
+
+<p>You can set the connection URL in a properties file in the classpath. If you add the properties file to the <code>src/main/resources</code> directory of your
+application, Maven automatically copies it to your classpath.</p>
+
+<p>The name of the properties file depends on values in your application's <code>persistence.xml</code> file. If a <code>persistence-unit</code>
+element contains a <strong>force.ConnectionName</strong> property, the file name depends on the property value; otherwise, it depends
+on the <code>persistence-unit</code> name.</p>
+
+<p>For example, if you have a <code>&lt;persistence-unit name="persistenceUnitName"></code> element, set the authentication
+information for this persistence unit in a <em>persistenceUnitName</em>.properties file in the classpath.</p>
+
+<p>Note: The property file name and lookup of property names in the file are case sensitive.</p>
+
+<p>A file containing this line is an example of a properties file containing a url property.</p>
+
+<pre><code>url=force://login.salesforce.com;user=user@salesforcedoc.org;password=samplePassword
+</code></pre>
+
+<!-- Comment out until release cliforce. Uncomment this section and add a link to the bullet list earlier in the file when ready.
+<a name="UrlConnectionsPropFile"> </a> 
+
+You can set the connection URL in the $HOME/.force/cliforce_urls file, where $HOME refers to your home directory. The format is:
+
+    persistenceUnitName=force://login.salesforce.com;user=user@salesforcedoc.org;password=samplePassword
+
+-->
+
+
+<p><a name="setAPIversion"> </a></p>
+
+<h2>Setting an API Version</h2>
+
+<p>Each version of the Database.com Java SDK is automatically linked with an API version. For example, version 22.0.0 of the SDK
+uses API version 22.0.</p>
+
+<p>However, you can override the default API version of the SDK by specifying a fully qualified API endpoint. For example, if
+you want to use API version 19.0 with version 21.0.0 of the SDK, use one of these options when configuring your JPA
+connection:</p>
+
+<dl>
+  <dt>Connection URL</dt>
+    <dd>force://login.salesforce.com/services/Soap/u/19.0;user=user@salesforcedoc.org;password=samplePassword</dd>
+  <dt>Connection Endpoint</dt>
+    <dd>https://login.salesforce.com/services/Soap/u/19.0</dd>
+</dl>
+
+
+<p>For more information about connection endpoints, see <a href="jpa-config-persistence#authProps">Authentication Properties</a>.</p>
+
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -31,7 +31,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Database.com Java SDK - Database.com Java SDK reference documentation</title>
+	<title>Database.com Java SDK - Querying with SOQL</title>
 	<link type="text/css" rel="stylesheet" href="stylesheets/docs.css" media="screen" />
 	<link type="text/css" rel="stylesheet" href="stylesheets/header.css" media="screen" />
 	<link type="text/css" rel="stylesheet" href="stylesheets/coderay.css" media="screen" />
@@ -163,15 +163,140 @@ end
 
 	<div id="content">
 		<div class="topic_content">
-      <h1>Database.com Java SDK reference documentation</h1>
+      <h1>Querying with SOQL</h1>
 
-<p>Welcome to the Database.com Java SDK reference documentation.</p>
+<p>JPQL is the preferred approach for writing queries with the Database.com JPA provider. However, you can also use native queries with <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_calls_soql.htm">SOQL</a>, a query language optimized for querying Database.com entities.</p>
 
-<p>Database.com is the cloud database that powers Force.com and all the applications built on the platform, including Sales Cloud, Service Cloud and Chatter from salesforce.com.</p>
+<p>There are three different approaches for executing SOQL queries.</p>
 
-<p>If you are a Force.com developer, you are already using Database.com. The cloud database manages the data model for your application, stores all data and automatically exposes your data through APIs.</p>
+<ul>
+<li><a href="#sobject">Returning SObject Records</a></li>
+<li><a href="#typedObject">Returning Typed-Object Records</a></li>
+<li><a href="#mixedObject">Returning Mixed-Object Records</a></li>
+</ul>
 
-<p>Use the links to the left to browse the documentation. Happy Coding!</p>
+
+<p><a name="sobject"> </a></p>
+
+<h2>Returning SObject Records</h2>
+
+<p>This first approach returns a list of SObject records.</p>
+
+<pre><code>private void sampleSObjectSOQLQuery()
+{
+    EntityManagerFactory factory =
+        Persistence.createEntityManagerFactory(persistenceUnitName);
+    EntityManager em = factory.createEntityManager();
+
+    try {
+        String soqlQuery = "SELECT Email, LastName " +
+                "FROM User WHERE FirstName = :firstName";
+        Query q = em.createNativeQuery(soqlQuery);
+        // Bind the named parameter into the query
+        q.setParameter("firstName", "Bob");
+
+        List&lt;SObject&gt; results = q.getResultList();
+        int size = results.size();
+        User user;
+        for (int i = 0; i &lt; size; i++) {
+            user = (User)results.get(i);
+            System.out.println("Email: " + user.getEmail());
+            System.out.println("LastName: " + user.getLastName() + "\n");
+        }
+    }
+    catch (Exception e) {
+        e.printStackTrace();
+        throw e;
+    }
+    finally {
+        em.close();
+    }
+}
+</code></pre>
+
+<p><a name="typedObject"> </a></p>
+
+<h2>Returning Typed-Object Records</h2>
+
+<p>This second approach returns a list of records of an explicit SObject sub-type. The type of records in the list corresponds to
+the type, in this case <code>User.class</code>, passed in as the second argument to the <code>createNativeQuery()</code> method.</p>
+
+<pre><code>private void sampleObjectTypedSOQLQuery()
+    throws Exception
+{
+    EntityManagerFactory factory =
+        Persistence.createEntityManagerFactory(persistenceUnitName);
+    EntityManager em = factory.createEntityManager();
+
+    try {
+        String soqlQuery = "SELECT Email, LastName " +
+                "FROM User WHERE FirstName = :firstName";
+        Query q = em.createNativeQuery(soqlQuery, User.class);
+        // Bind the named parameter into the query
+        q.setParameter("firstName", "Bob");
+
+        List&lt;User&gt; results = q.getResultList();
+        int size = results.size();
+        User user;
+        for (int i = 0; i &lt; size; i++) {
+            user = results.get(i);
+            System.out.println("Email: " + user.getEmail());
+            System.out.println("LastName: " + user.getLastName() + "\n");
+        }
+    }
+    catch (Exception e) {
+        e.printStackTrace();
+        throw e;
+    }
+    finally {
+        em.close();
+    }
+}
+</code></pre>
+
+<p><a name="mixedObject"> </a></p>
+
+<h2>Returning Mixed-Object Records</h2>
+
+<p>The third approach returns a list of records that can have different object types. This is used for cases where the query result
+is used to create objects of multiple types. The <code>resultSetMapping</code> parameter passed in as the second argument to the
+<code>createNativeQuery()</code> method points to a named mapping that defines the various types of objects returned.</p>
+
+<h2>Relationship Queries</h2>
+
+<p>Relationship queries traverse parent-to-child and child-to-parent relationships between entities so that you can return data
+or filter based on fields in multiple objects. Relationships are represented by a lookup or master-detail field in a child object.
+You can't create relationships with other field types. For more information, see <a href="database-com-datatypes#relFields">Relationship Fields</a>.</p>
+
+<p>In a SOQL query, you can navigate child-to-parent and parent-to-child relationships. For each relationship between entities,
+there is a relationshipName property that enables you to traverse the relationship in a query. For more information about
+relationships, see <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_calls_soql_relationships.htm">Understanding Relationship Names</a>.</p>
+
+<p>The following sample uses a child entity, ChildEntity, that has a lookup relationship to a parent entity, ParentEntity. The
+parent entity includes a childEntities field that is a Collection of ChildEntity records. The query in the sample
+uses the <code>ParentEntity_ChildEntitys_<em>r</code> relationship name, which represents the parent-to-child relationship in
+ParentEntity. ChildEntity includes a boolType_</em>c custom field.</p>
+
+<pre><code>private void sampleSOQLRelationshipQuery(EntityManager em)
+    throws Exception
+{
+    String soqlQuery = "SELECT id, name, " +
+        "(SELECT id, boolType__c FROM ParentEntity_ChildEntitys__r) " +
+        "FROM ParentEntity__c";
+    Query q = em.createNativeQuery(soqlQuery, ParentEntity.class);
+    List&lt;SObject&gt; results = q.getResultList();
+    // Assume at least one result so can use get(0)
+    ArrayList&lt;ChildEntity&gt; childEntities =
+        (ArrayList&lt;ChildEntity&gt;) results.get(0).getChildEntities();
+    boolean boolType1 = childEntities.get(0).getBoolType();
+}
+</code></pre>
+
+<p>Note that Collection objects are lazily loaded by default. A separate query is executed to populate the childEntities
+field when <code>getBoolType()</code> is called. To fetch the Collection eagerly, you can manually mark the childEntities field
+as <code>FetchType.EAGER</code> in an <code>@OneToMany</code> annotation in ParentEntity.java. This avoids execution of the second query.</p>
+
+<p>For more information about the number of levels of relationships that you can traverse in a query, see <a href="jpa-queries#fetchDepth">Fetch Depth</a>.</p>
 
 		</div>
 	</div>

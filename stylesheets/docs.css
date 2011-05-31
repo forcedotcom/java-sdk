@@ -1,0 +1,312 @@
+/**
+ * Copyright (c) 2011, salesforce.com, inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided
+ * that the following conditions are met:
+ *
+ *    Redistributions of source code must retain the above copyright notice, this list of conditions and the
+ *    following disclaimer.
+ *
+ *    Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+ *    the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *
+ *    Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+ *    promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+ * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+
+
+/* basic
+--------------------------------------------------*/
+
+html {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	background: #fff;
+	min-width: 1000px;
+	margin: 0;
+	padding: 0;
+}
+
+div#bodywrap {
+  width:1000px;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 14px;
+  line-height:1.4286em; /* 20px baseline */
+	color: #444258;
+}
+
+div#content {
+  float: left;
+  width: 620px;
+	padding:10px 40px 80px 30px;
+	border-left: 1px solid #ddd;
+	margin-left: -1px;
+}
+
+#docsnav {
+  padding: 30px;
+	border-right: 1px solid #ddd;
+	width: 235px;
+	float: left;
+}
+
+
+
+a {
+	text-decoration: none;
+	outline: none; /* disable mozilla's dotted box around link */
+	font-weight:bold;
+	color: #4285FF;
+}
+a:hover {
+	text-decoration: none;
+	color: #75A5FF;
+}
+input {
+	outline: none; /* disable mozilla's dotted box around link */
+}
+
+i {
+	font-style: normal;
+	color: #747380;
+}
+
+img {
+	border: 0;
+}
+
+form {
+	margin: 0;
+	padding: 0;
+}
+
+.clear {
+	position: relative;
+	display: block;
+	clear: both;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	height: 1px;
+	background: transparent;
+	font-size: 1px;
+	line-height: 1px;
+}
+
+pre code {
+	background: #302F39;
+	color: #fff;
+	font-family: Monaco, monospace;
+	font-size: 12px;
+	white-space: pre;
+	display: block;
+	padding: 10px;
+	margin:15px 0;
+	overflow: auto;
+	//border-left: 4px solid #666;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+p, ul, blockquote, pre, table {
+	margin-top:15px;
+	margin-bottom:15px;
+}
+
+/* search
+--------------------------------------------------*/
+
+#search {
+	padding: 0 0 20px 0;
+	margin: 0;
+	position: relative;
+	height:35px;
+}
+#search input[type=text] {
+	border: 1px solid #ddd;
+	padding: 5px 25px 5px 5px;
+	background-color: #fff;
+	width:200px;
+	font-size: 13px;
+	margin-right: 3px;
+	-moz-border-radius:     5px; 
+	-webkit-border-radius:  5px;
+	-moz-box-shadow:    0px 0px 3px #ddd; 
+	-webkit-box-shadow: 0px 0px 3px #ddd;
+	position: absolute;
+}
+#search input[type=image] {
+	position: absolute;
+	left:210px;
+	top:9px;
+	z-index: 5;
+	color: #555;
+}
+#search input[type=submit] {
+	border: none;
+	background-color: #eee;
+	font-size: 13px;
+	line-height: 30px;
+	height: 30px;
+	padding: 0px 10px 10px 10px;
+	-moz-border-radius:     14px; 
+	-webkit-border-radius:  14px; 
+	-moz-box-shadow:    2px 2px 5px #ddd; 
+	-webkit-box-shadow: 2px 2px 5px #ddd;
+	background-image: url(/images/button-smooth.png);
+	background-repeat: repeat-x;
+	text-shadow: #fff 0px 0px 6px;
+	font-weight: bold;
+	color: #1E1A3B;
+}
+
+/* docsnav
+--------------------------------------------------*/
+
+
+#docsnav ul {
+	margin:0;
+	padding:0;
+}
+#docsnav li {
+	list-style-type:none;
+	margin:0 0 10px 0;
+}
+#docsnav ul li ul li {
+	padding-left: 1.5em;
+}
+#docsnav a {
+	font-size: 16px;
+	font-weight: normal;
+	color: #777;
+}
+#docsnav a:hover {
+	color: #555;
+}
+#docsnav .current a {
+	color:#222;
+}
+#docsnav h3 {
+	color:#666;
+	margin:0 0 10px 0;
+	font-size:16px;
+	line-height:1.25;
+}
+
+/* content
+--------------------------------------------------*/
+
+div#content hr {
+	border: 0;
+	height: 3px;
+	background: #E1E1E5;
+	margin: 20px 0;
+}
+
+h1 {
+	font-size:32px;
+	line-height:1.25;  /* 40px baseline */
+	margin:15px 0 0 0;
+}
+h2 {
+	font-size:24px;
+	line-height:1.30;  /* 30px baseline */
+	padding-bottom:2px;
+	border-bottom:2px solid #bbb;
+	margin:20px 0 15px 0;
+}
+h3 {
+	font-size:18px;
+	line-height:1.111;
+	margin:25px 0 15px 0;
+}
+
+#prev_section {
+	margin: 40px 0;
+	font-size: 20px;
+	color: #777;
+}
+
+#next_section {
+	margin: 40px 0;
+	float: right;
+	text-align: right;
+	font-size: 20px;
+	color: #777;
+}
+
+#content .note {
+	background:#eef;
+	border:1px solid #dde;
+	color:#223;
+	width:100%;
+}
+
+#content .note td.icon {
+	background:url(/images/note.png) no-repeat;
+	background-position:5px 3px;
+	width:47px;
+	height:47px;
+	padding:5px;
+}
+#content .note td.content {
+	padding-left: 8px;
+}
+
+/* toc
+--------------------------------------------------*/
+
+#toc li {
+	list-style-type: none;
+	margin-left:25px;
+	padding-left:0;
+}
+#toc {
+	margin-left:0px;
+	padding-left:0;
+}
+
+/* index
+------------------------------------------------ */
+
+#index .twocol {
+  padding-top: 5px;
+  padding-bottom: 15px;
+}
+#index .twocol .left, #index .twocol .right {
+  float: left;
+  width: 280px;
+}
+#index .twocol .left ul, #index .twocol .right ul{
+  margin: 0;
+  padding: 0;
+  margin-left: 1.4em;
+  list-style-type: square;
+}
+#index .twocol .left h2, #index .twocol .right h2{
+  margin-top: 0;
+  font-size: 16px;
+}
+#index .twocol .left {
+  margin-right: 50px;
+}
+#index .twocol .clear {
+  clear:both;
+}
+

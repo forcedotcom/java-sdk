@@ -31,7 +31,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Database.com Java SDK - Database.com Java SDK reference documentation</title>
+	<title>Database.com Java SDK - Native API Clients</title>
 	<link type="text/css" rel="stylesheet" href="stylesheets/docs.css" media="screen" />
 	<link type="text/css" rel="stylesheet" href="stylesheets/header.css" media="screen" />
 	<link type="text/css" rel="stylesheet" href="stylesheets/coderay.css" media="screen" />
@@ -163,15 +163,59 @@ end
 
 	<div id="content">
 		<div class="topic_content">
-      <h1>Database.com Java SDK reference documentation</h1>
+      <h1>Native API Clients</h1>
 
-<p>Welcome to the Database.com Java SDK reference documentation.</p>
+<p>The Database.com Service Connector gives you access to a set of native API connection classes for writing directly to Database.com's native APIs. For more details, see the Javadoc for ForceServiceConnector.</p>
 
-<p>Database.com is the cloud database that powers Force.com and all the applications built on the platform, including Sales Cloud, Service Cloud and Chatter from salesforce.com.</p>
+<h2>PartnerConnection</h2>
 
-<p>If you are a Force.com developer, you are already using Database.com. The cloud database manages the data model for your application, stores all data and automatically exposes your data through APIs.</p>
+<p>The PartnerConnection class enables you to execute SOAP data API calls using the untyped, generic sObject type. If your application needs to perform operations on entities it does not know about, you can use the partner API to dynamically inspect entities and execute dynamically typed CRUD calls.</p>
 
-<p>Use the links to the left to browse the documentation. Happy Coding!</p>
+<p><a href="http://www.salesforce.com/us/developer/docs/api/index.htm">Read more about the Partner API</a></p>
+
+<h2>MetadataConnection</h2>
+
+<p>The MetadataConnection class enables you to execute Metadata API calls to retrieve a bundle of XML files that represent your data model in Database.com. You can <em>transactionally</em> deploy this set of XML files that describe your data model to another organization, such as a development, staging, or production environment. Think of it as transactional DDL.</p>
+
+<p><a href="http://www.salesforce.com/us/developer/docs/api_meta/index.htm">Read more about the Metadata API</a></p>
+
+<h2>BulkConnection</h2>
+
+<p>The BulkConnection class enables you to execute Bulk API requests. The Bulk API is RESTful, and is optimized for asynchronously loading or deleting large sets of data.</p>
+
+<p><a href="http://www.salesforce.com/us/developer/docs/api_asynch/">Read more about the Bulk API</a></p>
+
+<h2>API Queries</h2>
+
+<p>An alternative to using JPQL or SOQL queries is to bypass JPA and execute a <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_calls_query.htm">query()</a> call using the Web services API. The advantage of using JPQL or SOQL rather than a <code>query()</code> call is that JPA entities are
+populated with the results of your query instead of requiring you to loop through a QueryResult object.</p>
+
+<p>The following sample shows a simple query using the Web services API. It uses <a href="http://code.google.com/p/sfdc-wsc/wiki/GettingStarted">WSC</a> as a Web services client and assumes
+that you have logged in and established an EnterpriseConnection using the <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_quickstart_intro.htm#enterprise_wsdl">enterprise WSDL</a>.</p>
+
+<pre><code>private void sampleAPIQuery(EnterpriseConnection connection)
+    throws Exception
+{
+    try {
+        String soqlQuery = "SELECT Email, LastName " +
+                "FROM User WHERE FirstName = 'John'";
+        QueryResult queryResults = connection.query(soqlQuery);
+        User user;
+        if (queryResults.getSize() &gt; 0) {
+            for (int i=0; i &lt; queryResults.getRecords().length; i++) {
+                // cast the SObject to a User object
+                User user = (User)queryResults.getRecords()[i];
+                System.out.println("Email: " + user.getEmail());
+                System.out.println("LastName: " + user.getLastName() + "\n");
+            }
+        }
+    }
+    catch (Exception e) {
+        e.printStackTrace();
+        throw e;
+    }
+}
+</code></pre>
 
 		</div>
 	</div>

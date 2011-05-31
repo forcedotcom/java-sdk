@@ -1,0 +1,344 @@
+<!--
+
+    Copyright (c) 2011, salesforce.com, inc.
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided
+    that the following conditions are met:
+
+       Redistributions of source code must retain the above copyright notice, this list of conditions and the
+       following disclaimer.
+
+       Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+       the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+       Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+       promote products derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+    TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
+
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Database.com Java SDK - Retrieving User Data</title>
+	<link type="text/css" rel="stylesheet" href="stylesheets/docs.css" media="screen" />
+	<link type="text/css" rel="stylesheet" href="stylesheets/header.css" media="screen" />
+	<link type="text/css" rel="stylesheet" href="stylesheets/coderay.css" media="screen" />
+</head>
+<body>
+
+  <div id="force-header"> 
+    <h1><a href="force-sdk-overview.html">Database.com Java SDK</a></h1>
+  </div>
+<div id="bodywrap">
+	<div id="docsnav">
+    <!--
+
+    Copyright (c) 2011, salesforce.com, inc.
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided
+    that the following conditions are met:
+
+       Redistributions of source code must retain the above copyright notice, this list of conditions and the
+       following disclaimer.
+
+       Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+       the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+       Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+       promote products derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+    TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
+
+-->
+
+<ul> <li> <h3>Getting started</h3> <ul> 
+
+<li><a href="force-sdk-overview">Introduction</a></li>
+
+ <li><a href="quick-start">Quick Start</a></li>
+
+ <li><a href="sts">SpringSource Tool Suite</a></li>
+
+ <li><a href="java-database-terminology">Database.com Terminology</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Persistence</h3> <ul> 
+ 
+ <li><a href="jpa-provider">JPA Provider Overview</a></li>
+
+ <li><a href="jpa-config-persistence">Configuration</a></li>
+
+ <li><a href="jpa-annotations-standard">Standard JPA Annotations</a></li>
+
+ <li><a href="jpa-annotations-custom">Custom Database.com Annotations</a></li>
+
+ <li><a href="jpa-cud">Creating, Updating, and Deleting Data</a></li>
+
+ <li><a href="jpa-transactions">Transactions</a></li>
+  
+ <li><a href="jpa-queries">Querying with JPQL</a></li>
+
+ <li><a href="jpa-queries-soql">Querying with SOQL</a></li>
+
+ <li><a href="database-com-datatypes">Database.com Data Types</a></li>
+
+ <li><a href="java-db-com-datatypes-map">Java to Database.com Data Types</a></li>
+
+ <li><a href="jpa-spec-support">JPA 2.0 Specification Support</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Authentication</h3> <ul> 
+ 
+ <li><a href="oauth-auth">OAuth Authentication</a></li>
+
+ <li><a href="spring-security">Spring Security Plugin</a></li>
+
+ <li><a href="retrieve-user-data">Retrieving User Data</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Low-level Connector</h3> <ul> <li><a href="connection-url">Connection Configuration</a></li>
+
+ <li><a href="native-api">Native API Clients</a></li>
+
+ </ul> </li>
+
+ </ul>
+ 
+<!--
+	topic 'quick-start',        'Quick Start Guide'
+	topic 'sts',                'SpringSource Tool Suite'
+	topic 'java-force-terminology', 'Force.com Terminology'
+end
+
+section 'persistence', "Persistence" do
+	topic 'jpa-provider',             'JPA Provider Overview'
+	topic 'jpa-config-persistence',   'Configuration'
+	topic 'jpa-annotations-standard', 'Standard JPA Annotations'
+	topic 'jpa-annotations-custom',   'Custom Force.com Annotations'
+	topic 'jpa-cud',                  'Creating, Updating, and Deleting Data'
+	topic 'jpa-queries',              'Querying with JPQL'
+	topic 'jpa-queries-soql',         'Querying with SOQL'
+	topic 'force-datatypes',          'Force.com Data Types'
+	topic 'java-force-datatypes-map', 'Java to Force.com Data Types'
+	topic 'jpa-spec-support',         'JPA 2.0 Specification Support'
+end
+
+section 'authentication', "Authentication" do
+	topic 'oauth-auth'  ,       'OAuth Authentication'
+	topic 'spring-security',    'Spring Security Plugin'
+	topic 'retrieve-user-data',    'Retrieving User Data'
+end
+
+section 'connector', "Low-level Connector" do
+	topic 'connection-url',     'Connection Configuration'
+  topic 'native-api',         'Native API Clients'
+end
+
+-->
+
+	</div>
+
+	<div id="content">
+		<div class="topic_content">
+      <h1>Retrieving User Data</h1>
+
+<p>After configuring the Database.com OAuth Connector for your application, you can access information about the authenticated user in your code. Use the <code>get()</code> method in the static ForceSecurityContextHolder object to return an object that implements the SecurityContext interface:</p>
+
+<pre><code>SecurityContext sc = ForceSecurityContextHolder.get();
+</code></pre>
+
+<p>SecurityContext has getters that expose:</p>
+
+<ul>
+<li>User Id</li>
+<li>User Name (optional)</li>
+<li>Database.com Session Id</li>
+<li>Database.com Refresh Token</li>
+<li>Database.com Authentication Endpoint</li>
+<li>User Language</li>
+<li>User Locale</li>
+<li>User Timezone</li>
+<li>Organization Id</li>
+</ul>
+
+
+<p>You can also retrieve the user's role as a string. The role stored in the SecurityContext defaults to a single value unless you override this functionality, as described in <a href="#customUserData">Customizing User Data Retrieval</a>.</p>
+
+<p>The storage of the username is optional and can be turned off if data privacy is a concern. See the OAuth or Spring Security documentation for more information.</p>
+
+<p><a name="customUserData"> </a></p>
+
+<h2>Customizing User Data Retrieval</h2>
+
+<p>The default behavior of the Database.com OAuth Connector is to retrieve a minimal amount of data about the authenticated user. However, you can customize this behavior using standard OAuth or Spring Security OAuth integration.</p>
+
+<p>The mechanism for extending the user data retrieval functionality is the same for both approaches. The only difference is how the custom class gets configured or injected into the framework.</p>
+
+<p>To customize user data retrieval, you must extend the CustomUserDataRetriever and CustomSecurityContext classes. Your custom data retriever must implement a method that retrieves the user data and returns a CustomSecurityContext that can subsequently be used in your code.</p>
+
+<p>Here is a simple example of these two classes:</p>
+
+<pre><code>/**
+ * The security context is where you store your custom user data.
+ * This object will also make the default SecurityContext values available to you.
+ */
+public class SampleSecurityContext extends CustomSecurityContext {
+
+    String sampleValue;
+
+    public String getSampleValue() {
+        return sampleValue;
+    }
+
+    public void setSampleValue(String sampleValue) {
+        this.sampleValue = sampleValue;
+    }
+}
+
+/**
+ * The data retriever must implement the retrieveUserData() method, which handles the custom
+ * data retrieval logic
+ */
+public class SampleUserDataRetriever extends CustomUserDataRetriever&lt;SampleSecurityContext&gt; {
+
+    @Override
+    public SampleSecurityContext retrieveUserData() {
+        SampleSecurityContext ssc = new SampleSecurityContext();
+        //retrieve other data and store it in your security context
+        return ssc;
+    }
+
+}
+</code></pre>
+
+<p>Your custom security context can store whatever data you like. The SecurityContext interface provides a getter and setter for the role field. If you're using Spring Security, the role controls page access by default.</p>
+
+<p>You can also use it with any other framework that you integrate the Database.com OAuth Connector with. As long as you can call <code>getRole()</code> and feed the value into your framework of choice it will work.</p>
+
+<p>If you don't customize the user data loading, the value is defaulted to "ROLE_USER". The CustomSecurityContext base class provides a setter for this field so you can set it in the <code>retrieveUserData()</code> method. You can also override the <code>getRole()</code> method in your custom security context to implement role logic.</p>
+
+<h3>Configuring A Custom User Data Retriever</h3>
+
+<p>Once you've extended CustomUserDataRetriever and CustomSecurityContext, you need to configure your OAuth application to use the sub-classes. This configuration depends on whether you're using Spring Security.</p>
+
+<h4>Standard OAuth Connector</h4>
+
+<p>If you aren't using Spring Security, you must provide the name of your CustomUserDataRetriever in the filter definition of your application's <code>web.xml</code>:</p>
+
+<pre><code>&lt;filter&gt;
+    &lt;filter-name&gt;AuthFilter&lt;/filter-name&gt;
+    &lt;filter-class&gt;com.force.sdk.oauth.AuthFilter&lt;/filter-class&gt;
+         &lt;init-param&gt;
+            &lt;param-name&gt;connectionName&lt;/param-name&gt;
+            &lt;param-value&gt;oauthSampleApp&lt;/param-value&gt;
+         &lt;/init-param&gt;
+         &lt;init-param&gt;
+            &lt;param-name&gt;customDataRetriever&lt;/param-name&gt;
+            &lt;param-value&gt;com.salesforce.oauthsample.context.SampleUserDataRetriever&lt;/param-value&gt;
+        &lt;/init-param&gt;
+&lt;/filter&gt;
+</code></pre>
+
+<p>The second <code>init-param</code> element defines the fully qualified name of the SampleUserDataRetriever object.</p>
+
+<h4>Spring Security</h4>
+
+<p>If you're using Spring Security, you can inject your CustomUserDataRetriever into the framework via the Force.com Spring Security namespace or through standard configuration. The custom namespace looks like this:</p>
+
+<pre><code>&lt;!-- SFDC OAuth security config --&gt;
+&lt;fss:oauth logout-from-sfdc="true" /&gt;
+&lt;fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="${sfdc.oauthKey}"
+oauth-secret="${sfdc.oauthSecret}" /&gt;
+&lt;fss:customUserDataRetriever ref="sampleUserDataRetriever"/&gt;
+&lt;/fss:oauth&gt;
+
+&lt;bean id="sampleUserDataRetriever" class="com.force.samples.SampleUserDataRetriever"/&gt;
+</code></pre>
+
+<p>The <code>fss:customUserDataRetriever</code> tag accepts a reference to a bean that is defined as your SampleUserDataRetriever class.</p>
+
+<p>This can also be done without the Force.com security namespace by adding the following to your <code>spring-configuration.xml</code> file:</p>
+
+<pre><code>&lt;bean id="oauthConnector" class="com.force.sdk.oauth.connector.ForceOAuthConnector"&gt;
+    &lt;property name="connectionName" value = "sampleConnectionName" /&gt;
+    &lt;property name="userDataRetrievalService" ref="customDataRetrievalService"/&gt;
+&lt;/bean&gt;
+
+&lt;bean id="customDataRetrievalService" class="com.force.sdk.oauth.userdata.CustomUserDataRetrievalService"&gt;
+    &lt;constructor-arg name="customDataRetriever" ref="sampleDataRetriever"/&gt;
+&lt;/bean&gt;
+
+&lt;bean id="sampleDataRetriever" class="com.force.samples.SampleUserDataRetriever"/&gt;
+</code></pre>
+
+<p>In this case, you must define one additional bean. The SampleUserDataRetriever class gets wired into the CustomUserDataRetrievalService, which is wired into the oauthConnector bean that you already have.</p>
+
+<h2>Session Management and Integration with The Database.com API Connector</h2>
+
+<p>Because of the highly scalable nature of cloud applications, you need to carefully plan how user data is stored and made persistent across requests. By default, the Database.com SDK works with stateless application instances. The user data that is stored as part of the default SecurityContext and your custom SecurityContext is encrypted and stored in a browser cookie.</p>
+
+<p>Alternatively, you can configure your application to use server-side sessions. However, server side sessions have drawbacks and should only be used in environments where sticky load balancing is available.</p>
+
+<p>In either case, the cookie or session store is treated simply as a data cache. User authentication always occurs through the OAuth handshake and results in the creation of a session. User data is loaded through an API call that takes place after the handshake. Custom user data logic is executed at the same time.</p>
+
+<p>Returning users are recognized by the presence of a session id and their user data in either the browser cookie or server-side session. However, if this data isn't present, the user is authenticated with an OAuth handshake and their data is automatically loaded by the user-data retrieval flow.</p>
+
+<h3>Configuring Session Management</h3>
+
+<p>User data is stored in browser cookies by default. However, you can use server-side sessions instead. The configuration method you'll need to use to do this depends on whether you use the Spring Security integration.</p>
+
+<h4>Standard OAuth Connector</h4>
+
+<p>To use server side sessions, you need to add an additional <code>init-param</code> to your AuthFilter declaration:</p>
+
+<pre><code>&lt;init-param&gt;
+    &lt;param-name&gt;securityContextStorageMethod&lt;/param-name&gt;
+    &lt;param-value&gt;session&lt;/param-value&gt;
+&lt;/init-param&gt;
+</code></pre>
+
+<h4>Spring Security</h4>
+
+<p>If you're using the Force.com security namespace, add the <code>store-data-in-session</code> attribute to the oauth tag to configure session-based user-data storage.</p>
+
+<pre><code>&lt;!-- SFDC OAuth security config --&gt;
+&lt;fss:oauth logout-from-sfdc="true" store-data-in-session="true"/&gt;
+    &lt;fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="${sfdc.oauthKey}"
+    oauth-secret="${sfdc.oauthSecret}" /&gt;
+    &lt;fss:customUserDataRetriever ref="sampleUserDataRetriever"/&gt;
+&lt;/fss:oauth&gt;
+</code></pre>
+
+<p>If you're not using the namespace, you need to change the class that you wire into the securityContextStorageServiceBean. The example above shows SecurityContextCookieStore wired into the bean. To use server sessions to store user data, change it to SecurityContextSessionStore:</p>
+
+<pre><code>&lt;bean id="securityContextStorageService" class="com.force.sdk.oauth.context.store.SecurityContextSessionStore"/&gt;
+</code></pre>
+
+		</div>
+	</div>
+</div>
+</body>
+</html>

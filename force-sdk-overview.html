@@ -31,7 +31,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Database.com Java SDK - Database.com Java SDK reference documentation</title>
+	<title>Database.com Java SDK - Introduction</title>
 	<link type="text/css" rel="stylesheet" href="stylesheets/docs.css" media="screen" />
 	<link type="text/css" rel="stylesheet" href="stylesheets/header.css" media="screen" />
 	<link type="text/css" rel="stylesheet" href="stylesheets/coderay.css" media="screen" />
@@ -163,15 +163,55 @@ end
 
 	<div id="content">
 		<div class="topic_content">
-      <h1>Database.com Java SDK reference documentation</h1>
+      <h1>Introduction</h1>
 
-<p>Welcome to the Database.com Java SDK reference documentation.</p>
+<p>Database.com is the cloud database that powers Force.com and all the applications built on the platform, including Sales Cloud, Service Cloud and Chatter from salesforce.com. [TODO: need to understand Database.com positioning to see if this text (and text in the rest of this page) is ok. Work out whether we can use the term "Database.com" to mean the underlying database or whether it can only be used as the brand name for the product we're selling. Also, need to work out how we can talk about other clouds, CRM etc]</p>
 
-<p>Database.com is the cloud database that powers Force.com and all the applications built on the platform, including Sales Cloud, Service Cloud and Chatter from salesforce.com.</p>
+<p>If you are a Force.com developer, you are already using Database.com. The cloud database manages the data model for your application, stores all data and automatically exposes your data in both a <a href="http://developer.force.com/REST">REST API</a> and <a href="http://www.salesforce.com/us/developer/docs/api/index.htm">SOAP API</a>. It also provides a <a href="http://www.salesforce.com/us/developer/docs/api_meta/index.htm">Metadata API</a> to handle changes to your data model.</p>
 
-<p>If you are a Force.com developer, you are already using Database.com. The cloud database manages the data model for your application, stores all data and automatically exposes your data through APIs.</p>
+<p>If you build your application using the Force.com drag-and-drop tools to define objects, layouts, workflows, you never really work with Database.com directly. [TODO: review for positioning]The service is transparently provided to you.</p>
 
-<p>Use the links to the left to browse the documentation. Happy Coding!</p>
+<p>But what if you are a Java developer and you want to build a Java application that uses the same database? This is what the Database.com Java SDK is for. With this SDK you can:</p>
+
+<ul>
+<li>use Database.com as the database for application data</li>
+<li>interact with data already stored in Database.com, for example by one of your Force.com applications or by your CRM application</li>
+<li>leverage the Database.com user security model to manage data access for your application</li>
+<li>extend existing Force.com applications with Java logic</li>
+</ul>
+
+
+<p>The SDK is not tied to any particular runtime. You can build apps that run on your own server, on Cloud Foundry, on EC2 or other cloud runtimes as long as you can make HTTPS connections to Database.com.</p>
+
+<p>The SDK consists of the following components.</p>
+
+<h2>API Connector</h2>
+
+<p>The SDK is built on the existing Database.com API. [TODO: @Jesper what is the existing Database.com API?]A core service connector class is responsible for managing connections to the API for the application. You configure this connector using a connection URL string which can be provided in property files, system properties, or environment variables. The connector automatically handles session refreshes after expiration and it can use the OAuth module to inject the session ID. The connector uses <a href="http://code.google.com/p/sfdc-wsc">WSC</a> for the actual protocol implementation.</p>
+
+<p><a href="connection-url">Read more</a></p>
+
+<h2>JPA Provider</h2>
+
+<p>The JPA provider enables you to use Database.com as a persistent data store for entities defined in Java using the JPA standard. You can define entities in pure Java, including related entities using one-to-many or many-to-one relationships, and the JPA provider automatically manages the schema in Database.com. It also enables you to map existing entities in Database.com to JPA entities so you can query and operate transactionally on data that's already there, such as your CRM entities. The JPA provider is based on the <a href="http://www.datanucleus.org">DataNucleus Access Platform</a>.</p>
+
+<p><a href="jpa-provider">Read more</a></p>
+
+<h2>OAuth authentication and authorization</h2>
+
+<p>If you're building an application for authenticated Database.com users, you can configure single sign-on and leverage the security model in Database.com using OAuth2.</p>
+
+<p><a href="force-security">Read more</a></p>
+
+<h2>Spring security plugin</h2>
+
+<p>This plugin enables you to use Spring Security for authentication and authorization in your applications. The Spring Security library uses the API Connector and the OAuth Connector to allow authentication via the Database.com APIs. There is also a custom Spring Security namespace that helps to simplify configuration.</p>
+
+<p><a href="force-security">Read more</a></p>
+
+<h2>Spring MVC project template</h2>
+
+<p>The SDK includes a Spring MVC project template distributed as a Maven archetype. You can quickly and easily create new projects from this template. The template sets up all the Maven dependencies needed for a new Spring MVC application using the JPA provider and Spring Security plugin.</p>
 
 		</div>
 	</div>

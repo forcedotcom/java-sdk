@@ -1,0 +1,312 @@
+<!--
+
+    Copyright (c) 2011, salesforce.com, inc.
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided
+    that the following conditions are met:
+
+       Redistributions of source code must retain the above copyright notice, this list of conditions and the
+       following disclaimer.
+
+       Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+       the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+       Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+       promote products derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+    TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
+
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Database.com Java SDK - Database.com Spring Security Integration</title>
+	<link type="text/css" rel="stylesheet" href="stylesheets/docs.css" media="screen" />
+	<link type="text/css" rel="stylesheet" href="stylesheets/header.css" media="screen" />
+	<link type="text/css" rel="stylesheet" href="stylesheets/coderay.css" media="screen" />
+</head>
+<body>
+
+  <div id="force-header"> 
+    <h1><a href="force-sdk-overview.html">Database.com Java SDK</a></h1>
+  </div>
+<div id="bodywrap">
+	<div id="docsnav">
+    <!--
+
+    Copyright (c) 2011, salesforce.com, inc.
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided
+    that the following conditions are met:
+
+       Redistributions of source code must retain the above copyright notice, this list of conditions and the
+       following disclaimer.
+
+       Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+       the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+       Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+       promote products derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+    TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
+
+-->
+
+<ul> <li> <h3>Getting started</h3> <ul> 
+
+<li><a href="force-sdk-overview">Introduction</a></li>
+
+ <li><a href="quick-start">Quick Start</a></li>
+
+ <li><a href="sts">SpringSource Tool Suite</a></li>
+
+ <li><a href="java-database-terminology">Database.com Terminology</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Persistence</h3> <ul> 
+ 
+ <li><a href="jpa-provider">JPA Provider Overview</a></li>
+
+ <li><a href="jpa-config-persistence">Configuration</a></li>
+
+ <li><a href="jpa-annotations-standard">Standard JPA Annotations</a></li>
+
+ <li><a href="jpa-annotations-custom">Custom Database.com Annotations</a></li>
+
+ <li><a href="jpa-cud">Creating, Updating, and Deleting Data</a></li>
+
+ <li><a href="jpa-transactions">Transactions</a></li>
+  
+ <li><a href="jpa-queries">Querying with JPQL</a></li>
+
+ <li><a href="jpa-queries-soql">Querying with SOQL</a></li>
+
+ <li><a href="database-com-datatypes">Database.com Data Types</a></li>
+
+ <li><a href="java-db-com-datatypes-map">Java to Database.com Data Types</a></li>
+
+ <li><a href="jpa-spec-support">JPA 2.0 Specification Support</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Authentication</h3> <ul> 
+ 
+ <li><a href="oauth-auth">OAuth Authentication</a></li>
+
+ <li><a href="spring-security">Spring Security Plugin</a></li>
+
+ <li><a href="retrieve-user-data">Retrieving User Data</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Low-level Connector</h3> <ul> <li><a href="connection-url">Connection Configuration</a></li>
+
+ <li><a href="native-api">Native API Clients</a></li>
+
+ </ul> </li>
+
+ </ul>
+ 
+<!--
+	topic 'quick-start',        'Quick Start Guide'
+	topic 'sts',                'SpringSource Tool Suite'
+	topic 'java-force-terminology', 'Force.com Terminology'
+end
+
+section 'persistence', "Persistence" do
+	topic 'jpa-provider',             'JPA Provider Overview'
+	topic 'jpa-config-persistence',   'Configuration'
+	topic 'jpa-annotations-standard', 'Standard JPA Annotations'
+	topic 'jpa-annotations-custom',   'Custom Force.com Annotations'
+	topic 'jpa-cud',                  'Creating, Updating, and Deleting Data'
+	topic 'jpa-queries',              'Querying with JPQL'
+	topic 'jpa-queries-soql',         'Querying with SOQL'
+	topic 'force-datatypes',          'Force.com Data Types'
+	topic 'java-force-datatypes-map', 'Java to Force.com Data Types'
+	topic 'jpa-spec-support',         'JPA 2.0 Specification Support'
+end
+
+section 'authentication', "Authentication" do
+	topic 'oauth-auth'  ,       'OAuth Authentication'
+	topic 'spring-security',    'Spring Security Plugin'
+	topic 'retrieve-user-data',    'Retrieving User Data'
+end
+
+section 'connector', "Low-level Connector" do
+	topic 'connection-url',     'Connection Configuration'
+  topic 'native-api',         'Native API Clients'
+end
+
+-->
+
+	</div>
+
+	<div id="content">
+		<div class="topic_content">
+      <h1>Database.com Spring Security Integration</h1>
+
+<p><a href="http://static.springsource.org/spring-security/site/docs/3.0.x/reference/springsecurity.html">Spring Security</a> provides a comprehensive authentication and authorization solution for J2EE-based applications.</p>
+
+<p>The Database.com Spring Security integration simplifies usage of the OAuth Connector with the Spring Security framework. You can take advantage of this if your application uses Spring Security.</p>
+
+<p>The simplest way to configure a Spring application is to include the fss namespace in your <code>spring-configuration.xml</code> file.</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:fss="http://www.salesforce.com/schema/springsecurity"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security-3.0.xsd
+       http://www.salesforce.com/schema/springsecurity
+       http://media.developerforce.com/schema/force-springsecurity-1.1.xsd"&gt;
+
+    &lt;!-- Database.com OAuth security config --&gt;
+    &lt;fss:oauth logout-from-sfdc="true" /&gt;
+    &lt;fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="${sfdc.oauthKey}"
+    oauth-secret="${sfdc.oauthSecret}" /&gt;
+    &lt;/fss:oauth&gt;
+
+    &lt;!-- Configure Spring Security --&gt;
+    &lt;security:http&gt;
+    &lt;security:anonymous /&gt;
+    &lt;/security:http&gt;
+
+&lt;/beans&gt;
+</code></pre>
+
+<p>The main customizations of interest are:</p>
+
+<ul>
+<li>Include the namespace: xmlns:fss="http://www.salesforce.com/schema/springsecurity"</li>
+<li>Specify the schema location for the force-springsecurity XSD</li>
+<li>Add the &lt;fss:oauth /> tag</li>
+<li>Add the &lt;security:http /> tag. For more information about this tag, see <a href="http://static.springsource.org/spring-security/site/docs/3.0.x/reference/springsecurity.html">Spring Security documentation</a>.</li>
+</ul>
+
+
+<p>The &lt;oauth /> tag requires that you provide OAuth properties.  This can be done using an &lt;oauthInfo/>, &lt;connectionUrl/>, or &lt;connectionName /> tag. Note that these tags are mutually exclusive and you can't provide more than one or you will receive an error on application startup.</p>
+
+<p><strong>&lt;oauthInfo/></strong> tag.  This tag allows you to specify an <code>endpoint</code>, <code>oauthKey</code> and <code>oauthSecret</code> as separate attributes. For example:</p>
+
+<pre><code>&lt;fss:oauth&gt;
+    &lt;fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="${oauthKey} oauth-secret="${oauthSecret}" /&gt;
+&lt;/fss:oauth&gt;
+</code></pre>
+
+<p><strong>&lt;connectionUrl/></strong> tag.  This tag allows you to combine the <code>endpoint</code>, <code>oauthKey</code> and <code>oauthSecret</code> properties into one connection URL.  For example:</p>
+
+<pre><code>&lt;fss:oauth&gt;
+        &lt;fss:connectionUrl url="force://login.salesforce.com;oauth_key=${oauthKey};oauth_secret=${oauthSecret}" /&gt;
+    &lt;/fss:oauth&gt;
+</code></pre>
+
+<p><strong>&lt;connectionName /></strong> tag.  This tag allows you to define OAuth properties elsewhere and have them looked up by name.  OAuth properties can be stored as an environment variable, or a Java system property, or a properties file on the classpath.  For more information, see <a href="connection-url">Database.com Database Connections</a>. For example:</p>
+
+<pre><code>  SET FORCE_MYCONNECTOR_URL=force://${endpoint};oauth_key=${oauthKey};oauth_secret=${oauth_secret}
+
+  &lt;!-- Uses the connection URL in the FORCE_MYCONNECTOR_URL environment variable --&gt;
+  &lt;fss:oauth&gt;
+    &lt;fss:connectionName name="myconnector" /&gt;
+  &lt;/fss:oauth&gt;
+</code></pre>
+
+<p>In these samples, substitute values from your remote access application for the following variables:</p>
+
+<ul>
+<li>${oauthKey} - Specifies the consumer key for the application.</li>
+<li>${oauthSecret} - Specifies the consumer secret for the application.</li>
+</ul>
+
+
+<p>For more information about remote access applications, see <a href="oauth-auth#createRAA">Creating a Database.com Remote Access Application</a>.</p>
+
+<p>The following attributes are optional for &lt;fss:oauth> in <code>spring-configuration.xml</code>:</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th> Attribute </th>
+<th> Description </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>default-login-success</td>
+<td>A user is redirected to this URL after a successful OAuth logout. The default value is <code>/spring/logoutSuccess</code>|</td>
+</tr>
+<tr>
+<td></td>
+<td>default-logout-success</td>
+<td>A user is redirected to this URL after a successful OAuth logout. The default value is <code>/spring/logoutSuccess</code>|</td>
+</tr>
+<tr>
+<td></td>
+<td>login-url</td>
+<td>Navigation to this URL initiates a login sequence. The default value is <code>/spring/login</code>|</td>
+</tr>
+<tr>
+<td></td>
+<td>logout-url</td>
+<td>Navigation to this URL initiates a logout sequence. The default is <code>/spring/logout</code>|</td>
+</tr>
+<tr>
+<td></td>
+<td>logout-from-sfdc</td>
+<td>This attribute controls whether a logout from the OAuth application also logs the user out of Force.com. The default value is false|</td>
+</tr>
+<tr>
+<td></td>
+<td>store-data-in-session</td>
+<td>Flag that sets whether data about the authenticated user is stored in a server side session or an encrypted browser cookie. The default is false (cookies are used). Sessions should only be used if sticky load balancing is available or if the application runs with a single instance.|</td>
+</tr>
+<tr>
+<td></td>
+<td>store-user-name</td>
+<td>Flag that sets whether or not the username is stored in the user data. This enables you to avoid storing usernames in browser cookies, but it can be used to prevent storing the username in sessions too. The default value is true.|</td>
+</tr>
+<tr>
+<td></td>
+<td>secure-key-file</td>
+<td>The name of a secure key file, which must be on the classpath. AES encryption is used to encrypt the data about the authenticated user when it's stored in a browser cookie. This is only used if browser cookie storage is on. If cookies are used and no file is specified, a key is automatically generated. However, this should only be done for development purposes because it will be problematic in a multi-instance deployment since each instance will generate a different key. The key is base-64 encoded.|</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>The following is a sample file for the secure-key-file attribute. Replace <em>yourKeyGoesHere</em> with a secure key. For more information on AES, see <a href="http://java.sun.com/developer/technicalArticles/Security/AES/AES_v1.html">Using AES with Java Technology</a>.</p>
+
+<pre><code># A valid key in base-64 encoding.
+private-key=yourKeyGoesHere
+</code></pre>
+
+		</div>
+	</div>
+</div>
+</body>
+</html>

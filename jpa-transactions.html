@@ -31,7 +31,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Database.com Java SDK - Database.com Java SDK reference documentation</title>
+	<title>Database.com Java SDK - Creating, Updating, and Deleting Data</title>
 	<link type="text/css" rel="stylesheet" href="stylesheets/docs.css" media="screen" />
 	<link type="text/css" rel="stylesheet" href="stylesheets/header.css" media="screen" />
 	<link type="text/css" rel="stylesheet" href="stylesheets/coderay.css" media="screen" />
@@ -163,15 +163,32 @@ end
 
 	<div id="content">
 		<div class="topic_content">
-      <h1>Database.com Java SDK reference documentation</h1>
+      <h1>Transactions</h1>
 
-<p>Welcome to the Database.com Java SDK reference documentation.</p>
+<p>A transaction is a set of operations that either succeeds or fails completely. This allows recovery from error conditions to a
+known state and avoids cleanup necessary from a partially successful operation where some records are persisted, while others
+are not persisted due to errors.</p>
 
-<p>Database.com is the cloud database that powers Force.com and all the applications built on the platform, including Sales Cloud, Service Cloud and Chatter from salesforce.com.</p>
+<p>The Database.com JPA provider supports transactions with a read-committed isolation level. This means that data modified in a transaction is not visible to a query until <code>commit()</code> is called on the transaction.</p>
 
-<p>If you are a Force.com developer, you are already using Database.com. The cloud database manages the data model for your application, stores all data and automatically exposes your data through APIs.</p>
+<p>Before using transactions in your code, you must configure transaction properties in your application's <code>persistence.xml</code>
+file. See <a href="jpa-config-persistence#transProps">Transaction Properties</a>.</p>
 
-<p>Use the links to the left to browse the documentation. Happy Coding!</p>
+<p>In JPA, a transaction is started by calling the <code>begin()</code> method and committed by calling <code>commit()</code>. The following snippet
+of code assumes that you've already established an <code>EntityManager</code> object, em, and populated a new student record.</p>
+
+<pre><code>// Instantiate a transaction
+EntityTransaction tx = em.getTransaction();
+tx.begin();
+em.persist(student);
+tx.commit();
+</code></pre>
+
+<p>This code snippet is intended to show the basic transaction syntax. If you are using Spring, you can use the <code>@Transactional</code> annotation on a method instead to delineate a transaction for the method.</p>
+
+<p>If you are deleting a record, you should execute <code>find()</code> and <code>remove()</code> in the same transaction.</p>
+
+<p>Note: The Database.com JPA provider doesn't do anything when <code>flush()</code> is called on an <code>EntityManager</code>. Use the <code>@Transactional</code> annotation in Spring or <code>commit()</code> instead for transactions.</p>
 
 		</div>
 	</div>

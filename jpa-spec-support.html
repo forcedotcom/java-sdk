@@ -1,0 +1,821 @@
+<!--
+
+    Copyright (c) 2011, salesforce.com, inc.
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided
+    that the following conditions are met:
+
+       Redistributions of source code must retain the above copyright notice, this list of conditions and the
+       following disclaimer.
+
+       Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+       the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+       Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+       promote products derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+    TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
+
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Database.com Java SDK - JPA 2.0 Specification Support</title>
+	<link type="text/css" rel="stylesheet" href="stylesheets/docs.css" media="screen" />
+	<link type="text/css" rel="stylesheet" href="stylesheets/header.css" media="screen" />
+	<link type="text/css" rel="stylesheet" href="stylesheets/coderay.css" media="screen" />
+</head>
+<body>
+
+  <div id="force-header"> 
+    <h1><a href="force-sdk-overview.html">Database.com Java SDK</a></h1>
+  </div>
+<div id="bodywrap">
+	<div id="docsnav">
+    <!--
+
+    Copyright (c) 2011, salesforce.com, inc.
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided
+    that the following conditions are met:
+
+       Redistributions of source code must retain the above copyright notice, this list of conditions and the
+       following disclaimer.
+
+       Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+       the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+       Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+       promote products derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+    WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+    TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
+
+-->
+
+<ul> <li> <h3>Getting started</h3> <ul> 
+
+<li><a href="force-sdk-overview">Introduction</a></li>
+
+ <li><a href="quick-start">Quick Start</a></li>
+
+ <li><a href="sts">SpringSource Tool Suite</a></li>
+
+ <li><a href="java-database-terminology">Database.com Terminology</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Persistence</h3> <ul> 
+ 
+ <li><a href="jpa-provider">JPA Provider Overview</a></li>
+
+ <li><a href="jpa-config-persistence">Configuration</a></li>
+
+ <li><a href="jpa-annotations-standard">Standard JPA Annotations</a></li>
+
+ <li><a href="jpa-annotations-custom">Custom Database.com Annotations</a></li>
+
+ <li><a href="jpa-cud">Creating, Updating, and Deleting Data</a></li>
+
+ <li><a href="jpa-transactions">Transactions</a></li>
+  
+ <li><a href="jpa-queries">Querying with JPQL</a></li>
+
+ <li><a href="jpa-queries-soql">Querying with SOQL</a></li>
+
+ <li><a href="database-com-datatypes">Database.com Data Types</a></li>
+
+ <li><a href="java-db-com-datatypes-map">Java to Database.com Data Types</a></li>
+
+ <li><a href="jpa-spec-support">JPA 2.0 Specification Support</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Authentication</h3> <ul> 
+ 
+ <li><a href="oauth-auth">OAuth Authentication</a></li>
+
+ <li><a href="spring-security">Spring Security Plugin</a></li>
+
+ <li><a href="retrieve-user-data">Retrieving User Data</a></li>
+
+ </ul> </li>
+
+ <li> <h3>Low-level Connector</h3> <ul> <li><a href="connection-url">Connection Configuration</a></li>
+
+ <li><a href="native-api">Native API Clients</a></li>
+
+ </ul> </li>
+
+ </ul>
+ 
+<!--
+	topic 'quick-start',        'Quick Start Guide'
+	topic 'sts',                'SpringSource Tool Suite'
+	topic 'java-force-terminology', 'Force.com Terminology'
+end
+
+section 'persistence', "Persistence" do
+	topic 'jpa-provider',             'JPA Provider Overview'
+	topic 'jpa-config-persistence',   'Configuration'
+	topic 'jpa-annotations-standard', 'Standard JPA Annotations'
+	topic 'jpa-annotations-custom',   'Custom Force.com Annotations'
+	topic 'jpa-cud',                  'Creating, Updating, and Deleting Data'
+	topic 'jpa-queries',              'Querying with JPQL'
+	topic 'jpa-queries-soql',         'Querying with SOQL'
+	topic 'force-datatypes',          'Force.com Data Types'
+	topic 'java-force-datatypes-map', 'Java to Force.com Data Types'
+	topic 'jpa-spec-support',         'JPA 2.0 Specification Support'
+end
+
+section 'authentication', "Authentication" do
+	topic 'oauth-auth'  ,       'OAuth Authentication'
+	topic 'spring-security',    'Spring Security Plugin'
+	topic 'retrieve-user-data',    'Retrieving User Data'
+end
+
+section 'connector', "Low-level Connector" do
+	topic 'connection-url',     'Connection Configuration'
+  topic 'native-api',         'Native API Clients'
+end
+
+-->
+
+	</div>
+
+	<div id="content">
+		<div class="topic_content">
+      <h1>JPA 2.0 Specification Support</h1>
+
+<p>This section lists the areas of the JPA 2.0 specification that are supported by the Database.com JPA provider and how it differs from the standard JPA specification.</p>
+
+<p>The section numbers below map directly to the sections of the <a href="http://jcp.org/aboutJava/communityprocess/final/jsr317/index.html">JPA 2.0 specification (JSR 317)</a>. Overview sections and other sections that don't include specification details, such as sections only containing examples, have been omitted.</p>
+
+<h2>2 Entities</h2>
+
+<h3>2.1 Entity Class</h3>
+
+<p>Supported</p>
+
+<h3>2.2 Persistent Fields and Properties</h3>
+
+<p>Supported</p>
+
+<h3>2.3 Access Type</h3>
+
+<p>Both field and getter method access is supported. However, use of both types on the same file results in undefined behavior.</p>
+
+<h3>2.4 Primary Keys and Entity Identity</h3>
+
+<p>Partially supported. The primary key must be a <code>String</code> data type with <code>@GeneratedValue(strategy=GenerationType.IDENTITY)</code>. Derived identities are not supported. For more details, see <a href="jpa-provider#primary-keys">Primary Keys</a>.</p>
+
+<h3>2.5 Embeddable Class</h3>
+
+<p>Supported</p>
+
+<h3>2.6 Collections of Embeddable Classes and Basic Types</h3>
+
+<p>Supported</p>
+
+<h3>2.7 Map Collections</h3>
+
+<p>Partially supported.</p>
+
+<ul>
+<li>The map key and value must be a basic type; embeddable classes and entities are not supported.</li>
+<li><code>@MapKey</code> is defaulted to the <code>Id</code> field</li>
+</ul>
+
+
+<h3>2.8 Mapping Defaults for Non-relationship Fields or Properties</h3>
+
+<p>Supported</p>
+
+<h3>2.9 Entity Relationships</h3>
+
+<p><code>@OneToMany</code> and <code>@ManyToOne</code> are supported. There are some limitations on <a href="database-com-datatypes#cascade">cascade</a> and limits on <a href="jpa-queries#fetchDepth">depth</a>.</p>
+
+<h3>2.10 Relationship Mapping Defaults</h3>
+
+<p>Our mapping defaults differ from the specification. For more details, see <a href="database-com-datatypes#relFields">Relationship Fields</a>.</p>
+
+<h3>2.11 Inheritance</h3>
+
+<p>Partially supported. <code>InheritanceType.SINGLE_TABLE</code> is the only supported mapping strategy.</p>
+
+<p>The discriminator column for the <code>InheritanceType.SINGLE_TABLE</code> mapping strategy can't be a primary key.</p>
+
+<h3>2.12 Inheritance Mapping Strategies</h3>
+
+<p>May vary from specification</p>
+
+<p>Partially supported. <code>InheritanceType.SINGLE_TABLE</code> is the only supported mapping strategy.</p>
+
+<h3>2.13 Naming of Database Objects</h3>
+
+<p>Undelimited names are supported. Delimited names are not supported.</p>
+
+<h2>3 Entity Operations</h2>
+
+<h3>3.1 EntityManager</h3>
+
+<p>Supported</p>
+
+<h3>3.2 Entity Instance's Life Cycle</h3>
+
+<p>Supported</p>
+
+<h3>3.3 Persistence Context Lifetime</h3>
+
+<h4>3.3.1 Transaction commit</h4>
+
+<p>Supported with limitations. For more details, see <a href="jpa-transactions">Transactions</a>.</p>
+
+<h4>3.3.2 Transaction rollback</h4>
+
+<p>Supported with limitations. For more details, see <a href="jpa-config-persistence#transProps">Transaction Properties</a>.</p>
+
+<h3>3.4 Locking and Concurrency</h3>
+
+<h4>3.4.1 Optimistic Locking</h4>
+
+<p>Supported with some variation from the specification. For more details, see <a href="jpa-config-persistence#transProps">Transaction Properties</a>.</p>
+
+<h4>3.4.2 Version Attributes</h4>
+
+<p>The name and type of the version field are restricted. For more details, see <a href="jpa-config-persistence#transProps">Transaction Properties</a>.</p>
+
+<h4>3.4.3 Pessimistic Locking</h4>
+
+<p>Not supported</p>
+
+<h4>3.4.4 Lock Modes</h4>
+
+<p>Not supported</p>
+
+<h4>3.4.5 OptimisticLockException</h4>
+
+<p>Supported</p>
+
+<h3>3.5 Entity Listeners and Callback Methods</h3>
+
+<p>Supported</p>
+
+<h3>3.6 Bean Validation</h3>
+
+<p>Not supported</p>
+
+<h3>3.7 Caching</h3>
+
+<p>Not supported</p>
+
+<h3>3.8 Query APIs</h3>
+
+<p>Not supported</p>
+
+<h3>3.9 Summary of Exceptions</h3>
+
+<p>Exceptions work as specified for supported features</p>
+
+<h2>4 Query Language</h2>
+
+<h3>4.2 Statement Types</h3>
+
+<p>Select is supported. Bulk delete is supported but not in transactions. Bulk update is not supported.</p>
+
+<h3>4.3 Abstract Schema Types and Query Domains</h3>
+
+<p>Abstract schema types are supported. Query domains are not supported.</p>
+
+<h3>4.4 The FROM Clause and Navigational Declarations</h3>
+
+<p>Partially supported</p>
+
+<h4>4.4.1 Identifiers</h4>
+
+<p>Supported</p>
+
+<h4>4.4.2 Identification Variables</h4>
+
+<p>Supported</p>
+
+<h4>4.4.3 Range Variable Declarations</h4>
+
+<p>Supported</p>
+
+<h4>4.4.4 Path expressions</h4>
+
+<p>Partially supported</p>
+
+<ul>
+<li>The map key and value must be a basic type; embeddable classes and entities are not supported.</li>
+<li>You can only use <code>value()</code> in a SELECT clause. It is not valid in a WHERE clause. For more details, see <a href="jpa-queries#childMapJoins">Child-Map Joins</a>.</li>
+</ul>
+
+
+<h4>4.4.5 Joins</h4>
+
+<p>Partially supported with limitations. For more details, see <a href="jpa-queries#jpqlJoins">JPQL Joins</a>.</p>
+
+<h4>4.4.6 Collection Member Declarations</h4>
+
+<p>Supported. For more details, see <a href="jpa-queries#inJoins">IN Joins</a>.</p>
+
+<h4>4.4.7 FROM clause and SQL</h4>
+
+<p>Partially supported. The Database.com JPA provider always performs outer joins; inner joins are not supported.</p>
+
+<h4>4.4.8 Polymorphism</h4>
+
+<p>Supported</p>
+
+<h3>4.5 WHERE Clause</h3>
+
+<p>Supported</p>
+
+<h3>4.6 Conditional Expressions</h3>
+
+<h4>4.6.1 Literals</h4>
+
+<p>Supported except in the select clause. For example, <code>SELECT 'abc' FROM Entity</code> is not supported.</p>
+
+<h4>4.6.2 Identification Variables</h4>
+
+<p>Supported</p>
+
+<h4>4.6.3 Path Expressions</h4>
+
+<p>Supported</p>
+
+<h4>4.6.4 Input Parameters</h4>
+
+<p>Supported</p>
+
+<h4>4.6.5 Conditional Expression Composition</h4>
+
+<p>Supported</p>
+
+<h4>4.6.6 Operators and Operator Precedence</h4>
+
+<p>Supported</p>
+
+<h4>4.6.7 Comparison Expressions</h4>
+
+<p>Supported</p>
+
+<h4>4.6.8 Between Expressions</h4>
+
+<p>Supported</p>
+
+<h4>4.6.9 In Expressions</h4>
+
+<p>Supported</p>
+
+<h4>4.6.10 Like Expressions</h4>
+
+<p>Supported</p>
+
+<h4>4.6.11 Null Comparison Expressions</h4>
+
+<p>Supported</p>
+
+<h4>4.6.12 Empty Collection Comparison Expressions</h4>
+
+<p>You can use the <code>[NOT] IS EMPTY</code> comparison operator to select parent entities whose children or multi-select picklist field values are empty. For more details, see <a href="jpa-queries#isEmpty">IS EMPTY</a>.</p>
+
+<h4>4.6.13 Collection Member Expressions</h4>
+
+<p>You can use the <code>[NOT] MEMBER OF</code> comparison operator to select parent entities whose children or multi-select picklist field values match defined criteria. For more details, see <a href="jpa-queries#memberOf">MEMBER OF</a>.</p>
+
+<h4>4.6.14 Exists Expressions</h4>
+
+<p>Not supported</p>
+
+<h4>4.6.15 All or Any Expressions</h4>
+
+<p>Not supported</p>
+
+<h4>4.6.16 Subqueries</h4>
+
+<p>Partially supported</p>
+
+<p>Subqueries are supported with an IN clause, but not with an EXISTS clause.</p>
+
+<h4>4.6.17 Scalar Expressions</h4>
+
+<p>Partially supported. Arithmetic and String functions are not supported. The <code>CURRENT_TIME</code> and <code>CURRENT_TIMESTAMP</code> date functions are not supported.</p>
+
+<h3>4.7 GROUP BY, HAVING</h3>
+
+<p>Partially supported</p>
+
+<p>You can only use the GROUP BY and HAVING syntax supported for SOQL. For more details, see <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_calls_soql_select_groupby.htm">GROUP BY</a> and <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_calls_soql_select_having.htm">HAVING</a>.</p>
+
+<h3>4.8 SELECT Clause</h3>
+
+<p>Supported, except the DISTINCT keyword in JPQL is not supported.</p>
+
+<p>However, you can use a GROUP BY clause without an aggregated function in SOQL to query all the distinct values, including null, for an object. The following query returns the distinct set of values stored in the Country field for the User entity.</p>
+
+<pre>
+<code>
+SELECT Country
+FROM User
+GROUP BY Country
+</code>
+</pre>
+
+
+<h4>4.8.1 Result Type of the SELECT Clause</h4>
+
+<p>Supported</p>
+
+<h4>4.8.2 Constructor Expressions in the SELECT Clause</h4>
+
+<p>Supported</p>
+
+<h4>4.8.3 Null Values in the Query Result</h4>
+
+<p>Supported</p>
+
+<h4>4.8.4 Embeddables in the Query Result</h4>
+
+<p>Supported</p>
+
+<h4>4.8.5 Aggregate Functions in the SELECT Clause</h4>
+
+<p>Supported</p>
+
+<h4>4.8.6 Numeric Expressions in the SELECT Clause</h4>
+
+<p>Not supported</p>
+
+<h3>4.9 ORDER BY Clause</h3>
+
+<p>Supported</p>
+
+<h3>4.10 Bulk Update and Delete Operations</h3>
+
+<p>Bulk delete is supported but it doesn't participate in existing transactions. It runs in its own transaction. Bulk update is not supported. For more details, see <a href="Bulk%20Delete%20and%20Queries">jpa-queries#bulkDelete</a>.</p>
+
+<h3>4.11 Null Values</h3>
+
+<p>Supported</p>
+
+<h3>4.12 Equality and Comparison Semantics</h3>
+
+<p>Supported</p>
+
+<h2>5 Metamodel API</h2>
+
+<p>Not supported</p>
+
+<h2>6 Criteria API</h2>
+
+<p>Not supported</p>
+
+<h2>7 Entity Managers and Persistence Contexts</h2>
+
+<h3>7.2 Obtaining an EntityManager</h3>
+
+<p>Only application-managed entity managers are supported. Obtaining an Entity Manager in a J2EE container is not supported.</p>
+
+<h3>7.3 Obtaining an EntityManagerFactory</h3>
+
+<p>Supported in Java SE; not supported in Java EE</p>
+
+<h3>7.5 Controlling Transactions</h3>
+
+<p>JTA is not supported. Resource-local is supported and the EntityTransaction interface is supported.</p>
+
+<h3>7.6 Container-managed Persistence Contexts</h3>
+
+<p>Supported</p>
+
+<h3>7.7 Application-managed Persistence Contexts</h3>
+
+<p>Supported</p>
+
+<h3>7.8 Requirements on the Container</h3>
+
+<p>Not supported</p>
+
+<h3>7.9 Runtime Contracts between the Container and Persistence Provider</h3>
+
+<p>Not supported</p>
+
+<h3>7.10 Cache Interface</h3>
+
+<p>Not supported</p>
+
+<h3>7.11 PersistenceUnitUtil Interface</h3>
+
+<p>Supported</p>
+
+<h2>8 Entity Packaging</h2>
+
+<h3>8.1 Persistence Unit</h3>
+
+<p>Supported</p>
+
+<h3>8.2 Persistence Unit Packaging</h3>
+
+<p>Supported. There are additional properties in <code>persistence.xml</code> and there is some behavior specific to Database.com. For more details, see <a href="jpa-config-persistence">Configuring the JPA Provider</a>.</p>
+
+<h2>9 Container and Provider Contracts for Deployment and Bootstrapping</h2>
+
+<h3>9.1 Java EE Deployment</h3>
+
+<p>Not supported</p>
+
+<h3>9.2 Bootstrapping in Java SE environments</h3>
+
+<p>Supported. For details on configuring database connections, see <a href="connection-url">Connection Configuration</a>.</p>
+
+<h3>9.3 Determining the Available Persistence Providers</h3>
+
+<p>Supported</p>
+
+<h3>9.4 Responsibilities of the Persistence Provider</h3>
+
+<p>Works as specified except Java EE is not supported</p>
+
+<h3>9.5 javax.persistence.spi.PersistenceUnitInfo Interface</h3>
+
+<p>Supported</p>
+
+<h3>9.6 javax.persistence.Persistence Class</h3>
+
+<p>Supported</p>
+
+<h3>9.7 PersistenceUtil Interface</h3>
+
+<p>Supported</p>
+
+<h2>10 Metadata Annotations</h2>
+
+<h3>10.1 Entity</h3>
+
+<p>Supported</p>
+
+<h3>10.2 Callback Annotations</h3>
+
+<p>Supported</p>
+
+<h3>10.3 Annotations for Queries</h3>
+
+<h3>10.3.1 NamedQuery Annotation</h3>
+
+<p>Supported</p>
+
+<h4>10.3.2 NamedNativeQuery Annotation</h4>
+
+<p>Supported</p>
+
+<p>Note: A native query uses SOQL. SQL is not supported.</p>
+
+<h4>10.3.3 Annotations for SQL Query Result Set Mappings</h4>
+
+<p>Supported</p>
+
+<p>Note: A native query uses SOQL. SQL is not supported.</p>
+
+<h3>10.4 References to EntityManager and EntityManagerFactory</h3>
+
+<p>Supported</p>
+
+<h2>11 Metadata for Object/Relational Mapping</h2>
+
+<h3>11.1 Annotations for Object/Relational Mapping</h3>
+
+<h4>11.1.1 Access Annotation</h4>
+
+<p>Supported</p>
+
+<h4>11.1.2 AssociationOverride Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.3 AssociationOverrides Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.4 AttributeOverride Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.5 AttributeOverrides Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.6 Basic Annotation</h4>
+
+<p>Supported</p>
+
+<h4>11.1.7 Cacheable Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.8 CollectionTable Annotation</h4>
+
+<p>Not supported. Use <code>@OneToMany</code> and <code>@ManyToOne</code> instead.</p>
+
+<h4>11.1.9 Column Annotation</h4>
+
+<p>Partially supported</p>
+
+<p>The <code>columnDefinition</code> and <code>table</code> attributes are not supported.</p>
+
+<h4>11.1.10 DiscriminatorColumn Annotation</h4>
+
+<p>Supported</p>
+
+<h4>11.1.11 DiscriminatorValue Annotation</h4>
+
+<p>Supported</p>
+
+<h4>11.1.12 ElementCollection Annotation</h4>
+
+<p>Supported</p>
+
+<h4>11.1.13 Embeddable Annotation</h4>
+
+<p>Supported</p>
+
+<h4>11.1.14 Embedded Annotation</h4>
+
+<p>Supported</p>
+
+<h4>11.1.15 EmbeddedId Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.16 Enumerated Annotation</h4>
+
+<p>Supported</p>
+
+<h4>11.1.17 GeneratedValue Annotation</h4>
+
+<p>Partially supported. You must use the <code>GenerationType.IDENTITY</code> strategy.</p>
+
+<h4>11.1.18 Id Annotation</h4>
+
+<p>Partially supported. The ID must be a String data type. For more details, see <a href="jpa-provider#primary-keys">Primary Keys</a>.</p>
+
+<h4>11.1.19 IdClass Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.20 Inheritance Annotation</h4>
+
+<p>Partially supported. You must use the <code>InheritanceType.SINGLE_TABLE</code> strategy.</p>
+
+<h4>11.1.21 JoinColumn Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.22 JoinColumns Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.23 JoinTable Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.24 Lob Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.25 ManyToMany Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.26 ManyToOne Annotation</h4>
+
+<p>Supported with some limitations. For more details, see <a href="database-com-datatypes#relFields">Relationship Fields</a>.</p>
+
+<h4>11.1.27 MapKey Annotation</h4>
+
+<p>Supported</p>
+
+<h4>11.1.28 MapKeyClass Annotation</h4>
+
+<p>Supported</p>
+
+<h4>11.1.29 MayKeyColumn Annotation</h4>
+
+<p>Supported</p>
+
+<h4>11.1.30 MapKeyEnumerated Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.31 MapKeyJoinColumn Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.32 MapKeyJoinColumns Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.33 MapKeyTemporal Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.34 MappedSuperclass Annotation</h4>
+
+<p>Supported</p>
+
+<p>Note: The AttributeOverride, AttributeOverrides, AssociationOverride, and AssociationOverrides annotations are not supported.</p>
+
+<h4>11.1.35 MapsId Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.36 OneToMany Annotation</h4>
+
+<p>Supported with some limitations. For more details, see <a href="database-com-datatypes#relFields">Relationship Fields</a>.</p>
+
+<h4>11.1.37 OneToOne Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.38 OrderBy Annotation</h4>
+
+<p>Supported</p>
+
+<h4>11.1.39 OrderColumn Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.40 PrimaryKeyJoinColumn Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.41 PrimaryKeyJoinColumns Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.42 SecondaryTable Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.43 SecondaryTables Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.44 SequenceGenerator Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.45 Table Annotation</h4>
+
+<p>Supported</p>
+
+<h4>11.1.46 TableGenerator Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.47 Temporal Annotation</h4>
+
+<p>Supported</p>
+
+<h4>11.1.48 Transient Annotation</h4>
+
+<p>Supported</p>
+
+<h4>11.1.49 UniqueConstraint Annotation</h4>
+
+<p>Not supported</p>
+
+<h4>11.1.50 Version Annotation</h4>
+
+<p>Supported with limitations. For more details, see <a href="jpa-config-persistence#transProps">Transaction Properties</a>.</p>
+
+<h2>12 XML Object/Relational Mapping Descriptor</h2>
+
+<p>Not supported</p>
+
+		</div>
+	</div>
+</div>
+</body>
+</html>
