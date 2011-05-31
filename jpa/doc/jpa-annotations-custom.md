@@ -20,7 +20,7 @@ a new custom field in Database.com.</dd>
 
   <dt>@PicklistValue</dt>
     <dd>Use <code>@PicklistValue</code> to define which enum values are available by default in a non-restricted multi-select picklist.</dd>
-    <dd><a href="force-datatypes#enumFields">Read More</a></dd>
+    <dd><a href="database-com-datatypes#enumFields">Read More</a></dd>
   
   <dt>@JoinFilter</dt>
     <dd>Use <code>@JoinFilter</code> to include a WHERE clause to filter the returned child collection or map in an implicit JPQL query

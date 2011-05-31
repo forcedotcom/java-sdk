@@ -68,7 +68,7 @@ If you are using optimistic concurrency, you must include a lastModifiedDate fie
     @Version
     private java.util.Calendar lastModifiedDate;
 
-For information on usage of the <code>@ManyToOne</code> and <code>@OneToMany</code> annotations, see [Relationship Fields](force-datatypes#relFields).
+For information on usage of the <code>@ManyToOne</code> and <code>@OneToMany</code> annotations, see [Relationship Fields](database-com-datatypes#relFields).
 
 ## Required and Unique Fields
 

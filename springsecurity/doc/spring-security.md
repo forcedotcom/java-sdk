@@ -40,8 +40,6 @@ The simplest way to configure a Spring application is to include the fss namespa
 
 The main customizations of interest are:
 
-TODO: [Jesper]: We should simplify this here and link to examples, probably. Depends on whether this ends up being reference doc and how much of spring security config we want to support.
-
 - Include the namespace: xmlns:fss="http://www.salesforce.com/schema/springsecurity"
 - Specify the schema location for the force-springsecurity XSD
 - Add the \<fss:oauth /> tag
@@ -69,8 +67,6 @@ The \<oauth /> tag requires that you provide OAuth properties.  This can be done
       <fss:oauth>
         <fss:connectionName name="myconnector" />
       </fss:oauth>
-
-TODO: [Mark@Jesper]: Should we recommend using the connectionName tag rather than the first two tags to avoid checking sensitive data into source control? Should we remove any of the options from doc. fss:oauthInfo is used in the sample config file earlier so I want to get confirmation from John and Jesper before doing this.
 
 In these samples, substitute values from your remote access application for the following variables:
 

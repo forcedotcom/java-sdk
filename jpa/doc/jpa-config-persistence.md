@@ -6,14 +6,10 @@ title: Configuring the JPA Provider
 ---
 # Configuring the JPA Provider
 
-The standard JPA configuration file is `persistence.xml`. This file must reside in the root of the classpath of a compiled
-and packaged application; for example, in the WEB-INF/classes directory.
-Comment(Dirk):The JPA spec actually says: "The persistence.xml file is located in the META-INF directory of the root of the persistence unit.", i.e the location is differnt.
-I checked our musiclib sample and the exact location from the root of the war is /WEB-INF/classes/META-INF/persistence.xml. So I would say instead of WEB-INF/classes rather
-WEB-INF/classes/META-INF.
+The standard JPA configuration file is `persistence.xml`. This file must reside in the META-INF directory of the root of the persistence unit of a compiled and packaged application; for example, in the WEB-INF/classes/META-INF directory.
 
 The `persistence.xml` file includes one or more *persistence-unit* elements. A persistence unit defines a set of classes and how
-to persist them. Each persistence unit has a unique name. In this example, there is one unit defined named *forceDatabase*.
+to persist them. Each persistence unit has a unique name. In this example, there is one unit defined and its name is *forceDatabase*.
 
     <?xml version="1.0" encoding="UTF-8"?>
     <persistence xmlns="http://java.sun.com/xml/ns/persistence"
@@ -45,8 +41,11 @@ The `persistence.xml` file includes the following elements:
 
 <dl>
   
-  <dt>&lt;persistence> Root Element</dt> Comment(Dirk): need description here (see 8.2.1 in JPA2.0 spec)
-  <dt>&lt;persistence-unit> Element</dt> Comment(Dirk): need description here (see 8.2.1 in JPA2.0 spec)
+  <dt>&lt;persistence> Root Element</dt>
+    <dd>The <em>persistence</em> element is the root element of the persistence.xml file. The persistence
+element consists of one or more persistence-unit elements.</dd>
+  <dt>&lt;persistence-unit> Element</dt>
+    <dd>A <em>persistence-unit</em> element has a required <em>name</em> attribute and several optional sub-elements.</dd>
   <dt>&lt;provider> Element</dt>
     <dd>Define a JPA persistence provider in a provider element. The provider for the Database.com JPA provider is
 <b>com.force.sdk.jpa.PersistenceProviderImpl</b>.</dd>
@@ -79,7 +78,7 @@ entity definition, which may cause application errors or unpredictable behavior.
 
 To control whether the Database.com JPA provider can delete schema for entities or fields in your organization, you can configure the following properties in your application's `persistence.xml` file. The main reason for deleting schema is to remove customizations during testing to start with a consistent set of schema.
 
-If you have appropriate permissions, you can always delete schema in the salesforce user interface regardless of these property values.
+If you have appropriate permissions, you can always delete schema using the user interface in Salesforce regardless of these property values.
 
 ### force.deleteSchema
 This property is only relevant if datanucleus.autoCreateSchema is set to *true*.
@@ -96,7 +95,7 @@ Set this property to *true* if you want schema deletion to bypass the Recycle Bi
 
 For user authentication in JPA, you can configure the following property in your application's `persistence.xml` file.
 
-Note: To connect to Database.com, authenticated users must have the "API Enabled" user permission in
+Note: To connect to Database.com, an authenticated user must have the "API Enabled" user permission in
 their profile. If the datanucleus.autoCreateSchema property is enabled in `persistence.xml`, an authenticated
 user must have the "Modify All Data" user permission in their profile to create new Database.com entities in the database.
 
