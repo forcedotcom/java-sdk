@@ -84,40 +84,14 @@ public class LoginEndToEndTest extends BaseEndToEndTest {
         // enabling redirection so that login page redirects to SFDC and we can logon.
         getWebClient().setRedirectEnabled(true);
         loginPage = getWebClient().getPage(appEndpoint + "/login");
-
         fillOutCredentialsAndLogin(loginPage);
+
         // note when we try to access the secured page we are already logged in because HtmlUnit goes into an infinite loop 
         // while trying to execute javascript if you try to access the secured page and then login
         HtmlPage securedPage = getWebClient().getPage(appEndpoint + "/secured_page.html");
 
         Assert.assertEquals(securedPage.getTitleText(), "Secured page");
         Assert.assertEquals(securedPage.getUrl().toString(), appEndpoint + "/secured_page.html");
-
-        /*
-        String cookieName = "security_context";
-
-        SecretKeySpec secretKey = AESUtil.recreateSecretKeySpec("WIxR4rQdz1fKe58kmK3ZvA==");
-        String value = getWebClient().getCookieManager().getCookie(cookieName).getValue();
-
-        Assert.assertNotNull(value);
-        SecurityContext newSecurityContext = deserializeSecurityContext(SecurityContextCookieStore.b64decode(value), secretKey);
-        newSecurityContext.setSessionId("junkjunk");
-
-        String serializedCookie = SecurityContextCookieStore.b64encode(serializeSecurityContext(newSecurityContext, true, secretKey));
-        Cookie newCookie = new Cookie("localhost", cookieName, serializedCookie, "/force-springsecurity-app", -1, false);
-        getWebClient().getCookieManager().removeCookie(getWebClient().getCookieManager().getCookie(cookieName));
-        getWebClient().getCookieManager().addCookie(newCookie);
-        */
-
-        getWebClient().getCookieManager().removeCookie(getWebClient().getCookieManager().getCookie("JSESSIONID"));
-
-        getWebClient().setRedirectEnabled(false);
-        try {
-            securedPage = getWebClient().getPage(appEndpoint + "/secured_page.html");
-            Assert.fail("Accessing a secure page after session expiry should cause a redirect to SFDC login page.");
-        } catch (FailingHttpStatusCodeException e) {
-            Assert.assertEquals(e.getResponse().getStatusCode(), 302, "Redirect code 302 was expected.");
-        }
     }
 
     private byte[] serializeSecurityContext(SecurityContext sc, boolean encrypt, SecretKeySpec secretKey)
