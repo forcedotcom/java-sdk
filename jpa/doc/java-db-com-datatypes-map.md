@@ -229,7 +229,7 @@ Some of the Force.com data types are created with length or precision constraint
 <tr>
 <td width="25.581395348837205%" >byte[]</td>
 
-<td width="37.20930232558139%" >See <a href="force-datatypes#binaryFields">Binary (Base64) Fields</a>.</td>
+<td width="37.20930232558139%" >See <a href="database-com-datatypes#binaryFields">Binary (Base64) Fields</a>.</td>
 
 <td width="37.20930232558139%" >N/A</td>
 
