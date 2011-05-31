@@ -244,7 +244,7 @@ For more information on semi- and anti-joins in SOQL, see the [Web Services API 
 <a name="relJoins"> </a>
 ### Relationship Joins
 Relationships between entities in Database.com are represented by a lookup or master-detail field in a child entity. You can't
-create relationships with other field types. For more information, see [Relationship Fields](force-datatypes#relFields).
+create relationships with other field types. For more information, see [Relationship Fields](database-com-datatypes#relFields).
 
 For each relationship between objects, there is a relationshipName property that enables you to traverse the relationship
 in a query. For more information about relationships, see [Understanding Relationship Names](http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_calls_soql_relationships.htm).
