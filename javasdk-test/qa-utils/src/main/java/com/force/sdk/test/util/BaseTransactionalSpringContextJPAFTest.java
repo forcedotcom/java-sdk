@@ -160,7 +160,7 @@ public abstract class BaseTransactionalSpringContextJPAFTest extends
         return emf.getPersistenceUnitName();
     }
 
-    @AfterTest
+    @AfterTest(alwaysRun=true)
     protected void testTeardown() throws Exception {
         cleanSchema();
     }
