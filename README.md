@@ -1,1 +1,1 @@
-# Database.com Java SDK BETA
+# Database.com Java SDK
