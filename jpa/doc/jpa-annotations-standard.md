@@ -40,17 +40,17 @@ Marks a field to use for the identity (primary key) of the class. Database.com e
 
 <a name="TableAnnotation"> </a>
 ## @Table
-Specifies an existing Database.com entity (object) name. The name attribute in <code>@Table</code> must match the underlying Database.com type; for example, Account or MyCustomObject__c.
+Specifies an existing Database.com entity (object) name. The name attribute in <code>@Table</code> must match the underlying Database.com type; for example, User or MyCustomObject__c.
 
-This is a sample for a standard Account entity:
+This is a sample for a standard User entity:
 
     @Entity
-    @Table(name="Account")
-    public class Account {
+    @Table(name="User")
+    public class User {
         ...
     }
 
-Note: If you omit the @Table(name="Account") annotation, the Account class maps to a custom Account__c entity instead of the standard Account entity.
+Note: If you omit the @Table(name="User") annotation, the User class maps to a custom User__c entity instead of the standard User entity.
 
 This is a sample for a custom MyCustomObject__c entity:
 
