@@ -2,7 +2,7 @@
 
 ## How to build
 
-The Java SDK is built using [Maven](http://maven.apache.org/) version 2.2.1.  Make sure you have the correct version of Maven installed on your system before attempting to build.
+The Database.com Java SDK is built using [Maven](http://maven.apache.org/) version 2.2.1.  Make sure you have the correct version of Maven installed on your system before attempting to build.
 
 Run the following maven command to build from source without running any tests
 
