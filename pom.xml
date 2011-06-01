@@ -608,6 +608,24 @@
       </modules>
     </profile>
   
+    <profile>
+      <id>clover</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <modules>
+        <module>javasdk-test/qa-utils</module>
+        <module>javasdk-test/connector-test</module>
+        <module>javasdk-test/jpa-test</module>
+        <module>javasdk-test/jpa-test-beanvalidation</module>
+        <module>javasdk-test/jpa-test-connection</module>
+        <module>javasdk-test/jpa-test-query</module>
+        <module>javasdk-test/jpa-test-schema</module>
+        <module>javasdk-test/codegen-test</module>
+        <module>javasdk-test/oauth-test</module>
+        <module>javasdk-test/springsecurity-test</module>
+      </modules>
+    </profile>
   
     <profile>
       <id>javadoc</id>

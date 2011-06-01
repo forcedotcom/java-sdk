@@ -77,12 +77,14 @@ public class MockTokenRetrievalService implements TokenRetrievalService {
         boolean foundSecret = false;
         for (int i = 0; i < paramArray.length; i++) {
             if (paramArray[i].startsWith("client_id")) {
-                Assert.assertEquals(paramArray[i].substring("client_id=".length()), oauthKey, "Wrong OAuth key used when attempting connection");
+                Assert.assertEquals(paramArray[i].substring("client_id=".length()), oauthKey, 
+                        "Wrong OAuth key used when attempting connection");
                 foundKey = true;
             }
 
             if (paramArray[i].startsWith("client_secret")) {
-                Assert.assertEquals(paramArray[i].substring("client_secret=".length()), oauthSecret, "Wrong OAuth key used when attempting connection");
+                Assert.assertEquals(paramArray[i].substring("client_secret=".length()), oauthSecret, 
+                        "Wrong OAuth key used when attempting connection");
                 foundSecret = true;
             }
         }
