@@ -598,6 +598,17 @@
   
 
   <profiles>
+
+    <profile>
+      <id>run-unit-tests-only</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <skip.func.integ.tests>true</skip.func.integ.tests>
+      </properties>
+    </profile>
+
     <profile>
       <id>javadoc</id>
       <build>
