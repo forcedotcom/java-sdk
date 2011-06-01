@@ -69,7 +69,6 @@
     <module>codegen</module>
     <module>oauth</module>
     <module>springsecurity</module>
-    <module>javasdk-test</module>
   </modules>
 
   <repositories>
@@ -598,6 +597,18 @@
   
 
   <profiles>
+    
+    <profile>
+      <id>include-test-modules</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <modules>
+        <module>javasdk-test</module>
+      </modules>
+    </profile>
+  
+  
     <profile>
       <id>javadoc</id>
       <build>
