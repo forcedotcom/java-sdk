@@ -32,6 +32,14 @@
 		<title>Secured page</title>
 	</head>
 	<body>
-        This page is secured.
+    <form:form>
+
+        Hello ${userinfo},
+        <br/>
+        Welcome to the OAuth World!
+        <br/>
+        This page is secure.
+
+
 	</body>
 </html>

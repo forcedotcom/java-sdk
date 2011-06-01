@@ -37,11 +37,11 @@
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security-3.0.xsd
            http://www.salesforce.com/schema/springsecurity
-           http://media.developerforce.com/schema/force-springsecurity-1.2.xsd">
+           http://media.developerforce.com/schema/force-springsecurity-1.3.xsd">
 
     <!-- Force.com OAuth security config -->
     <fss:oauth default-login-success="/login_success.html" default-logout-success="/logout_success.html"
-        login-url="/login" logout-url="/logout" logout-from-force-dot-com="true">
+        login-url="/login" logout-url="/logout" logout-from-force-dot-com="true" secure-key-file='spring-app-key.properties'>
         
         <fss:connectionName name="integrationserver"/>
     </fss:oauth>

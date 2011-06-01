@@ -49,11 +49,11 @@ Supported
 
 ### 2.9 Entity Relationships
 
-<code>@OneToMany</code> and <code>@ManyToOne</code> are supported. There are some limitations on [cascade](force-datatypes#cascade) and limits on [depth](jpa-queries#fetchDepth).
+<code>@OneToMany</code> and <code>@ManyToOne</code> are supported. There are some limitations on [cascade](database-com-datatypes#cascade) and limits on [depth](jpa-queries#fetchDepth).
 
 ### 2.10 Relationship Mapping Defaults
 
-Our mapping defaults differ from the specification. For more details, see [Relationship Fields](force-datatypes#relFields). 
+Our mapping defaults differ from the specification. For more details, see [Relationship Fields](database-com-datatypes#relFields). 
 
 ### 2.11 Inheritance
 
@@ -544,7 +544,7 @@ Not supported
 
 #### 11.1.26 ManyToOne Annotation 
 
-Supported with some limitations. For more details, see [Relationship Fields](force-datatypes#relFields). 
+Supported with some limitations. For more details, see [Relationship Fields](database-com-datatypes#relFields). 
 
 #### 11.1.27 MapKey Annotation 
 
@@ -586,7 +586,7 @@ Not supported
 
 #### 11.1.36 OneToMany Annotation 
 
-Supported with some limitations. For more details, see [Relationship Fields](force-datatypes#relFields).
+Supported with some limitations. For more details, see [Relationship Fields](database-com-datatypes#relFields).
 
 #### 11.1.37 OneToOne Annotation 
 

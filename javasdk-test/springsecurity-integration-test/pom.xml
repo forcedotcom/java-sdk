@@ -69,10 +69,14 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   </build>
 
   <dependencies>
-    <dependency>
-      <groupId>com.force.qa</groupId>
-      <artifactId>qa-utils</artifactId>
-    </dependency>
+      <dependency>
+        <groupId>com.force.qa</groupId>
+        <artifactId>qa-utils</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>com.force.sdk</groupId>
+        <artifactId>force-oauth</artifactId>
+      </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>jstl</artifactId>

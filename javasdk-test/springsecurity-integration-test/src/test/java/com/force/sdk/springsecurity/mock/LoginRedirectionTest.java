@@ -91,6 +91,20 @@ public class LoginRedirectionTest extends BaseSpringSecurityIntegrationTest {
                                                     appEndpoint + "/page_with_login_link.html");
     }
     
+    @Test
+    public void testLoginRedirectToSfdcRefererUrlAfterSessionExpiry() throws IOException {
+        HttpParams params = new BasicHttpParams();
+        params.setParameter("http.protocol.handle-redirects", false);
+        HttpGet get = new HttpGet(appEndpoint + "/login");
+        get.setParams(params);
+        get.addHeader("Referer", appEndpoint + "/page_with_login_link.html");
+        HttpResponse response = httpClient.execute(get);
+        assertResponseStatus(response, 302, "Moved Temporarily");
+        String location = response.getFirstHeader("Location").getValue();
+        assertLoginRedirectSfdcLocationHeaderValue(location, mockSfdcEndpoint, mockOauthKey, appEndpoint + "/_auth",
+                                                    appEndpoint + "/page_with_login_link.html");
+    }
+
     // TODO W-951321 this test is currently failing.  The mock oauth server is not working properly with the spring security app
     @Test(enabled = false)
     public void testLoginRedirectToAppRefererUrl() throws IOException {
