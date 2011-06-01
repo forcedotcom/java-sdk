@@ -6,7 +6,7 @@ title: Introduction
 ---
 # Introduction
 
-Database.com is the cloud database that powers Force.com and all the applications built on the platform, including Sales Cloud, Service Cloud and Chatter from salesforce.com. [TODO: need to understand Database.com positioning to see if this text (and text in the rest of this page) is ok. Work out whether we can use the term "Database.com" to mean the underlying database or whether it can only be used as the brand name for the product we're selling. Also, need to work out how we can talk about other clouds, CRM etc]
+Database.com is the cloud database that powers Force.com and all the applications built on the platform, including Sales Cloud, Service Cloud and Chatter from salesforce.com.
 
 If you are a Force.com developer, you are already using Database.com. The cloud database manages the data model for your application, stores all data and automatically exposes your data in both a [REST API][1] and [SOAP API][2]. It also provides a [Metadata API][3] to handle changes to your data model.
 
@@ -14,7 +14,7 @@ If you are a Force.com developer, you are already using Database.com. The cloud 
 [2]: http://www.salesforce.com/us/developer/docs/api/index.htm
 [3]: http://www.salesforce.com/us/developer/docs/api_meta/index.htm
 
-If you build your application using the Force.com drag-and-drop tools to define objects, layouts, workflows, you never really work with Database.com directly. [TODO: review for positioning]The service is transparently provided to you.
+If you build your application using the Force.com drag-and-drop tools to define objects, layouts, workflows, you never really work with Database.com directly. The service is transparently provided to you.
 
 But what if you are a Java developer and you want to build a Java application that uses the same database? This is what the Database.com Java SDK is for. With this SDK you can:
 
@@ -29,7 +29,7 @@ The SDK consists of the following components.
 
 ## API Connector
 
-The SDK is built on the existing Database.com API. [TODO: @Jesper what is the existing Database.com API?]A core service connector class is responsible for managing connections to the API for the application. You configure this connector using a connection URL string which can be provided in property files, system properties, or environment variables. The connector automatically handles session refreshes after expiration and it can use the OAuth module to inject the session ID. The connector uses [WSC](http://code.google.com/p/sfdc-wsc) for the actual protocol implementation.
+The SDK is built on the existing Database.com API. A core service connector class is responsible for managing connections to the API for the application. You configure this connector using a connection URL string which can be provided in property files, system properties, or environment variables. The connector automatically handles session refreshes after expiration and it can use the OAuth module to inject the session ID. The connector uses [WSC](http://code.google.com/p/sfdc-wsc) for the actual protocol implementation.
 
 [Read more](connection-url)
 
