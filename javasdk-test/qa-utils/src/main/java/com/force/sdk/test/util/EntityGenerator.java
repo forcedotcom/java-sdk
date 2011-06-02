@@ -26,10 +26,17 @@
 
 package com.force.sdk.test.util;
  
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Writer;
 import java.net.URL;
-
-import com.perforce.p4java.exception.ResourceException;
+import java.util.MissingResourceException;
 
 /**
  * 
@@ -73,7 +80,8 @@ public final class EntityGenerator {
         
         URL licUrl = EntityGenerator.class.getResource(LICENSE_FILE_URL);
         if (licUrl == null) {
-            throw new ResourceException("Could not find license file " + LICENSE_FILE_URL + " on classpath.");
+            throw new MissingResourceException("Could not find license file " + LICENSE_FILE_URL + " on classpath.",
+                                                LICENSE_FILE_URL, LICENSE_FILE_URL);
         }
         
         int numEntitiesToCreate = Integer.valueOf(args[1]);

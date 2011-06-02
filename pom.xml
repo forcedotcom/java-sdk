@@ -42,11 +42,9 @@
     <java.servlet.version>2.5</java.servlet.version>
     <jdo.version>2.3-ec</jdo.version>
     <jmockit.version>0.999.6</jmockit.version>
-    <jta.version>1.1</jta.version>
     <junit.version>3.8.1</junit.version>
     <log4j.version>1.2.15</log4j.version>
     <maven.clover.version>3.0.2</maven.clover.version>
-    <p4java.version>2010.1.269249</p4java.version>
     <selenium.version>1.0.2</selenium.version>
     <site.plugin.version>2.2</site.plugin.version>
     <slf4j.version>1.6.1</slf4j.version>
@@ -158,7 +156,7 @@
         <version>${force.sdk.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.force.qaforce</groupId>
+        <groupId>com.force.sdkforce</groupId>
         <artifactId>qaforce-connector</artifactId>
         <version>${force.sdk.version}</version>
       </dependency>
@@ -171,11 +169,6 @@
         <groupId>javax.jdo</groupId>
         <artifactId>jdo2-api</artifactId>
         <version>${jdo.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.transaction</groupId>
-        <artifactId>jta</artifactId>
-        <version>${jta.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.geronimo.specs</groupId>
@@ -250,55 +243,52 @@
         <groupId>org.springframework</groupId>
         <artifactId>spring-beans</artifactId>
         <version>${spring.version}</version>
-        <scope>compile</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-core</artifactId>
         <version>${spring.version}</version>
-        <scope>compile</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework.security</groupId>
         <artifactId>spring-security-core</artifactId>
         <version>${spring.security.version}</version>
-        <scope>compile</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework.security</groupId>
         <artifactId>spring-security-config</artifactId>
         <version>${spring.security.version}</version>
-        <scope>compile</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework.security</groupId>
         <artifactId>spring-security-web</artifactId>
         <version>${spring.security.version}</version>
-        <scope>compile</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-orm</artifactId>
         <version>${spring.version}</version>
-        <scope>compile</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-tx</artifactId>
         <version>${spring.version}</version>
-        <scope>compile</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-context</artifactId>
         <version>${spring.version}</version>
-        <scope>compile</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-test</artifactId>
         <version>${spring.version}</version>
         <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>${spring.version}</version>
       </dependency>
       <dependency>
         <groupId>org.testng</groupId>
@@ -313,7 +303,7 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>com.force.qa</groupId>
+        <groupId>com.force.sdk</groupId>
         <artifactId>qa-utils</artifactId>
         <version>${force.sdk.version}</version>
       </dependency>
