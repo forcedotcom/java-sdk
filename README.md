@@ -23,4 +23,4 @@ You can run specific test suites by changing your working directory to a test su
 
     mvn verify
 
-Keep in mind that you still must run <code>mvn clean install -DskipTests -P include-test-modules</code> before running any tests in the javasdk-test submodules, otherwise tests may fail.
+Keep in mind that you still must run <code>mvn clean install -DskipTests -P include-test-modules</code> from the root directory of the project before running any tests in the javasdk-test submodules, otherwise tests may fail.
