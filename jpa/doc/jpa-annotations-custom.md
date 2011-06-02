@@ -60,7 +60,7 @@ fields corresponding to all of the fields in the class are also created.
 Note: If you add a <code>@CustomObject</code> annotation to a Java class that already exists as a custom object in Database.com, the <code>@CustomObject</code>
 annotation is ignored. For example, if a Student custom object already exists in your organization and feed tracking in Chatter
 is not enabled for it, adding <code>@CustomObject(enableFeeds = true)</code> to the Student Java class does not enable feed
-tracking. This annotation only affects feed tracking when a new custom object is created.
+tracking. Use the user interface in Salesforce to [enable feed tracking for an existing custom object](http://na1.salesforce.com/help/doc/en/collab_feed_tracking.htm).
 
 ### Marking Object (Entity) Read-Only
 Use the <code>readOnlySchema</code> attribute to mark an entity as read only. If you set <code>readOnlySchema = true</code>, it ensures that the schema will not be deleted when the **force.purgeOnDelete** property is set in your application's `persistence.xml` file. 
