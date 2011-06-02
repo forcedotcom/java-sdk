@@ -191,7 +191,7 @@ public final class PersistenceUtils {
     /**
      * 
      * A check to see if a field has an ordinal enum type, i.e. it's annotated with
-     * @Enumerated(EnumType.ORDINAL).  Callers of this method should have already verified
+     * \@Enumerated(EnumType.ORDINAL).  Callers of this method should have already verified
      * ammd to be a picklist field.
      * 
      * @param ammd  the metadata object of a picklist field

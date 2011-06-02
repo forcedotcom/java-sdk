@@ -34,7 +34,8 @@ import org.datanucleus.metadata.*;
 
 /**
  * 
- * This is an extra metadata class we use during annotation processing (see {@link ForceAnnotationReader}).
+ * This is an extra metadata class we use during annotation processing
+ * (see {@link com.force.sdk.jpa.annotation.ForceAnnotationReader}).
  * It's used to gain access to the list of members
  *
  * @author Fiaz Hossain

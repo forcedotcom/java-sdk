@@ -32,7 +32,7 @@ import com.sforce.soap.partner.DescribeSObjectResult;
 
 /**
  * A filter which determines which Force.com {@code DescribeSObjectResult} objects
- * are injected into a code generation {@link Template}.
+ * are injected into a code generation {@link com.force.sdk.codegen.template.Template}.
  *
  * @author Tim Kral
  */

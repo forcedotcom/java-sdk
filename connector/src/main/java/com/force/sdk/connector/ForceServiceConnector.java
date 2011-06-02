@@ -68,7 +68,7 @@ import com.sforce.ws.SessionRenewer;
  * <ol>
  *   <li>An injected {@code ForceConnectorConfig}</li>
  *   <li>A named source (see {@link ForceConnectorUtils#loadConnectorPropsFromName(String)})</li>
- *   <li>A {@code ForceConnectorConfig} stored in the connector's {@code ThreadLocal cache</li>
+ *   <li>A {@code ForceConnectorConfig} stored in the connector's {@code ThreadLocal} cache</li>
  * </ol>
  * Connectors are capable of caching {@code ForceConnectorConfig} objects both in a {@code ThreadLocalCache}
  * and an in memory cache.  The {@code ThreadLocalCache} is directly controlled by the caller.  The in memory
@@ -120,9 +120,9 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     
     /**
      * Retrieves the {@code ForceConnectorConfig} found in the
-     * {@code ForceServiceConnector} {@code ThreadLocalCache}.
+     * {@code ForceServiceConnector} {@code ThreadLocal} cache.
      * 
-     * @return the {@code ForceConnectorConfig} from the {@code ThreThreadLocalhe;
+     * @return the {@code ForceConnectorConfig} from the {@code ThreadLocal};
      *         {@code null} if no such {@code ForceConnectorConfig} exists
      */
     public static ForceConnectorConfig getThreadLocalConnectorConfig() {
@@ -131,9 +131,9 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
 
     /**
      * Sets the {@code ForceConnectorConfig} in the {@code ForceServiceConnector}
-     * {@code ThreaThreadLocale.
+     * {@code ThreadLocal}.
      * 
-     * @param config the {@code ForceConnectorConfig} to be set in the {@code ThreadThreadLocal
+     * @param config the {@code ForceConnectorConfig} to be set in the {@code ThreadLocal}
      */
     public static void setThreadLocalConnectorConfig(ForceConnectorConfig config) {
         ForceThreadLocalStore.setConnectorConfig(config);

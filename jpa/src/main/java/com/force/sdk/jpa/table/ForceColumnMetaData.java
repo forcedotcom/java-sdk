@@ -129,8 +129,8 @@ public class ForceColumnMetaData extends ForceMetaData {
     /**
      * 
      * Checks to see if columns should be created according to persistence properties, and
-     * if so, creates {@link CustomField} objects and stores them on the parent table to
-     * be created later by the {@link ForceSchemaWriter}.
+     * if so, creates CustomField objects and stores them on the parent table to
+     * be created later by the {@link com.force.sdk.jpa.schema.ForceSchemaWriter}.
      * 
      * @param namespace  the namespace of the organization creating schema
      */
