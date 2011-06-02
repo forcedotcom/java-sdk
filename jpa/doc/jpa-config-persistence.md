@@ -73,7 +73,7 @@ between a Java entity and Database.com. This is the recommended setting. If the 
 provider logs a warning about the schema mismatch. The schema in Database.com is out-of-sync with the Java
 entity definition, which may cause application errors or unpredictable behavior.
 
-<a name="schemaDeleteProps> </a>
+<a name="schemaDeleteProps"> </a>
 ## Schema Deletion Properties
 
 To control whether the Database.com JPA provider can delete schema for entities or fields in your organization, you can configure the following properties in your application's `persistence.xml` file. The main reason for deleting schema is to remove customizations during testing to start with a consistent set of schema.
