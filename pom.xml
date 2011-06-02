@@ -34,6 +34,7 @@
     <google.collections.version>1.0</google.collections.version>
     <google.json.version>1.1</google.json.version>
     <guice.version>2.0</guice.version>
+    <javadoc.plugin.version>2.7</javadoc.plugin.version>
     <jackson.version>1.5.4</jackson.version>
     <java.compile.version>1.6</java.compile.version>
     <java.servlet.version>2.5</java.servlet.version>
@@ -382,20 +383,6 @@
         </plugin>
 
         <plugin>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>${source.plugin.version}</version>
-          <executions>
-            <execution>
-              <id>make-source-jar</id>
-              <phase>package</phase>
-              <goals>
-                <goal>jar-no-fork</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-
-        <plugin>
           <artifactId>maven-dependency-plugin</artifactId>
           <configuration>
             <ignoreNonCompile>true</ignoreNonCompile>
@@ -495,9 +482,6 @@
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
       <plugin>
-        <artifactId>maven-source-plugin</artifactId>
-      </plugin>
-      <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
       </plugin>
       <plugin>
@@ -528,7 +512,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.7</version>
+        <version>${javadoc.plugin.version}</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -599,23 +583,41 @@
     </profile>
   
     <profile>
-      <id>javadoc</id>
+      <id>package-for-deployment</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
       <build>
         <plugins>
+        
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.7</version>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>${source.plugin.version}</version>
             <executions>
               <execution>
-                <id>attach-javadocs</id>
-                <phase>deploy</phase>
+                <id>attach-source</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${javadoc.plugin.version}</version>
+            <executions>
+              <execution>
+                <id>attach-javadoc</id>
+                <phase>package</phase>
                 <goals>
                   <goal>jar</goal>
                 </goals>
               </execution>
             </executions>
-          </plugin>         
+          </plugin>
+          
         </plugins>
       </build>
     </profile>
