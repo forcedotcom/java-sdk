@@ -95,7 +95,7 @@ Set this property to <code>true</code> if you want schema deletion to bypass the
 
 For user authentication in JPA, you can configure the following property in your application's `persistence.xml` file.
 
-Note: To connect to Database.com, an authenticated user must have the "API Enabled" user permission in
+**Note**: To connect to Database.com, an authenticated user must have the "API Enabled" user permission in
 their profile. If the **datanucleus.autoCreateSchema** property is enabled in `persistence.xml`, an authenticated
 user must have the "Modify All Data" user permission in their profile to create new Database.com entities in the database.
 
@@ -104,10 +104,13 @@ Use the URL format to encode all authentication information.
 
     force://login.salesforce.com;user=user@salesforcedoc.org;password=samplePassword
 
-Each version of the Database.com Java SDK is automatically linked with an API version. To override the default API version
-for the SDK, see <a href="connection-url#setAPIversion">Setting an API Version</a>.
+Each version of the Database.com Java SDK is automatically linked with an API version. To use a native API connection class to override the default API version
+for the SDK, see <a href="native-api#setAPIversion">Setting an API Version</a>.
 
-For alternatives to using `persistence.xml` for user authentication in JPA, see [Database.com Database Connections](connection-url).
+### force.ConnectionName
+Use this property to define a named connection for a persistence unit. You can refer to the named connection when you are configuring a connection URL outside `persistence.xml`. For example, you can configure a connection URL in an environment variable or Java system property.  
+
+For more details, see [Configuring Connection URLs](connection-url#configConnectionURL).
 
 <a name="transProps"> </a>
 ## Transaction Properties
@@ -117,7 +120,7 @@ To use transactions with JPA, you must configure the following properties in you
 ### datanucleus.datastoreTransactionDelayOperations
 Set this property to true to ensure that all JPA operations are buffered until <code>commit()</code> is called on a transaction. If the property is set to false, every operation handled by the EntityManager is independently committed to the database.
 
-Note: The Database.com JPA provider doesn't do anything when <code>flush()</code> is called on an EntityManager. Use the <code>@Transactional</code> annotation in Spring or <code>commit()</code> instead for transactions.
+**Note**: The Database.com JPA provider doesn't do anything when <code>flush()</code> is called on an EntityManager. Use the <code>@Transactional</code> annotation in Spring or <code>commit()</code> instead for transactions.
 
 ### sfdc.AllOrNothing
 Set this property to <code>true</code> to ensure that all changes are rolled back if any errors occur when persisting records. If the
@@ -147,7 +150,7 @@ The @Version annotation enables JPA to use this date field to do <code>ifModifie
 delete operations. If this check indicates that another operation has updated a record in the transaction, <code>javax.persistence.OptimisticLockException</code> is thrown as the record in the transaction has stale data. If the
 **sfdc.AllOrNothing** property is enabled, the transaction is rolled back.
 
-Note: If you're using optimistic transactions and you don't specify a lastModifiedDate field with an <code>@Version</code> annotation, then your transaction always succeeds even if another operation has updated a record in the transaction.
+**Note**: If you're using optimistic transactions and you don't specify a lastModifiedDate field with an <code>@Version</code> annotation, then your transaction always succeeds even if another operation has updated a record in the transaction.
 
 ### datanucleus.detachAllOnCommit
 Set this property to <code>true</code> to detach all objects enlisted in a transaction when the transaction is committed.

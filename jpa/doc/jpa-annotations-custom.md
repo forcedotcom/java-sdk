@@ -57,7 +57,7 @@ For example:
 The custom object is created when your application starts and the Java class loads. When the custom object is created, custom
 fields corresponding to all of the fields in the class are also created.
 
-Note: If you add a <code>@CustomObject</code> annotation to a Java class that already exists as a custom object in Database.com, the <code>@CustomObject</code>
+**Note**: If you add a <code>@CustomObject</code> annotation to a Java class that already exists as a custom object in Database.com, the <code>@CustomObject</code>
 annotation is ignored. For example, if a Student custom object already exists in your organization and feed tracking in Chatter
 is not enabled for it, adding <code>@CustomObject(enableFeeds = true)</code> to the Student Java class does not enable feed
 tracking. Use the user interface in Salesforce to [enable feed tracking for an existing custom object](http://na1.salesforce.com/help/doc/en/collab_feed_tracking.htm).

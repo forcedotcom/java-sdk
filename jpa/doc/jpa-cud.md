@@ -92,5 +92,5 @@ Here is a trivial sample that creates, updates, and then deletes a record for a 
         }
     }
     
-Note: Each custom Java entity has a name field. If you create a record that doesn't have a name value, the ID of the
+**Note**: Each custom Java entity has a name field. If you create a record that doesn't have a name value, the ID of the
 record is inserted as its name.

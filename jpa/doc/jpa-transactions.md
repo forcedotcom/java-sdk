@@ -27,4 +27,4 @@ This code snippet is intended to show the basic transaction syntax. If you are u
 
 If you are deleting a record, you should execute <code>find()</code> and <code>remove()</code> in the same transaction. 
 
-Note: The Database.com JPA provider doesn't do anything when <code>flush()</code> is called on an <code>EntityManager</code>. Use the <code>@Transactional</code> annotation in Spring or <code>commit()</code> instead for transactions.
+**Note**: The Database.com JPA provider doesn't do anything when <code>flush()</code> is called on an <code>EntityManager</code>. Use the <code>@Transactional</code> annotation in Spring or <code>commit()</code> instead for transactions.

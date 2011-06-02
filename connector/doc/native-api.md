@@ -6,7 +6,7 @@ title: Native API Clients
 ---
 # Native API Clients
 
-The Database.com Service Connector gives you access to a set of native API connection classes for writing directly to Database.com's native APIs. For more details, see the Javadoc for ForceServiceConnector.
+The Database.com Service Connector gives you access to a set of native API connection classes for writing directly to the native Force.com APIs. For more details, see the Javadoc for ForceServiceConnector.
 
 ## PartnerConnection
 
@@ -25,6 +25,20 @@ The MetadataConnection class enables you to execute Metadata API calls to retrie
 The BulkConnection class enables you to execute Bulk API requests. The Bulk API is RESTful, and is optimized for asynchronously loading or deleting large sets of data.
 
 [Read more about the Bulk API](http://www.salesforce.com/us/developer/docs/api_asynch/)
+
+<a name="setAPIversion"> </a>
+## Setting an API Version
+
+Each version of the Database.com Java SDK is automatically linked with an API version. For example, version 22.0.0 of the SDK
+uses API version 22.0. For JPA functionality, the major version of the SDK must always match the API version.
+
+However, for certain advanced use cases, you may wish to issue native API calls to a different version of the API. You can override the default API version of the SDK for a given named connection by specifying a fully qualified API endpoint and using it with a native API connection class.
+
+For example, if you want to use API version 19.0 with version 22.0.0 of the SDK, use the following connection URL with a native API connection class.
+
+    force://login.salesforce.com/services/Soap/u/19.0;user=user@salesforcedoc.org;password=samplePassword
+
+For more information about connection endpoints, see [Authentication Properties](jpa-config-persistence#authProps).
 
 ## API Queries
 

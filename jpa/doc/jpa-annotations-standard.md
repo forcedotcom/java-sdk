@@ -8,7 +8,7 @@ title: Standard JPA Annotations
 
 JPA annotations enable you to define how the JPA provider persists your Java class.
 
-Note: You can associate an annotation with each field or the getter method for the field. You must be consistent
+**Note**: You can associate an annotation with each field or the getter method for the field. You must be consistent
 within a class by using one approach or the other. If you add one annotation to a field and another to a getter method,
 an error occurs. We recommend that you annotate the field instead of the getter method.
 
@@ -19,14 +19,14 @@ Some common standard JPA annotations are:
 ## @Entity
 Marks a Java class as persistent. Each Java class must include an <code>@Entity</code> annotation.
 
-When you start up your application, each class that's annotated with <code>@Entity</code> is loaded and synchronized with Database.com. If there is no existing standard or custom entity matching the entity name, a new custom entity is persisted to the database. If the standard or custom entity already exists, you can use the Java class representation to interact with records of that entity type. For example, you can create a Merchandise Java class and use it to create or delete records for the Merchandise custom entity. 
+When you start up your application, each class that's annotated with <code>@Entity</code> is loaded and synchronized with Database.com. For more details, see [schema creation](jpa-config-persistence#schemaProps) and [schema deletion](jpa-config-persistence#schemaDeleteProps) properties.
 
 For sample syntax for standard and custom entities, see [@Table](#TableAnnotation).
 
 The optional name attribute in <code>@Entity</code> specifies the entity name. If the name attribute is not specified, the entity
 name defaults to the unqualified name of the entity class. If the name attribute is specified, you use the name to refer to the entity in [JPQL queries](jpa-queries).
 
-Note: The value for the name attribute in <code>@Entity</code> doesn't have to match the value for the name attribute in <code>@Table</code>.
+**Note**: The value for the name attribute in <code>@Entity</code> doesn't have to match the value for the name attribute in <code>@Table</code>.
 
 ## @Basic
 Explicitly declares a field in a class as persistent. To make a field in a class persistent, its type must either be one that is persisted by default or you must explicitly declare it as persistent by using the <code>@Basic</code> annotation. The [DataNucleus
@@ -50,7 +50,7 @@ This is a sample for a standard User entity:
         ...
     }
 
-Note: If you omit the @Table(name="User") annotation, the User class maps to a custom User__c entity instead of the standard User entity.
+**Note**: If you omit the @Table(name="User") annotation, the User class maps to a custom User__c entity instead of the standard User entity.
 
 This is a sample for a custom MyCustomObject__c entity:
 
@@ -81,7 +81,7 @@ Use a <code>@Column(nullable = false)</code> annotation to mark a field as requi
 Use a <code>@Column(unique = true)</code> annotation to mark a field as unique. We recommend that you mark unique fields
 to be required too.
 
-Note: The <code>@UniqueConstraint</code> annotation is not supported.
+**Note**: The <code>@UniqueConstraint</code> annotation is not supported.
 
 ## Sample Class Using Standard Annotations
 The following sample Java class uses standard JPA annotations.
