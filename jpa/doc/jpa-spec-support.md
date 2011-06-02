@@ -424,13 +424,13 @@ Supported
 
 Supported
 
-Note: A native query uses SOQL. SQL is not supported.
+**Note**: A native query uses SOQL. SQL is not supported.
 
 #### 10.3.3 Annotations for SQL Query Result Set Mappings
 
 Supported
 
-Note: A native query uses SOQL. SQL is not supported.
+**Note**: A native query uses SOQL. SQL is not supported.
 
 ### 10.4 References to EntityManager and EntityManagerFactory
 
@@ -578,7 +578,7 @@ Not supported
 
 Supported
 
-Note: The AttributeOverride, AttributeOverrides, AssociationOverride, and AssociationOverrides annotations are not supported.
+**Note**: The AttributeOverride, AttributeOverrides, AssociationOverride, and AssociationOverrides annotations are not supported.
 
 #### 11.1.35 MapsId Annotation 
 

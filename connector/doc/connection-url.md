@@ -54,12 +54,15 @@ If you are using OAuth, substitute values in the *oauth_key* and *oauth_secret* 
 
 There is also an optional *timeout* parameter, which is the number of milliseconds to wait to establish a connection before
 timing out. This parameter is equivalent to the **datanucleus.datastoreReadTimeout** property in `persistence.xml`. This connection URL shows sample usage:
-
     
 <pre>
   <code>force://login.salesforce.com;user=<em>user@salesforcedoc.org</em>;password=<em>samplePassword</em>;timeout=<em>10000</em></code>
 </pre>
 
+Each version of the Database.com Java SDK is automatically linked with an API version. For example, version 22.0.0 of the SDK
+uses API version 22.0. For JPA functionality, the major version of the SDK must always match the API version. To use a native API connection class to override the default API version for the SDK, see <a href="native-api#setAPIversion">Setting an API Version</a>.
+
+<a name ="configConnectionURL"> </a>
 ## Configuring Connection URLs
 
 There are multiple options for configuring a connection URL. These options offer you flexibility for managing your configuration information in different environments. For example, you
@@ -80,7 +83,7 @@ variable. The name of the environment variable depends on values in your applica
 For example, if you have a <code>\<persistence-unit name="persistenceUnitName"></code> element, set the authentication
 information for this persistence unit in an environment variable named FORCE\_*PERSISTENCEUNITNAME*\_URL. However, if the <code>persistence-unit</code> contains <code>\<property name="force.ConnectionName" value="forceDatabase"/></code>, the environment variable name should be FORCE\_*FORCEDATABASE*\_URL.
 
-Note: The environment variable name must contain all uppercase characters including the name of the
+**Note**: The environment variable name must contain all uppercase characters including the name of the
 <code>persistence-unit</code> element or the **force.ConnectionName** property converted to uppercase characters.
 
 If you use an environment variable to set the authentication information, you must include <code>\<property
@@ -98,7 +101,7 @@ on the **force.ConnectionName** property value; otherwise, it depends on the <co
 For example, if you have a <code>\<persistence-unit name="persistenceUnitName"></code> element, set the authentication
 information for this persistence unit in a Java system property named force.*persistenceUnitName*.url.
 
-Note: The Java system property name is case sensitive.
+**Note**: The Java system property name is case sensitive.
 
 The following code shows you how to set the authentication information in a Java system property:
 
@@ -122,7 +125,7 @@ on the <code>persistence-unit</code> name.
 For example, if you have a <code>\<persistence-unit name="persistenceUnitName"></code> element, set the authentication
 information for this persistence unit in a *persistenceUnitName*.properties file in the classpath.
 
-Note: The property file name and lookup of property names in the file are case sensitive.
+**Note**: The property file name and lookup of property names in the file are case sensitive.
 
 A file containing this line is an example of a properties file containing a url property.
 
@@ -136,22 +139,3 @@ You can set the connection URL in the $HOME/.force/cliforce_urls file, where $HO
     persistenceUnitName=force://login.salesforce.com;user=user@salesforcedoc.org;password=samplePassword
 
 -->
-
-<a name="setAPIversion"> </a>
-## Setting an API Version
-
-Each version of the Database.com Java SDK is automatically linked with an API version. For example, version 22.0.0 of the SDK
-uses API version 22.0.
-
-However, you can override the default API version of the SDK by specifying a fully qualified API endpoint. For example, if
-you want to use API version 19.0 with version 21.0.0 of the SDK, use one of these options when configuring your JPA
-connection:
-
-<dl>
-  <dt>Connection URL</dt>
-    <dd>force://login.salesforce.com/services/Soap/u/19.0;user=user@salesforcedoc.org;password=samplePassword</dd>
-  <dt>Connection Endpoint</dt>
-    <dd>https://login.salesforce.com/services/Soap/u/19.0</dd>
-</dl>
-
-For more information about connection endpoints, see [Authentication Properties](jpa-config-persistence#authProps).
