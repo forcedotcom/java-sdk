@@ -35,7 +35,7 @@ The SDK is built on existing Force.com APIs. A core service connector class is r
 
 ## JPA Provider
 
-The JPA provider enables you to use Database.com as a persistent data store for entities defined in Java using the JPA standard. You can define entities in pure Java, including related entities using one-to-many or many-to-one relationships, and the JPA provider automatically manages the schema in Database.com. It also enables you to map existing entities in Database.com to JPA entities so you can query and operate transactionally on data that's already there, such as your CRM entities. The JPA provider is based on the [DataNucleus Access Platform](http://www.datanucleus.org/products/accessplatform/index.html).
+The JPA provider enables you to use Database.com as a persistent data store for entities defined in Java using the JPA standard. You can define entities in pure Java and the JPA provider automatically manages the schema in Database.com. It also enables you to map existing entities in Database.com to JPA entities so you can query and operate transactionally on data that's already in Database.com, such as your CRM entities. The JPA provider is based on the [DataNucleus Access Platform](http://www.datanucleus.org/products/accessplatform/index.html).
 
 [Read more](jpa-provider)
 
