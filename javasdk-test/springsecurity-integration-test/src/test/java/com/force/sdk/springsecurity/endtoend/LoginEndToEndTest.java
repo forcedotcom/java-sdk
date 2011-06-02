@@ -26,8 +26,6 @@
 
 package com.force.sdk.springsecurity.endtoend;
 
-import com.force.sdk.oauth.context.SecurityContext;
-import com.force.sdk.oauth.context.store.AESUtil;
 import com.force.sdk.oauth.context.store.ForceEncryptionException;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
@@ -35,7 +33,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
 
 /**
@@ -94,30 +91,6 @@ public class LoginEndToEndTest extends BaseEndToEndTest {
         Assert.assertEquals(securedPage.getUrl().toString(), appEndpoint + "/secured_page.html");
     }
 
-    private byte[] serializeSecurityContext(SecurityContext sc, boolean encrypt, SecretKeySpec secretKey)
-        throws ForceEncryptionException, IOException {
-        // Serialize to a byte array
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream out = new ObjectOutputStream(bos);
-        out.writeObject(sc);
-        out.close();
-
-        byte[] securityContextSer = bos.toByteArray();
-        if (encrypt) {
-            securityContextSer = AESUtil.encrypt(securityContextSer, secretKey);
-        }
-
-        return securityContextSer;
-    }
-
-    private SecurityContext deserializeSecurityContext(byte[] securityContextSer, SecretKeySpec secretKey)
-        throws ForceEncryptionException, IOException, ClassNotFoundException {
-        securityContextSer = AESUtil.decrypt(securityContextSer, secretKey);
-        ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(securityContextSer));
-        return (SecurityContext) in.readObject();
-    }
-
-    
     @Test
     public void testLoginRedirectToSecuredPage() throws FailingHttpStatusCodeException, IOException {
         HtmlPage securedPage = getWebClient().getPage(appEndpoint + "/secured_page.html");
