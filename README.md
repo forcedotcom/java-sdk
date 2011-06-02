@@ -22,3 +22,5 @@ Run the following maven commands to compile and run all tests (unit, functional 
 You can run specific test suites by changing your working directory to a test submodule directory, such as javasdk-test/force-jpa-test/ , and then running the following maven command
 
     mvn verify
+
+Keep in mind that you still must run <code>mvn clean install -DskipTests -P include-test-modules</code> before running any tests in the javasdk-test submodules, otherwise tests may fail.
