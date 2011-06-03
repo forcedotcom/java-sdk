@@ -29,17 +29,12 @@ package com.force.sdk.test.util;
 import java.util.List;
 import java.util.Properties;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 
 import org.datanucleus.ObjectManager;
 import org.datanucleus.store.connection.ConnectionFactory;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.*;
 
 import com.force.sdk.connector.ForceConnectorConfig;
 import com.force.sdk.connector.ForceServiceConnector;
@@ -89,7 +84,7 @@ public abstract class BaseJPAFTest extends BaseTestNGTest {
         }
     }
     
-    @AfterTest
+    @AfterTest(alwaysRun = true)
     protected void testTeardown() throws Exception {
         cleanSchema();
     }

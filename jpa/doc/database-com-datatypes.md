@@ -8,7 +8,7 @@ title: Force.com Data Types
 
 Force.com has its own built-in list of data types optimized for building business applications. To see how these data types map to standard Java data types, see [Mapping Force.com to Java Data Types](java-db-com-datatypes-map#mapForceToJava).
 
-Note: Field names in Java classes must start with a lowercase letter to match bean-naming conventions. For example, use <code>String id</code> instead of <code>String Id</code>.
+**Note**: Field names in Java classes must start with a lowercase letter to match bean-naming conventions. For example, use <code>String id</code> instead of <code>String Id</code>.
 
 For information on primary key fields, see [Primary Keys](jpa-provider#primaryKeys).
 

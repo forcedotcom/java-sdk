@@ -74,7 +74,7 @@
       <version>${force.sdk.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.force.qa</groupId>
+      <groupId>com.force.sdk</groupId>
       <artifactId>qa-utils</artifactId>
     </dependency>
     <dependency>

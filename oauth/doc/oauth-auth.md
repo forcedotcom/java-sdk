@@ -13,7 +13,7 @@ Your Java applications can use Force.com user accounts for authentication and id
 The Force.com OAuth Connector is a library of classes that handles most of the details of the OAuth handshake for you.
 
 <a name="createRAA"> </a>
-### Prerequisite:Creating a Force.com Remote Access Application
+### Prerequisite: Creating a Force.com Remote Access Application
 
 Before you can use OAuth to authenticate users for your application, you must create a remote access application in Force.com. This generates the consumer key and secret that you'll need for the OAuth configuration. 
 

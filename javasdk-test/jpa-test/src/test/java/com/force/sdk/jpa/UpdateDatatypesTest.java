@@ -35,8 +35,7 @@ import java.net.URL;
 
 import javax.persistence.PersistenceException;
 
-import junit.framework.Assert;
-
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -119,7 +118,7 @@ public class UpdateDatatypesTest extends DatatypesBaseTest {
             em.createQuery(updateBase).executeUpdate();
             Assert.fail("Bulk update should have caused an exception.");
         } catch (PersistenceException pe) {
-            Assert.assertTrue("Exception message was wrong.", pe.getMessage().contains("Bulk Update is not yet supported"));
+            Assert.assertTrue(pe.getMessage().contains("Bulk Update is not yet supported"), "Exception message was wrong.");
         }
         
     }
@@ -139,14 +138,14 @@ public class UpdateDatatypesTest extends DatatypesBaseTest {
         String updateBase = "UPDATE " + updateObjName + " o "
                             + "SET o." + typename + "='" + updateVal + "' "
                             + "WHERE o." + typename + "='" + whereVal + "'";
-        Assert.assertEquals("Updated wrong number of entities", 1, em.createQuery(updateBase).executeUpdate());
+        Assert.assertEquals(em.createQuery(updateBase).executeUpdate(), 1, "Updated wrong number of entities");
         
         String selectBase = "select o from " + updateObjName + " o where o." + typename + "=" + updateVal; //whereVal;
-        Assert.assertEquals("Update was not successful", 1, em.createQuery(selectBase).getResultList().size());
+        Assert.assertEquals(em.createQuery(selectBase).getResultList().size(), 1, "Update was not successful");
         T updatedEntity = (T) em.createQuery(selectBase).getResultList().get(0);
         Method getter =
             updatedEntity.getClass().getMethod("get" + typename.substring(0, 1).toUpperCase() + typename.substring(1));
-        Assert.assertEquals("Property was not updated correctly.", updateVal, getter.invoke(updatedEntity, new Object[0]));
+        Assert.assertEquals(getter.invoke(updatedEntity, updateVal, new Object[0]), "Property was not updated correctly.");
     }
     
 }

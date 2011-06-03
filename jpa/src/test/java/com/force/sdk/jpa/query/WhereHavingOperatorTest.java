@@ -26,6 +26,10 @@
 
 package com.force.sdk.jpa.query;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -113,16 +117,16 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                     EXPECTED_QUERY_BASE + " where (( ( o.number__c = 6 ) OR ( o.number__c = 8 ) ) OR ( o.number__c = 9 ))"},
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "NOT IN", "(6,8,9)",
                     EXPECTED_QUERY_BASE + " where (( ( o.number__c <> 6 ) AND ( o.number__c <> 8 ) ) AND ( o.number__c <> 9 ))"},
-                    {QUERY_BASE, WHERE, "'TWO'", "MEMBER OF", FIELD_PICKLIST,
+                {QUERY_BASE, WHERE, "'TWO'", "MEMBER OF", FIELD_PICKLIST,
                     EXPECTED_QUERY_BASE + " where (o.pickValueMulti__c includes('TWO'))"},
                 {QUERY_BASE, WHERE, "'THREE;ONE,TWO'", "MEMBER OF", FIELD_PICKLIST,
-                EXPECTED_QUERY_BASE + " where (o.pickValueMulti__c includes('THREE;ONE','TWO'))"},
+                    EXPECTED_QUERY_BASE + " where (o.pickValueMulti__c includes('THREE;ONE','TWO'))"},
                 {QUERY_BASE, WHERE, "'ONE'", "NOT MEMBER OF", FIELD_PICKLIST,
-                EXPECTED_QUERY_BASE + " where (pickValueMulti__c excludes('ONE'))"},
+                    EXPECTED_QUERY_BASE + " where (pickValueMulti__c excludes('ONE'))"},
                 {QUERY_BASE, WHERE, FIELD_PICKLIST, "IS EMPTY", null,
-                EXPECTED_QUERY_BASE + " where (pickValueMulti__c = null)"},
+                    EXPECTED_QUERY_BASE + " where (pickValueMulti__c = null)"},
                 {QUERY_BASE, WHERE,  FIELD_PICKLIST, "IS NOT EMPTY", null,
-                EXPECTED_QUERY_BASE + " where (pickValueMulti__c != null)"},
+                    EXPECTED_QUERY_BASE + " where (pickValueMulti__c != null)"},
         };
     }
 
@@ -141,9 +145,8 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
         em.createQuery(query).getResultList();
     }
     
-    @DataProvider(name = "multiValueComparisons")
-    public Object[][] createMultiValueComparisonData() {
-        return new Object[][]{
+    private Object[][] createMultiValueComparisonDuplicateData() {
+        return new Object[][] {
                 //control cases. Duplicate declarations
                 {QUERY_BASE, WHERE, FIELD_NUMBER, ">", "6", "AND", ">", "6",
                     EXPECTED_QUERY_BASE + " where (( o.number__c > 6 ) AND ( o.number__c > 6 ))",
@@ -157,6 +160,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "<", "6", "OR", "<", "6",
                     EXPECTED_QUERY_BASE + " where (( o.number__c < 6 ) OR ( o.number__c < 6 ))",
                     null /* expectedReverseSoqlQuery */},
+        };
+    }
+    
+    private Object[][] createMultiValueGreaterAndData() {
+        return new Object[][] {
                 //> AND others
                 {QUERY_BASE, WHERE, FIELD_NUMBER, ">", "6", "AND", "<", "9",
                     EXPECTED_QUERY_BASE + " where (( o.number__c > 6 ) AND ( o.number__c < 9 ))",
@@ -185,6 +193,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                 {QUERY_BASE, WHERE, FIELD_NUMBER, ">", "6", "AND", "NOT IN", "(8,9)",
                     EXPECTED_QUERY_BASE + " where (( o.number__c > 6 ) AND ( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ))",
                     EXPECTED_QUERY_BASE + " where (( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ) AND ( o.number__c > 6 ))"},
+        };
+    }
+    
+    private Object[][] createMultiValueGreaterOrData() {
+        return new Object[][] {
                 //> OR others
                 {QUERY_BASE, WHERE, FIELD_NUMBER, ">", "6", "OR", "<", "9",
                     EXPECTED_QUERY_BASE + " where (( o.number__c > 6 ) OR ( o.number__c < 9 ))",
@@ -213,6 +226,12 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                 {QUERY_BASE, WHERE, FIELD_NUMBER, ">", "6", "OR", "NOT IN", "(8,9)",
                     EXPECTED_QUERY_BASE + " where (( o.number__c > 6 ) OR ( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ))",
                     EXPECTED_QUERY_BASE + " where (( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ) OR ( o.number__c > 6 ))"},
+                
+        };
+    }
+    
+    private Object[][] createMultiValueLessEqualsAndData() {
+        return new Object[][] {
                 //<= AND others
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "<=", "6", "AND", ">=", "3",
                     EXPECTED_QUERY_BASE + " where (( o.number__c <= 6 ) AND ( o.number__c >= 3 ))",
@@ -238,6 +257,12 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "<=", "6", "AND", "NOT IN", "(8,9)",
                     EXPECTED_QUERY_BASE + " where (( o.number__c <= 6 ) AND ( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ))",
                     EXPECTED_QUERY_BASE + " where (( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ) AND ( o.number__c <= 6 ))"},
+                
+        };
+    }
+    
+    private Object[][] createMultiValueLessEqualsOrData() {
+        return new Object[][] {
                 //<= OR others
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "<=", "6", "OR", ">=", "3",
                     EXPECTED_QUERY_BASE + " where (( o.number__c <= 6 ) OR ( o.number__c >= 3 ))",
@@ -263,6 +288,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "<=", "6", "OR", "NOT IN", "(8,9)",
                     EXPECTED_QUERY_BASE + " where (( o.number__c <= 6 ) OR ( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ))",
                     EXPECTED_QUERY_BASE + " where (( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ) OR ( o.number__c <= 6 ))"},
+        };
+    }
+
+    private Object[][] createMultiValueGreaterEqualsAndData() {
+        return new Object[][] {
                 //>= AND others
                 {QUERY_BASE, WHERE, FIELD_NUMBER, ">=", "6", "AND", "<", "3",
                     EXPECTED_QUERY_BASE + " where (( o.number__c >= 6 ) AND ( o.number__c < 3 ))",
@@ -285,6 +315,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                 {QUERY_BASE, WHERE, FIELD_NUMBER, ">=", "6", "AND", "NOT IN", "(8,9)",
                     EXPECTED_QUERY_BASE + " where (( o.number__c >= 6 ) AND ( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ))",
                     EXPECTED_QUERY_BASE + " where (( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ) AND ( o.number__c >= 6 ))"},
+        };
+    }
+
+    private Object[][] createMultiValueGreaterEqualsOrData() {
+        return new Object[][] {
                 //>= OR others
                 {QUERY_BASE, WHERE, FIELD_NUMBER, ">=", "6", "OR", "<", "3",
                     EXPECTED_QUERY_BASE + " where (( o.number__c >= 6 ) OR ( o.number__c < 3 ))",
@@ -307,6 +342,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                 {QUERY_BASE, WHERE, FIELD_NUMBER, ">=", "6", "OR", "NOT IN", "(8,9)",
                     EXPECTED_QUERY_BASE + " where (( o.number__c >= 6 ) OR ( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ))",
                     EXPECTED_QUERY_BASE + " where (( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ) OR ( o.number__c >= 6 ))"},
+        };
+    }
+    
+    private Object[][] createMultiValueLessAndData() {
+        return new Object[][] {
                 //< AND others
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "<", "6", "AND", "=", "3",
                     EXPECTED_QUERY_BASE + " where (( o.number__c < 6 ) AND ( o.number__c = 3 ))",
@@ -326,6 +366,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "<", "6", "AND", "NOT IN", "(3,5)",
                     EXPECTED_QUERY_BASE + " where (( o.number__c < 6 ) AND ( ( o.number__c <> 3 ) AND ( o.number__c <> 5 ) ))",
                     EXPECTED_QUERY_BASE + " where (( ( o.number__c <> 3 ) AND ( o.number__c <> 5 ) ) AND ( o.number__c < 6 ))"},
+        };
+    }
+
+    private Object[][] createMultiValueLessOrData() {
+        return new Object[][] {
                 //< OR others
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "<", "6", "OR", "=", "3",
                     EXPECTED_QUERY_BASE + " where (( o.number__c < 6 ) OR ( o.number__c = 3 ))",
@@ -345,6 +390,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "<", "6", "OR", "NOT IN", "(8,9)",
                     EXPECTED_QUERY_BASE + " where (( o.number__c < 6 ) OR ( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ))",
                     EXPECTED_QUERY_BASE + " where (( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ) OR ( o.number__c < 6 ))"},
+        };
+    }
+    
+    private Object[][] createMultiValueEqualsAndData() {
+        return new Object[][] {
                 //= AND others
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "=", "6", "AND", "<>", "3",
                     EXPECTED_QUERY_BASE + " where (( o.number__c = 6 ) AND ( o.number__c <> 3 ))",
@@ -361,6 +411,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "=", "6", "AND", "NOT IN", "(8,9)",
                     EXPECTED_QUERY_BASE + " where (( o.number__c = 6 ) AND ( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ))",
                     EXPECTED_QUERY_BASE + " where (( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ) AND ( o.number__c = 6 ))"},
+        };
+    }
+    
+    private Object[][] createMultiValueEqualsOrData() {
+        return new Object[][] {
                 //= OR others
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "=", "6", "OR", "<>", "3",
                     EXPECTED_QUERY_BASE + " where (( o.number__c = 6 ) OR ( o.number__c <> 3 ))",
@@ -377,6 +432,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "=", "6", "OR", "NOT IN", "(8,9)",
                     EXPECTED_QUERY_BASE + " where (( o.number__c = 6 ) OR ( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ))",
                     EXPECTED_QUERY_BASE + " where (( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ) OR ( o.number__c = 6 ))"},
+        };
+    }
+    
+    private Object[][] createMultiValueNotEqualsAndData() {
+        return new Object[][] {
                 //<> AND others
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "<>", "6", "AND", "BETWEEN", "4 AND 9",
                     EXPECTED_QUERY_BASE + " where (( o.number__c <> 6 ) AND ( ( o.number__c <= 9 ) AND ( o.number__c >= 4 ) ))",
@@ -390,6 +450,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "<>", "6", "AND", "NOT IN", "(8,9)",
                     EXPECTED_QUERY_BASE + " where (( o.number__c <> 6 ) AND ( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ))",
                     EXPECTED_QUERY_BASE + " where (( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ) AND ( o.number__c <> 6 ))"},
+        };
+    }
+    
+    private Object[][] createMultiValueNotEqualsOrData() {
+        return new Object[][] {
                 //<> OR others
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "<>", "6", "OR", "BETWEEN", "4 AND 9",
                     EXPECTED_QUERY_BASE + " where (( o.number__c <> 6 ) OR ( ( o.number__c <= 9 ) AND ( o.number__c >= 4 ) ))",
@@ -403,6 +468,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "<>", "6", "OR", "NOT IN", "(8,9)",
                     EXPECTED_QUERY_BASE + " where (( o.number__c <> 6 ) OR ( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ))",
                     EXPECTED_QUERY_BASE + " where (( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) ) OR ( o.number__c <> 6 ))"},
+        };
+    }
+    
+    private Object[][] createMultiValueBetweenAndData() {
+        return new Object[][] {
                 //BETWEEN AND others
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "BETWEEN", "6 AND 13", "AND", "NOT BETWEEN", "3 AND 8",
                     EXPECTED_QUERY_BASE
@@ -425,6 +495,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                     EXPECTED_QUERY_BASE
                         + " where (( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) )"
                                 + " AND ( ( o.number__c <= 13 ) AND ( o.number__c >= 6 ) ))"},
+        };
+    }
+    
+    private Object[][] createMultiValueBetweenOrData() {
+        return new Object[][] {
                 //BETWEEN OR others
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "BETWEEN", "6 AND 13", "OR", "NOT BETWEEN", "3 AND 8",
                     EXPECTED_QUERY_BASE
@@ -447,6 +522,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                     EXPECTED_QUERY_BASE
                         + " where (( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) )"
                                 + " OR ( ( o.number__c <= 13 ) AND ( o.number__c >= 6 ) ))"},
+        };
+    }
+    
+    private Object[][] createMultiValueNotBetweenAndData() {
+        return new Object[][] {
                 //NOT BETWEEN AND others
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "NOT BETWEEN", "6 AND 13", "AND", "IN", "(8,9)",
                     EXPECTED_QUERY_BASE
@@ -462,6 +542,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                     EXPECTED_QUERY_BASE
                         + " where (( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) )"
                                 + " AND ( ( o.number__c < 6 ) OR ( o.number__c > 13 ) ))"},
+        };
+    }
+    
+    private Object[][] createMultiValueNotBetweenOrData() {
+        return new Object[][] {
                 //NOT BETWEEN OR others
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "NOT BETWEEN", "6 AND 13", "OR", "IN", "(3,6)",
                     EXPECTED_QUERY_BASE
@@ -477,6 +562,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                     EXPECTED_QUERY_BASE
                         + " where (( ( o.number__c <> 8 ) AND ( o.number__c <> 9 ) )"
                                 + " OR ( ( o.number__c < 6 ) OR ( o.number__c > 13 ) ))"},
+        };
+    }
+    
+    private Object[][] createMultiValueInAndData() {
+        return new Object[][] {
                 //IN AND others
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "IN", "(8,9)", "AND", "NOT IN", "(3,6)",
                     EXPECTED_QUERY_BASE
@@ -485,6 +575,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                     EXPECTED_QUERY_BASE
                         + " where (( ( o.number__c <> 3 ) AND ( o.number__c <> 6 ) )"
                                 + " AND ( ( o.number__c = 8 ) OR ( o.number__c = 9 ) ))"},
+        };
+    }
+
+    private Object[][] createMultiValueInOrData() {
+        return new Object[][] {
                 //IN OR others
                 {QUERY_BASE, WHERE, FIELD_NUMBER, "IN", "(8,9)", "OR", "NOT IN", "(3,6)",
                     EXPECTED_QUERY_BASE
@@ -493,6 +588,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                     EXPECTED_QUERY_BASE
                         + " where (( ( o.number__c <> 3 ) AND ( o.number__c <> 6 ) )"
                                 + " OR ( ( o.number__c = 8 ) OR ( o.number__c = 9 ) ))"},
+        };
+    }
+
+    private Object[][] createMultiValueLikeAndData() {
+        return new Object[][] {
                 //LIKE AND others
                 {QUERY_BASE, WHERE, FIELD_ALPHA, "LIKE", "'six'", "AND", "<", "'nine'",
                     EXPECTED_QUERY_BASE + " where (o.Name like 'six' AND ( o.Name < 'nine' ))",
@@ -509,6 +609,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                 {QUERY_BASE, WHERE, FIELD_ALPHA, "LIKE", "'six'", "AND", "<>", "'three'",
                     EXPECTED_QUERY_BASE + " where (o.Name like 'six' AND ( o.Name <> 'three' ))",
                     EXPECTED_QUERY_BASE + " where (( o.Name <> 'three' ) AND o.Name like 'six')"},
+        };
+    }
+
+    private Object[][] createMultiValueLikeOrData() {
+        return new Object[][] {
                 //LIKE OR others
                 {QUERY_BASE, WHERE, FIELD_ALPHA, "LIKE", "'six'", "OR", "<", "'nine'",
                     EXPECTED_QUERY_BASE + " where (o.Name like 'six' OR ( o.Name < 'nine' ))",
@@ -525,6 +630,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                 {QUERY_BASE, WHERE, FIELD_ALPHA, "LIKE", "'six'", "OR", "<>", "'three'",
                     EXPECTED_QUERY_BASE + " where (o.Name like 'six' OR ( o.Name <> 'three' ))",
                     EXPECTED_QUERY_BASE + " where (( o.Name <> 'three' ) OR o.Name like 'six')"},
+        };
+    }
+
+    private Object[][] createMultiValueNotLikeAndData() {
+        return new Object[][] {
                 //NOT LIKE AND others
                 {QUERY_BASE, WHERE, FIELD_ALPHA, "NOT LIKE", "'six'", "AND", "<", "'nine'",
                     EXPECTED_QUERY_BASE + " where (( NOT o.Name like 'six' ) AND ( o.Name < 'nine' ))",
@@ -541,6 +651,11 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                 {QUERY_BASE, WHERE, FIELD_ALPHA, "NOT LIKE", "'six'", "AND", "<>", "'three'",
                     EXPECTED_QUERY_BASE + " where (( NOT o.Name like 'six' ) AND ( o.Name <> 'three' ))",
                     EXPECTED_QUERY_BASE + " where (( o.Name <> 'three' ) AND ( NOT o.Name like 'six' ))"},
+        };
+    }
+
+    private Object[][] createMultiValueNotLikeOrData() {
+        return new Object[][] {
                 //NOT LIKE OR others
                 {QUERY_BASE, WHERE, FIELD_ALPHA, "NOT LIKE", "'six'", "OR", "<", "'nine'",
                     EXPECTED_QUERY_BASE + " where (( NOT o.Name like 'six' ) OR ( o.Name < 'nine' ))",
@@ -558,6 +673,37 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
                     EXPECTED_QUERY_BASE + " where (( NOT o.Name like 'six' ) OR ( o.Name <> 'three' ))",
                     EXPECTED_QUERY_BASE + " where (( o.Name <> 'three' ) OR ( NOT o.Name like 'six' ))"},
         };
+    }
+    
+    @DataProvider(name = "multiValueComparisons")
+    public Object[][] createMultiValueComparisonData() {
+        List<Object[]> data = new ArrayList<Object[]>(150);
+        data.addAll(Arrays.asList(createMultiValueComparisonDuplicateData()));
+        data.addAll(Arrays.asList(createMultiValueGreaterAndData()));
+        data.addAll(Arrays.asList(createMultiValueGreaterOrData()));
+        data.addAll(Arrays.asList(createMultiValueLessEqualsAndData()));
+        data.addAll(Arrays.asList(createMultiValueLessEqualsOrData()));
+        data.addAll(Arrays.asList(createMultiValueGreaterEqualsAndData()));
+        data.addAll(Arrays.asList(createMultiValueGreaterEqualsOrData()));
+        data.addAll(Arrays.asList(createMultiValueLessAndData()));
+        data.addAll(Arrays.asList(createMultiValueLessOrData()));
+        data.addAll(Arrays.asList(createMultiValueEqualsAndData()));
+        data.addAll(Arrays.asList(createMultiValueEqualsOrData()));
+        data.addAll(Arrays.asList(createMultiValueNotEqualsAndData()));
+        data.addAll(Arrays.asList(createMultiValueNotEqualsOrData()));
+        data.addAll(Arrays.asList(createMultiValueBetweenAndData()));
+        data.addAll(Arrays.asList(createMultiValueBetweenOrData()));
+        data.addAll(Arrays.asList(createMultiValueNotBetweenAndData()));
+        data.addAll(Arrays.asList(createMultiValueNotBetweenOrData()));
+        data.addAll(Arrays.asList(createMultiValueInAndData()));
+        data.addAll(Arrays.asList(createMultiValueInOrData()));
+        data.addAll(Arrays.asList(createMultiValueLikeAndData()));
+        data.addAll(Arrays.asList(createMultiValueLikeOrData()));
+        data.addAll(Arrays.asList(createMultiValueNotLikeAndData()));
+        data.addAll(Arrays.asList(createMultiValueNotLikeOrData()));
+        
+        // 10 is the number of parameters for testMultiValues(...)
+        return data.toArray(new Object[data.size()][10]);
     }
     
     @Test(dataProvider = "multiValueComparisons")

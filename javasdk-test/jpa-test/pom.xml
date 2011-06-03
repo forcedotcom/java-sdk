@@ -118,13 +118,24 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.force.qa</groupId>
+      <groupId>com.force.sdk</groupId>
       <artifactId>qa-utils</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.force.sdk</groupId>
-      <artifactId>force-build-tools</artifactId>
-      <version>${force.sdk.version}</version>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>mockit</groupId>
+      <artifactId>jmockit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jpa_2.0_spec</artifactId>
     </dependency>
     <dependency>
       <groupId>org.datanucleus</groupId>
@@ -135,54 +146,29 @@
       <artifactId>datanucleus-enhancer</artifactId>
     </dependency>
     <dependency>
-      <groupId>javax.jdo</groupId>
-      <artifactId>jdo2-api</artifactId>
+      <groupId>org.datanucleus</groupId>
+      <artifactId>datanucleus-jpa</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.apache.geronimo.specs</groupId>
-      <artifactId>geronimo-jpa_2.0_spec</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.google.inject</groupId>
-      <artifactId>guice</artifactId>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring-beans</artifactId>
+      <artifactId>spring-context</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
     </dependency>
-      <dependency>
+    <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-tx</artifactId>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.cenqua.clover</groupId>
-      <artifactId>clover</artifactId>
-      <version>${maven.clover.version}</version>
-	</dependency>
-    <dependency>
-      <groupId>mockit</groupId>
-      <artifactId>jmockit</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
     </dependency>
   </dependencies>
 
