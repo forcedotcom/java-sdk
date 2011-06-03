@@ -127,7 +127,6 @@
         <groupId>com.force.sdk</groupId>
         <artifactId>force-oauth</artifactId>
         <version>${force.sdk.version}</version>
-        <scope>runtime</scope> 
       </dependency>
       <dependency> 
         <groupId>com.force.sdk</groupId>
