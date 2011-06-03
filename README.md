@@ -1,6 +1,6 @@
 # Database.com Java SDK
 
-For more information on how to use the Java SDK, please read our documentation at http://forcedotcom.github.com/java-sdk/
+For more information on how to use the Java SDK, please read our documentation at http://forcedotcom.github.com/java-sdk/force-sdk-overview
 
 ## How to build
 
