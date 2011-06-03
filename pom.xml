@@ -33,6 +33,7 @@
     <geronimo.version>1.0</geronimo.version>
     <google.collections.version>1.0</google.collections.version>
     <google.json.version>1.1</google.json.version>
+    <gpg.plugin.version>1.2</gpg.plugin.version>
     <guice.version>2.0</guice.version>
     <javadoc.plugin.version>2.7</javadoc.plugin.version>
     <jackson.version>1.5.4</jackson.version>
@@ -622,6 +623,35 @@
                 <phase>package</phase>
                 <goals>
                   <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+        </plugins>
+      </build>
+    </profile>
+    
+    <profile>
+      <id>sign-artifacts</id>
+      <activation>
+        <property>
+          <name>signArtifacts</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+        
+          <plugin>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>${gpg.plugin.version}</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>sign</goal>
                 </goals>
               </execution>
             </executions>
