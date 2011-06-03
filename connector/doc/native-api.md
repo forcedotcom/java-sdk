@@ -29,16 +29,27 @@ The BulkConnection class enables you to execute Bulk API requests. The Bulk API 
 <a name="setAPIversion"> </a>
 ## Setting an API Version
 
-Each version of the Database.com Java SDK is automatically linked with an API version. For example, version 22.0.0 of the SDK
-uses API version 22.0. For JPA functionality, the major version of the SDK must always match the API version.
+By default, a Database.com Service Connector is bound to the API whose major version matches its own. For example, a service connector from SDK version 22.0.0 is automatically bound to API version 22.0.
 
-However, for certain advanced use cases, you may wish to issue native API calls to a different version of the API. You can override the default API version of the SDK for a given named connection by specifying a fully qualified API endpoint and using it with a native API connection class.
+    // ForceConnectorConfig, ForceServiceConnector from SDK 22.0.0
+    ForceConnectorConfig config = new ForceConnectorConfig();
+    config.setConnectionUrl("force://login.salesforce.com;user=user@salesforcedoc.org;password=samplePassword");
+ 
+    // Gets a connection to API version 22.0
+    ForceServiceConnector connector = new ForceServiceConnector(config);
+    PartnerConnection connection = connector.getConnection();
 
-For example, if you want to use API version 19.0 with version 22.0.0 of the SDK, use the following connection URL with a native API connection class.
+However, for certain advanced use cases, you may wish to issue native API calls to a different version of the API. To do this, you can override the default API version bound to a Service Connector by specifying a fully qualified API endpoint. In the following example, we are making a native call with API version 23.0 using SDK version 22.0.0.
 
-    force://login.salesforce.com/services/Soap/u/19.0;user=user@salesforcedoc.org;password=samplePassword
+    // ForceConnectorConfig, ForceServiceConnector from SDK 22.0.0
+    ForceConnectorConfig config = new ForceConnectorConfig();
+    config.setConnectionUrl("force://login.salesforce.com/services/u/23.0;user=user@salesforcedoc.org;password=samplePassword");
+ 
+    // Gets a connection to API version 23.0
+    ForceServiceConnector connector = new ForceServiceConnector(config);
+    PartnerConnection connection = connector.getConnection();
 
-For more information about connection endpoints, see [Authentication Properties](jpa-config-persistence#authProps).
+For more information about connection endpoints, see [Connection Configuration](connection-url#configConnectionURL).
 
 ## API Queries
 

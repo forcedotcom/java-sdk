@@ -104,8 +104,9 @@ Use the URL format to encode all authentication information.
 
     force://login.salesforce.com;user=user@salesforcedoc.org;password=samplePassword
 
-Each version of the Database.com Java SDK is automatically linked with an API version. To use a native API connection class to override the default API version
-for the SDK, see <a href="native-api#setAPIversion">Setting an API Version</a>.
+Each version of the Database.com Java SDK is automatically linked with an API version. 
+
+**Caution**: For JPA configuration, we don't support overriding the default API version of the SDK. 
 
 ### force.ConnectionName
 Use this property to define a named connection for a persistence unit. You can refer to the named connection when you are configuring a connection URL outside `persistence.xml`. For example, you can configure a connection URL in an environment variable or Java system property.  
