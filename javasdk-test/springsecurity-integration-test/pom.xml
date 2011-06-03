@@ -43,7 +43,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             <appName>${appName}</appName>
             <appEndpoint>http://localhost:8888/force-springsecurity-app</appEndpoint>
             <appWarPath>../springsecurity-app/target/force-springsecurity-app.war</appWarPath>
-            <mockOauthServerWarPath>../mock-oauth-server/target/services.war</mockOauthServerWarPath>
+            <mockOauthServerWarPath>../mock-oauth-server/target/force-mock-oauth-server-app.war</mockOauthServerWarPath>
             <containerPort>8888</containerPort>
           </systemPropertyVariables>
         </configuration>
@@ -107,6 +107,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <artifactId>htmlunit</artifactId>
       <version>2.8</version>
     </dependency>
+    <dependency>
+      <groupId>mockit</groupId>
+      <artifactId>jmockit</artifactId>
+    </dependency>
+
   </dependencies>
 
 </project>

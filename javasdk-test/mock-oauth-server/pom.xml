@@ -10,16 +10,16 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <version>22.0.1-SNAPSHOT</version>
   <properties>
     <force.sdk.version>22.0.1-SNAPSHOT</force.sdk.version>
-    
     <apache.cxf.version>2.3.0</apache.cxf.version>
     <!-- Need to upgrade when http://jira.codehaus.org/browse/MCHECKSTYLE-147 is fixed -->
     <checkstyle.plugin.version>2.4</checkstyle.plugin.version>
     <jackson.version>1.8.0</jackson.version>
     <java.compile.version>1.6</java.compile.version>
   </properties>
+
   <build>
     <defaultGoal>install</defaultGoal>
-    <finalName>services</finalName>
+    <finalName>force-mock-oauth-server-app</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -51,6 +51,14 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
         <configuration>
           <skip>true</skip>
         </configuration>
+      </plugin>
+	  <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>tomcat-maven-plugin</artifactId>
+		  <configuration>
+			 <server>tomcat-development-server</server>
+			 <port>9966</port>
+		  </configuration>
       </plugin>
     </plugins>
   </build>
