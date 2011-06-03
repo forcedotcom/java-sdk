@@ -12,6 +12,14 @@
   <artifactId>force-jpa</artifactId>
   <name>force-jpa</name>
 
+  <repositories>
+    <repository>
+      <id>DataNucleus_Repos2</id>
+      <name>DataNucleus Repository</name>
+      <url>http://www.datanucleus.org/downloads/maven2</url>
+    </repository>
+  </repositories>
+
   <build>
     <pluginManagement>
       <plugins>

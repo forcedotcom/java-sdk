@@ -11,6 +11,13 @@
     <version>22.0.1-SNAPSHOT</version>
   </parent>
 
+  <repositories>
+    <repository>
+      <id>DataNucleus_Repos2</id>
+      <name>DataNucleus Repository</name>
+      <url>http://www.datanucleus.org/downloads/maven2</url>
+    </repository>
+  </repositories>
 
   <build>
     <resources>
