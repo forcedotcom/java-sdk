@@ -110,18 +110,8 @@
     <dependencies>
       <dependency>
         <groupId>com.force.api</groupId>
-        <artifactId>force-partner-api</artifactId>
-        <version>${force.api.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.force.api</groupId>
         <artifactId>force-wsc</artifactId>
         <version>${force.api.version}</version>
-      </dependency>
-      <dependency> 
-        <groupId>com.force.sdk</groupId>
-        <artifactId>force-connector</artifactId>
-        <version>${force.sdk.version}</version> 
       </dependency>
       <dependency> 
         <groupId>com.force.sdk</groupId>
