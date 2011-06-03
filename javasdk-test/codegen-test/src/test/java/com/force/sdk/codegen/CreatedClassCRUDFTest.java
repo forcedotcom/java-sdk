@@ -92,6 +92,8 @@ public class CreatedClassCRUDFTest extends BaseMultiEntityManagerJPAFTest {
     
     @SuppressWarnings("unchecked")
     private void testStandardObjectExtensionCRUDInternal(EntityManager entityManager) {
+        deleteAll("Case");
+        deleteAll("Opportunity");
         deleteAll(AccountCustomFields.class);
         
         final String name = "Sample Account";
@@ -124,6 +126,8 @@ public class CreatedClassCRUDFTest extends BaseMultiEntityManagerJPAFTest {
     
     @Test
     public void testEagerlyFetchedOwnerField() {
+        deleteAll("Case");
+        deleteAll("Opportunity");
         deleteAll(AccountCustomFields.class);
         
         final String name = "testEagerlyFetchedOwnerField";

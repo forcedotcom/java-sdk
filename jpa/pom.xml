@@ -12,7 +12,6 @@
   <artifactId>force-jpa</artifactId>
   <name>force-jpa</name>
 
-
   <repositories>
     <repository>
       <id>DataNucleus_Repos2</id>

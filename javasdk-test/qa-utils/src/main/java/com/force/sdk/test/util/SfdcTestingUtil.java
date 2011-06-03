@@ -26,8 +26,11 @@
 
 package com.force.sdk.test.util;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.force.sdk.jpa.ForceManagedConnection;
 import com.force.sdk.jpa.schema.ForceSchemaWriter;
@@ -36,6 +39,7 @@ import com.sforce.soap.metadata.CustomField;
 import com.sforce.soap.metadata.CustomObject;
 import com.sforce.soap.partner.*;
 import com.sforce.ws.ConnectorConfig;
+import org.testng.Assert;
 
 /**
  * Testing util for SFDC specific needs.
@@ -44,7 +48,23 @@ import com.sforce.ws.ConnectorConfig;
  */
 public final class SfdcTestingUtil {
 
-    private SfdcTestingUtil() {  }
+    private static Set<String> customFieldsToKeep;
+
+    static {
+        String namespace = null;
+        try {
+            namespace = PropsUtil.load(PropsUtil.FORCE_SDK_TEST_PROPS).getProperty("force.namespace");
+        } catch (IOException e) {
+            Assert.fail("Failed to load test properties");
+        }
+        namespace = (namespace == null || "".equals(namespace)) ? "" : namespace + "__";
+        customFieldsToKeep = new HashSet<String>();
+        customFieldsToKeep.add((namespace + "Opportunity." + namespace + "TrackingNumber__c").toLowerCase());
+        customFieldsToKeep.add((namespace + "Account." + namespace + "SLA__c").toLowerCase());
+
+    }
+
+    private SfdcTestingUtil() { }
     
     /**
      * getPartnerConnection
@@ -77,7 +97,9 @@ public final class SfdcTestingUtil {
                     CustomField cf = new CustomField();
                     cf.setFullName(f.getName());
                     if (!s.isCustom()) {
-                        writer.addCustomField(co, cf);
+                        if (!customFieldsToKeep.contains((s.getName() + "." + f.getName()).toLowerCase())) {
+                            writer.addCustomField(co, cf);
+                        }
                     } else {
                         writer.addCustomField(co, cf);
                         customFields.add(cf);

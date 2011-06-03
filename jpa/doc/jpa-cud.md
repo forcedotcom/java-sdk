@@ -41,6 +41,8 @@ omitted.
 ## Persisting Records
 After you have instantiated an <code>EntityManager</code>, you can create, update, or delete records for entities with an associated Java class.
 
+**Caution**: To update or remove a record, you must first use the <code>find()</code> method to get the corresponding object and then call <code>merge()</code> or <code>remove()</code> in the same transaction. If you use a constructor to create an object and call <code>setId()</code> to identify the record instead of calling <code>find()</code>, the existing record will not be updated with a <code>merge()</code> call or deleted with a <code>remove()</code> call.
+
 Here is a trivial sample that creates, updates, and then deletes a record for a Student entity. For more information on transactions, see [Transactions](jpa-transactions).
 
     private void sampleCreateUpdateDelete(String persistenceUnitName)

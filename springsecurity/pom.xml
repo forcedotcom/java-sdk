@@ -11,15 +11,6 @@
   <artifactId>force-springsecurity</artifactId>
   <name>force-springsecurity</name>
 
-
-  <repositories>
-    <repository>
-      <id>com.springsource.repository.bundles.external</id>
-      <name>SpringSource Enterprise Bundle Repository - External Releases</name>
-      <url>http://repository.springsource.com/maven/bundles/external</url>
-    </repository>
-  </repositories>
-
   <build>
     <resources>
       <resource>

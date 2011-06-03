@@ -26,24 +26,27 @@
 
 package com.force.sdk.jpa;
 
+import com.force.sdk.connector.ForceConnectorConfig;
+import com.force.sdk.connector.ForceServiceConnector;
+import com.force.sdk.jpa.entities.*;
+import com.force.sdk.jpa.entities.TestEntity.PickValues;
+import com.force.sdk.test.util.BaseMultiEntityManagerJPAFTest;
+import com.force.sdk.test.util.TestContext;
+import com.force.sdk.test.util.UserInfo;
+import com.sforce.soap.partner.Connector;
+import com.sforce.ws.ConnectionException;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import javax.persistence.*;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-
-import javax.persistence.*;
-
-import org.testng.Assert;
-import org.testng.annotations.*;
-
-import com.force.sdk.connector.ForceConnectorConfig;
-import com.force.sdk.connector.ForceServiceConnector;
-import com.force.sdk.jpa.entities.*;
-import com.force.sdk.jpa.entities.TestEntity.PickValues;
-import com.force.sdk.test.util.*;
-import com.sforce.soap.partner.Connector;
-import com.sforce.ws.ConnectionException;
 
 /**
  * Tests optimistic transaction support in JPA. Tests use 2 threads to create concurrency
@@ -90,6 +93,7 @@ public class OptimisticTxTestMT extends BaseMultiEntityManagerJPAFTest {
     protected void init() {
         deleteAll(ParentTestEntity.class);
         deleteAll(TestEntity.class);
+        deleteAll("Case");
         deleteAll("Account");
     }
 
@@ -98,9 +102,9 @@ public class OptimisticTxTestMT extends BaseMultiEntityManagerJPAFTest {
     protected void classTearDown() {
         deleteAll(ParentTestEntity.class);
         deleteAll(TestEntity.class);
+        deleteAll("Case");
         deleteAll("Account");
     }
-
 
     @DataProvider
     public Object[][] txData() throws NumberFormatException, MalformedURLException {

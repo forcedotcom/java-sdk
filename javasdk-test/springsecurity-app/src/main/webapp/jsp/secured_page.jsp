@@ -34,7 +34,7 @@
 	<body>
     <form:form>
 
-        Hello ${userinfo},
+        Hello user,
         <br/>
         Welcome to the OAuth World!
         <br/>
