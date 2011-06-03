@@ -39,7 +39,7 @@ By default, a Database.com Service Connector is bound to the API whose major ver
     ForceServiceConnector connector = new ForceServiceConnector(config);
     PartnerConnection connection = connector.getConnection();
 
-However, for certain advanced use cases, you may wish to issue native API calls to a different version of the API. To do this, you can override the default API version bound to a Service Connector by specifying a fully qualified API endpoint. In the following example, we are making a native call with API version 23.0 using SDK version 22.0.0.
+However, for certain advanced use cases, you may wish to issue native API calls to a different version of the API. To do this, you can override the default API version bound to a service connector by specifying a fully qualified API endpoint. In the following example, we are getting an API version 23.0 connection using SDK version 22.0.0.
 
     // ForceConnectorConfig, ForceServiceConnector from SDK 22.0.0
     ForceConnectorConfig config = new ForceConnectorConfig();
