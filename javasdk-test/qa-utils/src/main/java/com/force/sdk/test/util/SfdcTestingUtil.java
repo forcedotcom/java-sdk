@@ -48,7 +48,7 @@ import org.testng.Assert;
  */
 public final class SfdcTestingUtil {
 
-    private static Set<String> CUSTOM_FIELDS_TO_KEEP;
+    private static Set<String> customFieldsToKeep;
 
     static {
         String namespace = null;
@@ -58,9 +58,9 @@ public final class SfdcTestingUtil {
             Assert.fail("Failed to load test properties");
         }
         namespace = (namespace == null || "".equals(namespace)) ? "" : namespace + "__";
-        CUSTOM_FIELDS_TO_KEEP = new HashSet<String>();
-        CUSTOM_FIELDS_TO_KEEP.add((namespace + "Opportunity." + namespace + "TrackingNumber__c").toLowerCase());
-        CUSTOM_FIELDS_TO_KEEP.add((namespace + "Account." + namespace + "SLA__c").toLowerCase());
+        customFieldsToKeep = new HashSet<String>();
+        customFieldsToKeep.add((namespace + "Opportunity." + namespace + "TrackingNumber__c").toLowerCase());
+        customFieldsToKeep.add((namespace + "Account." + namespace + "SLA__c").toLowerCase());
 
     }
 
@@ -97,7 +97,7 @@ public final class SfdcTestingUtil {
                     CustomField cf = new CustomField();
                     cf.setFullName(f.getName());
                     if (!s.isCustom()) {
-                        if (!CUSTOM_FIELDS_TO_KEEP.contains((s.getName() + "." + f.getName()).toLowerCase())) {
+                        if (!customFieldsToKeep.contains((s.getName() + "." + f.getName()).toLowerCase())) {
                             writer.addCustomField(co, cf);
                         }
                     } else {
