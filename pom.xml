@@ -556,7 +556,10 @@
     <profile>
       <id>include-test-modules</id>
       <activation>
-        <activeByDefault>false</activeByDefault>
+        <property>
+          <name>includeTestModules</name>
+          <value>true</value>
+        </property>
       </activation>
       <modules>
         <module>javasdk-test</module>
@@ -564,9 +567,12 @@
     </profile>
   
     <profile>
-      <id>clover</id>
+      <id>include-test-modules-for-coverage</id>
       <activation>
-        <activeByDefault>false</activeByDefault>
+        <property>
+          <name>includeTestModulesForCoverage</name>
+          <value>true</value>
+        </property>
       </activation>
       <modules>
         <module>javasdk-test/qa-utils</module>
@@ -585,7 +591,10 @@
     <profile>
       <id>package-for-deployment</id>
       <activation>
-        <activeByDefault>false</activeByDefault>
+        <property>
+          <name>packageForDeployment</name>
+          <value>true</value>
+        </property>
       </activation>
       <build>
         <plugins>
