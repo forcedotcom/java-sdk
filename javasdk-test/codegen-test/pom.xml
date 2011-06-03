@@ -76,7 +76,6 @@
           <mappingIncludes>**/*.class</mappingIncludes>
           <verbose>true</verbose>
           <enhancerName>ASM</enhancerName>
-          <log4jConfiguration>${basedir}/src/test/resources/log4j.xml</log4jConfiguration>
           <api>JPA</api>
         </configuration>
         <executions>
@@ -160,6 +159,10 @@
       <groupId>org.datanucleus</groupId>
       <artifactId>datanucleus-core</artifactId>
       <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
     </dependency>
     <dependency>
       <groupId>org.testng</groupId>

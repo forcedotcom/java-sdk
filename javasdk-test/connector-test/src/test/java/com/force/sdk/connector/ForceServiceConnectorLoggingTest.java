@@ -71,6 +71,8 @@ public class ForceServiceConnectorLoggingTest extends BaseForceServiceConnectorT
     @Test
     public void testLogConnectorLoadFromEnvVar() throws ConnectionException {
         Logger logger = Logger.getLogger("com.force.sdk.connector");
+        Level oldLevel = logger.getLevel();
+        logger.setLevel(Level.INFO);
         
         // FORCE_ENVVARCONN_URL is set in pom file
         String expectedLogLine = "Connection : Creating envvarconn from environment variable";
@@ -81,6 +83,7 @@ public class ForceServiceConnectorLoggingTest extends BaseForceServiceConnectorT
             ForceServiceConnector connector = new ForceServiceConnector("envvarconn");
             connector.getConnection();
         } finally {
+            logger.setLevel(oldLevel);
             logger.removeAppender(mockAppender);
         }
         
@@ -90,6 +93,8 @@ public class ForceServiceConnectorLoggingTest extends BaseForceServiceConnectorT
     @Test
     public void testLogConnectorLoadFromJavaProp() throws ConnectionException {
         Logger logger = Logger.getLogger("com.force.sdk.connector");
+        Level oldLevel = logger.getLevel();
+        logger.setLevel(Level.INFO);
         
         String expectedLogLine = "Connection : Creating testLogConnectorLoadFromJavaProp from Java system property";
         MockAppender mockAppender = new MockAppender(expectedLogLine);
@@ -102,6 +107,7 @@ public class ForceServiceConnectorLoggingTest extends BaseForceServiceConnectorT
             connector.getConnection();
         } finally {
             System.clearProperty("force.testLogConnectorLoadFromJavaProp.url");
+            logger.setLevel(oldLevel);
             logger.removeAppender(mockAppender);
         }
         
@@ -111,7 +117,9 @@ public class ForceServiceConnectorLoggingTest extends BaseForceServiceConnectorT
     @Test
     public void testLogConnectorLoadFromClasspathPropFile() throws ConnectionException {
         Logger logger = Logger.getLogger("com.force.sdk.connector");
-        
+        Level oldLevel = logger.getLevel();
+        logger.setLevel(Level.INFO);
+
         String expectedLogLine = "Connection : Creating funcconnuserinfo from classpath properties file";
         MockAppender mockAppender = new MockAppender(expectedLogLine);
         logger.addAppender(mockAppender);
@@ -120,6 +128,7 @@ public class ForceServiceConnectorLoggingTest extends BaseForceServiceConnectorT
             ForceServiceConnector connector = new ForceServiceConnector("funcconnuserinfo");
             connector.getConnection();
         } finally {
+            logger.setLevel(oldLevel);
             logger.removeAppender(mockAppender);
         }
         
@@ -129,6 +138,8 @@ public class ForceServiceConnectorLoggingTest extends BaseForceServiceConnectorT
     @Test
     public void testLogConnectorLoadFromCliforcePropFile() throws ConnectionException, IOException {
         Logger logger = Logger.getLogger("com.force.sdk.connector");
+        Level oldLevel = logger.getLevel();
+        logger.setLevel(Level.INFO);
         
         String connectionName = "ForceServiceConnectorLoggingTest.testLogConnectorLoadFromCliforcePropFile";
         String expectedLogLine = "Connection : Creating " + connectionName + " from cliforce connections file";
@@ -141,6 +152,7 @@ public class ForceServiceConnectorLoggingTest extends BaseForceServiceConnectorT
             ForceServiceConnector connector = new ForceServiceConnector(connectionName);
             connector.getConnection();
         } finally {
+            logger.setLevel(oldLevel);
             logger.removeAppender(mockAppender);
         }
         
