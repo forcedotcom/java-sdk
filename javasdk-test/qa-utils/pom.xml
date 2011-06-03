@@ -25,20 +25,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
         <filtering>true</filtering>
         <includes>
           <include>force-sdk-test.properties</include>
+          <include>log4j.xml</include>
         </includes>
       </resource>
     </resources>
-    <testResources>
-      <testResource>
-        <directory>${basedir}/src/test/resources</directory>
-        <filtering>true</filtering>
-        <includes>
-          <include>**/persistence.xml</include>
-          <include>**/applicationContext.xml</include>
-        </includes>
-      </testResource>
-    </testResources>
-    
+
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>

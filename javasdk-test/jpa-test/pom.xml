@@ -36,7 +36,6 @@
           <persistenceUnitName>testDNJpaPersistence</persistenceUnitName>
           <verbose>true</verbose>
           <enhancerName>ASM</enhancerName>
-          <log4jConfiguration>${basedir}/src/test/resources/log4j.xml</log4jConfiguration>
           <api>JPA</api>
         </configuration>
         <executions>
