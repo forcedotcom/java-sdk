@@ -26,6 +26,8 @@
 
 package com.force.sample.springsecurity;
 
+import com.force.sdk.oauth.context.SecurityContextUtil;
+import mockit.Mockit;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -36,11 +38,25 @@ import org.springframework.web.servlet.ModelAndView;
  * implementation of spring security in this application.
  *
  * @author Jeff Lai
+ * @author Nawab Iqbal
  *
  */
 @Controller
 public class TestController {
-    
+    /**
+     * springsecurity-integration tests will set mockapi=true; when mock server is used.
+     * For using mock server, while running from command-line, set -Dmockapi=true
+     */
+    static {
+        System.out.println(" ------------------------------------------------------------------------");
+        System.out.println("mockapi: " + System.getProperty("mockapi"));
+        if (Boolean.getBoolean("mockapi")) {
+            System.out.println("Mock has been setup.");
+            Mockit.setUpMock(SecurityContextUtil.class, MockSecurityContextUtil.class);
+        }
+        System.out.println(" ------------------------------------------------------------------------");
+    }
+
     /**
      * Controller method for page_with_login_link.html.
      * @return new ModelAndView object
@@ -50,7 +66,7 @@ public class TestController {
         ModelAndView mav = new ModelAndView();
         return mav;
     }
-    
+
     /**
      * Controller method for page_with_logout_link.html.
      * @return new ModelAndView object
@@ -64,7 +80,7 @@ public class TestController {
     /**
      * Controller method for secured_page.html.
      * @return new ModelAndView object
-     */  
+     */
     @RequestMapping("secured_page.html")
     public ModelAndView securedPage() {
         ModelAndView mav = new ModelAndView();

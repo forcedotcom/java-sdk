@@ -26,14 +26,14 @@
 
 package com.force.sdk.springsecurity.endtoend;
 
-import java.io.IOException;
-
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
+import com.force.sdk.oauth.context.store.ForceEncryptionException;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.io.*;
 
 /**
  * 
@@ -66,16 +66,31 @@ public class LoginEndToEndTest extends BaseEndToEndTest {
     }
     
     @Test
-    public void testSecuredPage() throws FailingHttpStatusCodeException, IOException {
-        HtmlPage loginPage = getWebClient().getPage(appEndpoint + "/login");
+    public void testSecuredPage()
+            throws FailingHttpStatusCodeException, IOException, ForceEncryptionException, ClassNotFoundException {
+
+        getWebClient().setRedirectEnabled(false);
+        HtmlPage loginPage = null;
+        try {
+            loginPage = getWebClient().getPage(appEndpoint + "/login");
+            Assert.fail("Login page should redirect.");
+        } catch (FailingHttpStatusCodeException e) {
+            Assert.assertEquals(e.getResponse().getStatusCode(), 302, "Redirect code 302 was expected.");
+        }
+
+        // enabling redirection so that login page redirects to SFDC and we can logon.
+        getWebClient().setRedirectEnabled(true);
+        loginPage = getWebClient().getPage(appEndpoint + "/login");
         fillOutCredentialsAndLogin(loginPage);
+
         // note when we try to access the secured page we are already logged in because HtmlUnit goes into an infinite loop 
         // while trying to execute javascript if you try to access the secured page and then login
         HtmlPage securedPage = getWebClient().getPage(appEndpoint + "/secured_page.html");
+
         Assert.assertEquals(securedPage.getTitleText(), "Secured page");
         Assert.assertEquals(securedPage.getUrl().toString(), appEndpoint + "/secured_page.html");
     }
-    
+
     @Test
     public void testLoginRedirectToSecuredPage() throws FailingHttpStatusCodeException, IOException {
         HtmlPage securedPage = getWebClient().getPage(appEndpoint + "/secured_page.html");

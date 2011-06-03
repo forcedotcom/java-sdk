@@ -20,7 +20,7 @@ a new custom field in Database.com.</dd>
 
   <dt>@PicklistValue</dt>
     <dd>Use <code>@PicklistValue</code> to define which enum values are available by default in a non-restricted multi-select picklist.</dd>
-    <dd><a href="force-datatypes#enumFields">Read More</a></dd>
+    <dd><a href="database-com-datatypes#enumFields">Read More</a></dd>
   
   <dt>@JoinFilter</dt>
     <dd>Use <code>@JoinFilter</code> to include a WHERE clause to filter the returned child collection or map in an implicit JPQL query
@@ -57,10 +57,10 @@ For example:
 The custom object is created when your application starts and the Java class loads. When the custom object is created, custom
 fields corresponding to all of the fields in the class are also created.
 
-Note: If you add a <code>@CustomObject</code> annotation to a Java class that already exists as a custom object in Database.com, the <code>@CustomObject</code>
+**Note**: If you add a <code>@CustomObject</code> annotation to a Java class that already exists as a custom object in Database.com, the <code>@CustomObject</code>
 annotation is ignored. For example, if a Student custom object already exists in your organization and feed tracking in Chatter
 is not enabled for it, adding <code>@CustomObject(enableFeeds = true)</code> to the Student Java class does not enable feed
-tracking. This annotation only affects feed tracking when a new custom object is created.
+tracking. Use the user interface in Salesforce to [enable feed tracking for an existing custom object](http://na1.salesforce.com/help/doc/en/collab_feed_tracking.htm).
 
 ### Marking Object (Entity) Read-Only
 Use the <code>readOnlySchema</code> attribute to mark an entity as read only. If you set <code>readOnlySchema = true</code>, it ensures that the schema will not be deleted when the **force.purgeOnDelete** property is set in your application's `persistence.xml` file. 

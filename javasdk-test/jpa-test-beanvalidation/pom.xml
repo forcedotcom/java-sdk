@@ -9,7 +9,7 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk-test</artifactId>
-    <version>22.0.0-BETA</version>
+    <version>22.0.1-BETA</version>
   </parent>
 
   <build>
@@ -51,37 +51,19 @@
   </build>
 
   <dependencies>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>qa-utils</artifactId>
+    </dependency>
     <!-- Bean Validation API -->
     <dependency>
       <groupId>javax.validation</groupId>
       <artifactId>validation-api</artifactId>
       <version>1.0.0.GA</version>
     </dependency>
-    <!-- Hibernates reference implementation -->
     <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-validator</artifactId>
-      <version>4.0.2.GA</version>
-    </dependency>
-    <dependency>
-      <groupId>com.force.api</groupId>
-      <artifactId>force-metadata-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.force.sdk</groupId>
-      <artifactId>force-connector</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.force.sdk</groupId>
-      <artifactId>force-jpa</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.force.qa</groupId>
-      <artifactId>qa-utils</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>commons-httpclient</groupId>
-      <artifactId>commons-httpclient</artifactId>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jpa_2.0_spec</artifactId>
     </dependency>
     <dependency>
       <groupId>org.datanucleus</groupId>
@@ -93,15 +75,15 @@
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring-orm</artifactId>
+      <artifactId>spring-test</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-tx</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
     </dependency>
   </dependencies>
 

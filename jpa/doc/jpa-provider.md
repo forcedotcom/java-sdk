@@ -62,7 +62,7 @@ standard annotation. For example:
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     String sfdcId;
 
-Note: Primary keys in Database.com have two formats: a 15-character case-sensitive string and an
+**Note**: Primary keys in Database.com have two formats: a 15-character case-sensitive string and an
 18-character case-insensitive string. API calls always return 18–character values, but API requests also accept
 15-character values. If you use the Database.com JPA provider or an API call, you always use the 18-character
 format.

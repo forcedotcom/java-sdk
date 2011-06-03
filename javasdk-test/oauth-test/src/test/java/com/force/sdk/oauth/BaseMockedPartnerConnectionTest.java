@@ -26,8 +26,7 @@
 
 package com.force.sdk.oauth;
 
-import junit.framework.Assert;
-
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
@@ -175,12 +174,12 @@ public class BaseMockedPartnerConnectionTest extends BaseOAuthTest {
 */
     protected void assertSecurityContextsAreEqual(SecurityContext expectedSc, SecurityContext actualSc, String message) {
         
-        Assert.assertEquals(message + " - field: endpoint - ", expectedSc.getEndPoint(), actualSc.getEndPoint());
-        Assert.assertEquals(message + " - field: session id - ", expectedSc.getSessionId(), actualSc.getSessionId());
-        Assert.assertEquals(message + " - field: user id - ", expectedSc.getUserId(), actualSc.getUserId());
-        Assert.assertEquals(message + " - field: user name - ", expectedSc.getUserName(), actualSc.getUserName());
-        Assert.assertEquals(message + " - field: org id - ", expectedSc.getOrgId(), actualSc.getOrgId());
-        Assert.assertEquals(message + " - field: language - ", expectedSc.getLanguage(), actualSc.getLanguage());
+        Assert.assertEquals(actualSc.getEndPoint(), expectedSc.getEndPoint(), message + " - field: endpoint - ");
+        Assert.assertEquals(actualSc.getSessionId(), expectedSc.getSessionId(), message + " - field: session id - ");
+        Assert.assertEquals(actualSc.getUserId(), expectedSc.getUserId(), message + " - field: user id - ");
+        Assert.assertEquals(actualSc.getUserName(), expectedSc.getUserName(), message + " - field: user name - ");
+        Assert.assertEquals(actualSc.getOrgId(), expectedSc.getOrgId(), message + " - field: org id - ");
+        Assert.assertEquals(actualSc.getLanguage(), expectedSc.getLanguage(), message + " - field: language - ");
         
     }
 }

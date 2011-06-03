@@ -4,14 +4,13 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk</artifactId>
-    <version>22.0.0-BETA</version>
+    <version>22.0.1-BETA</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.force.sdk</groupId>
   <artifactId>force-jpa</artifactId>
   <name>force-jpa</name>
-
 
   <repositories>
     <repository>
@@ -156,12 +155,18 @@
       <artifactId>force-connector</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>javax.jdo</groupId>
       <artifactId>jdo2-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>javax.transaction</groupId>
-      <artifactId>jta</artifactId>
+      <groupId>mockit</groupId>
+      <artifactId>jmockit</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.geronimo.specs</groupId>
@@ -180,18 +185,12 @@
       <artifactId>datanucleus-enhancer</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>mockit</groupId>
-      <artifactId>jmockit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.inject</groupId>
-      <artifactId>guice</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

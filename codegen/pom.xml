@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk</artifactId>
-    <version>22.0.0-BETA</version>
+    <version>22.0.1-BETA</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -15,14 +15,6 @@
   <properties>
     <stringtemplate.version>3.2</stringtemplate.version>
   </properties>
-
-  <repositories>
-    <repository>
-      <id>DataNucleus_Repos2</id>
-      <name>DataNucleus Repository</name>
-      <url>http://www.datanucleus.org/downloads/maven2</url>
-    </repository>
-  </repositories>
 
   <build>
     <plugins>
@@ -47,6 +39,10 @@
   <dependencies>
     <dependency>
       <groupId>com.force.api</groupId>
+      <artifactId>force-partner-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.api</groupId>
       <artifactId>force-wsc</artifactId>
     </dependency>
     <dependency>
@@ -62,6 +58,10 @@
       <artifactId>google-collections</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+    </dependency>
+    <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
     </dependency>
@@ -70,13 +70,13 @@
       <artifactId>jmockit</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apache.geronimo.specs</groupId>
-      <artifactId>geronimo-jpa_2.0_spec</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.antlr</groupId>
       <artifactId>stringtemplate</artifactId>
       <version>${stringtemplate.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jpa_2.0_spec</artifactId>
     </dependency>
     <dependency>
       <groupId>org.testng</groupId>

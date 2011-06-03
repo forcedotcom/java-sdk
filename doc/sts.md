@@ -18,7 +18,7 @@ To download STS:
 1.  Download the STS version for your operating system.
 1.  Follow the installation instructions on the download page.
 
-Note: The easiest way to get started is to download the most recent of the SpringSource Tool Suite distributions that includes Eclipse. However, you can also install the SpringSource Tool Suite components and dependencies from an update site into an existing 3.5-based Eclipse installation on your computer.
+**Note**: The easiest way to get started is to download the most recent of the SpringSource Tool Suite distributions that includes Eclipse. However, you can also install the SpringSource Tool Suite components and dependencies from an update site into an existing 3.5-based Eclipse installation on your computer.
 
 ## 2. Install the DataNucleus STS Plugin
 
@@ -59,7 +59,7 @@ To run your application on SpringSource tc Server:
 2. Click **Run As > Run On Server**.
 3. Click **Finish**.
 
-Note: If you are prompted to enable [Spring Insight](http://www.springsource.org/insight), choose No for this optional feature.
+**Note**: If you are prompted to enable [Spring Insight](http://www.springsource.org/insight), choose No for this optional feature.
 
 Your application server should start with your application running. If the application fails to start, you may need to run **Project > Clean**. 
 

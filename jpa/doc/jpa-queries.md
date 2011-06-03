@@ -8,7 +8,7 @@ title: Querying with JPQL
 
 JPA supports Java Persistence Query Language (JPQL), a platform-independent object-oriented query language.
 
-Note: Although JPA supports native queries with SQL, the Database.com JPA provider doesn't support SQL. Instead,
+**Note**: Although JPA supports native queries with SQL, the Database.com JPA provider doesn't support SQL. Instead,
 the Database.com JPA provider supports [native queries with SOQL](jpa-queries-soql). 
 
 You can also bypass JPA and execute a [query() call](native-api) using the Web services API.
@@ -53,7 +53,7 @@ The following sample shows a simple JPQL query and iteration of the query result
         }
     }
     
-Note: A query that contains the entity alias in the SELECT clause returns all [eagerly fetched fields](#eagerVsLazy) for the entity. For example, this query returns all eagerly fetched fields for the User entity. 
+**Note**: A query that contains the entity alias in the SELECT clause returns all [eagerly fetched fields](#eagerVsLazy) for the entity. For example, this query returns all eagerly fetched fields for the User entity. 
 
     SELECT u FROM User u
 
@@ -61,7 +61,7 @@ Note: A query that contains the entity alias in the SELECT clause returns all [e
 ### Bulk Delete and Queries
 As well as querying records, JPQL supports deleting records.
 
-Note: Records deleted with JPQL don't participate in all-or-nothing transactions or trigger cascading deletion for
+**Note**: Records deleted with JPQL don't participate in all-or-nothing transactions or trigger cascading deletion for
 child records. Don't use bulk delete with JPQL if you want the option to roll back the deletions as part of a transaction
 or use cascade deletion. Use the <code>remove()</code> method in <code>EntityManager</code> to delete individual records instead.
 
@@ -85,7 +85,7 @@ To delete a set of records without storing them in the Recycle Bin, set a hint o
         int deletedRecords = q.executeUpdate();
     }
     
-Note: Although JPQL supports a similar syntax for UPDATE, the Database.com JPA provider doesn't support updating records with JPQL.
+**Note**: Although JPQL supports a similar syntax for UPDATE, the Database.com JPA provider doesn't support updating records with JPQL.
 
 ## JPQL Date (Temporal) Functions
 JPA supports date literals, such as [CURRENT_DATE](http://www.datanucleus.org/products/accessplatform/jpa/jpql_functions.html), in JPQL to perform comparisons with Date or Date/Time fields. For
@@ -93,7 +93,7 @@ example, the following JPQL query returns users that have logged in before today
 
     SELECT Email, LastName FROM User WHERE LastLoginDate < CURRENT_DATE
     
-Note: The Database.com JPA provider doesn't support the CURRENT_TIME and CURRENT_TIMESTAMP JPA date literals.
+**Note**: The Database.com JPA provider doesn't support the CURRENT_TIME and CURRENT_TIMESTAMP JPA date literals.
 
 The Database.com JPA provider also supports [date literals](http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_calls_soql_select_dateformats.htm), such as TOMORROW, that aren't part of the JPA specification. The CURRENT_DATE JPA date literal is equivalent to the TODAY Database.com date literal.
 
@@ -164,7 +164,7 @@ of wines from the result set, the Database.com JPA provider creates an implicit 
 If you add the <code>FetchType.EAGER</code> attribute to the <code>@OneToMany</code> annotation in Producer.java, the collection of wines is
 returned without the need for a second query in the background.
 
-Note: If you use a native SOQL query instead of JPQL, there is no implicit join; you would have to write a sub-query
+**Note**: If you use a native SOQL query instead of JPQL, there is no implicit join; you would have to write a sub-query
 referencing the parent-to-child relationship.
 
 #### Ordering with @OrderBy
@@ -199,7 +199,7 @@ entities using the relationship fields.
     WHERE c.name = 'sample1')
         AND o.username LIKE 'bob%'
         
-Note: The Database.com JPA provider always performs outer joins, so there is no difference in the query results if you
+**Note**: The Database.com JPA provider always performs outer joins, so there is no difference in the query results if you
 use JOIN or LEFT OUTER JOIN.
 
 <a name="inJoins"> </a>
@@ -244,7 +244,7 @@ For more information on semi- and anti-joins in SOQL, see the [Web Services API 
 <a name="relJoins"> </a>
 ### Relationship Joins
 Relationships between entities in Database.com are represented by a lookup or master-detail field in a child entity. You can't
-create relationships with other field types. For more information, see [Relationship Fields](force-datatypes#relFields).
+create relationships with other field types. For more information, see [Relationship Fields](database-com-datatypes#relFields).
 
 For each relationship between objects, there is a relationshipName property that enables you to traverse the relationship
 in a query. For more information about relationships, see [Understanding Relationship Names](http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_calls_soql_relationships.htm).
@@ -257,7 +257,7 @@ in the parent entity.
     FROM ChildEntity c
     WHERE c.ParentEntity.name in ('Parent1', 'Parent2')
     
-Note: You can't navigate parent-to-child relationships like you can in native SOQL queries. However, it's easier to
+**Note**: You can't navigate parent-to-child relationships like you can in native SOQL queries. However, it's easier to
 take advantage of implicit joins in JPQL queries for querying parent-to-child relationships.
 
 For more information about the number of levels of relationships that you can traverse in a query, see [Fetch Depth](#fetchDepth).
@@ -432,7 +432,7 @@ eagerly loaded by the Database.com JPA provider to support optimistic transactio
 You can also explicitly mark a field as eager or lazy by adding the <code>FetchType.EAGER</code> or <code>FetchType.LAZY</code> attribute to an
 <code>@Basic</code>, <code>@OneToMany</code>, or <code>@ManyToOne</code> annotation.
 
-Note: A separate query is executed when you access the data for any lazily loaded field.
+**Note**: A separate query is executed when you access the data for any lazily loaded field.
 
 <a name="fetchDepth"> </a>
 ### Fetch Depth

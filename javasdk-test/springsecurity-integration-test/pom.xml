@@ -6,12 +6,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <groupId>com.force.sdk</groupId>
   <artifactId>force-springsecurity-integration-test</artifactId>
   <name>force-springsecurity-integration-test</name>
-  <version>22.0.0-BETA</version>
+  <version>22.0.1-BETA</version>
 
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk-test</artifactId>
-    <version>22.0.0-BETA</version>
+    <version>22.0.1-BETA</version>
   </parent>
 
   <properties>
@@ -43,7 +43,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             <appName>${appName}</appName>
             <appEndpoint>http://localhost:8888/force-springsecurity-app</appEndpoint>
             <appWarPath>../springsecurity-app/target/force-springsecurity-app.war</appWarPath>
-            <mockOauthServerWarPath>../mock-oauth-server/target/services.war</mockOauthServerWarPath>
+            <mockOauthServerWarPath>../mock-oauth-server/target/force-mock-oauth-server-app.war</mockOauthServerWarPath>
             <containerPort>8888</containerPort>
           </systemPropertyVariables>
         </configuration>
@@ -70,18 +70,17 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 
   <dependencies>
     <dependency>
-      <groupId>com.force.qa</groupId>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-oauth</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
       <artifactId>qa-utils</artifactId>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jstl</artifactId>
-      <version>1.1.2</version>
-    </dependency>
-    <dependency>
-      <groupId>taglibs</groupId>
-      <artifactId>standard</artifactId>
-      <version>1.1.2</version>
+      <groupId>net.sourceforge.htmlunit</groupId>
+      <artifactId>htmlunit</artifactId>
+      <version>2.8</version>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
@@ -94,15 +93,14 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <version>4.1</version>
     </dependency>
     <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.0.1</version>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
     </dependency>
     <dependency>
-      <groupId>net.sourceforge.htmlunit</groupId>
-      <artifactId>htmlunit</artifactId>
-      <version>2.8</version>
+      <groupId>mockit</groupId>
+      <artifactId>jmockit</artifactId>
     </dependency>
+
   </dependencies>
 
 </project>

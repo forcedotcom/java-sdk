@@ -31,7 +31,7 @@ import java.util.*;
 
 import javax.persistence.*;
 
-import junit.framework.Assert;
+import org.testng.Assert;
 
 import com.force.sdk.jpa.annotation.CustomField;
 import com.force.sdk.jpa.annotation.CustomObject;
@@ -151,10 +151,10 @@ public class ParentTestEntity {
                 // TODO: We have to specialcase the comparisons for now.
                 // That is because we are ignoring TimeZone information. We will have to add that in.
                 if (expected instanceof Calendar && actual instanceof Calendar) {
-                    Assert.assertEquals("Difference at field (type Clendar) " + fieldName + ": ",
-                            ((Calendar) expected).getTime(), ((Calendar) actual).getTime());
+                    Assert.assertEquals(((Calendar) actual).getTime(), ((Calendar) expected).getTime(),
+                            "Difference at field (type Clendar) " + fieldName + ": ");
                 } else {
-                    Assert.assertEquals("Difference at field " + fieldName + ": ", expected, actual);
+                    Assert.assertEquals(actual, expected, "Difference at field " + fieldName + ": ");
                 }
             }
         } catch (Exception e) {

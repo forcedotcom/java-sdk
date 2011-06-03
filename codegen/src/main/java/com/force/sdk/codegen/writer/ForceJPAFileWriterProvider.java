@@ -103,7 +103,7 @@ public class ForceJPAFileWriterProvider implements WriterProvider {
      * @param packageName a non {@code null} {@code String} which conforms
      *                    to Java package naming standards
      * @see ForceJPAClassGeneratorUtils#constructPackageName(GetUserInfoResult)
-     * @see ForceJPAClassDataSelector#setPackageName(String)
+     * @see com.force.sdk.codegen.selector.ForceJPAClassDataSelector#setPackageName(String)
      */
     public void setPackageName(String packageName) {
         this.packageName = packageName;

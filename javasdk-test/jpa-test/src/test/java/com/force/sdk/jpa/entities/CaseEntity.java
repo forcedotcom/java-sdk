@@ -24,25 +24,25 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.codegen.filter;
+package com.force.sdk.jpa.entities;
 
-import java.util.List;
+import com.force.sdk.jpa.model.BaseForceStandardObject;
 
-import com.sforce.soap.partner.DescribeSObjectResult;
+import javax.persistence.*;
 
 /**
- * A filter which determines which Force.com {@code DescribeSObjectResult} objects
- * are injected into a code generation {@link com.force.sdk.codegen.template.Template}.
+ * This class is the equivalent to the generated Case
+ * class (i.e. a readOnly model for the Case entity).
  *
- * @author Tim Kral
+ * The generated Case class uses a namespace which
+ * we cannot duplicate for a new org.  This class
+ * allows us to have an Account entity model for new orgs.
+ *
+ * @author Jill Wetzler
  */
-public interface DataFilter {
+@Table(name = "Case")
+@Entity(name = "Case")
+@com.force.sdk.jpa.annotation.CustomObject(readOnlySchema = true)
+public class CaseEntity extends BaseForceStandardObject {
 
-    /**
-     * Filters a list of Force.com {@code DescribeSObjectResult} objects.
-     * 
-     * @param dsrs the list of Force.com {@code DescribeSObjectResult} objects to be filtered
-     * @return the filtered list of Force.com {@code DescribeSObjectResult} objects
-     */
-    List<DescribeSObjectResult> filter(List<DescribeSObjectResult> dsrs);
 }

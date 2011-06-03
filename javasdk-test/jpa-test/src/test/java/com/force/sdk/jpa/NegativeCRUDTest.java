@@ -26,8 +26,6 @@
 
 package com.force.sdk.jpa;
 
-import static junit.framework.Assert.assertNull;
-
 import java.util.List;
 
 import javax.persistence.EntityTransaction;
@@ -60,7 +58,7 @@ public class NegativeCRUDTest extends BaseJPAFTest {
     
     @Test(dataProvider = "invalidIdProvider")
     public void testFindWithInvalidId(String invalidId) throws Exception {
-        assertNull(em.find(TestEntity.class, invalidId));
+        Assert.assertNull(em.find(TestEntity.class, invalidId));
     }
     
     @Test

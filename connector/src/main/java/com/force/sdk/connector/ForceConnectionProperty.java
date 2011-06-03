@@ -143,6 +143,10 @@ public enum ForceConnectionProperty {
      *                                  does not match the validation regular expression 
      */
     public void validateValue(String propertyValue, String customErrorMessage) {
+        if ("endpoint".equals(this.propertyName) && propertyValue != null && propertyValue.contains("localhost")) {
+            return;
+        }
+
         if (propertyValue == null || propertyValue.length() == 0) {
             StringBuffer errorMessage = new StringBuffer(customErrorMessage);
             errorMessage.append(" The ForceConnectionProperty (" + this.propertyName + ") must have a value");

@@ -9,7 +9,7 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk-test</artifactId>
-    <version>22.0.0-BETA</version>
+    <version>22.0.1-BETA</version>
   </parent>
 
   <build>
@@ -74,7 +74,7 @@
       <version>${force.sdk.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.force.qa</groupId>
+      <groupId>com.force.sdk</groupId>
       <artifactId>qa-utils</artifactId>
     </dependency>
     <dependency>

@@ -31,9 +31,8 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import junit.framework.Assert;
-
 import org.springframework.mock.web.*;
+import org.testng.Assert;
 import org.testng.annotations.*;
 
 import com.force.sdk.oauth.context.*;
@@ -98,7 +97,7 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
             //figure out which security context we are expecting for this test
             SecurityContext verificationSc = (SecurityContext) httpSession.getAttribute(SECURITY_CONTEXT_TO_VERIFY_KEY);
             
-            Assert.assertNotNull("The security context in the cookie should not be null", sc);
+            Assert.assertNotNull(sc, "The security context in the cookie should not be null");
             assertSecurityContextsAreEqual(verificationSc, sc, "Security contexts are not equal");
         }
     }
@@ -233,9 +232,9 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
         
         Cookie cookie = mockResponse.getCookie(SecurityContextCookieStore.SECURITY_CONTEXT_COOKIE_NAME);
         if (checkSecurity) {
-            Assert.assertTrue("Cookie should be set as secure", cookie.getSecure());
+            Assert.assertTrue(cookie.getSecure(), "Cookie should be set as secure");
         } else {
-            Assert.assertFalse("Cookie should not be set as secure for localhost", cookie.getSecure());
+            Assert.assertFalse(cookie.getSecure(), "Cookie should not be set as secure for localhost");
         }
         String value = cookie.getValue();
         

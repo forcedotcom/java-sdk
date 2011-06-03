@@ -4,7 +4,7 @@
   <groupId>com.force.sdk</groupId>
   <artifactId>force-sdk</artifactId>
   <name>force-sdk</name>
-  <version>22.0.0-BETA</version>
+  <version>22.0.1-BETA</version>
   <packaging>pom</packaging>
 
   <properties>
@@ -16,11 +16,9 @@
     <force.version.min>22.0</force.version.min>
     <force.version.max>22.1</force.version.max>
     <force.api.version>[22.0.0, 22.1.0)</force.api.version>
-    <force.sdk.version>22.0.0-BETA</force.sdk.version>
+    <force.sdk.version>22.0.1-BETA</force.sdk.version>
     
     <apache.http.version>4.0.1</apache.http.version>
-    <apache.xmlrpc.version>3.1.3</apache.xmlrpc.version>
-    <commons.httpclient.version>3.1</commons.httpclient.version>
     <commons.io.version>2.0.1</commons.io.version>
     <commons.lang.version>2.5</commons.lang.version>
     <commons.logging.version>1.1.1</commons.logging.version>
@@ -34,20 +32,17 @@
     <findbugs.plugin.version>2.3.2</findbugs.plugin.version>
     <geronimo.version>1.0</geronimo.version>
     <google.collections.version>1.0</google.collections.version>
-    <google.gson.version>1.5</google.gson.version>
     <google.json.version>1.1</google.json.version>
+    <gpg.plugin.version>1.2</gpg.plugin.version>
     <guice.version>2.0</guice.version>
+    <javadoc.plugin.version>2.7</javadoc.plugin.version>
     <jackson.version>1.5.4</jackson.version>
     <java.compile.version>1.6</java.compile.version>
     <java.servlet.version>2.5</java.servlet.version>
     <jdo.version>2.3-ec</jdo.version>
     <jmockit.version>0.999.6</jmockit.version>
-    <jta.version>1.1</jta.version>
-    <junit.version>3.8.1</junit.version>
     <log4j.version>1.2.15</log4j.version>
     <maven.clover.version>3.0.2</maven.clover.version>
-    <p4java.version>2010.1.269249</p4java.version>
-    <selenium.version>1.0.2</selenium.version>
     <site.plugin.version>2.2</site.plugin.version>
     <slf4j.version>1.6.1</slf4j.version>
     <source.plugin.version>2.1.2</source.plugin.version>
@@ -55,11 +50,9 @@
     <spring.security.version>3.0.3.RELEASE</spring.security.version>
     <surefire.version>2.7.1</surefire.version>
     <testng.version>5.14.2</testng.version>
+    
     <doc.site.destination>/var/www/force-docsite</doc.site.destination>
     <maven.site.destination>/var/www/force-sdk-maven</maven.site.destination>
-    
-    <!--moved from test-sdk-->
-    <test.vm.argLine>-Xmx512m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=${test.heap.dump.path}</test.vm.argLine>
   </properties>
 
   <modules>
@@ -114,16 +107,15 @@
       <url>${force.repo.snapshot.url}</url>
     </snapshotRepository>
     <site>
-      <id>force.repo.snapshot</id>
+      <id>force.maven.site</id>
       <name>Maven Site</name>
       <url>file://${maven.site.destination}</url>
     </site>
   </distributionManagement>
 
   <scm>
-    <connection>scm:git:git@github.com:forcedotcom/javasdk.git</connection>
+    <connection>scm:git:git@github.com:forcedotcom/java-sdk.git</connection>
   </scm>
-
 
   <dependencyManagement>
     <dependencies>
@@ -158,9 +150,21 @@
         <version>${force.sdk.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.force.qaforce</groupId>
-        <artifactId>qaforce-connector</artifactId>
-        <version>${force.sdk.version}</version>
+        <groupId>com.google.collections</groupId>
+        <artifactId>google-collections</artifactId>
+        <version>${google.collections.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.inject</groupId>
+        <artifactId>guice</artifactId>
+        <version>${guice.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.googlecode.json-simple</groupId>
+        <artifactId>json-simple</artifactId>
+        <version>${google.json.version}</version>
+        <scope>compile</scope>
       </dependency>
       <dependency>
         <groupId>commons-lang</groupId>
@@ -168,41 +172,20 @@
         <version>${commons.lang.version}</version>
       </dependency>
       <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>${commons.logging.version}</version>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
         <groupId>javax.jdo</groupId>
         <artifactId>jdo2-api</artifactId>
         <version>${jdo.version}</version>
       </dependency>
       <dependency>
-        <groupId>javax.transaction</groupId>
-        <artifactId>jta</artifactId>
-        <version>${jta.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.geronimo.specs</groupId>
-        <artifactId>geronimo-jpa_2.0_spec</artifactId>
-        <version>${geronimo.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.datanucleus</groupId>
-        <artifactId>datanucleus-core</artifactId>
-        <version>${datanucleus.core.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.datanucleus</groupId>
-        <artifactId>datanucleus-jpa</artifactId>
-        <version>${datanucleus.jpa.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.datanucleus</groupId>
-        <artifactId>datanucleus-enhancer</artifactId>
-        <version>${datanucleus.enhancer.version}</version>
-        <scope>runtime</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.googlecode.json-simple</groupId>
-        <artifactId>json-simple</artifactId>
-        <version>${google.json.version}</version>
-        <scope>compile</scope>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>${java.servlet.version}</version>
       </dependency>
       <dependency>
         <groupId>log4j</groupId>
@@ -224,10 +207,41 @@
         </exclusions>
       </dependency>
       <dependency>
-        <groupId>commons-logging</groupId>
-        <artifactId>commons-logging</artifactId>
-        <version>${commons.logging.version}</version>
-        <scope>compile</scope>
+        <groupId>mockit</groupId>
+        <artifactId>jmockit</artifactId>
+        <version>${jmockit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.geronimo.specs</groupId>
+        <artifactId>geronimo-jpa_2.0_spec</artifactId>
+        <version>${geronimo.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>${apache.http.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpcore</artifactId>
+        <version>${apache.http.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.datanucleus</groupId>
+        <artifactId>datanucleus-core</artifactId>
+        <version>${datanucleus.core.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.datanucleus</groupId>
+        <artifactId>datanucleus-enhancer</artifactId>
+        <version>${datanucleus.enhancer.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.datanucleus</groupId>
+        <artifactId>datanucleus-jpa</artifactId>
+        <version>${datanucleus.jpa.version}</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
@@ -242,106 +256,55 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
-        <version>${java.servlet.version}</version>
-      </dependency>
-      <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-beans</artifactId>
         <version>${spring.version}</version>
-        <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-core</artifactId>
-        <version>${spring.version}</version>
-        <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-core</artifactId>
-        <version>${spring.security.version}</version>
-        <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-config</artifactId>
-        <version>${spring.security.version}</version>
-        <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-web</artifactId>
-        <version>${spring.security.version}</version>
-        <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-orm</artifactId>
-        <version>${spring.version}</version>
-        <scope>compile</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-tx</artifactId>
-        <version>${spring.version}</version>
-        <scope>compile</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-context</artifactId>
         <version>${spring.version}</version>
-        <scope>compile</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
-        <artifactId>spring-test</artifactId>
+        <artifactId>spring-core</artifactId>
         <version>${spring.version}</version>
-        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-orm</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-tx</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-config</artifactId>
+        <version>${spring.security.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-core</artifactId>
+        <version>${spring.security.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-web</artifactId>
+        <version>${spring.security.version}</version>
       </dependency>
       <dependency>
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
         <version>${testng.version}</version>
         <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.google.inject</groupId>
-        <artifactId>guice</artifactId>
-        <version>${guice.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.force.qa</groupId>
-        <artifactId>qa-utils</artifactId>
-        <version>${force.sdk.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-httpclient</groupId>
-        <artifactId>commons-httpclient</artifactId>
-        <version>${commons.httpclient.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.collections</groupId>
-        <artifactId>google-collections</artifactId>
-        <version>${google.collections.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>mockit</groupId>
-        <artifactId>jmockit</artifactId>
-        <version>${jmockit.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpclient</artifactId>
-        <version>${apache.http.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpcore</artifactId>
-        <version>${apache.http.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -421,21 +384,14 @@
         </plugin>
 
         <plugin>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>${source.plugin.version}</version>
-          <executions>
-            <execution>
-              <id>make-source-jar</id>
-              <phase>package</phase>
-              <goals>
-                <goal>jar-no-fork</goal>
-              </goals>
-            </execution>
-          </executions>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <configuration>
+            <ignoreNonCompile>true</ignoreNonCompile>
+            <outputXML>true</outputXML>
+          </configuration>
         </plugin>
 
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
           <version>${checkstyle.plugin.version}</version>
           <dependencies>
@@ -502,7 +458,17 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
           <version>${site.plugin.version}</version>
-      </plugin>
+        </plugin>
+
+        <plugin>
+          <groupId>com.atlassian.maven.plugins</groupId>
+          <artifactId>maven-clover2-plugin</artifactId>
+          <version>${maven.clover.version}</version>
+          <configuration>
+            <generateHtml>true</generateHtml>
+            <generateXml>true</generateXml>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -517,10 +483,9 @@
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
       <plugin>
-        <artifactId>maven-source-plugin</artifactId>
+        <artifactId>maven-dependency-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
       <plugin>
@@ -535,78 +500,167 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>com.atlassian.maven.plugins</groupId>
+        <artifactId>maven-clover2-plugin</artifactId>
+      </plugin>
     </plugins>
 
   </build>
   
-	<reporting>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.7</version>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jxr-plugin</artifactId>
-            <version>2.2</version>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-pmd-plugin</artifactId>
-            <version>2.5</version>
-            <configuration>
-              <targetJdk>1.6</targetJdk>
-            </configuration>
-          </plugin>
-          <plugin>
-          	<groupId>org.apache.maven.plugins</groupId>
-          	<artifactId>maven-project-info-reports-plugin</artifactId>
-          	<version>2.1.1</version>
-          	<reportSets>
-          		<reportSet>
-	          		<reports>
-	          			<report>index</report>
-	          			<report>mailing-list</report>
-	          			<report>scm</report>
-	          			<report>summary</report>
-	          			<report>issue-tracking</report>
-	          			<report>dependencies</report>
-	          			<report>license</report>
-	          		</reports>          		
-          		</reportSet>
-          	</reportSets>
-          	<configuration>
-          		<webAccessUrl>https://github.com/forcedotcom/javasdk</webAccessUrl>
-          	</configuration>
-          </plugin>
-        </plugins>
-      </reporting>
-  
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${javadoc.plugin.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+          <targetJdk>1.6</targetJdk>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.1.1</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>index</report>
+              <report>mailing-list</report>
+              <report>scm</report>
+              <report>summary</report>
+              <report>issue-tracking</report>
+              <report>dependencies</report>
+              <report>license</report>
+            </reports>                  
+          </reportSet>
+        </reportSets>
+        <configuration>
+          <webAccessUrl>https://github.com/forcedotcom/javasdk</webAccessUrl>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 
   <profiles>
+    
     <profile>
-      <id>javadoc</id>
+      <id>include-test-modules</id>
+      <activation>
+        <property>
+          <name>includeTestModules</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <modules>
+        <module>javasdk-test</module>
+      </modules>
+    </profile>
+  
+    <profile>
+      <id>include-test-modules-for-coverage</id>
+      <activation>
+        <property>
+          <name>includeTestModulesForCoverage</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <modules>
+        <module>javasdk-test/qa-utils</module>
+        <module>javasdk-test/connector-test</module>
+        <module>javasdk-test/jpa-test</module>
+        <module>javasdk-test/jpa-test-beanvalidation</module>
+        <module>javasdk-test/jpa-test-connection</module>
+        <module>javasdk-test/jpa-test-query</module>
+        <module>javasdk-test/jpa-test-schema</module>
+        <module>javasdk-test/codegen-test</module>
+        <module>javasdk-test/oauth-test</module>
+        <module>javasdk-test/springsecurity-test</module>
+      </modules>
+    </profile>
+  
+    <profile>
+      <id>package-for-deployment</id>
+      <activation>
+        <property>
+          <name>packageForDeployment</name>
+          <value>true</value>
+        </property>
+      </activation>
       <build>
         <plugins>
+        
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.7</version>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>${source.plugin.version}</version>
             <executions>
               <execution>
-                <id>attach-javadocs</id>
-                <phase>deploy</phase>
+                <id>attach-source</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${javadoc.plugin.version}</version>
+            <executions>
+              <execution>
+                <id>attach-javadoc</id>
+                <phase>package</phase>
                 <goals>
                   <goal>jar</goal>
                 </goals>
               </execution>
             </executions>
-          </plugin>  		
+          </plugin>
+          
         </plugins>
       </build>
     </profile>
-  	
+    
+    <profile>
+      <id>sign-artifacts</id>
+      <activation>
+        <property>
+          <name>signArtifacts</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+        
+          <plugin>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>${gpg.plugin.version}</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+        </plugins>
+      </build>
+    </profile>
+    
     <profile>
       <id>javadoc-coverage</id>
       <reporting>
@@ -636,115 +690,117 @@
     <profile>
       <id>jekyll</id>
       <build>
-      <plugins>
-	      <plugin>
-	        <groupId>org.codehaus.mojo</groupId>
-	        <artifactId>exec-maven-plugin</artifactId>
-	        <version>1.1</version>
-	        <executions>
-	          <execution>
-	          	<phase>site</phase>
-	            <goals>
-	              <goal>exec</goal>
-	            </goals>
-	          </execution>
-	        </executions>
-	        <configuration>
-	          <executable>jekyll</executable>
-	    	  <workingDirectory>doc</workingDirectory>
-	          <arguments>
-	            <argument>.</argument>
-	            <argument>../target/docsite</argument>
-	          </arguments>
-	        </configuration>
-	      </plugin>  
-	     <plugin>
-	       <artifactId>maven-resources-plugin</artifactId>
-	       <version>2.5</version>
-	       <executions>
-	         <execution>
-	         	<id>config</id>
-	           <phase>pre-site</phase>
-	           <goals>
-	             <goal>copy-resources</goal>
-	           </goals>
-	           <configuration>
-	             <outputDirectory>doc</outputDirectory>
-	             <resources>          
-	               <resource>
-	                 <directory>../doc</directory>
-	                 <filtering>true</filtering>
-			        <includes>
-			          <include>**/*.yml</include>
-			        </includes>
-	               </resource>
-	             </resources>              
-	           </configuration>            
-	         </execution>
-	         <execution>
-	         	<id>includes</id>
-	           <phase>pre-site</phase>
-	           <goals>
-	             <goal>copy-resources</goal>
-	           </goals>
-	           <configuration>
-	             <outputDirectory>doc/_includes</outputDirectory>
-	             <resources>          
-	               <resource>
-	                 <directory>../doc/_includes</directory>
-	               </resource>
-	             </resources>              
-	           </configuration>            
-	         </execution>
-	         <execution>
-	         	<id>plugins</id>
-	           <phase>pre-site</phase>
-	           <goals>
-	             <goal>copy-resources</goal>
-	           </goals>
-	           <configuration>
-	             <outputDirectory>doc/_plugins</outputDirectory>
-	             <resources>          
-	               <resource>
-	                 <directory>../doc/_plugins</directory>
-	               </resource>
-	             </resources>              
-	           </configuration>            
-	         </execution>
-	         <execution>
-	         	<id>layouts</id>
-	           <phase>pre-site</phase>
-	           <goals>
-	             <goal>copy-resources</goal>
-	           </goals>
-	           <configuration>
-	             <outputDirectory>doc/_layouts</outputDirectory>
-	             <resources>          
-	               <resource>
-	                 <directory>../doc/_layouts</directory>
-	               </resource>
-	             </resources>              
-	           </configuration>            
-	         </execution>
-	         <execution>
-	         	<id>site-copy</id>
-	           <phase>site</phase>
-	           <goals>
-	             <goal>copy-resources</goal>
-	           </goals>
-	           <configuration>
-	             <outputDirectory>${doc.site.destination}</outputDirectory>
-	             <resources>          
-	               <resource>
-	                 <directory>target/docsite</directory>
-	               </resource>
-	             </resources>              
-	           </configuration>            
-	         </execution>
-	       </executions>
-	     </plugin>    
-      	</plugins>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.1</version>
+            <executions>
+              <execution>
+                <phase>site</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <executable>jekyll</executable>
+              <workingDirectory>doc</workingDirectory>
+              <arguments>
+                <argument>.</argument>
+                <argument>../target/docsite</argument>
+              </arguments>
+            </configuration>
+          </plugin>  
+          <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.5</version>
+            <executions>
+              <execution>
+                <id>config</id>
+                <phase>pre-site</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>doc</outputDirectory>
+                  <resources>          
+                    <resource>
+                      <directory>../doc</directory>
+                      <filtering>true</filtering>
+                      <includes>
+                        <include>**/*.yml</include>
+                      </includes>
+                    </resource>
+                  </resources>              
+                </configuration>            
+              </execution>
+              <execution>
+                <id>includes</id>
+                <phase>pre-site</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>doc/_includes</outputDirectory>
+                  <resources>          
+                    <resource>
+                      <directory>../doc/_includes</directory>
+                    </resource>
+                  </resources>              
+                </configuration>            
+              </execution>
+              <execution>
+                <id>plugins</id>
+                <phase>pre-site</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>doc/_plugins</outputDirectory>
+                  <resources>          
+                    <resource>
+                      <directory>../doc/_plugins</directory>
+                    </resource>
+                  </resources>              
+                </configuration>            
+              </execution>
+              <execution>
+                <id>layouts</id>
+                <phase>pre-site</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>doc/_layouts</outputDirectory>
+                  <resources>          
+                    <resource>
+                      <directory>../doc/_layouts</directory>
+                    </resource>
+                  </resources>              
+                </configuration>            
+              </execution>
+              <execution>
+                <id>site-copy</id>
+                <phase>site</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${doc.site.destination}</outputDirectory>
+                  <resources>          
+                    <resource>
+                      <directory>target/docsite</directory>
+                    </resource>
+                  </resources>              
+                </configuration>            
+              </execution>
+            </executions>
+          </plugin>    
+        </plugins>
       </build>
     </profile>
+    
   </profiles>
+  
 </project>
