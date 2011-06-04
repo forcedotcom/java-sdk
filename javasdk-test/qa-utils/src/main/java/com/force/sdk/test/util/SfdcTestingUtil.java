@@ -59,8 +59,8 @@ public final class SfdcTestingUtil {
         }
         namespace = (namespace == null || "".equals(namespace)) ? "" : namespace + "__";
         customFieldsToKeep = new HashSet<String>();
-        customFieldsToKeep.add((namespace + "Opportunity." + namespace + "TrackingNumber__c").toLowerCase());
-        customFieldsToKeep.add((namespace + "Account." + namespace + "SLA__c").toLowerCase());
+        customFieldsToKeep.add(("Opportunity." + namespace + "TrackingNumber__c").toLowerCase());
+        customFieldsToKeep.add(("Account." + namespace + "SLA__c").toLowerCase());
 
     }
 
