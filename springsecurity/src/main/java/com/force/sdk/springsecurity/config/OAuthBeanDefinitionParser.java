@@ -190,7 +190,7 @@ public class OAuthBeanDefinitionParser implements BeanDefinitionParser {
         // This filter is invoked after the remember me filter. It insures that the thread local connection variables
         // are set.
         parserContext.getRegistry().registerBeanDefinition(CONNECTION_STORAGE_FILTER_BEAN_NAME,
-                createConnectionStorageFilter());
+                createConnectionStorageFilter(element));
 
         // Now we configure http element if it's present. HTTP element should be a sibling so look for it.
         if (element.getParentNode() != null) {
@@ -289,7 +289,7 @@ public class OAuthBeanDefinitionParser implements BeanDefinitionParser {
         String storeUsername = mainElement.getAttribute(STORE_USER_NAME);
         BeanDefinition customUserdataRetrievalService = new RootBeanDefinition(CustomUserDataRetrievalService.class);
         
-        if ("false".equals(storeUsername)) {
+        if ("false".equalsIgnoreCase(storeUsername)) {
             customUserdataRetrievalService.getPropertyValues().add("storeUsername", false);
         } else {
             customUserdataRetrievalService.getPropertyValues().add("storeUsername", true);
@@ -305,7 +305,7 @@ public class OAuthBeanDefinitionParser implements BeanDefinitionParser {
         BeanDefinition userdataRetrievalService = new RootBeanDefinition(UserDataRetrievalService.class);
         String storeUsername = mainElement.getAttribute(STORE_USER_NAME);
 
-        if ("false".equals(storeUsername)) {
+        if ("false".equalsIgnoreCase(storeUsername)) {
             userdataRetrievalService.getPropertyValues().add("storeUsername", false);
         } else {
             userdataRetrievalService.getPropertyValues().add("storeUsername", true);
@@ -425,8 +425,14 @@ public class OAuthBeanDefinitionParser implements BeanDefinitionParser {
         return securityContextService;
     }
 
-    private BeanDefinition createConnectionStorageFilter() {
+    private BeanDefinition createConnectionStorageFilter(Element element) {
+        String storeDataInSession = element.getAttribute(STORE_DATA_IN_SESSION);
         BeanDefinition connectionStorageFilter = new RootBeanDefinition(ForceConnectionStorageFilter.class);
+        if ("true".equalsIgnoreCase(storeDataInSession)) {
+            connectionStorageFilter.getPropertyValues().add("useSession", new Boolean(true));
+        } else {
+            connectionStorageFilter.getPropertyValues().add("useSession", new Boolean(false));
+        }
         connectionStorageFilter.getPropertyValues().add("oauthConnector",
                 new RuntimeBeanReference(OAUTH_CONNECTOR_BEAN_NAME));
         return connectionStorageFilter;
@@ -436,7 +442,7 @@ public class OAuthBeanDefinitionParser implements BeanDefinitionParser {
         String storeDataInSession = element.getAttribute(STORE_DATA_IN_SESSION);
         String secureKeyFileName = element.getAttribute(SECURE_KEY_FILE);
         BeanDefinition securityContextStorageService = null;
-        if ("true".equals(storeDataInSession)) {
+        if ("true".equalsIgnoreCase(storeDataInSession)) {
             securityContextStorageService = new RootBeanDefinition(SecurityContextSessionStore.class);
         } else {
             securityContextStorageService = new RootBeanDefinition(SecurityContextCookieStore.class);

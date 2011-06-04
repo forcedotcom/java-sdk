@@ -26,13 +26,14 @@
 
 package com.force.sample.springsecurity;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.force.sdk.connector.ForceServiceConnector;
 import com.sforce.soap.partner.GetUserInfoResult;
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.ws.ConnectionException;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 
@@ -73,6 +74,24 @@ public class TestController {
      */
     @RequestMapping("secured_page.html")
     public ModelAndView securedPage() throws ConnectionException {
+        return createSecuredPageModel();
+    }
+    
+    /**
+     * Controller method for secured_page.html.
+     * @return new ModelAndView object
+     * @throws ConnectionException if an error occurs while connecting to the Force.com store (organization).
+     */
+    @RequestMapping("secured_page_no_session.html")
+    public ModelAndView securedPageNoSession() throws ConnectionException {
+        return createSecuredPageModel();
+    }
+    
+    /**
+     * Create the model and view that both secured pages will use
+     * @return new ModelAndView object for secured pages
+     */
+    private ModelAndView createSecuredPageModel() throws ConnectionException{
         ModelAndView mav = new ModelAndView();
 
         // This will instantiate a ForceSeviceConnector with the given connectionName.
@@ -92,7 +111,7 @@ public class TestController {
         mav.addObject("userinfo", userInfoResult.getUserName());
         mav.addObject("moreinfo", value.toString());
 
-        return mav;
+        return mav;        
     }
     
     /**

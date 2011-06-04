@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<%--
 
     Copyright (c) 2011, salesforce.com, inc.
     All rights reserved.
@@ -25,32 +24,23 @@
     NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
 
--->
+--%>
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:security="http://www.springframework.org/schema/security"
-       xmlns:fss="http://www.salesforce.com/schema/springsecurity"
-       xsi:schemaLocation="
-           http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-           http://www.springframework.org/schema/security
-           http://www.springframework.org/schema/security/spring-security-3.0.xsd
-           http://www.salesforce.com/schema/springsecurity
-           http://media.developerforce.com/schema/force-springsecurity-1.3.xsd">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page session="false" %>
+<html>
+	<head>
+		<title>Secured page</title>
+	</head>
+	<body>
+    <form:form>
 
-    <!-- Force.com OAuth security config -->
-    <fss:oauth default-login-success="/login_success.html" default-logout-success="/logout_success.html"
-        login-url="/login" logout-url="/logout" logout-from-force-dot-com="true" secure-key-file='spring-app-key.properties'>
-        
-        <fss:connectionName name="integrationserver"/>
-    </fss:oauth>
+        Hello ${userinfo},
+        <br/>
+        Welcome to the OAuth World!
+        <br/>
+        This page is secure.
 
-	<!-- Configure Spring Security -->
-	<security:http use-expressions="true">
-	    <security:anonymous />
-        <security:intercept-url pattern="/secured_page.html" access="isAuthenticated()" />
-        <security:intercept-url pattern="/secured_page_no_session.html" access="isAuthenticated()" />
-	</security:http>
 
-</beans>
+	</body>
+</html>

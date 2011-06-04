@@ -183,6 +183,10 @@ public class OAuthBeanDefinitionParserTest {
                         + "on the user data retrieval service should be false");
         ForceOAuthConnector connector = context.getBean("oauthConnector", ForceOAuthConnector.class);
         
+        ForceConnectionStorageFilter connStorageFilter = context.getBean(ForceConnectionStorageFilter.class);
+        Assert.assertNotNull(connStorageFilter, "There should be a ForceConnectionStorageFilter in the context");
+        Assert.assertTrue(connStorageFilter.isUseSession(), "ForceConnectionStorageFilter.useSession should be true");
+        
         // For expected values, see security-config-ns-connName.xml
         // connector property is loaded through a non-public getter
         assertEquals(invoke(connector, "getConnectionName"), "connName",
@@ -211,6 +215,10 @@ public class OAuthBeanDefinitionParserTest {
                     "Could not find connectionStorageFilter bean after parsing " + configLocation);
         
         ForceOAuthConnector connector = context.getBean("oauthConnector", ForceOAuthConnector.class);
+        
+        ForceConnectionStorageFilter connStorageFilter = context.getBean(ForceConnectionStorageFilter.class);
+        Assert.assertNotNull(connStorageFilter, "There should be a ForceConnectionStorageFilter in the context");
+        Assert.assertFalse(connStorageFilter.isUseSession(), "ForceConnectionStorageFilter.useSession should be false");
         
         // For expected values, see security-config-ns-connName.xml
         // connector property is loaded through a non-public getter

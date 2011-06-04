@@ -26,6 +26,16 @@
 
 package com.force.sdk.springsecurity;
 
+import java.io.IOException;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.filter.GenericFilterBean;
+
 import com.force.sdk.connector.ForceConnectorConfig;
 import com.force.sdk.connector.ForceServiceConnector;
 import com.force.sdk.oauth.ForceUserPrincipal;
@@ -33,20 +43,7 @@ import com.force.sdk.oauth.connector.ForceOAuthConnector;
 import com.force.sdk.oauth.context.ForceSecurityContextHolder;
 import com.force.sdk.oauth.context.SecurityContext;
 import com.force.sdk.oauth.exception.ForceOAuthSessionExpirationException;
-import com.sforce.ws.ConnectionException;
-import com.sforce.ws.ConnectorConfig;
-import com.sforce.ws.SessionRenewer;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.GenericFilterBean;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import com.sforce.ws.*;
 
 /**
  * This filter should run after all other Force.com filters in the spring security chain. It ensures
@@ -66,10 +63,29 @@ import java.io.IOException;
 public class ForceConnectionStorageFilter extends GenericFilterBean implements SessionRenewer {
 
     private ForceOAuthConnector oauthConnector;
+    private Boolean useSession;
+
+    public void setUseSession(Boolean useSession) {
+        this.useSession = useSession;
+    }
     
+    /**
+     * Extra setter to make spring configuration easier
+     * @param useSession
+     */
+    public void setUseSession(boolean useSession) {
+        this.useSession = useSession;
+    }
+
+    public boolean isUseSession() {
+        return useSession;
+    }
+
     public void setOauthConnector(ForceOAuthConnector oauthConnector) {
         this.oauthConnector = oauthConnector;
     }
+    
+    
     
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
@@ -89,20 +105,23 @@ public class ForceConnectionStorageFilter extends GenericFilterBean implements S
             cc.setSessionRenewer(this);
             //The security context holder handles the storage of the security context
             ForceSecurityContextHolder.set(sc);
+
+            //The ForceServiceConnector handles the storage of the connector config and will use this config going forward
+            ForceServiceConnector.setThreadLocalConnectorConfig(cc);
             try {
-                //The ForceServiceConnector handles the storage of the connector config and will use this config going forward
-                ForceServiceConnector.setThreadLocalConnectorConfig(cc);
-                try {
-                    chain.doFilter(request, response);
-                //After the request is completed clear out the thread local variables.
-                } catch (ForceOAuthSessionExpirationException e) {
-                    logger.debug("User's session expired. Redirecting to login screen");
-                    //redirect user to login page
-                    res.sendRedirect(oauthConnector.getLoginRedirectUrl(req));
-                } finally {
-                    ForceServiceConnector.setThreadLocalConnectorConfig(null);
-                }
+                chain.doFilter(request, response);
+            //After the request is completed clear out the thread local variables.
+            } catch (ForceOAuthSessionExpirationException e) {
+                logger.debug("User's session expired. Redirecting to login screen");
+                //redirect user to login page
+                res.sendRedirect(oauthConnector.getLoginRedirectUrl(req));
             } finally {
+                //if we aren't relying on server side sessions then clear the spring security context
+                //we need to do this because spring will use a session if one exists.
+                if(!useSession) {
+                    SecurityContextHolder.clearContext();
+                }
+                ForceServiceConnector.setThreadLocalConnectorConfig(null);
                 ForceSecurityContextHolder.release();
             }
             
