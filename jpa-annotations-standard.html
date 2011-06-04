@@ -167,7 +167,7 @@ end
 
 <p>JPA annotations enable you to define how the JPA provider persists your Java class.</p>
 
-<p>Note: You can associate an annotation with each field or the getter method for the field. You must be consistent
+<p><strong>Note</strong>: You can associate an annotation with each field or the getter method for the field. You must be consistent
 within a class by using one approach or the other. If you add one annotation to a field and another to a getter method,
 an error occurs. We recommend that you annotate the field instead of the getter method.</p>
 
@@ -179,14 +179,14 @@ an error occurs. We recommend that you annotate the field instead of the getter 
 
 <p>Marks a Java class as persistent. Each Java class must include an <code>@Entity</code> annotation.</p>
 
-<p>When you start up your application, each class that's annotated with <code>@Entity</code> is loaded and synchronized with Database.com. If there is no existing standard or custom entity matching the entity name, a new custom entity is persisted to the database. If the standard or custom entity already exists, you can use the Java class representation to interact with records of that entity type. For example, you can create a Merchandise Java class and use it to create or delete records for the Merchandise custom entity.</p>
+<p>When you start up your application, each class that's annotated with <code>@Entity</code> is loaded and synchronized with Database.com. For more details, see <a href="jpa-config-persistence#schemaProps">schema creation</a> and <a href="jpa-config-persistence#schemaDeleteProps">schema deletion</a> properties.</p>
 
 <p>For sample syntax for standard and custom entities, see <a href="#TableAnnotation">@Table</a>.</p>
 
 <p>The optional name attribute in <code>@Entity</code> specifies the entity name. If the name attribute is not specified, the entity
 name defaults to the unqualified name of the entity class. If the name attribute is specified, you use the name to refer to the entity in <a href="jpa-queries">JPQL queries</a>.</p>
 
-<p>Note: The value for the name attribute in <code>@Entity</code> doesn't have to match the value for the name attribute in <code>@Table</code>.</p>
+<p><strong>Note</strong>: The value for the name attribute in <code>@Entity</code> doesn't have to match the value for the name attribute in <code>@Table</code>.</p>
 
 <h2>@Basic</h2>
 
@@ -205,18 +205,18 @@ documentation</a> lists a table of common Java data types and indicates whether 
 
 <h2>@Table</h2>
 
-<p>Specifies an existing Database.com entity (object) name. The name attribute in <code>@Table</code> must match the underlying Database.com type; for example, Account or MyCustomObject__c.</p>
+<p>Specifies an existing Database.com entity (object) name. The name attribute in <code>@Table</code> must match the underlying Database.com type; for example, User or MyCustomObject__c.</p>
 
-<p>This is a sample for a standard Account entity:</p>
+<p>This is a sample for a standard User entity:</p>
 
 <pre><code>@Entity
-@Table(name="Account")
-public class Account {
+@Table(name="User")
+public class User {
     ...
 }
 </code></pre>
 
-<p>Note: If you omit the @Table(name="Account") annotation, the Account class maps to a custom Account__c entity instead of the standard Account entity.</p>
+<p><strong>Note</strong>: If you omit the @Table(name="User") annotation, the User class maps to a custom User__c entity instead of the standard User entity.</p>
 
 <p>This is a sample for a custom MyCustomObject__c entity:</p>
 
@@ -252,7 +252,7 @@ private java.util.Calendar lastModifiedDate;
 <p>Use a <code>@Column(unique = true)</code> annotation to mark a field as unique. We recommend that you mark unique fields
 to be required too.</p>
 
-<p>Note: The <code>@UniqueConstraint</code> annotation is not supported.</p>
+<p><strong>Note</strong>: The <code>@UniqueConstraint</code> annotation is not supported.</p>
 
 <h2>Sample Class Using Standard Annotations</h2>
 
