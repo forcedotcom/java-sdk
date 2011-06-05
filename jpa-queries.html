@@ -167,7 +167,7 @@ end
 
 <p>JPA supports Java Persistence Query Language (JPQL), a platform-independent object-oriented query language.</p>
 
-<p>Note: Although JPA supports native queries with SQL, the Database.com JPA provider doesn't support SQL. Instead,
+<p><strong>Note</strong>: Although JPA supports native queries with SQL, the Database.com JPA provider doesn't support SQL. Instead,
 the Database.com JPA provider supports <a href="jpa-queries-soql">native queries with SOQL</a>.</p>
 
 <p>You can also bypass JPA and execute a <a href="native-api">query() call</a> using the Web services API.</p>
@@ -213,7 +213,7 @@ choice to use JPQL, SOQL, or the Web services API.</p>
 }
 </code></pre>
 
-<p>Note: A query that contains the entity alias in the SELECT clause returns all <a href="#eagerVsLazy">eagerly fetched fields</a> for the entity. For example, this query returns all eagerly fetched fields for the User entity.</p>
+<p><strong>Note</strong>: A query that contains the entity alias in the SELECT clause returns all <a href="#eagerVsLazy">eagerly fetched fields</a> for the entity. For example, this query returns all eagerly fetched fields for the User entity.</p>
 
 <pre><code>SELECT u FROM User u
 </code></pre>
@@ -224,7 +224,7 @@ choice to use JPQL, SOQL, or the Web services API.</p>
 
 <p>As well as querying records, JPQL supports deleting records.</p>
 
-<p>Note: Records deleted with JPQL don't participate in all-or-nothing transactions or trigger cascading deletion for
+<p><strong>Note</strong>: Records deleted with JPQL don't participate in all-or-nothing transactions or trigger cascading deletion for
 child records. Don't use bulk delete with JPQL if you want the option to roll back the deletions as part of a transaction
 or use cascade deletion. Use the <code>remove()</code> method in <code>EntityManager</code> to delete individual records instead.</p>
 
@@ -250,7 +250,7 @@ or use cascade deletion. Use the <code>remove()</code> method in <code>EntityMan
 }
 </code></pre>
 
-<p>Note: Although JPQL supports a similar syntax for UPDATE, the Database.com JPA provider doesn't support updating records with JPQL.</p>
+<p><strong>Note</strong>: Although JPQL supports a similar syntax for UPDATE, the Database.com JPA provider doesn't support updating records with JPQL.</p>
 
 <h2>JPQL Date (Temporal) Functions</h2>
 
@@ -260,7 +260,7 @@ example, the following JPQL query returns users that have logged in before today
 <pre><code>SELECT Email, LastName FROM User WHERE LastLoginDate &lt; CURRENT_DATE
 </code></pre>
 
-<p>Note: The Database.com JPA provider doesn't support the CURRENT_TIME and CURRENT_TIMESTAMP JPA date literals.</p>
+<p><strong>Note</strong>: The Database.com JPA provider doesn't support the CURRENT_TIME and CURRENT_TIMESTAMP JPA date literals.</p>
 
 <p>The Database.com JPA provider also supports <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_calls_soql_select_dateformats.htm">date literals</a>, such as TOMORROW, that aren't part of the JPA specification. The CURRENT_DATE JPA date literal is equivalent to the TODAY Database.com date literal.</p>
 
@@ -340,7 +340,7 @@ String wineName = wines.get(0).getName();
 <p>If you add the <code>FetchType.EAGER</code> attribute to the <code>@OneToMany</code> annotation in Producer.java, the collection of wines is
 returned without the need for a second query in the background.</p>
 
-<p>Note: If you use a native SOQL query instead of JPQL, there is no implicit join; you would have to write a sub-query
+<p><strong>Note</strong>: If you use a native SOQL query instead of JPQL, there is no implicit join; you would have to write a sub-query
 referencing the parent-to-child relationship.</p>
 
 <h4>Ordering with @OrderBy</h4>
@@ -383,7 +383,7 @@ WHERE c.name = 'sample1')
     AND o.username LIKE 'bob%'
 </code></pre>
 
-<p>Note: The Database.com JPA provider always performs outer joins, so there is no difference in the query results if you
+<p><strong>Note</strong>: The Database.com JPA provider always performs outer joins, so there is no difference in the query results if you
 use JOIN or LEFT OUTER JOIN.</p>
 
 <p><a name="inJoins"> </a></p>
@@ -451,7 +451,7 @@ FROM ChildEntity c
 WHERE c.ParentEntity.name in ('Parent1', 'Parent2')
 </code></pre>
 
-<p>Note: You can't navigate parent-to-child relationships like you can in native SOQL queries. However, it's easier to
+<p><strong>Note</strong>: You can't navigate parent-to-child relationships like you can in native SOQL queries. However, it's easier to
 take advantage of implicit joins in JPQL queries for querying parent-to-child relationships.</p>
 
 <p>For more information about the number of levels of relationships that you can traverse in a query, see <a href="#fetchDepth">Fetch Depth</a>.</p>
@@ -654,7 +654,7 @@ eagerly loaded by the Database.com JPA provider to support optimistic transactio
 <p>You can also explicitly mark a field as eager or lazy by adding the <code>FetchType.EAGER</code> or <code>FetchType.LAZY</code> attribute to an
 <code>@Basic</code>, <code>@OneToMany</code>, or <code>@ManyToOne</code> annotation.</p>
 
-<p>Note: A separate query is executed when you access the data for any lazily loaded field.</p>
+<p><strong>Note</strong>: A separate query is executed when you access the data for any lazily loaded field.</p>
 
 <p><a name="fetchDepth"> </a></p>
 
