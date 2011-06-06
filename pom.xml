@@ -382,77 +382,6 @@
             </execution>
           </executions>
         </plugin>
-
-        <plugin>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <configuration>
-            <ignoreNonCompile>true</ignoreNonCompile>
-            <outputXML>true</outputXML>
-          </configuration>
-        </plugin>
-
-        <plugin>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>${checkstyle.plugin.version}</version>
-          <dependencies>
-            <dependency>
-              <groupId>com.force.sdk</groupId>
-              <artifactId>force-build-tools</artifactId>
-              <version>${force.sdk.version}</version>
-            </dependency>
-          </dependencies>
-          <configuration>
-            <configLocation>checkstyle/force-sdk-checks.xml</configLocation>
-            <includeTestSourceDirectory>true</includeTestSourceDirectory>
-            <suppressionsLocation>checkstyle/force-sdk-suppressions.xml</suppressionsLocation>
-            <violationSeverity>warning</violationSeverity>
-          </configuration>
-        </plugin>
-        
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>findbugs-maven-plugin</artifactId>
-          <version>${findbugs.plugin.version}</version>
-          <configuration>
-            <effort>Max</effort>
-            <includeTests>true</includeTests>
-            <threshold>Default</threshold>
-          </configuration>
-        </plugin>
-        
-        <plugin>
-          <groupId>com.mycila.maven-license-plugin</groupId>
-          <artifactId>maven-license-plugin</artifactId>
-          <dependencies>
-            <dependency>
-              <groupId>com.force.sdk</groupId>
-              <artifactId>force-build-tools</artifactId>
-              <version>${force.sdk.version}</version>
-            </dependency>
-          </dependencies>
-          <configuration>
-            <header>license/header.txt</header>
-            <excludes>
-              <exclude>target/**</exclude>
-              <exclude>**/license/header.txt</exclude>
-              <exclude>**/*.md</exclude>
-              <exclude>**/.gitignore</exclude>
-            </excludes>
-            <failIfMissing>false</failIfMissing>
-            <headerDefinitions>
-              <headerDefinition>license/stringtemplatedefinition.xml</headerDefinition>
-            </headerDefinitions>
-            <mapping>
-              <handlers>SCRIPT_STYLE</handlers> <!-- spring.handlers -->
-              <policy>DOUBLESLASH_STYLE</policy>
-              <props>SCRIPT_STYLE</props>
-              <schemas>SCRIPT_STYLE</schemas> <!-- spring.schemas -->
-              <st>STRINGTEMPLATE_STYLE</st> <!-- StringTemplate -->
-              <yml>SCRIPT_STYLE</yml> <!-- jekyll site generation config -->
-            </mapping>
-            <strictCheck>true</strictCheck>
-          </configuration>
-        </plugin>
         
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -481,20 +410,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>com.mycila.maven-license-plugin</groupId>
-        <artifactId>maven-license-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -652,6 +567,135 @@
                 <phase>package</phase>
                 <goals>
                   <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+        </plugins>
+      </build>
+    </profile>
+    
+    <profile>
+      <id>static-analysis</id>
+      <activation>
+        <property>
+          <name>staticAnalysis</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <properties>
+        <staticAnalysis.failOnError>true</staticAnalysis.failOnError>
+      </properties>
+      <build>
+        <plugins>
+          <!-- License header check -->
+          <plugin>
+            <groupId>com.mycila.maven-license-plugin</groupId>
+            <artifactId>maven-license-plugin</artifactId>
+            <dependencies>
+              <dependency>
+                <groupId>com.force.sdk</groupId>
+                <artifactId>force-build-tools</artifactId>
+                <version>${force.sdk.version}</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <header>license/header.txt</header>
+              <excludes>
+                <exclude>target/**</exclude>
+                <exclude>**/license/header.txt</exclude>
+                <exclude>**/*.md</exclude>
+                <exclude>**/.gitignore</exclude>
+              </excludes>
+              <failIfMissing>${staticAnalysis.failOnError}</failIfMissing>
+              <headerDefinitions>
+                <headerDefinition>license/stringtemplatedefinition.xml</headerDefinition>
+              </headerDefinitions>
+              <mapping>
+                <handlers>SCRIPT_STYLE</handlers> <!-- spring.handlers -->
+                <policy>DOUBLESLASH_STYLE</policy>
+                <props>SCRIPT_STYLE</props>
+                <schemas>SCRIPT_STYLE</schemas> <!-- spring.schemas -->
+                <st>STRINGTEMPLATE_STYLE</st> <!-- StringTemplate -->
+                <yml>SCRIPT_STYLE</yml> <!-- jekyll site generation config -->
+              </mapping>
+              <strictCheck>true</strictCheck>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+          <!-- Maven dependency check -->
+          <plugin>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <configuration>
+              <failOnWarning>${staticAnalysis.failOnError}</failOnWarning>
+              <ignoreNonCompile>true</ignoreNonCompile>
+              <outputXML>true</outputXML>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>analyze-only</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+          <!-- TODO: Javadoc check -->
+          
+          <!-- Checkstyle -->
+          <plugin>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>${checkstyle.plugin.version}</version>
+            <dependencies>
+              <dependency>
+                <groupId>com.force.sdk</groupId>
+                <artifactId>force-build-tools</artifactId>
+                <version>${force.sdk.version}</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <configLocation>checkstyle/force-sdk-checks.xml</configLocation>
+              <failOnViolation>${staticAnalysis.failOnError}</failOnViolation>
+              <includeTestSourceDirectory>true</includeTestSourceDirectory>
+              <suppressionsLocation>checkstyle/force-sdk-suppressions.xml</suppressionsLocation>
+              <violationSeverity>warning</violationSeverity>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+          <!-- Findbugs -->
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>findbugs-maven-plugin</artifactId>
+            <version>${findbugs.plugin.version}</version>
+            <configuration>
+              <effort>Max</effort>
+              <failOnError>${staticAnalysis.failOnError}</failOnError>
+              <includeTests>true</includeTests>
+              <threshold>Default</threshold>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>check</goal>
                 </goals>
               </execution>
             </executions>
