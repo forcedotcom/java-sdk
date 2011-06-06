@@ -26,17 +26,15 @@
 
 package com.force.sdk.springsecurity.endtoend;
 
-import java.io.*;
-
-import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.force.sdk.oauth.context.SecurityContext;
 import com.force.sdk.oauth.context.SecurityContextUtil;
-import com.force.sdk.oauth.context.store.*;
+import com.force.sdk.oauth.context.store.ForceEncryptionException;
+import com.force.sdk.oauth.context.store.SecurityContextCookieStore;
 import com.gargoylesoftware.htmlunit.CookieManager;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
@@ -146,30 +144,6 @@ public class LoginEndToEndTest extends BaseEndToEndTest {
         cookieManager.removeCookie(sidCookie);
     }
 
-    private byte[] serializeSecurityContext(SecurityContext sc, boolean encrypt, SecretKeySpec secretKey)
-        throws ForceEncryptionException, IOException {
-        // Serialize to a byte array
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream out = new ObjectOutputStream(bos);
-        out.writeObject(sc);
-        out.close();
-
-        byte[] securityContextSer = bos.toByteArray();
-        if (encrypt) {
-            securityContextSer = AESUtil.encrypt(securityContextSer, secretKey);
-        }
-
-        return securityContextSer;
-    }
-
-    private SecurityContext deserializeSecurityContext(byte[] securityContextSer, SecretKeySpec secretKey)
-        throws ForceEncryptionException, IOException, ClassNotFoundException {
-        securityContextSer = AESUtil.decrypt(securityContextSer, secretKey);
-        ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(securityContextSer));
-        return (SecurityContext) in.readObject();
-    }
-
-    
     @Test
     public void testLoginRedirectToSecuredPage() throws FailingHttpStatusCodeException, IOException {
         HtmlPage securedPage = getWebClient().getPage(appEndpoint + "/secured_page.html");

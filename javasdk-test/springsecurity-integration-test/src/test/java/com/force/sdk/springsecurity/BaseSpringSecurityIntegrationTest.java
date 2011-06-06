@@ -26,9 +26,10 @@
 
 package com.force.sdk.springsecurity;
 
-import java.io.IOException;
-import java.util.*;
-
+import com.force.sdk.test.util.BaseContainerTest;
+import com.force.sdk.test.util.PropsUtil;
+import com.force.sdk.test.util.TestContext;
+import com.force.sdk.test.util.TestContext.TestType;
 import org.apache.http.HttpResponse;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
@@ -36,8 +37,10 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 
-import com.force.sdk.test.util.*;
-import com.force.sdk.test.util.TestContext.TestType;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * 
@@ -45,6 +48,7 @@ import com.force.sdk.test.util.TestContext.TestType;
  * implements spring security to a web container.
  *
  * @author Jeff Lai
+ * @author Nawab Iqbal
  *
  */
 public abstract class BaseSpringSecurityIntegrationTest extends BaseContainerTest {
@@ -55,9 +59,10 @@ public abstract class BaseSpringSecurityIntegrationTest extends BaseContainerTes
     
     protected final String mockOauthKey = "123";
     protected final String mockOauthSecret = "456";
-    protected final String mockSfdcEndpoint = "localhost:" + port;
+    protected final String mockSfdcEndpoint = "localhost:" + port + "/force-mock-oauth-server-app";
     protected final String forceUrlPropName = "force.integrationserver.url";
     protected final String mockAuthCode = "789";
+    protected final String useMockApi = "mockapi";
 
     protected String sfdcEndpoint;
     public String username;
@@ -103,9 +108,11 @@ public abstract class BaseSpringSecurityIntegrationTest extends BaseContainerTes
         loadProps();
         Map<String, String> map = new HashMap<String, String>();
         if (TestContext.get().getTestType() == TestType.INTEG_ENDTOEND_SPRING_SECURITY) {
+            map.put(useMockApi, "false");
             map.put(forceUrlPropName, "force://" + sfdcEndpoint
                     + ";oauth_key=" + oauthKey + ";oauth_secret=" + oauthSecret);
         } else if (TestContext.get().getTestType() == TestType.INTEG_MOCK_SPRING_SECURITY) {
+            map.put(useMockApi, "true");
             map.put(forceUrlPropName, "force://" + mockSfdcEndpoint
                     + ";oauth_key=" + mockOauthKey + ";oauth_secret=" + mockOauthSecret);
         }
@@ -151,7 +158,4 @@ public abstract class BaseSpringSecurityIntegrationTest extends BaseContainerTes
         }
         return params;
     }
-    
-
-
 }

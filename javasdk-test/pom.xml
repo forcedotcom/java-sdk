@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk</artifactId>
-    <version>22.0.1-SNAPSHOT</version>
+    <version>22.0.2-SNAPSHOT</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -11,6 +11,10 @@
   <artifactId>force-sdk-test</artifactId>
   <name>force-sdk-test</name>
   <packaging>pom</packaging>
+
+  <properties>
+    <test.vm.argLine>-Xmx512m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/var/tmp</test.vm.argLine>
+  </properties>
 
   <modules>
     <module>qa-utils</module>
@@ -31,22 +35,6 @@
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>com.force.sdk</groupId>
-        <artifactId>force-springsecurity</artifactId>
-        <version>${force.sdk.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.force.sdk</groupId>
-        <artifactId>qa-utils</artifactId>
-        <version>${force.sdk.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.testng</groupId>
-        <artifactId>testng</artifactId>
-        <version>${testng.version}</version>
-        <!--Dont set this scope or prepare to spend hours figuring out why DN breaks until you change it back-->
-      </dependency>
       <dependency>
         <groupId>com.force.sdk</groupId>
         <artifactId>force-codegen</artifactId>
@@ -73,14 +61,20 @@
         <!--Dont set this scope or prepare to spend hours figuring out why DN breaks until you change it back-->
       </dependency>
       <dependency>
-        <groupId>com.google.collections</groupId>
-        <artifactId>google-collections</artifactId>
-        <version>${google.collections.version}</version>
+        <groupId>com.force.sdk</groupId>
+        <artifactId>force-springsecurity</artifactId>
+        <version>${force.sdk.version}</version>
       </dependency>
       <dependency>
-        <groupId>commons-httpclient</groupId>
-        <artifactId>commons-httpclient</artifactId>
-        <version>${commons.httpclient.version}</version>
+        <groupId>com.force.sdk</groupId>
+        <artifactId>qa-utils</artifactId>
+        <version>${force.sdk.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>${testng.version}</version>
+        <!--Dont set this scope or prepare to spend hours figuring out why DN breaks until you change it back-->
       </dependency>
       <dependency>
         <groupId>commons-io</groupId>
@@ -90,24 +84,14 @@
       <dependency>
         <groupId>org.datanucleus</groupId>
         <artifactId>datanucleus-core</artifactId>
-        <scope>runtime</scope>
         <version>${datanucleus.core.version}</version>
+        <scope>runtime</scope>
       </dependency>
       <dependency>
         <groupId>org.datanucleus</groupId>
         <artifactId>datanucleus-enhancer</artifactId>
         <version>${datanucleus.enhancer.version}</version>
         <scope>runtime</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>org.springframework.orm</artifactId>
-        <version>${spring.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>org.springframework.transaction</artifactId>
-        <version>${spring.version}</version>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
@@ -221,6 +205,17 @@
         </plugin>       
        
         <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <configuration>
+            <!-- Force Findbugs to run in the test class files directory -->
+            <classFilesDirectory>${project.build.testOutputDirectory}</classFilesDirectory>
+            <!-- For test projects, skip checks for returning mutable objects -->
+            <omitVisitors>FindReturnRef</omitVisitors>
+          </configuration>
+        </plugin>
+       
+        <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
           <configuration>
             <skip>true</skip>
@@ -234,16 +229,7 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
       </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <configuration>
-          <!-- Force Findbugs to run in the test class files directory -->
-          <classFilesDirectory>${project.build.testOutputDirectory}</classFilesDirectory>
-          <!-- For test projects, skip checks for returning mutable objects -->
-          <omitVisitors>FindReturnRef</omitVisitors>
-        </configuration>
-      </plugin>
+      
       <plugin>
         <artifactId>maven-deploy-plugin</artifactId>
       </plugin>

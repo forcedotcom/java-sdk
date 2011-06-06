@@ -58,7 +58,7 @@ public class ForceJPAClassDataSelector implements DataSelector {
      * @param packageName a non {@code null} {@code String} which conforms
      *                    to Java package naming standards
      * @see ForceJPAClassGeneratorUtils#constructPackageName(GetUserInfoResult)
-     * @see ForceJPAFileWriterProvider#setPackageName(String)
+     * @see com.force.sdk.codegen.writer.ForceJPAFileWriterProvider#setPackageName(String)
      */
     public void setPackageName(String packageName) {
         this.packageName = packageName;

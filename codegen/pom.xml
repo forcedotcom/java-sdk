@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk</artifactId>
-    <version>22.0.1-SNAPSHOT</version>
+    <version>22.0.2-SNAPSHOT</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -15,14 +15,6 @@
   <properties>
     <stringtemplate.version>3.2</stringtemplate.version>
   </properties>
-
-  <repositories>
-    <repository>
-      <id>DataNucleus_Repos2</id>
-      <name>DataNucleus Repository</name>
-      <url>http://www.datanucleus.org/downloads/maven2</url>
-    </repository>
-  </repositories>
 
   <build>
     <plugins>

@@ -1,5 +1,7 @@
 # Database.com Java SDK
 
+For more information on how to use the Java SDK, please read our documentation at http://forcedotcom.github.com/java-sdk/force-sdk-overview
+
 ## How to build
 
 The Database.com Java SDK is built using [Maven](http://maven.apache.org/) version 2.2.1.  Make sure you have the correct version of Maven installed on your system before attempting to build.
@@ -16,11 +18,11 @@ In addition to unit tests, there are functional and integration tests located in
 
 Run the following maven commands to compile and run all tests (unit, functional and integration)
 
-    mvn clean install -DskipTests -P include-test-modules
-    mvn clean verify -P include-test-modules
+    mvn clean install -DskipTests -DincludeTestModules
+    mvn clean verify -DincludeTestModules
 
 You can run specific test suites by changing your working directory to a test submodule directory, such as javasdk-test/force-jpa-test/ , and then running the following maven command
 
     mvn verify
 
-Keep in mind that you still must run <code>mvn clean install -DskipTests -P include-test-modules</code> from the root directory of the project before running any tests in the javasdk-test submodules, otherwise tests may fail.
+Keep in mind that you still must run <code>mvn clean install -DskipTests -DincludeTestModules</code> from the root directory of the project before running any tests in the javasdk-test submodules, otherwise tests may fail.

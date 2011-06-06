@@ -5,30 +5,17 @@
     <artifactId>force-springsecurity-app</artifactId>
     <name>force-springsecurity-app</name>
     <packaging>war</packaging>
-    <version>22.0.1-SNAPSHOT</version>
+    <version>22.0.2-SNAPSHOT</version>
 
     <properties>
       <!-- Need to upgrade when http://jira.codehaus.org/browse/MCHECKSTYLE-147 is fixed -->
       <checkstyle.plugin.version>2.4</checkstyle.plugin.version>
-      <force.api.version>22.0.0-SNAPSHOT</force.api.version>
-      <force.sdk.version>22.0.1-SNAPSHOT</force.sdk.version>
+      <force.api.version>22.0.0</force.api.version>
+      <force.sdk.version>22.0.2-SNAPSHOT</force.sdk.version>
       <spring.version>3.0.3.RELEASE</spring.version>
       <spring.security.version>3.0.3.RELEASE</spring.security.version>
       <java.compile.version>1.6</java.compile.version>
     </properties>
-
-    <repositories>
-      <repository>
-        <id>com.springsource.repository.bundles.release</id>
-        <name>SpringSource Enterprise Bundle Repository - SpringSource Releases</name>
-        <url>http://repository.springsource.com/maven/bundles/release</url>
-      </repository>
-      <repository>
-        <id>com.springsource.repository.bundles.external</id>
-        <name>SpringSource Enterprise Bundle Repository - External Releases</name>
-        <url>http://repository.springsource.com/maven/bundles/external</url>
-      </repository>
-    </repositories>
 
     <build>
       <defaultGoal>install</defaultGoal>
@@ -99,8 +86,10 @@
 		    </additionalProjectnatures>
 		  </configuration>
 	    </plugin>
+
       </plugins>
-    
+    	
+		
     </build>
 
     <!-- Even though we skip deploy, we need to specify
@@ -121,30 +110,24 @@
     <dependencies>
       <dependency>
         <groupId>com.force.api</groupId>
-        <artifactId>force-partner-api</artifactId>
-        <version>${force.api.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.force.api</groupId>
         <artifactId>force-wsc</artifactId>
         <version>${force.api.version}</version>
       </dependency>
       <dependency> 
         <groupId>com.force.sdk</groupId>
-        <artifactId>force-connector</artifactId>
-        <version>${force.sdk.version}</version> 
-      </dependency>
-      <dependency> 
-        <groupId>com.force.sdk</groupId>
         <artifactId>force-oauth</artifactId>
         <version>${force.sdk.version}</version>
-        <scope>runtime</scope> 
       </dependency>
       <dependency> 
         <groupId>com.force.sdk</groupId>
         <artifactId>force-springsecurity</artifactId>
         <version>${force.sdk.version}</version>
         <scope>runtime</scope> 
+      </dependency>
+      <dependency> 
+        <groupId>com.force.sdk</groupId>
+        <artifactId>force-connector</artifactId>
+        <version>${force.sdk.version}</version>
       </dependency>
       <dependency>
         <groupId>javax.servlet</groupId>
@@ -196,7 +179,11 @@
         <artifactId>standard</artifactId>
         <version>1.1.2</version>
         <scope>runtime</scope>
-      </dependency>    
-    </dependencies>
-
+      </dependency>
+    <dependency>
+      <groupId>mockit</groupId>
+      <artifactId>jmockit</artifactId>
+		<version>0.999.6</version>
+    </dependency>
+  </dependencies>
 </project>

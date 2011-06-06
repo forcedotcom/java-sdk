@@ -8,9 +8,16 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk-test</artifactId>
-    <version>22.0.1-SNAPSHOT</version>
+    <version>22.0.2-SNAPSHOT</version>
   </parent>
 
+  <repositories>
+    <repository>
+      <id>DataNucleus_Repos2</id>
+      <name>DataNucleus Repository</name>
+      <url>http://www.datanucleus.org/downloads/maven2</url>
+    </repository>
+  </repositories>
 
   <build>
     <resources>
@@ -76,7 +83,6 @@
           <mappingIncludes>**/*.class</mappingIncludes>
           <verbose>true</verbose>
           <enhancerName>ASM</enhancerName>
-          <log4jConfiguration>${basedir}/src/test/resources/log4j.xml</log4jConfiguration>
           <api>JPA</api>
         </configuration>
         <executions>
@@ -160,6 +166,10 @@
       <groupId>org.datanucleus</groupId>
       <artifactId>datanucleus-core</artifactId>
       <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
     </dependency>
     <dependency>
       <groupId>org.testng</groupId>
