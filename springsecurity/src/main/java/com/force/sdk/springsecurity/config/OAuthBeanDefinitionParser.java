@@ -429,9 +429,9 @@ public class OAuthBeanDefinitionParser implements BeanDefinitionParser {
         String storeDataInSession = element.getAttribute(STORE_DATA_IN_SESSION);
         BeanDefinition connectionStorageFilter = new RootBeanDefinition(ForceConnectionStorageFilter.class);
         if ("true".equalsIgnoreCase(storeDataInSession)) {
-            connectionStorageFilter.getPropertyValues().add("useSession", new Boolean(true));
+            connectionStorageFilter.getPropertyValues().add("useSession", Boolean.TRUE);
         } else {
-            connectionStorageFilter.getPropertyValues().add("useSession", new Boolean(false));
+            connectionStorageFilter.getPropertyValues().add("useSession", Boolean.FALSE);
         }
         connectionStorageFilter.getPropertyValues().add("oauthConnector",
                 new RuntimeBeanReference(OAUTH_CONNECTOR_BEAN_NAME));

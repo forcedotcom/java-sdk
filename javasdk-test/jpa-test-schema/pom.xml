@@ -18,6 +18,7 @@
         <filtering>true</filtering>
         <includes>
           <include>**/persistence.xml</include>
+          <include>**/findbugs-exclude.xml</include>
         </includes>
       </testResource>
     </testResources>
@@ -44,6 +45,15 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <configuration>
+          <!-- Use Findbugs exclude filter from test resources -->
+          <excludeFilterFile>${project.build.testOutputDirectory}/findbugs-exclude.xml</excludeFilterFile>
+        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -72,6 +82,10 @@
     <dependency>
       <groupId>com.force.sdk</groupId>
       <artifactId>qa-utils</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.jdo</groupId>
+      <artifactId>jdo2-api</artifactId>
     </dependency>
     <dependency>
       <groupId>log4j</groupId>
