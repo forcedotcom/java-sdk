@@ -460,15 +460,6 @@
           <version>${site.plugin.version}</version>
         </plugin>
 
-        <plugin>
-          <groupId>com.atlassian.maven.plugins</groupId>
-          <artifactId>maven-clover2-plugin</artifactId>
-          <version>${maven.clover.version}</version>
-          <configuration>
-            <generateHtml>true</generateHtml>
-            <generateXml>true</generateXml>
-          </configuration>
-        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -499,10 +490,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>com.atlassian.maven.plugins</groupId>
-        <artifactId>maven-clover2-plugin</artifactId>
       </plugin>
     </plugins>
 
@@ -568,6 +555,9 @@
     </profile>
   
     <profile>
+      <!-- This profile relies on the Maven Clover plugin.
+      For more information on clover licensing, please
+      view http://www.atlassian.com/software/clover/licensing.jsp -->
       <id>include-test-modules-for-coverage</id>
       <activation>
         <property>
@@ -587,6 +577,36 @@
         <module>javasdk-test/oauth-test</module>
         <module>javasdk-test/springsecurity-test</module>
       </modules>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>com.atlassian.maven.plugins</groupId>
+              <artifactId>maven-clover2-plugin</artifactId>
+              <version>${maven.clover.version}</version>
+              <configuration>
+                <generateHtml>true</generateHtml>
+                <generateXml>true</generateXml>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+        <plugins>
+          <plugin>
+            <groupId>com.atlassian.maven.plugins</groupId>
+            <artifactId>maven-clover2-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+      <dependencies>
+        <!-- we need this clover dependency because we are installing 
+        instrumented jars during a clover build -->
+        <dependency>
+          <groupId>com.cenqua.clover</groupId>
+          <artifactId>clover</artifactId>
+          <version>${maven.clover.version}</version>
+        </dependency>
+      </dependencies>
     </profile>
   
     <profile>
