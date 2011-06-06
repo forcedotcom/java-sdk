@@ -70,8 +70,8 @@ public class ForceConnectionStorageFilter extends GenericFilterBean implements S
     }
     
     /**
-     * Extra setter to make spring configuration easier
-     * @param useSession
+     * Extra setter to make spring configuration easier.
+     * @param useSession the value to set into useSession
      */
     public void setUseSession(boolean useSession) {
         this.useSession = useSession;
@@ -118,7 +118,7 @@ public class ForceConnectionStorageFilter extends GenericFilterBean implements S
             } finally {
                 //if we aren't relying on server side sessions then clear the spring security context
                 //we need to do this because spring will use a session if one exists.
-                if(!useSession) {
+                if (!useSession) {
                     SecurityContextHolder.clearContext();
                 }
                 ForceServiceConnector.setThreadLocalConnectorConfig(null);

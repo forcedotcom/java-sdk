@@ -86,6 +86,7 @@ public class TestController {
     /**
      * Controller method for secured_page.html.
      * @return new ModelAndView object
+     * @throws ConnectionException if an error occurs while connecting to the Force.com store (organization).
      */
     @RequestMapping("secured_page.html")
     public ModelAndView securedPage() throws ConnectionException {
@@ -103,10 +104,10 @@ public class TestController {
     }
     
     /**
-     * Create the model and view that both secured pages will use
+     * Create the model and view that both secured pages will use.
      * @return new ModelAndView object for secured pages
      */
-    private ModelAndView createSecuredPageModel() throws ConnectionException{
+    private ModelAndView createSecuredPageModel() throws ConnectionException {
         ModelAndView mav = new ModelAndView();
 
         // This will instantiate a ForceSeviceConnector with the given connectionName.
@@ -126,7 +127,7 @@ public class TestController {
         mav.addObject("userinfo", userInfoResult.getUserName());
         mav.addObject("moreinfo", value.toString());
 
-        return mav;        
+        return mav;
     }
     
     /**

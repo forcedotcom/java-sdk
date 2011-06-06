@@ -81,7 +81,7 @@ public class LoginEndToEndTest extends BaseEndToEndTest {
     }
 
     
-    @Test(dataProvider="securedPageProvider")
+    @Test(dataProvider = "securedPageProvider")
     public void testSecuredPage(String securePageLocation)
             throws FailingHttpStatusCodeException, IOException, ForceEncryptionException, ClassNotFoundException {
 
@@ -107,7 +107,7 @@ public class LoginEndToEndTest extends BaseEndToEndTest {
         Assert.assertEquals(securedPage.getUrl().toString(), appEndpoint + securePageLocation);
     }
     
-    @Test(dataProvider="securedPageProvider")
+    @Test(dataProvider = "securedPageProvider")
     public void testSecuredPageCookieDeletion(String securePageLocation)
             throws FailingHttpStatusCodeException, IOException, ForceEncryptionException, ClassNotFoundException {
 
@@ -127,17 +127,17 @@ public class LoginEndToEndTest extends BaseEndToEndTest {
         } catch (FailingHttpStatusCodeException e) {
             Assert.assertEquals(e.getResponse().getStatusCode(), 302, "Redirect code 302 was expected.");
         }
-    }   
+    }
     
     
     /**
-     * Remove the sdk cookies from the client so that we can test that login is forced
+     * Remove the sdk cookies from the client so that we can test that login is forced.
      */
     private void removeSdkCookies() {
         CookieManager cookieManager = getWebClient().getCookieManager();
         Cookie securityContextCookie = cookieManager.getCookie(SecurityContextCookieStore.SECURITY_CONTEXT_COOKIE_NAME);
         Cookie endpointCookie = cookieManager.getCookie(SecurityContextUtil.FORCE_FORCE_ENDPOINT);
-        Cookie sidCookie = cookieManager.getCookie(SecurityContextUtil.FORCE_FORCE_SESSION);   
+        Cookie sidCookie = cookieManager.getCookie(SecurityContextUtil.FORCE_FORCE_SESSION);
         
         cookieManager.removeCookie(securityContextCookie);
         cookieManager.removeCookie(endpointCookie);
