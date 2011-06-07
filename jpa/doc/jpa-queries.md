@@ -459,5 +459,5 @@ Similarly, you can use a query hint in a <code>find()</code> method to set the f
         
 For child-to-parent relationships, the maximum fetch depth is five.
 
-**Caution:** A query containing a parent-to-child relationship can only traverse one relationship level. Setting query
+<img src="http://na1.salesforce.com//img/help/helpWarning_icon.gif" alt="Caution icon" /> **Caution:** A query containing a parent-to-child relationship can only traverse one relationship level. Setting query
 depth greater than one on <code>FetchType.EAGER</code> parent-to-child relationships will result in an error.
