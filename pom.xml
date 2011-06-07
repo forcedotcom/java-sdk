@@ -650,7 +650,22 @@
             </executions>
           </plugin>
           
-          <!-- TODO: Javadoc check -->
+          <!-- Javadoc check -->
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${javadoc.plugin.version}</version>
+            <configuration>
+              <quiet>true</quiet>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>javadoc</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
           
           <!-- Checkstyle -->
           <plugin>
