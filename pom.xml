@@ -51,6 +51,9 @@
     <surefire.version>2.7.1</surefire.version>
     <testng.version>5.14.2</testng.version>
     
+    <!-- Whether to fail a static analysis build when an error or warning is found -->
+    <staticAnalysis.failOnError>true</staticAnalysis.failOnError>
+    
     <doc.site.destination>/var/www/force-docsite</doc.site.destination>
     <maven.site.destination>/var/www/force-sdk-maven</maven.site.destination>
   </properties>
@@ -597,19 +600,15 @@
     </profile>
     
     <profile>
-      <id>static-analysis</id>
+      <id>license-check</id>
       <activation>
         <property>
           <name>staticAnalysis</name>
           <value>true</value>
         </property>
       </activation>
-      <properties>
-        <staticAnalysis.failOnError>true</staticAnalysis.failOnError>
-      </properties>
       <build>
         <plugins>
-          <!-- License header check -->
           <plugin>
             <groupId>com.mycila.maven-license-plugin</groupId>
             <artifactId>maven-license-plugin</artifactId>
@@ -633,25 +632,38 @@
                 <headerDefinition>license/stringtemplatedefinition.xml</headerDefinition>
               </headerDefinitions>
               <mapping>
-                <handlers>SCRIPT_STYLE</handlers> <!-- spring.handlers -->
+                <handlers>SCRIPT_STYLE</handlers> <!-- spring.handlers --> 
                 <policy>DOUBLESLASH_STYLE</policy>
                 <props>SCRIPT_STYLE</props>
-                <schemas>SCRIPT_STYLE</schemas> <!-- spring.schemas -->
-                <st>STRINGTEMPLATE_STYLE</st> <!-- StringTemplate -->
-                <yml>SCRIPT_STYLE</yml> <!-- jekyll site generation config -->
+                <schemas>SCRIPT_STYLE</schemas> <!-- spring.schemas --> 
+                <st>STRINGTEMPLATE_STYLE</st> <!-- StringTemplate --> 
+                <yml>SCRIPT_STYLE</yml> <!-- jekyll site generation config --> 
               </mapping>
               <strictCheck>true</strictCheck>
             </configuration>
             <executions>
               <execution>
-                <phase>verify</phase>
+                <phase>test</phase>
                 <goals>
                   <goal>check</goal>
                 </goals>
               </execution>
             </executions>
           </plugin>
-          
+        </plugins>
+      </build>
+    </profile>
+    
+    <profile>
+      <id>static-analysis</id>
+      <activation>
+        <property>
+          <name>staticAnalysis</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
           <!-- Maven dependency check -->
           <plugin>
             <artifactId>maven-dependency-plugin</artifactId>
