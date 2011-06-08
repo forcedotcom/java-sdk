@@ -24,21 +24,27 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.test.util;
+package com.force.sdk.qa.util;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
 import javax.persistence.*;
 
 import org.datanucleus.ObjectManager;
+import org.datanucleus.ObjectManagerImpl;
 import org.datanucleus.store.connection.ConnectionFactory;
 import org.testng.Assert;
+import org.testng.ITest;
 import org.testng.annotations.*;
 
 import com.force.sdk.connector.ForceConnectorConfig;
 import com.force.sdk.connector.ForceServiceConnector;
 import com.force.sdk.jpa.ForceManagedConnection;
+import com.force.sdk.jpa.ForceStoreManager;
+import com.force.sdk.jpa.schema.ForceStoreSchemaHandler;
+import com.force.sdk.jpa.table.TableImpl;
 import com.google.inject.internal.Lists;
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.ws.ConnectionException;
@@ -49,7 +55,7 @@ import com.sforce.ws.ConnectionException;
  * 
  * @author Dirk Hain
  */
-public abstract class BaseJPAFTest extends BaseTestNGTest {
+public abstract class BaseJPAFTest implements ITest {
 
     public EntityManager em;
     protected EntityManagerFactory emfac;
@@ -191,9 +197,11 @@ public abstract class BaseJPAFTest extends BaseTestNGTest {
     protected void deleteAll(Class<?> entity) {
         deleteAll(entity.getSimpleName());
     }
+    
     protected void deleteAll(String entityName) {
         deleteAll(entityName, "");
     }
+    
     protected void deleteAll(String entityName, String where) {
         EntityTransaction tx = em.getTransaction();
         if (tx.isActive()) {
@@ -212,4 +220,39 @@ public abstract class BaseJPAFTest extends BaseTestNGTest {
             }
         }
     }
+    
+    @Override
+    public String getTestName() {
+        return getClass().getName();
+    }
+
+    /**
+     * Helper to populate this threads test context.
+     * 
+     * @param uinfo
+     */
+    public static void populateTestContext(String testname, UserInfo uinfo) throws IOException {
+        TestContext tc = TestContext.get();
+        tc.setUserInfo(testname, uinfo);
+    }
+
+    private TableImpl getTable(EntityManager emm, Class<?> entity) {
+        ForceStoreSchemaHandler schemaHandler =
+            (ForceStoreSchemaHandler) ((ObjectManagerImpl) emm.getDelegate()).getStoreManager().getSchemaHandler();
+        return schemaHandler.getTable(
+                ((ForceStoreManager) schemaHandler.getStoreManager()).getMetaDataManager().getMetaDataForClass(entity, null));
+    }
+    
+    public String getTableName(EntityManager emm, Class<?> entity) {
+        return getTable(emm, entity).getTableName().getForceApiName();
+    }
+    
+    public String getFieldName(EntityManager emm, Class<?> entity, String field) {
+        return getTable(emm, entity).getColumnByJavaName(field).getFieldName();
+    }
+    
+    public String getRelationshipName(EntityManager emm, Class<?> entity, String field) {
+        return getTable(emm, entity).getColumnByJavaName(field).getForceApiRelationshipName();
+    }
+    
 }

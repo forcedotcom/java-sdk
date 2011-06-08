@@ -64,7 +64,7 @@
         </executions>
         <configuration>
 	      <includeProjectDependencies>true</includeProjectDependencies>          
-          <mainClass>com.force.sdk.test.util.EntityGenerator</mainClass>
+          <mainClass>com.force.sdk.qa.util.EntityGenerator</mainClass>
           <arguments>
             <argument>${basedir}/src/test/java/com/force/sdk/jpa/entities/generated</argument>
             <argument>26</argument>

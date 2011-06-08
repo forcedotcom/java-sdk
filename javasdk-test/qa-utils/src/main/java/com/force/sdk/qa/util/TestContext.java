@@ -24,14 +24,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.test.util;
+package com.force.sdk.qa.util;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.force.sdk.jpa.TestEntityManagerFactory;
 
 /**
  * 
@@ -59,7 +58,6 @@ public final class TestContext implements Serializable {
     
     private volatile String testName;
     private transient volatile UserInfo userInfo; //last created org during this test run
-    private transient volatile TestEntityManagerFactory entityManagerFactory;
     private Properties testrunProps;
     private TestType testType;
     private static ConcurrentHashMap<String, UserInfo> testOrgInfo = new ConcurrentHashMap<String, UserInfo>();
@@ -139,14 +137,6 @@ public final class TestContext implements Serializable {
     
     public synchronized UserInfo getUserInfo() {
         return userInfo;
-    }
-    
-    public synchronized TestEntityManagerFactory getEntityManagerFactory() {
-        return entityManagerFactory;
-    }
-    
-    public synchronized void setEntityManagerFactory(TestEntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
     }
     
     /**

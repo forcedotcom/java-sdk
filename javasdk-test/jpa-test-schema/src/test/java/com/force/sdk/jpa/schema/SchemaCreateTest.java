@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
 
 import com.force.sdk.jpa.schema.entities.ExistingCustomObjectExtension1;
 import com.force.sdk.jpa.schema.entities.UserCustomFields;
-import com.force.sdk.test.util.BaseJPAFTest;
+import com.force.sdk.qa.util.BaseJPAFTest;
 import com.sforce.soap.partner.fault.InvalidFieldFault;
 
 /**

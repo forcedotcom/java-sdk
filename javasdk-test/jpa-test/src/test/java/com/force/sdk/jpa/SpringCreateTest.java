@@ -54,7 +54,7 @@ import com.force.sdk.jpa.sample.PhoneNumber;
 import com.force.sdk.jpa.sample.PhoneNumber.Phonetype;
 import com.force.sdk.jpa.sample.Project;
 import com.force.sdk.jpa.sample.ProjectEmployee;
-import com.force.sdk.test.util.BaseTransactionalSpringContextJPAFTest;
+import com.force.sdk.qa.util.BaseTransactionalSpringContextJPAFTest;
 
 /**
  * 

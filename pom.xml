@@ -502,10 +502,6 @@
               <groupId>com.atlassian.maven.plugins</groupId>
               <artifactId>maven-clover2-plugin</artifactId>
               <version>${maven.clover.version}</version>
-              <configuration>
-                <generateHtml>true</generateHtml>
-                <generateXml>true</generateXml>
-              </configuration>
             </plugin>
           </plugins>
         </pluginManagement>
@@ -513,6 +509,14 @@
           <plugin>
             <groupId>com.atlassian.maven.plugins</groupId>
             <artifactId>maven-clover2-plugin</artifactId>
+            <configuration>
+              <generateHtml>true</generateHtml>
+              <generateXml>true</generateXml>
+              <!-- exclude qa util classes from instrumentation -->
+              <excludes>
+                <exclude>**/qa/util/*.java</exclude>
+              </excludes>
+            </configuration>
           </plugin>
         </plugins>
       </build>

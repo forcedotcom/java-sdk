@@ -44,8 +44,8 @@ import org.testng.annotations.Test;
 
 import com.force.sdk.jpa.schema.entities.ExistingCustomObject;
 import com.force.sdk.jpa.schema.entities.StandardFieldLinkingEntity;
-import com.force.sdk.test.util.SfdcTestingUtil;
-import com.force.sdk.test.util.TestContext;
+import com.force.sdk.qa.util.SfdcTestingUtil;
+import com.force.sdk.qa.util.TestContext;
 import com.sforce.soap.partner.DescribeSObjectResult;
 import com.sforce.soap.partner.PartnerConnection;
 

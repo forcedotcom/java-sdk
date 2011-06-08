@@ -37,7 +37,7 @@ import org.testng.annotations.*;
 
 import com.force.sdk.jpa.query.entities.DataTypesFTestEntity;
 import com.force.sdk.jpa.query.entities.DataTypesFTestEntity.PickValues;
-import com.force.sdk.test.util.BaseJPAFTest;
+import com.force.sdk.qa.util.BaseJPAFTest;
 import com.google.inject.internal.Lists;
 
 /**

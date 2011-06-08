@@ -26,7 +26,7 @@
 
 package com.force.sdk.jpa.entities.callback;
 
-import com.force.sdk.test.util.TestContext;
+import com.force.sdk.qa.util.TestContext;
 
 /**
  * 

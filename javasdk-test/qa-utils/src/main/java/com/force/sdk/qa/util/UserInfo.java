@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.test.util;
+package com.force.sdk.qa.util;
 
 import static org.testng.Assert.assertNotNull;
 
@@ -34,7 +34,7 @@ import java.util.HashMap;
 import org.testng.Assert;
 
 import com.force.sdk.connector.ForceServiceConnector;
-import com.force.sdk.jpa.TestPersistenceProviderImpl;
+import com.force.sdk.jpa.PersistenceProviderImpl;
 import com.sforce.soap.partner.GetUserInfoResult;
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.ws.ConnectionException;
@@ -98,7 +98,7 @@ public class UserInfo {
         propsMap.put(DN_CONN_USERNAME_PROP, getUserName());
         propsMap.put(DN_CONN_PASSWORD_PROP, getPassword());
         propsMap.put(DN_CONN_URL_PROP, getServerEndpoint());
-        propsMap.put("javax.persistence.provider", TestPersistenceProviderImpl.class.getName());
+        propsMap.put("javax.persistence.provider", PersistenceProviderImpl.class.getName());
         return propsMap;
     }
     

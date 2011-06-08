@@ -38,7 +38,9 @@ import mockit.*;
 
 import org.testng.annotations.Test;
 
-import com.force.sdk.test.util.*;
+import com.force.sdk.qa.util.PropsUtil;
+import com.force.sdk.qa.util.TestContext;
+import com.force.sdk.qa.util.UserInfo;
 import com.sforce.soap.partner.LoginResult;
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.ws.ConnectionException;
@@ -50,11 +52,11 @@ import com.sforce.ws.ConnectorConfig;
  * 
  * @author Tim Kral
  */
-public class SchemaLoadInvocationFTest extends BaseTestNGTest {
+public class SchemaLoadInvocationFTest {
     
     @Test
     public void testSchemaCreateLoginInvocations() throws ConnectionException, IOException {
-        populateTestContext(getTestName(), UserInfo.loadFromPropertyFile(PropsUtil.FORCE_SDK_TEST_NAME));
+    	TestContext.get().setUserInfo(getClass().getName(), UserInfo.loadFromPropertyFile(PropsUtil.FORCE_SDK_TEST_NAME));
         UserInfo userInfo = TestContext.get().getUserInfo();
 
         ConnectorConfig config = new ConnectorConfig();

@@ -37,7 +37,7 @@ import org.testng.annotations.Test;
 
 import com.force.sdk.jpa.sample.*;
 import com.force.sdk.jpa.sample.PhoneNumber.Phonetype;
-import com.force.sdk.test.util.BaseMultiEntityManagerJPAFTest;
+import com.force.sdk.qa.util.BaseMultiEntityManagerJPAFTest;
 
 /**
  * 

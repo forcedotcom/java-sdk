@@ -44,7 +44,7 @@ import com.force.sdk.jpa.query.QueryHints;
 import com.force.sdk.jpa.sample.Employee;
 import com.force.sdk.jpa.schema.ForceStoreSchemaHandler;
 import com.force.sdk.jpa.table.TableImpl;
-import com.force.sdk.test.util.BaseMultiEntityManagerJPAFTest;
+import com.force.sdk.qa.util.BaseMultiEntityManagerJPAFTest;
 import com.sforce.soap.partner.QueryResult;
 import com.sforce.soap.partner.fault.InvalidSObjectFault;
 

@@ -33,7 +33,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 
 import com.force.sdk.jpa.beanvalidation.entities.BeanValidationEntity;
-import com.force.sdk.test.util.BaseJPAFTest;
+import com.force.sdk.qa.util.BaseJPAFTest;
 
 /**
  * 
