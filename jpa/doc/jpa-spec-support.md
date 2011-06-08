@@ -308,7 +308,7 @@ Supported
 
 ### 4.10 Bulk Update and Delete Operations
 
-Bulk delete is supported but it doesn't participate in existing transactions. It runs in its own transaction. Bulk update is not supported. For more details, see [jpa-queries#bulkDelete](Bulk Delete and Queries).
+Bulk delete is supported but it doesn't participate in existing transactions. It runs in its own transaction. Bulk update is not supported. For more details, see [Bulk Delete and Queries](jpa-queries#bulkDelete).
 
 ### 4.11 Null Values
 
