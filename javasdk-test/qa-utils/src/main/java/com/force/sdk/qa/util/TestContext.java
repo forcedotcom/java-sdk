@@ -37,6 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Threadlocal test context for java sdk tests.
  *
  * @author Dirk Hain
+ * @author Jeff Lai
  */
 public final class TestContext implements Serializable {
     
@@ -50,10 +51,16 @@ public final class TestContext implements Serializable {
     /**
      * Tracks the type of test being run.
      * 
-     * @author Jeff Lai
      */
     public static enum TestType {
-        UNIT, FUNCTIONAL, INTEGRATION, INTEG_MOCK_SPRING_SECURITY, INTEG_ENDTOEND_SPRING_SECURITY
+        /**
+         * Test type for spring security integration tests that use mock oauth server.
+         */
+    	INTEG_MOCK_SPRING_SECURITY, 
+        /**
+         * Test type for spring security integration tests that use real force.com oauth server.
+         */
+        INTEG_ENDTOEND_SPRING_SECURITY
     }
     
     private volatile String testName;

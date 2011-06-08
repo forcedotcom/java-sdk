@@ -56,7 +56,7 @@ public class SchemaLoadInvocationFTest {
     
     @Test
     public void testSchemaCreateLoginInvocations() throws ConnectionException, IOException {
-    	TestContext.get().setUserInfo(getClass().getName(), UserInfo.loadFromPropertyFile(PropsUtil.FORCE_SDK_TEST_NAME));
+        TestContext.get().setUserInfo(getClass().getName(), UserInfo.loadFromPropertyFile(PropsUtil.FORCE_SDK_TEST_NAME));
         UserInfo userInfo = TestContext.get().getUserInfo();
 
         ConnectorConfig config = new ConnectorConfig();

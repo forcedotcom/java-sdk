@@ -43,7 +43,7 @@ public final class PropsUtil {
     public static final String FORCE_SDK_TEST_NAME = "force-sdk-test";
     /**
      * file name of properties file that contains Force.com organization information for
-     * functional and integration tests
+     * functional and integration tests.
      */
     public static final String FORCE_SDK_TEST_PROPS = "force-sdk-test.properties";
     
@@ -74,7 +74,7 @@ public final class PropsUtil {
      * Utility to load a properties file from the classpath.
      * @param propertiesName name of the properties file. The file needs to be on the classpath.
      * @return Properties
-     * @throws IOExeption IOExeption
+     * @throws IOException IOException
      */
     public static Properties load(String propertiesName) throws IOException {
         Properties p = new Properties();
