@@ -49,8 +49,17 @@ import com.sforce.ws.ConnectionException;
  */
 public class UserInfo {
 
+    /**
+     * Datanucleus property name for Force.com endpoint.
+     */
     public static final String DN_CONN_URL_PROP = "datanucleus.ConnectionURL";
+    /**
+     * Datanucleus property name for Force.com username.
+     */
     public static final String DN_CONN_USERNAME_PROP = "datanucleus.ConnectionUserName";
+    /**
+     * Datanucleus property name for Force.com password.
+     */
     public static final String DN_CONN_PASSWORD_PROP = "datanucleus.ConnectionPassword";
             
     //Immutables
@@ -62,11 +71,11 @@ public class UserInfo {
 
 
     /**
-     * Loads property file from classpath and sets property file values in a new UserInfo object
-     * @param propertyFileName
+     * Loads property file from classpath and sets property file values in a new UserInfo object.
+     * @param propertyFileName name of properties file
      * @return UserInfo
-     * @throws ConnectionException
-     * @throws IOException
+     * @throws ConnectionException ConnectionException
+     * @throws IOException IOException
      */
     public static UserInfo loadFromPropertyFile(String propertyFileName) throws ConnectionException, IOException {
         // Load up the connection properties on the classpath
@@ -86,6 +95,14 @@ public class UserInfo {
                             conn.getConfig().getServiceEndpoint());
     }
     
+    /**
+     * Constructor for UserInfo object.
+     * @param oId Organization id
+     * @param uId User id
+     * @param uName username
+     * @param pwd password
+     * @param serverEP Force.com endpoint
+     */
     public UserInfo(String oId, String uId, String uName, String pwd, String serverEP) {
         orgId = oId; //optional
         userId = uId; //optional
@@ -99,6 +116,7 @@ public class UserInfo {
 
     /**
      * Helper to obtain the user information in a format suitable to pass to a EMF for instance.
+     * @return HashMap<String,Object> containing persistence unit properties
      */
     public HashMap<String, Object> getUserinfoAsPersistenceunitProperties() {
         HashMap<String, Object> propsMap = new HashMap<String, Object>();

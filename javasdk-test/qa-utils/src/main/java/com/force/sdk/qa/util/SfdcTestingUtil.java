@@ -70,7 +70,7 @@ public final class SfdcTestingUtil {
      * This method returns a partner connection for a given UserInfo object.
      * @param user is the UserInfo object
      * @return PartnerConnection
-     * @throws Exception
+     * @throws Exception Exception
      */
     public static PartnerConnection getPartnerConnection(UserInfo user) throws Exception {
         ConnectorConfig conf = new ConnectorConfig();
@@ -82,9 +82,9 @@ public final class SfdcTestingUtil {
     }
 
     /**
-     * This method deletes and purges custom schema
-     * @param mconn
-     * @throws Exception
+     * This method deletes and purges custom schema.
+     * @param mconn ForceMangedConnection
+     * @throws Exception Exception
      */
     public static void cleanSchema(ForceManagedConnection mconn) throws Exception {
         PartnerConnection pc = (PartnerConnection) mconn.getConnection();

@@ -66,7 +66,7 @@ public final class EntityGenerator {
      * @param args is a String array that should have the following elements:
      * args[0] - the path to the folder where the entities should be created
      * args[1] - the number of entities to create
-     * @throws Exception
+     * @throws Exception Exception
      */
     public static void main(String[] args) throws Exception {
         path = args[0];

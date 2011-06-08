@@ -37,10 +37,9 @@ import java.util.Properties;
  * @author Dirk Hain
  */
 public final class PropsUtil {
-
-	/**
-	 * name for sdk functional and integration test maven parent project
-	 */
+    /**
+     * name for sdk functional and integration test maven parent project.
+     */
     public static final String FORCE_SDK_TEST_NAME = "force-sdk-test";
     /**
      * file name of properties file that contains Force.com organization information for
@@ -49,23 +48,23 @@ public final class PropsUtil {
     public static final String FORCE_SDK_TEST_PROPS = "force-sdk-test.properties";
     
     /**
-     * property name for Force.com organization admin user name
+     * property name for Force.com organization admin user name.
      */
     public static final String FORCE_USER_PROP = "user";
     /**
-     * property name for Force.com organization admin password
+     * property name for Force.com organization admin password.
      */
     public static final String FORCE_PWD_PROP = "password";
     /**
-     * property name for Force.com endpoint
+     * property name for Force.com endpoint.
      */
     public static final String FORCE_EP_PROP = "endpoint";
     /**
-     * property name for Force.com API version
+     * property name for Force.com API version.
      */
     public static final String FORCE_APIV_PROP = "force.apiVersion";
     /**
-     * property name for protocol to connect to Force.com endpoint (http or https)
+     * property name for protocol to connect to Force.com endpoint (http or https).
      */
     public static final String FORCE_PROT_PROP = "endpoint.protocol";
     
@@ -75,7 +74,7 @@ public final class PropsUtil {
      * Utility to load a properties file from the classpath.
      * @param propertiesName name of the properties file. The file needs to be on the classpath.
      * @return Properties
-     * @throws IOExeption
+     * @throws IOExeption IOExeption
      */
     public static Properties load(String propertiesName) throws IOException {
         Properties p = new Properties();

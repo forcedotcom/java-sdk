@@ -42,10 +42,10 @@ public final class TestContext implements Serializable {
     
     private static final long serialVersionUID = 2211885487131071483L;
     
-    public static final String CREATE_NEW_ORG = "test.func.createNewOrg";
-    public static final String CREATE_NEW_ORG_PER_TESTCLASS = "test.func.createNewOrgPerTestclass";
+    /**
+     * property name for JPA persistence unit name.
+     */
     public static final String PERSISTENCE_UNIT_NAME = "test.func.persistenceUnitName";
-    public static final String LONG_REGEX = "[\\\\d]{" + (((Long) System.currentTimeMillis()).toString().length() + 4) + "}";
     
     /**
      * Tracks the type of test being run.
@@ -76,13 +76,11 @@ public final class TestContext implements Serializable {
             }
         };
 
-    /**
-     * 
-     */
     private TestContext() {  }
     
     /**
      * Get default test context.
+     * @return the thread local instance of TestContext
      */
     public static TestContext get() {
         return TLTC.get() == null ? TestContext.get(PropsUtil.FORCE_SDK_TEST_PROPS) : TLTC.get();
@@ -91,6 +89,7 @@ public final class TestContext implements Serializable {
     /**
      * Get test context from specific properties file.
      * @param testPropsName Properties file on the classpath
+     * @return TestContext loaded from properties file
      */
     public static TestContext get(String testPropsName) {
         release();
@@ -107,10 +106,17 @@ public final class TestContext implements Serializable {
         return tc;
     }
     
+    /**
+     * Sets the thread local TestContext.
+     * @param tc TestContext
+     */
     public static void set(TestContext tc) {
         TLTC.set(tc);
     }
     
+    /**
+     * Sets the thread local TestContext to null.
+     */
     public static void release() {
         TLTC.set(null);
     }
@@ -123,6 +129,10 @@ public final class TestContext implements Serializable {
         this.testrunProps = testProps;
     }
     
+    /**
+     * Adds additional test properties.
+     * @param testProps Properties to add.
+     */
     public void addTestProps(Properties testProps) {
         if (this.testrunProps == null) {
             this.testrunProps = new Properties();
@@ -152,6 +162,11 @@ public final class TestContext implements Serializable {
         }
     }
     
+    /**
+     * Sets UserInfo for specified test.
+     * @param tname name of test
+     * @param uInfo UserInfo
+     */
     public synchronized void setUserInfo(String tname, UserInfo uInfo) {
         this.testName = tname;
         this.userInfo = uInfo;
@@ -171,6 +186,9 @@ public final class TestContext implements Serializable {
         return testType;
     }
     
+    /**
+     * Sets testType to null.
+     */
     public void clearTestType() {
         testType = null;
     }
