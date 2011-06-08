@@ -61,6 +61,13 @@ public class UserInfo {
     protected final String serverEndpoint;
 
 
+    /**
+     * Loads property file from classpath and sets property file values in a new UserInfo object
+     * @param propertyFileName
+     * @return UserInfo
+     * @throws ConnectionException
+     * @throws IOException
+     */
     public static UserInfo loadFromPropertyFile(String propertyFileName) throws ConnectionException, IOException {
         // Load up the connection properties on the classpath
         ForceServiceConnector connector = new ForceServiceConnector(propertyFileName);

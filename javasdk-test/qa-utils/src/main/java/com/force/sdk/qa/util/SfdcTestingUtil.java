@@ -67,7 +67,6 @@ public final class SfdcTestingUtil {
     private SfdcTestingUtil() { }
     
     /**
-     * getPartnerConnection
      * This method returns a partner connection for a given UserInfo object.
      * @param user is the UserInfo object
      * @return PartnerConnection
@@ -82,6 +81,11 @@ public final class SfdcTestingUtil {
         return conn;
     }
 
+    /**
+     * This method deletes and purges custom schema
+     * @param mconn
+     * @throws Exception
+     */
     public static void cleanSchema(ForceManagedConnection mconn) throws Exception {
         PartnerConnection pc = (PartnerConnection) mconn.getConnection();
         ForceSchemaWriter writer = new ForceSchemaWriter(new SchemaDeleteProperty(true, true));
