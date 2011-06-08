@@ -50,7 +50,7 @@ The \<oauth /> tag requires that you provide OAuth properties.  This can be done
 **&lt;oauthInfo/>** tag.  This tag allows you to specify an <code>endpoint</code>, <code>oauthKey</code> and <code>oauthSecret</code> as separate attributes. For example:
 
 	<fss:oauth>
-		<fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="${oauthKey} oauth-secret="${oauthSecret}" />
+		<fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="${oauthKey}" oauth-secret="${oauthSecret}" />
 	</fss:oauth>
 
 **&lt;connectionUrl/>** tag.  This tag allows you to combine the <code>endpoint</code>, <code>oauthKey</code> and <code>oauthSecret</code> properties into one connection URL.  For example:
