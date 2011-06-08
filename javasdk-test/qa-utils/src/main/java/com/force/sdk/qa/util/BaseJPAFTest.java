@@ -125,7 +125,8 @@ public abstract class BaseJPAFTest implements ITest {
     
     /**
      * Helper to get a connection using the default test properties in force-sdk-test.properties.
-     * @return
+     * 
+     * @return a PartnerConnection to the default test org
      */
     public static PartnerConnection getDefaultServiceFromTestProperties() throws ConnectionException {
         

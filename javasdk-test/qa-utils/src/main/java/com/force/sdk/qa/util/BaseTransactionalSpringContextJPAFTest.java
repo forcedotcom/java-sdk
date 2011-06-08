@@ -83,24 +83,12 @@ public abstract class BaseTransactionalSpringContextJPAFTest extends
 
 
     /**
-     * Create a new test org and reload the spring context to run against the test org. 
-     * @return EntityManager pointing to the newly created org.
+     * Reload the spring context to run against the test org. 
      */
     @BeforeClass(dependsOnMethods = "springTestContextPrepareTestInstance")
     protected void reloadEntityManager() throws Exception {
         BaseJPAFTest.populateTestContext(getTestName(), BaseJPAFTest.getDefaultUserInfoFromContext());
     }
-    
-//    private void reloadEntityManager(UserInfo uinfo) {
-//        HashMap<String, Object> configOverrides = uinfo.getUserinfoAsPersistenceunitProperties();
-//        EntityManagerFactory dynamicEMF = new PersistenceProviderImpl().
-//                    createContainerEntityManagerFactory(getPUInfoFromAppContext(this.applicationContext), configOverrides);
-//        if (TestContext.get().getEntityManagerFactory() == null) {
-//            TestContext.get().setEntityManagerFactory(new TestEntityManagerFactory(dynamicEMF));
-//        }
-//        TestContext.get().getEntityManagerFactory().setEntityManagerFactory(dynamicEMF);
-//    }
-    
     
     /**
      * Helper to create a service either from a dynamic org in the {@link TestContext} or from the 
