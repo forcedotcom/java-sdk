@@ -23,6 +23,7 @@ The rest of this section highlights useful information about a subset of Force.c
 - [Restricted Versus Non-Restricted Picklists](#restrictedPicklist)
 - [Email Fields](#email)
 - [Phone Fields](#phone)
+- [URL Fields](#url)
 - [Percent Fields](#percent)
 - [Formula Fields](#formula)
 - [Relationship Fields](#relFields)
@@ -160,6 +161,13 @@ To create a Force.com phone field, use <code>@CustomField(type=FieldType.Phone)<
 
     @CustomField(type=FieldType.Email)
     String orderEmail;
+
+<a name="url"> </a>
+## URL Fields
+To create a Force.com URL field, use the [@Basic annotation](jpa-annotations-standard#basicAnnotation) with a URL Java type. You need the <code>@Basic</code> annotation to enable persistence for the field because URL is not one of the Java types that is persisted by default. For example:
+
+    @Basic
+    URL companyUrl;
 
 <a name="percent"> </a>
 ## Percent Fields
