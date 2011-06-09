@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.test.util;
+package com.force.sdk.qa.util;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

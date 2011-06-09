@@ -43,13 +43,13 @@ The JPA provider enables you to use Database.com as a persistent data store for 
 
 If you're building an application for authenticated Database.com users, you can configure single sign-on and leverage the security model in Database.com using OAuth2.
 
-[Read more](force-security)
+[Read more](oauth-auth)
 
 ## Spring security plugin
 
 This plugin enables you to use Spring Security for authentication and authorization in your applications. The Spring Security library uses the API Connector and the OAuth Connector to allow authentication via the Force.com APIs. There is also a custom Spring Security namespace that helps to simplify configuration.
 
-[Read more](force-security)
+[Read more](spring-security)
 
 ## Spring MVC project template
 

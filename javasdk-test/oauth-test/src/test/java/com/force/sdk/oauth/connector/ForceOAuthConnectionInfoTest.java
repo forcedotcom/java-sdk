@@ -33,7 +33,7 @@ import java.util.Properties;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.force.sdk.test.util.PropsUtil;
+import com.force.sdk.qa.util.PropsUtil;
 
 /**
  * Unit Tests for ForceOAuthConnectionInfo.

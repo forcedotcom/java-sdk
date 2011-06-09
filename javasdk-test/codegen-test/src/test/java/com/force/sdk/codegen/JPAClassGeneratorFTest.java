@@ -41,7 +41,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.force.sdk.test.util.PropsUtil;
+import com.force.sdk.qa.util.PropsUtil;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.sforce.ws.ConnectionException;

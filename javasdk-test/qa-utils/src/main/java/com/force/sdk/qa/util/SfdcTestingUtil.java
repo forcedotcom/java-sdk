@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.test.util;
+package com.force.sdk.qa.util;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,11 +67,10 @@ public final class SfdcTestingUtil {
     private SfdcTestingUtil() { }
     
     /**
-     * getPartnerConnection
      * This method returns a partner connection for a given UserInfo object.
      * @param user is the UserInfo object
      * @return PartnerConnection
-     * @throws Exception
+     * @throws Exception Exception
      */
     public static PartnerConnection getPartnerConnection(UserInfo user) throws Exception {
         ConnectorConfig conf = new ConnectorConfig();
@@ -82,6 +81,11 @@ public final class SfdcTestingUtil {
         return conn;
     }
 
+    /**
+     * This method deletes and purges custom schema.
+     * @param mconn ForceMangedConnection
+     * @throws Exception Exception
+     */
     public static void cleanSchema(ForceManagedConnection mconn) throws Exception {
         PartnerConnection pc = (PartnerConnection) mconn.getConnection();
         ForceSchemaWriter writer = new ForceSchemaWriter(new SchemaDeleteProperty(true, true));

@@ -35,7 +35,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.force.sdk.jpa.schema.entities.ProviderTestEntity;
-import com.force.sdk.test.util.TestContext;
+import com.force.sdk.qa.util.TestContext;
 import com.sforce.ws.ConnectionException;
 
 /**

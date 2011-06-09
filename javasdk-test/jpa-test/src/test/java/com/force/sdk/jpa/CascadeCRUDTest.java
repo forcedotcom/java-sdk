@@ -36,7 +36,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.force.sdk.jpa.entities.cascade.*;
-import com.force.sdk.test.util.BaseMultiEntityManagerJPAFTest;
+import com.force.sdk.qa.util.BaseMultiEntityManagerJPAFTest;
 
 /**
  * Class for Cascade CRUD Tests.

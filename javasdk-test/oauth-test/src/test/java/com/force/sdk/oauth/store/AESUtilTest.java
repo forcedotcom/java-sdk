@@ -38,7 +38,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.force.sdk.oauth.context.store.*;
-import com.force.sdk.test.util.ForceLogAppenderValidator;
+import com.force.sdk.qa.util.ForceLogAppenderValidator;
 
 /**
  * 

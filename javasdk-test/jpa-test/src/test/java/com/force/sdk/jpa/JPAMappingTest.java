@@ -34,7 +34,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.force.sdk.jpa.entities.AccountMapped2ndTime;
-import com.force.sdk.test.util.BaseJPAFTest;
+import com.force.sdk.qa.util.BaseJPAFTest;
 
 /**
  * 

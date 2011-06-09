@@ -26,10 +26,11 @@
 
 package com.force.sdk.springsecurity;
 
-import com.force.sdk.test.util.BaseContainerTest;
-import com.force.sdk.test.util.PropsUtil;
-import com.force.sdk.test.util.TestContext;
-import com.force.sdk.test.util.TestContext.TestType;
+import com.force.sdk.qa.util.BaseContainerTest;
+import com.force.sdk.qa.util.PropsUtil;
+import com.force.sdk.qa.util.TestContext;
+import com.force.sdk.qa.util.TestContext.TestType;
+
 import org.apache.http.HttpResponse;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;

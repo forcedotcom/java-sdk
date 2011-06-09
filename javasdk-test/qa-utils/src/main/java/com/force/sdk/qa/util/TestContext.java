@@ -24,42 +24,47 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.test.util;
+package com.force.sdk.qa.util;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.force.sdk.jpa.TestEntityManagerFactory;
 
 /**
  * 
  * Threadlocal test context for java sdk tests.
  *
  * @author Dirk Hain
+ * @author Jeff Lai
  */
 public final class TestContext implements Serializable {
     
     private static final long serialVersionUID = 2211885487131071483L;
     
-    public static final String CREATE_NEW_ORG = "test.func.createNewOrg";
-    public static final String CREATE_NEW_ORG_PER_TESTCLASS = "test.func.createNewOrgPerTestclass";
+    /**
+     * property name for JPA persistence unit name.
+     */
     public static final String PERSISTENCE_UNIT_NAME = "test.func.persistenceUnitName";
-    public static final String LONG_REGEX = "[\\\\d]{" + (((Long) System.currentTimeMillis()).toString().length() + 4) + "}";
     
     /**
      * Tracks the type of test being run.
      * 
-     * @author Jeff Lai
      */
     public static enum TestType {
-        UNIT, FUNCTIONAL, INTEGRATION, INTEG_MOCK_SPRING_SECURITY, INTEG_ENDTOEND_SPRING_SECURITY
+        /**
+         * Test type for spring security integration tests that use mock oauth server.
+         */
+        INTEG_MOCK_SPRING_SECURITY,
+        /**
+         * Test type for spring security integration tests that use real force.com oauth server.
+         */
+        INTEG_ENDTOEND_SPRING_SECURITY
     }
     
     private volatile String testName;
     private transient volatile UserInfo userInfo; //last created org during this test run
-    private transient volatile TestEntityManagerFactory entityManagerFactory;
     private Properties testrunProps;
     private TestType testType;
     private static ConcurrentHashMap<String, UserInfo> testOrgInfo = new ConcurrentHashMap<String, UserInfo>();
@@ -78,13 +83,11 @@ public final class TestContext implements Serializable {
             }
         };
 
-    /**
-     * 
-     */
     private TestContext() {  }
     
     /**
      * Get default test context.
+     * @return the thread local instance of TestContext
      */
     public static TestContext get() {
         return TLTC.get() == null ? TestContext.get(PropsUtil.FORCE_SDK_TEST_PROPS) : TLTC.get();
@@ -93,6 +96,7 @@ public final class TestContext implements Serializable {
     /**
      * Get test context from specific properties file.
      * @param testPropsName Properties file on the classpath
+     * @return TestContext loaded from properties file
      */
     public static TestContext get(String testPropsName) {
         release();
@@ -109,10 +113,17 @@ public final class TestContext implements Serializable {
         return tc;
     }
     
+    /**
+     * Sets the thread local TestContext.
+     * @param tc TestContext
+     */
     public static void set(TestContext tc) {
         TLTC.set(tc);
     }
     
+    /**
+     * Sets the thread local TestContext to null.
+     */
     public static void release() {
         TLTC.set(null);
     }
@@ -125,6 +136,10 @@ public final class TestContext implements Serializable {
         this.testrunProps = testProps;
     }
     
+    /**
+     * Adds additional test properties.
+     * @param testProps Properties to add.
+     */
     public void addTestProps(Properties testProps) {
         if (this.testrunProps == null) {
             this.testrunProps = new Properties();
@@ -141,14 +156,6 @@ public final class TestContext implements Serializable {
         return userInfo;
     }
     
-    public synchronized TestEntityManagerFactory getEntityManagerFactory() {
-        return entityManagerFactory;
-    }
-    
-    public synchronized void setEntityManagerFactory(TestEntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
-    }
-    
     /**
      * Retrieves the userinfo for the specified test.
      * @param tname name of the test
@@ -162,6 +169,11 @@ public final class TestContext implements Serializable {
         }
     }
     
+    /**
+     * Sets UserInfo for specified test.
+     * @param tname name of test
+     * @param uInfo UserInfo
+     */
     public synchronized void setUserInfo(String tname, UserInfo uInfo) {
         this.testName = tname;
         this.userInfo = uInfo;
@@ -181,6 +193,9 @@ public final class TestContext implements Serializable {
         return testType;
     }
     
+    /**
+     * Sets testType to null.
+     */
     public void clearTestType() {
         testType = null;
     }

@@ -33,7 +33,9 @@ import org.testng.annotations.*;
 
 import com.force.sdk.connector.ForceConnectorConfig;
 import com.force.sdk.connector.ForceServiceConnector;
-import com.force.sdk.test.util.*;
+import com.force.sdk.qa.util.BaseJPAFTest;
+import com.force.sdk.qa.util.TestContext;
+import com.force.sdk.qa.util.UserInfo;
 import com.sforce.ws.ConnectionException;
 
 /**

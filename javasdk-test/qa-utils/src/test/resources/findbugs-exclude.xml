@@ -32,7 +32,7 @@
   that the entity files are deleted/created, only that they exist in the end.
   -->
   <Match>
-    <Class name="com.force.sdk.test.util.EntityGenerator"/>
+    <Class name="com.force.sdk.qa.util.EntityGenerator"/>
     <Method name="main"/>
     <Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE"/>
   </Match>

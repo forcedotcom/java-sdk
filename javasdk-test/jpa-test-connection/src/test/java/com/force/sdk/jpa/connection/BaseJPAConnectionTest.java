@@ -36,8 +36,8 @@ import org.datanucleus.store.connection.ConnectionFactory;
 import org.testng.annotations.BeforeClass;
 
 import com.force.sdk.jpa.ForceManagedConnection;
-import com.force.sdk.test.util.PropsUtil;
-import com.force.sdk.test.util.UserInfo;
+import com.force.sdk.qa.util.PropsUtil;
+import com.force.sdk.qa.util.UserInfo;
 import com.sforce.soap.metadata.MetadataConnection;
 import com.sforce.soap.partner.GetUserInfoResult;
 import com.sforce.soap.partner.PartnerConnection;

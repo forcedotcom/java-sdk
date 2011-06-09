@@ -36,7 +36,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.force.sdk.jpa.entities.*;
-import com.force.sdk.test.util.BaseJPAFTest;
+import com.force.sdk.qa.util.BaseJPAFTest;
 
 /**
  * Negative tests for JPA CRUD operations.

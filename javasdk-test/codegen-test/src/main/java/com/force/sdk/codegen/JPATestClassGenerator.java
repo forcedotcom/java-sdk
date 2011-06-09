@@ -32,7 +32,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 
-import com.force.sdk.test.util.PropsUtil;
+import com.force.sdk.qa.util.PropsUtil;
 import com.google.common.collect.Lists;
 import com.sforce.ws.ConnectionException;
 

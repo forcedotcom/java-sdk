@@ -33,8 +33,8 @@ import java.util.Properties;
 import org.testng.annotations.BeforeClass;
 
 import com.force.sdk.oauth.context.SecurityContext;
-import com.force.sdk.test.util.PropsUtil;
-import com.force.sdk.test.util.UserInfo;
+import com.force.sdk.qa.util.PropsUtil;
+import com.force.sdk.qa.util.UserInfo;
 
 /**
  * Base class for Force.com OAuth functional tests.

@@ -31,8 +31,8 @@ import static org.testng.Assert.fail;
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
 
-import com.force.sdk.test.util.TestContext;
-import com.force.sdk.test.util.TestContext.TestType;
+import com.force.sdk.qa.util.TestContext;
+import com.force.sdk.qa.util.TestContext.TestType;
 
 /**
  * 

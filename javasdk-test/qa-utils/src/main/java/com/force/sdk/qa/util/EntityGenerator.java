@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.test.util;
+package com.force.sdk.qa.util;
  
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -53,9 +53,6 @@ public final class EntityGenerator {
     private EntityGenerator() {  }
     
     /**
-     * current arguments are:
-     * args[0] - the path to the folder where the entities should be created
-     * args[1] - the number of entities to create
      * 
      * This test creates:
      * Entity0 - name and id fields, OneToMany collections for every subsequent entity
@@ -65,6 +62,11 @@ public final class EntityGenerator {
      * 
      * If you want to add more than 26 entities this file will need to be adjusted slightly,
      * as you cannot have more than 25 child relationships
+     * 
+     * @param args is a String array that should have the following elements:
+     * args[0] - the path to the folder where the entities should be created
+     * args[1] - the number of entities to create
+     * @throws Exception Exception
      */
     public static void main(String[] args) throws Exception {
         path = args[0];

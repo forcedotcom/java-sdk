@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.test.util;
+package com.force.sdk.qa.util;
 
 import java.util.regex.Pattern;
 
@@ -43,10 +43,19 @@ public class ForceLogAppenderValidator extends AppenderSkeleton {
     private Pattern[] expectedLogPattterns;
     private int current;
     
+    /**
+     * Constructor for ForceLogAppenderValidator.
+     * @param expectedLogs String Array of expected logs.
+     */
     public ForceLogAppenderValidator(String[] expectedLogs) {
         initPatterns(expectedLogs);
     }
 
+    /**
+     * Constructor for ForceLogAppenderValidator.
+     * @param isActive true if appender is ready for use upon construction
+     * @param expectedLogs  String Array of expected logs.
+     */
     public ForceLogAppenderValidator(boolean isActive, String[] expectedLogs) {
         super(isActive);
         initPatterns(expectedLogs);
@@ -69,6 +78,10 @@ public class ForceLogAppenderValidator extends AppenderSkeleton {
         return false;
     }
 
+    /**
+     * Returns true if all patterns have been appended.
+     * @return boolean
+     */
     public boolean finishedPatterns() {
         return this.current == expectedLogPattterns.length;
     }
