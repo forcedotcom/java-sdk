@@ -28,14 +28,10 @@
         <groupId>org.datanucleus</groupId>
         <artifactId>maven-datanucleus-plugin</artifactId>
         <configuration>
-          <metadataDirectory>${basedir}/target/test-classes</metadataDirectory>
+          <metadataDirectory>${project.build.testOutputDirectory}</metadataDirectory>
           <metadataIncludes>**/*.class</metadataIncludes>
           <mappingIncludes>**/*.class</mappingIncludes>
           <persistenceUnitName>dummyDNEnhancerPU</persistenceUnitName>
-          <verbose>true</verbose>
-          <enhancerName>ASM</enhancerName>
-          <api>JPA</api>
-          <verbose>true</verbose>
         </configuration>
         <executions>
           <execution>

@@ -27,6 +27,7 @@
     <datanucleus.core.version>2.2.3</datanucleus.core.version>
     <datanucleus.enhancer.version>2.1.0-release</datanucleus.enhancer.version>
     <datanucleus.jpa.version>2.1.7</datanucleus.jpa.version>
+    <datanucleus.plugin.version>2.1.0-release</datanucleus.plugin.version>
     <datanucleus.rdbms.version>2.1.0-release</datanucleus.rdbms.version>
     <failsafe.version>2.7.1</failsafe.version>
     <findbugs.plugin.version>2.3.2</findbugs.plugin.version>
@@ -39,7 +40,7 @@
     <jackson.version>1.5.4</jackson.version>
     <java.compile.version>1.6</java.compile.version>
     <java.servlet.version>2.5</java.servlet.version>
-    <jdo.version>2.3-ec</jdo.version>
+    <jdo.version>2.3-eb</jdo.version>
     <jmockit.version>0.999.6</jmockit.version>
     <log4j.version>1.2.15</log4j.version>
     <maven.clover.version>3.0.2</maven.clover.version>
@@ -364,6 +365,51 @@
           <configuration>
             <source>${java.compile.version}</source>
             <target>${java.compile.version}</target>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.datanucleus</groupId>
+          <artifactId>maven-datanucleus-plugin</artifactId>
+          <version>${datanucleus.plugin.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.datanucleus</groupId>
+              <artifactId>datanucleus-core</artifactId>
+              <version>${datanucleus.core.version}</version>
+              <scope>runtime</scope>
+            </dependency>
+            <dependency>
+              <groupId>org.datanucleus</groupId>
+              <artifactId>datanucleus-enhancer</artifactId>
+              <version>${datanucleus.enhancer.version}</version>
+              <scope>runtime</scope>
+            </dependency>
+            <dependency>
+              <groupId>org.datanucleus</groupId>
+              <artifactId>datanucleus-rdbms</artifactId>
+              <version>${datanucleus.rdbms.version}</version>
+              <scope>runtime</scope>
+              <optional>true</optional>
+            </dependency>
+            <dependency>
+              <groupId>org.datanucleus</groupId>
+              <artifactId>datanucleus-jpa</artifactId>
+              <version>${datanucleus.jpa.version}</version>
+              <scope>runtime</scope>
+              <optional>true</optional>
+            </dependency>
+            <dependency>
+              <groupId>javax.jdo</groupId>
+              <artifactId>jdo-api</artifactId>
+              <version>3.0</version>
+              <scope>runtime</scope>
+            </dependency>
+          </dependencies>
+          <configuration>
+            <verbose>true</verbose>
+            <enhancerName>ASM</enhancerName>
+            <api>JPA</api>
           </configuration>
         </plugin>
  

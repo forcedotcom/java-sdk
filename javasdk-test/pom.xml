@@ -135,40 +135,6 @@
         </plugin>
 
         <plugin>
-          <groupId>org.datanucleus</groupId>
-          <artifactId>maven-datanucleus-plugin</artifactId>
-          <version>${datanucleus.enhancer.version}</version>
-          <dependencies>
-            <dependency>
-              <groupId>org.datanucleus</groupId>
-              <artifactId>datanucleus-core</artifactId>
-              <version>${datanucleus.core.version}</version>
-              <scope>runtime</scope>
-            </dependency>
-            <dependency>
-              <groupId>org.datanucleus</groupId>
-              <artifactId>datanucleus-enhancer</artifactId>
-              <version>${datanucleus.enhancer.version}</version>
-              <scope>runtime</scope>
-            </dependency>
-            <dependency>
-              <groupId>org.datanucleus</groupId>
-              <artifactId>datanucleus-rdbms</artifactId>
-              <version>${datanucleus.enhancer.version}</version>
-              <scope>runtime</scope>
-              <optional>true</optional>
-            </dependency>
-            <dependency>
-              <groupId>org.datanucleus</groupId>
-              <artifactId>datanucleus-jpa</artifactId>
-              <version>${datanucleus.jpa.version}</version>
-              <scope>runtime</scope>
-              <optional>true</optional>
-            </dependency>
-          </dependencies>
-        </plugin>
-        
-        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${surefire.version}</version>
