@@ -12,52 +12,7 @@
   <artifactId>force-jpa</artifactId>
   <name>force-jpa</name>
 
-  <repositories>
-    <repository>
-      <id>DataNucleus_Repos2</id>
-      <name>DataNucleus Repository</name>
-      <url>http://www.datanucleus.org/downloads/maven2</url>
-    </repository>
-  </repositories>
-
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.datanucleus</groupId>
-          <artifactId>maven-datanucleus-plugin</artifactId>
-          <version>${datanucleus.enhancer.version}</version>
-          <dependencies>
-            <dependency>
-              <groupId>org.datanucleus</groupId>
-              <artifactId>datanucleus-core</artifactId>
-              <version>${datanucleus.core.version}</version>
-              <scope>runtime</scope>
-            </dependency>
-            <dependency>
-              <groupId>org.datanucleus</groupId>
-              <artifactId>datanucleus-enhancer</artifactId>
-              <version>${datanucleus.enhancer.version}</version>
-              <scope>runtime</scope>
-            </dependency>
-            <dependency>
-              <groupId>org.datanucleus</groupId>
-              <artifactId>datanucleus-rdbms</artifactId>
-              <version>${datanucleus.rdbms.version}</version>
-              <scope>runtime</scope>
-              <optional>true</optional>
-            </dependency>
-            <dependency>
-              <groupId>org.datanucleus</groupId>
-              <artifactId>datanucleus-jpa</artifactId>
-              <version>${datanucleus.jpa.version}</version>
-              <scope>runtime</scope>
-              <optional>true</optional>
-            </dependency>
-          </dependencies>
-        </plugin>
-      </plugins>
-    </pluginManagement>
 
     <plugins>
 
@@ -96,14 +51,6 @@
       <plugin>
         <groupId>org.datanucleus</groupId>
         <artifactId>maven-datanucleus-plugin</artifactId>
-        <version>${datanucleus.enhancer.version}</version>
-        <configuration>
-          <metadataIncludes>com/force/sdk/jpa/entities/**/*.class, com/force/sdk/jpa/model/**/*.class</metadataIncludes>
-          <mappingIncludes>com/force/sdk/jpa/entities/**/*.class, com/force/sdk/jpa/model/**/*.class</mappingIncludes>
-          <verbose>true</verbose>
-          <enhancerName>ASM</enhancerName>
-          <api>JPA</api>
-        </configuration>
         <executions>
           <execution>
             <id>Force_JPA_Model</id>
@@ -111,6 +58,10 @@
             <goals>
               <goal>enhance</goal>
             </goals>
+            <configuration>
+              <metadataIncludes>com/force/sdk/jpa/model/**/*.class</metadataIncludes>
+              <mappingIncludes>com/force/sdk/jpa/model/**/*.class</mappingIncludes>
+            </configuration>
           </execution>
           <execution>
             <id>Force_JPA_Test</id>
@@ -120,6 +71,8 @@
             </goals>
             <configuration>
               <metadataDirectory>${basedir}/target/test-classes</metadataDirectory>
+              <metadataIncludes>com/force/sdk/jpa/entities/**/*.class</metadataIncludes>
+              <mappingIncludes>com/force/sdk/jpa/entities/**/*.class</mappingIncludes>
             </configuration>
           </execution>
         </executions>

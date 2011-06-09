@@ -12,7 +12,7 @@ JPA annotations enable you to define how the JPA provider persists your Java cla
 within a class by using one approach or the other. If you add one annotation to a field and another to a getter method,
 an error occurs. We recommend that you annotate the field instead of the getter method.
 
-The [JPA 2.0 specification (JSR 317)](http://jcp.org/aboutJava/communityprocess/final/jsr317/index.html) lists all standard JPA annotations. [JPA 2.0 Specification Support](jps-spec-support) lists the areas of the JPA 2.0 specification that are supported by the Database.com JPA provider and how Database.com differs from the standard JPA specification.
+The [JPA 2.0 specification (JSR 317)](http://jcp.org/aboutJava/communityprocess/final/jsr317/index.html) lists all standard JPA annotations. [JPA 2.0 Specification Support](jpa-spec-support) lists the areas of the JPA 2.0 specification that are supported by the Database.com JPA provider and how Database.com differs from the standard JPA specification.
 
 Some common standard JPA annotations are:
 
