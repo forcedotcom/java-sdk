@@ -38,9 +38,7 @@ import mockit.*;
 
 import org.testng.annotations.Test;
 
-import com.force.sdk.qa.util.PropsUtil;
-import com.force.sdk.qa.util.TestContext;
-import com.force.sdk.qa.util.UserInfo;
+import com.force.sdk.qa.util.*;
 import com.sforce.soap.partner.LoginResult;
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.ws.ConnectionException;
@@ -91,7 +89,7 @@ public class SchemaLoadInvocationFTest {
      * 
      * @author Tim Kral
      */
-    @MockClass(realClass = PartnerConnection.class)
+    @MockClass(realClass = PartnerConnection.class, instantiation = Instantiation.PerMockSetup)
     public static class PartnerConnectionWithLoginCounter {
 
         private int loginCount = 0;
