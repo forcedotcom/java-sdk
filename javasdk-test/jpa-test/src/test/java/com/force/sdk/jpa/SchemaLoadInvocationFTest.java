@@ -54,7 +54,7 @@ public class SchemaLoadInvocationFTest {
         Logger logger = Logger.getLogger("com.force.sdk.connector");
         Level oldLevel = logger.getLevel();
         Properties sdkTestProps = PropsUtil.load(PropsUtil.FORCE_SDK_TEST_PROPS);
-        String expectedLogLine = "ForceServiceConnector Cache: MISS for id: " 
+        String expectedLogLine = "ForceServiceConnector Cache: MISS for id: "
             + sdkTestProps.getProperty(PropsUtil.FORCE_USER_PROP);
         MockAppender mockAppender = new MockAppender(expectedLogLine);
         logger.addAppender(mockAppender);
@@ -71,7 +71,7 @@ public class SchemaLoadInvocationFTest {
         // already been instantiated previously, and the cache will always be hit (expected log line
         // will not appear).  if this test is run by itself, the cache will be missed only once 
         // (expected log line will appear only once).
-        Assert.assertTrue(mockAppender.getLogLineTimes() == 0 || mockAppender.getLogLineTimes() == 1, 
+        Assert.assertTrue(mockAppender.getLogLineTimes() == 0 || mockAppender.getLogLineTimes() == 1,
                 "Log line " + expectedLogLine + " appeared unexpected number of times: " + mockAppender.getLogLineTimes());
     }
     
