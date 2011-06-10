@@ -26,19 +26,19 @@
 
 package com.force.sdk.jpa;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
+
+import javax.persistence.EntityTransaction;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
 import com.force.sdk.jpa.entities.PersonEntity;
 import com.force.sdk.jpa.entities.PhoneEntity;
 import com.force.sdk.jpa.query.QueryHints;
 import com.force.sdk.qa.util.BaseMultiEntityManagerJPAFTest;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
-import javax.persistence.EntityTransaction;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * This class tests:-
@@ -172,10 +172,12 @@ public class MergeTest extends BaseMultiEntityManagerJPAFTest {
         tx.commit();
         em.clear();
         
-        personEntity = em.find(PersonEntity.class, personEntity.getId(), Collections.singletonMap(QueryHints.MAX_FETCH_DEPTH, (Object) 2));
+        personEntity = em.find(PersonEntity.class, personEntity.getId(),
+                Collections.singletonMap(QueryHints.MAX_FETCH_DEPTH, (Object) 2));
 
         // TODO: this should be fixed by w-970625; Eager doesn't work well with FetchDepth > 2.
-        //personEntity = em.find(PersonEntity.class, personEntity.getId(), Collections.singletonMap(QueryHints.MAX_FETCH_DEPTH, (Object) 3));
+        //personEntity = em.find(PersonEntity.class, personEntity.getId(),
+        //        Collections.singletonMap(QueryHints.MAX_FETCH_DEPTH, (Object) 3));
 
         personEntity.getPhoneList();
         em.detach(personEntity);

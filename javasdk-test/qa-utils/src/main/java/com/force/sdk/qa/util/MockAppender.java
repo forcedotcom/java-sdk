@@ -43,7 +43,7 @@ public class MockAppender extends AppenderSkeleton {
     
     /**
      * Constructor for Mock Appender.
-     * @param expectedLogLine
+     * @param expectedLogLine expected log line String
      */
     public MockAppender(String expectedLogLine) {
         this.expectedLogLine = expectedLogLine;
@@ -74,7 +74,7 @@ public class MockAppender extends AppenderSkeleton {
     }
     
     /**
-     * Return the number of times expected log line was received
+     * Return the number of times expected log line was received.
      * @return int
      */
     public int getLogLineTimes() {
