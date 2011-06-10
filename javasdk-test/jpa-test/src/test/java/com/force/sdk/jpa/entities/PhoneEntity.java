@@ -26,10 +26,10 @@
 
 package com.force.sdk.jpa.entities;
 
-import javax.persistence.*;
-
 import com.force.sdk.jpa.annotation.CustomField;
 import com.sforce.soap.metadata.FieldType;
+
+import javax.persistence.*;
 
 /**
  * This entity is used for testing merge etc. in conjunction with PersonEntity.
@@ -46,11 +46,14 @@ public class PhoneEntity {
     private String type;
     
     @ManyToOne
-    @CustomField(type = FieldType.Lookup, name = "PersonId", childRelationshipName = "phones")
-    private PersonEntity phoneHolder;
+    @CustomField(type = FieldType.Lookup, name = "OwnerPersonId", childRelationshipName = "phoneList")
+    private PersonEntity phoneOwner;
 
     @ManyToOne
-    private PersonEntity eagerHolder;
+    private PersonEntity secondOwner;
+
+    public PhoneEntity() {
+    }
 
     public String getId() {
         return id;
@@ -76,19 +79,19 @@ public class PhoneEntity {
         this.type = type;
     }
 
-    public PersonEntity getPhoneHolder() {
-        return phoneHolder;
+    public PersonEntity getPhoneOwner() {
+        return phoneOwner;
     }
 
-    public void setPhoneHolder(PersonEntity person) {
-        this.phoneHolder = person;
+    public void setPhoneOwner(PersonEntity person) {
+        this.phoneOwner = person;
     }
 
-    public PersonEntity getEagerHolder() {
-        return eagerHolder;
+    public PersonEntity getSecondOwner() {
+        return secondOwner;
     }
 
-    public void setEagerHolder(PersonEntity person) {
-        this.eagerHolder = person;
+    public void setSecondOwner(PersonEntity secondOwner) {
+        this.secondOwner = secondOwner;
     }
 }

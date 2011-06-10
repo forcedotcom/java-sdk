@@ -26,10 +26,9 @@
 
 package com.force.sdk.jpa.entities;
 
+import javax.persistence.*;
 import java.net.URL;
 import java.util.List;
-
-import javax.persistence.*;
 
 /**
  * This entity is used for testing merge etc. with lazy and eager attributes and relationships.
@@ -48,18 +47,18 @@ public class PersonEntity {
     @Basic(fetch = FetchType.LAZY)
     private String type;
  
-    // default is Lazy for URL.
+    @Basic(fetch = FetchType.LAZY)
     public URL lazyURL;
 
     @Basic(fetch = FetchType.EAGER)
     public URL eagerURL;
-    
-    @OneToMany(mappedBy = "phoneHolder", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<PhoneEntity> phones;
 
-    @OneToMany(mappedBy = "eagerHolder", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<PhoneEntity> eagerPhones;;
-    
+    @OneToMany(mappedBy = "phoneOwner",  fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PhoneEntity> phoneList;
+
+    @OneToMany(mappedBy = "secondOwner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<PhoneEntity> morePhonesEager;
+
     public String getId() {
         return id;
     }
@@ -100,19 +99,19 @@ public class PersonEntity {
         this.eagerURL = url;
     }
 
-    public List<PhoneEntity> getPhones() {
-        return phones;
+    public List<PhoneEntity> getPhoneList() {
+        return phoneList;
     }
 
-    public void setPhones(List<PhoneEntity> phones) {
-        this.phones = phones;
+    public void setPhoneList(List<PhoneEntity> phoneList) {
+        this.phoneList = phoneList;
     }
 
-    public List<PhoneEntity> getEagerPhones() {
-        return eagerPhones;
+    public List<PhoneEntity> getMorePhonesEager() {
+        return morePhonesEager;
     }
 
-    public void setEagerPhones(List<PhoneEntity> eagerPhones) {
-        this.eagerPhones = eagerPhones;
+    public void setMorePhonesEager(List<PhoneEntity> morePhonesEager) {
+        this.morePhonesEager = morePhonesEager;
     }
 }
