@@ -29,13 +29,13 @@ package com.force.sdk.connector;
 import static org.testng.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.apache.log4j.*;
-import org.apache.log4j.spi.LoggingEvent;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.force.sdk.qa.util.MockAppender;
 import com.sforce.async.AsyncApiException;
 import com.sforce.ws.ConnectionException;
 
@@ -249,36 +249,4 @@ public class ForceServiceConnectorLoggingTest extends BaseForceServiceConnectorT
         Assert.assertFalse(mockHitAppender.receivedLogLine(), "The cache should not be checked when skipCache is set.");
     }
     
-    /**
-     * Mock log appender which caches log lines received.
-     * 
-     * @author Tim Kral
-     */
-    private static class MockAppender extends AppenderSkeleton {
-        final AtomicBoolean receivedLogLine = new AtomicBoolean(false);
-        final String expectedLogLine;
-        
-        public MockAppender(String expectedLogLine) {
-            this.expectedLogLine = expectedLogLine;
-        }
-        
-        @Override
-        public boolean requiresLayout() {
-            return false;
-        }
-        
-        @Override
-        public void close() {  }
-        
-        @Override
-        protected void append(LoggingEvent event) {
-            if (event != null && event.getRenderedMessage().contains(expectedLogLine)) {
-                receivedLogLine.set(true);
-            }
-        }
-        
-        public boolean receivedLogLine() {
-            return receivedLogLine.get();
-        }
-    };
 }

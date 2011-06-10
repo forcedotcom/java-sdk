@@ -26,11 +26,11 @@
 
 package com.force.mockoauthserver.controller;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 
 /**
  * 
@@ -46,9 +46,7 @@ import java.net.URISyntaxException;
  */
 @Path("/oauth2/authorize")
 public class MockAuthorizePath {
-    
-    private static final long MILLISEC_PER_SEC = 1000L;
-    
+        
     /**
      * This method mocks the authorization request from SFDC core to an OAuth enabled client application.
      * @param responseType The value returned by the authorization server.

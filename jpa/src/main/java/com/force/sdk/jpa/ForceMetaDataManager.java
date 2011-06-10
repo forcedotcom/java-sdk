@@ -278,7 +278,7 @@ public class ForceMetaDataManager extends JPAMetaDataManager {
         }
         if (exceptions.size() > 0) {
             throw new NucleusUserException(LOCALISER.msg("044020"),
-                (Throwable[]) exceptions.toArray(new Throwable[exceptions.size()]));
+                exceptions.toArray(new Throwable[exceptions.size()]));
         }
         /**
          * Call postInitialise here
