@@ -11,14 +11,6 @@
     <version>22.0.2-SNAPSHOT</version>
   </parent>
 
-  <repositories>
-    <repository>
-      <id>DataNucleus_Repos2</id>
-      <name>DataNucleus Repository</name>
-      <url>http://www.datanucleus.org/downloads/maven2</url>
-    </repository>
-  </repositories>
-
   <build>
     <resources>
       <resource>
@@ -79,11 +71,9 @@
         <groupId>org.datanucleus</groupId>
         <artifactId>maven-datanucleus-plugin</artifactId>
         <configuration>
+          <metadataDirectory>${project.build.testOutputDirectory}</metadataDirectory>
           <metadataIncludes>**/*.class</metadataIncludes>
           <mappingIncludes>**/*.class</mappingIncludes>
-          <verbose>true</verbose>
-          <enhancerName>ASM</enhancerName>
-          <api>JPA</api>
         </configuration>
         <executions>
           <execution>
@@ -92,9 +82,6 @@
             <goals>
               <goal>enhance</goal>
             </goals>
-            <configuration>
-              <metadataDirectory>${basedir}/target/test-classes</metadataDirectory>
-            </configuration>
           </execution>
         </executions>
       </plugin>

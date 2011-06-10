@@ -30,13 +30,10 @@
         <groupId>org.datanucleus</groupId>
         <artifactId>maven-datanucleus-plugin</artifactId>
         <configuration>
-          <metadataDirectory>${basedir}/target/test-classes</metadataDirectory>
-          <metadataIncludes>**/*.jdo, **/entities/*.class,**/sample/*.class</metadataIncludes>
-          <mappingIncludes>**/*.jdo, **/*.class</mappingIncludes>
+          <metadataDirectory>${project.build.testOutputDirectory}</metadataDirectory>
+          <metadataIncludes>**/entities/*.class, **/sample/*.class</metadataIncludes>
+          <mappingIncludes>**/*.class</mappingIncludes>
           <persistenceUnitName>testDNJpaPersistence</persistenceUnitName>
-          <verbose>true</verbose>
-          <enhancerName>ASM</enhancerName>
-          <api>JPA</api>
         </configuration>
         <executions>
           <execution>
