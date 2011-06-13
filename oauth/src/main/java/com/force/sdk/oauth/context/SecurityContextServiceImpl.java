@@ -26,18 +26,18 @@
 
 package com.force.sdk.oauth.context;
 
-import java.util.Map;
+import com.force.sdk.oauth.context.store.ContextStoreException;
+import com.force.sdk.oauth.context.store.ForceEncryptionException;
+import com.force.sdk.oauth.context.store.SecurityContextStorageService;
+import com.force.sdk.oauth.userdata.UserDataRetrievalService;
+import com.sforce.ws.ConnectionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.force.sdk.oauth.context.store.*;
-import com.force.sdk.oauth.userdata.UserDataRetrievalService;
-import com.sforce.ws.ConnectionException;
+import java.util.Map;
 
 /**
  * 
@@ -78,7 +78,8 @@ public class SecurityContextServiceImpl implements SecurityContextService {
         }
         //set cookies with sid and endpoint regardless of the securityContextStorageService used
         //cookies should be secure if hose is anything other than localhost
-        boolean secure = !"localhost".equalsIgnoreCase(request.getLocalName());
+        boolean secure = !("localhost".equalsIgnoreCase(request.getLocalName()) ||
+                "0:0:0:0:0:0:0:1".equals(request.getLocalName()));
         SecurityContextUtil.setCookieValues(sc, response, secure);
     }
     
