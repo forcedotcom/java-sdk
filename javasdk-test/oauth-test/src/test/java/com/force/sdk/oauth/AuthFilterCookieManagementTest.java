@@ -106,8 +106,8 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
             try {
                 //retrieve the security context from the cookie. Verify that the cookie is
                 //secure only if the host is not "localhost"
-                boolean secure = !("localhost".equals(req.getLocalName()) ||
-                        "0:0:0:0:0:0:0:1".equals(req.getLocalName()));
+                boolean secure = !("localhost".equals(req.getLocalName())
+                        || "0:0:0:0:0:0:0:1".equals(req.getLocalName()));
                 sc = retreiveSecurityContextFromCookie(mockResponse, secure);
             } catch (Exception e) {
                 throw new IOException(e);

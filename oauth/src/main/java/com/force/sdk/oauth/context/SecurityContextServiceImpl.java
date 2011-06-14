@@ -78,8 +78,8 @@ public class SecurityContextServiceImpl implements SecurityContextService {
         }
         //set cookies with sid and endpoint regardless of the securityContextStorageService used
         //cookies should be secure if hose is anything other than localhost
-        boolean secure = !("localhost".equalsIgnoreCase(request.getLocalName()) ||
-                "0:0:0:0:0:0:0:1".equals(request.getLocalName()));
+        boolean secure = !("localhost".equalsIgnoreCase(request.getLocalName())
+                || "0:0:0:0:0:0:0:1".equals(request.getLocalName()));
         SecurityContextUtil.setCookieValues(sc, response, secure);
     }
     

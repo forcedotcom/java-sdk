@@ -65,8 +65,8 @@ public class SecurityContextCookieStore implements
             byte[] securityContextSer = serializeSecurityContext(securityContext, encrypted);
             contextCookie = new Cookie(SECURITY_CONTEXT_COOKIE_NAME, b64encode(securityContextSer));
 
-            boolean secure = !("localhost".equalsIgnoreCase(request.getLocalName()) ||
-                "0:0:0:0:0:0:0:1".equals(request.getLocalName()));
+            boolean secure = !("localhost".equalsIgnoreCase(request.getLocalName())
+                    || "0:0:0:0:0:0:0:1".equals(request.getLocalName()));
             contextCookie.setSecure(secure);
             response.addCookie(contextCookie);
         } catch (ForceEncryptionException e) {
