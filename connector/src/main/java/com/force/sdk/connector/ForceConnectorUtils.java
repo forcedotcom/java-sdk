@@ -38,6 +38,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Shared utilities for Force.com connectors.
@@ -55,6 +56,8 @@ public final class ForceConnectorUtils {
     static final Logger LOGGER = LoggerFactory.getLogger("com.force.sdk.connector");
 
     static final String FORCE_API_ENDPOINT_PATH;
+
+    static final Map<URL, Map<ForceConnectionProperty, String>> propertiesCache = new ConcurrentHashMap<URL, Map<ForceConnectionProperty, String>>();
 
     static {
         try {
@@ -215,6 +218,10 @@ public final class ForceConnectorUtils {
     static Map<ForceConnectionProperty, String> loadConnectorPropsFromFile(URL fileUrl) throws IOException {
         if (fileUrl == null) throw new IllegalArgumentException("Connector property file cannot be null.");
 
+        if (propertiesCache.containsKey(fileUrl)) {
+            return propertiesCache.get(fileUrl);
+        }
+
         Properties connectorProps = new Properties();
         InputStream is = null;
         try {
@@ -225,7 +232,9 @@ public final class ForceConnectorUtils {
         }
 
         if (connectorProps.containsKey("url")) {
-            return loadConnectorPropsFromUrl(connectorProps.getProperty("url"));
+            final Map<ForceConnectionProperty, String> connectorPropsFromURL = loadConnectorPropsFromUrl(connectorProps.getProperty("url"));
+            propertiesCache.put(fileUrl, connectorPropsFromURL);
+            return connectorPropsFromURL;
         }
 
         Map<ForceConnectionProperty, String> connectorPropMap =
@@ -239,6 +248,7 @@ public final class ForceConnectorUtils {
             }
         }
 
+        propertiesCache.put(fileUrl, connectorPropMap);
         return connectorPropMap;
     }
 
