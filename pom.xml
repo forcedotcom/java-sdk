@@ -49,7 +49,7 @@
     <source.plugin.version>2.1.2</source.plugin.version>
     <spring.version>3.0.3.RELEASE</spring.version>
     <spring.security.version>3.0.3.RELEASE</spring.security.version>
-    <surefire.version>2.7.1</surefire.version>
+    <surefire.version>2.8.1</surefire.version>
     <testng.version>5.14.2</testng.version>
     
     <!-- Whether to fail a static analysis build when an error or warning is found -->
@@ -319,6 +319,7 @@
 
     <pluginManagement>
       <plugins>
+
         <plugin>
           <artifactId>maven-enforcer-plugin</artifactId>
           <executions>

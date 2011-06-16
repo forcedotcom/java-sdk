@@ -57,7 +57,6 @@ public class ForceConnectorConfigTest {
         assertEquals(config.getAuthEndpoint(), "https://url" + ForceConnectorUtils.FORCE_API_ENDPOINT_PATH);
         assertEquals(config.getUsername(), "username");
         assertEquals(config.getPassword(), "password");
-        assertEquals(config.getClientId(), "id");
         assertEquals(config.getReadTimeout(), 1);
     }
     
@@ -242,7 +241,6 @@ public class ForceConnectorConfigTest {
         assertEquals(config.getAuthEndpoint(), "https://url" + ForceConnectorUtils.FORCE_API_ENDPOINT_PATH);
         assertEquals(config.getUsername(), "user");
         assertEquals(config.getPassword(), "password");
-        assertEquals(config.getClientId(), null);
         assertEquals(config.getReadTimeout(), 0);
     }
 
@@ -271,7 +269,6 @@ public class ForceConnectorConfigTest {
         if (endpoint != null) assertEquals(config.getAuthEndpoint(), endpoint);
         assertEquals(config.getUsername(), user);
         assertEquals(config.getPassword(), password);
-        assertEquals(config.getClientId(), clientId);
         assertEquals(config.getReadTimeout(), timeout);
     }
     

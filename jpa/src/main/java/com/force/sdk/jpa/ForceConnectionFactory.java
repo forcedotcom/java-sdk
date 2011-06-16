@@ -26,14 +26,13 @@
 
 package com.force.sdk.jpa;
 
-import java.util.Map;
-
+import com.force.sdk.connector.ForceConnectorConfig;
+import com.force.sdk.connector.ForceServiceConnector;
 import org.datanucleus.OMFContext;
 import org.datanucleus.store.connection.AbstractConnectionFactory;
 import org.datanucleus.store.connection.ManagedConnection;
 
-import com.force.sdk.connector.ForceConnectorConfig;
-import com.force.sdk.connector.ForceServiceConnector;
+import java.util.Map;
 
 /**
  * 
@@ -42,9 +41,6 @@ import com.force.sdk.connector.ForceServiceConnector;
  * @author Fiaz Hossain
  */
 public class ForceConnectionFactory extends AbstractConnectionFactory {
-
-    private static final String PERSISTENCEFORCE_CLIENT_ID = "Persistenceforce 1.0";
-    
     /**
      * Factory constructor for Force.com connections.
      * 
@@ -77,7 +73,6 @@ public class ForceConnectionFactory extends AbstractConnectionFactory {
         }
         
         connector.setConnectionName(omfContext.getPersistenceConfiguration().getStringProperty("force.ConnectionName"));
-        connector.setClientId(PERSISTENCEFORCE_CLIENT_ID);
         connector.setTimeout(omfContext.getPersistenceConfiguration().getIntProperty("datanucleus.datastoreReadTimeout"));
         connector.setSkipCache(omfContext.getPersistenceConfiguration()
                                             .getBooleanProperty("force.skipConfigCache", false /* resultIfNotSet */));
