@@ -28,9 +28,14 @@ package com.force.sdk.connector;
 
 import static org.testng.Assert.assertEquals;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 
+import mockit.Expectations;
+import mockit.Mocked;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -62,5 +67,37 @@ public class ForceConnectorUtilsTest {
         assertEquals(apiUrl.getHost(), expectedHost);
         assertEquals(apiUrl.getPort(), expectedPort);
         assertEquals(apiUrl.getPath(), new URL(com.sforce.soap.partner.Connector.END_POINT).getPath());
+    }
+
+    @Test
+    public void testFilePropertiesCache() throws IOException {
+        final URL propsURL = ForceConnectorUtilsTest.class.getResource("/unitconnurl.properties");
+        Map<ForceConnectionProperty, String> props = ForceConnectorUtils.loadConnectorPropsFromFile(propsURL);
+
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.size(), 1);
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(propsURL), props);
+    }
+
+    @Test
+    public void testFilePropertiesCacheWithTwoMatchingFiles() throws IOException {
+        final URL propsURL = ForceConnectorUtilsTest.class.getResource("/unitconnurl.properties");
+        Map<ForceConnectionProperty, String> props = ForceConnectorUtils.loadConnectorPropsFromFile(propsURL);
+        Map<ForceConnectionProperty, String> duplicateProps = ForceConnectorUtils.loadConnectorPropsFromFile(propsURL);
+
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.size(), 1);
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(propsURL), props);
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(propsURL), duplicateProps);
+    }
+
+    @Test
+    public void testFilePropertiesCacheWithTwoDifferentFiles() throws IOException {
+        final URL propsURL = ForceConnectorUtilsTest.class.getResource("/unitconnurl.properties");
+        Map<ForceConnectionProperty, String> props = ForceConnectorUtils.loadConnectorPropsFromFile(propsURL);
+        final URL secondPropsURL = ForceConnectorUtilsTest.class.getResource("/unitconnuserinfo.properties");
+        Map<ForceConnectionProperty, String> secondProps = ForceConnectorUtils.loadConnectorPropsFromFile(secondPropsURL);
+
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.size(), 2);
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(propsURL), props);
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(secondPropsURL), secondProps);
     }
 }
