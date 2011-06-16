@@ -30,12 +30,11 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.persistence.*;
 
 import org.testng.annotations.Test;
-
-import com.sforce.ws.ConnectionException;
 
 /**
  * Tests setting various options on JPA connections.
@@ -84,10 +83,13 @@ public class JPAConnectionOptionsTest extends BaseJPAConnectionTest {
         verifyTimeout(em, 20000); // JPA should use the property in persistence.xml before the properties file
     }
     
-    private void verifyClientId(EntityManager em) throws ConnectionException {
-        // ClientId should always be Persistenceforce 1.0 for JPA layer
-        assertEquals(getPartnerConnection(em).getCallOptions().getClient(), "Persistenceforce 1.0");
-        assertEquals(getMetadataConnection(em).getCallOptions().getClient(), "Persistenceforce 1.0");
+    private void verifyClientId(EntityManager em) throws Exception {
+        Properties projectProps = new Properties();
+        projectProps.load(ClassLoader.getSystemResource("sdk.properties").openStream());
+        String sdkVersion = projectProps.getProperty("force.sdk.version");
+        String clientId = String.format("javasdk-%s", sdkVersion);
+        assertEquals(getPartnerConnection(em).getCallOptions().getClient(), clientId);
+        assertEquals(getMetadataConnection(em).getCallOptions().getClient(), clientId);
     }
     
     private void verifyTimeout(EntityManager em, int expectedTimeout) {

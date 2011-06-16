@@ -49,7 +49,6 @@ import com.sforce.ws.ConnectorConfig;
  *   <li>Message tracing which is subject to a log TRACE level</li>
  *   <li>Force.com connection URL support</li>
  *   <li>Automatic SOAP version binding</li>
- *   <li>ClientId state for conveniently setting a Force.com connection identifier</li>
  * </ul>
  *
  * @author Tim Kral
@@ -64,7 +63,6 @@ public class ForceConnectorConfig extends ConnectorConfig implements Cloneable {
     private boolean namespaceInitialized;
     private String namespace;
     private String cacheId;
-    private String clientId;
     private PrintStream loggerStream;
     
     static ForceConnectorConfig loadFromName(String connectionName) throws IOException {
@@ -129,33 +127,6 @@ public class ForceConnectorConfig extends ConnectorConfig implements Cloneable {
     String getCacheId() {
         return cacheId;
     }
-
-    /**
-     * Returns the Force.com connection client id.
-     * <p>
-     * The client id is a {@code String} identifier which
-     * will be set on the Force.com connection created
-     * from this {@code ForceConnectorConfig}
-     * 
-     * @return the Force.com connection client id
-     */
-    public String getClientId() {
-        return this.clientId;
-    }
-    
-    /**
-     * Sets the Force.com connection client id.
-     * <p>
-     * The client id is a {@code String} identifier which
-     * will be set on the Force.com connection created
-     * from this {@code ForceConnectorConfig}
-     * 
-     * @param clientId any non {@code null}, non empty {@code String} that is
-     *                 to be used as a Force.com connection identifier
-     */
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
-    }
     
     /**
      * Parses a Force.com connection URL and accordingly sets the connection
@@ -204,12 +175,6 @@ public class ForceConnectorConfig extends ConnectorConfig implements Cloneable {
         String passwordValue = propMap.get(ForceConnectionProperty.PASSWORD);
         ForceConnectionProperty.PASSWORD.validateValue(passwordValue, errorMessage);
         setPassword(passwordValue);
-        
-        String clientIdValue;
-        if ((clientIdValue = propMap.get(ForceConnectionProperty.CLIENTID)) != null) {
-            ForceConnectionProperty.CLIENTID.validateValue(clientIdValue, errorMessage);
-            setClientId(clientIdValue);
-        }
         
         String timeoutValue;
         if ((timeoutValue = propMap.get(ForceConnectionProperty.TIMEOUT)) != null) {
