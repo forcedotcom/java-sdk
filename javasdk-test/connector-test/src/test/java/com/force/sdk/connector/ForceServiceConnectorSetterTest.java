@@ -26,12 +26,10 @@
 
 package com.force.sdk.connector;
 
-import static org.testng.Assert.assertEquals;
-
+import com.sforce.soap.partner.PartnerConnection;
 import org.testng.annotations.Test;
 
-import com.sforce.soap.metadata.MetadataConnection;
-import com.sforce.soap.partner.PartnerConnection;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Tests for ForceServiceConnector setters.
