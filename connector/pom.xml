@@ -71,11 +71,6 @@
       <artifactId>testng</artifactId>
       <scope>test</scope>
     </dependency>
-      <dependency>
-          <groupId>mockit</groupId>
-          <artifactId>jmockit</artifactId>
-          <version>0.999.8</version>
-      </dependency>
-  </dependencies>  
+  </dependencies>
 
 </project>

@@ -41,7 +41,7 @@
     <java.compile.version>1.6</java.compile.version>
     <java.servlet.version>2.5</java.servlet.version>
     <jdo.version>2.3-eb</jdo.version>
-    <jmockit.version>0.999.6</jmockit.version>
+    <jmockit.version>0.999.8</jmockit.version>
     <log4j.version>1.2.15</log4j.version>
     <maven.clover.version>3.0.2</maven.clover.version>
     <site.plugin.version>2.2</site.plugin.version>

@@ -32,6 +32,7 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -41,7 +42,12 @@ import org.testng.annotations.Test;
  * @author Tim Kral
  */
 public class ForceConnectorConfigTest {
-    
+
+    @BeforeMethod
+    public void clearNamedConnectionsCache() {
+        ForceConnectorUtils.clearCache();
+    }
+
     @DataProvider
     protected Object[][] propertyFileConnNameProvider() {
         // Test property files defined in /src/test/resources 
