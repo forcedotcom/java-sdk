@@ -77,6 +77,10 @@ public enum ForceConnectionProperty {
      */
     OAUTH_SECRET("oauth_secret", Pattern.compile("(\\d+)")),
     /**
+     * The API client id to be used in a Force.com connection.
+     */
+    CLIENTID("clientid", null),
+    /**
      * The timeout to be used in a Force.com connection.
      */
     TIMEOUT("timeout", Pattern.compile("(\\d+)")),

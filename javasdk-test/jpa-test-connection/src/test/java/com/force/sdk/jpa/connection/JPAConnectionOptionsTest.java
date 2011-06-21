@@ -87,7 +87,7 @@ public class JPAConnectionOptionsTest extends BaseJPAConnectionTest {
         Properties projectProps = new Properties();
         projectProps.load(ClassLoader.getSystemResource("sdk.properties").openStream());
         String sdkVersion = projectProps.getProperty("force.sdk.version");
-        String clientId = String.format("javasdk-%s", sdkVersion);
+        String clientId = String.format("sdk-%s", sdkVersion);
         assertEquals(getPartnerConnection(em).getCallOptions().getClient(), clientId);
         assertEquals(getMetadataConnection(em).getCallOptions().getClient(), clientId);
     }

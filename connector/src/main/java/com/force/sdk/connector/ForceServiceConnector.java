@@ -85,6 +85,7 @@ import com.sforce.ws.SessionRenewer;
  *   (see {@link ForceConnectorConfig#setAuthEndpoint(String)} and {@link ForceConnectorUtils#buildForceApiEndpoint(String)})
  *   </li>
  *   <li>Automatic session renewal</li>
+ *   <li>Convenient setting of Force.com connection client identifiers (clientId)</li>
  * </ul>
  *
  * @author Tim Kral
@@ -108,7 +109,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     static final double DESCRIBE_METADATA_VERSION = 16.0;
     
     private static final Proxy DEFAULT_PROXY;
-    private static final String API_CLIENT_ID;
+    public static final String API_USER_AGENT;
 
     static {
         if (PROXY_HOST != null) {
@@ -127,7 +128,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
             LOGGER.error("Unable to load project properties. Logs will not include sdk version!");
         }
         if (sdkVersion == null) sdkVersion = "";
-        API_CLIENT_ID = String.format("javasdk-%s", sdkVersion);
+        API_USER_AGENT = String.format("sdk-%s", sdkVersion);
     }
     
     /**
@@ -162,6 +163,10 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     // State that can be used to construct config
     private String connectionName;               // Named connections can look up connection construction state        
     private ForceConnectorConfig externalConfig; // ForceConnectorConfig injected from an external source
+
+    // Extra state used to initialize config (and the connection)
+    private String clientId;
+    private String externalClientId; // A clientId coming from an external source (see getConfig)
 
     private int timeout;
     
@@ -248,9 +253,18 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
 
         CallOptions_element co = new CallOptions_element();
         
-        // Give the connection a client id so we can track requests from the sdk
-        co.setClient(API_CLIENT_ID);
-        
+        // Give the connection a client id if we have one
+        if (this.clientId != null) {
+            co.setClient(this.clientId);
+        } else if (this.externalClientId != null) {
+            // Check for any external client id we might
+            // have come across (see getConfig)
+            co.setClient(this.externalClientId);
+        } else {
+            co.setClient(API_USER_AGENT); //just default it to the version of the sdk
+        }
+
+        this.connection.getConfig().setRequestHeader("User-Agent", API_USER_AGENT);
         this.connection.__setCallOptions(co);
     }
     
@@ -259,6 +273,8 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
         
         // First, look for construction state in this object's state.
         if (externalConfig != null) {
+             // Save the client id for possible later use (see initConnection)
+            externalClientId = externalConfig.getClientId();
             // Clone the config in case it gets cached.  This will prevent
             // the caller from modifying the cached object.
             return checkConfigCache((ForceConnectorConfig) externalConfig.clone());
@@ -274,6 +290,8 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
             }
             
             if (loadedConfig != null) {
+                // Save the client id for possible later use (see initConnection)
+                externalClientId = loadedConfig.getClientId();
                 return checkConfigCache(loadedConfig);
             }
         }
@@ -374,12 +392,17 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
 
         this.metadataConnection = new MetadataConnection(configNew);
 
-        com.sforce.soap.metadata.CallOptions_element co = new com.sforce.soap.metadata.CallOptions_element();
-
-        // Give the connection a client id so we can track requests from the sdk
-        co.setClient(API_CLIENT_ID);
-        this.metadataConnection.__setCallOptions(co);
-
+        // Give the metadata connection a client id if we have one
+        if (this.clientId != null) {
+            this.metadataConnection.setCallOptions(this.clientId);
+        } else if (this.externalClientId != null) {
+            // If we've constructed config from ForceServiceConnectionInfo state
+            // then we've saved any client id for use here (see getConfig)
+            this.metadataConnection.setCallOptions(this.externalClientId);
+        } else {
+            this.metadataConnection.setCallOptions(API_USER_AGENT); //just default to sdk version
+        }
+        this.metadataConnection.getConfig().setRequestHeader("User-Agent", API_USER_AGENT);
     }
 
     /**
@@ -469,6 +492,9 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
         
         this.externalConfig = null;
 
+        this.clientId = null;
+        this.externalClientId = null;
+
         this.timeout = 0;
         
         this.connection = null;
@@ -521,6 +547,25 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
             return ret;
         }
         return null;
+    }
+
+
+    /**
+     * Sets the Force.com connection client id.
+     * <p>
+     * The client id is a {@code String} identifier which will be set on the Force.com
+     * connection gotten by this {@code ForceServiceConnector}.  Note that the client
+     * id set here will override the client id in this {@code ForceServiceConnector}'s
+     * {@code ForceConnectorConfig} state.
+     *
+     * @param clientId any non {@code null}, non empty {@code String} that is
+     *                 to be used as a Force.com connection identifier
+     */
+
+    public void setClientId(String clientId) {
+
+        this.clientId = clientId;
+
     }
 
     /**
