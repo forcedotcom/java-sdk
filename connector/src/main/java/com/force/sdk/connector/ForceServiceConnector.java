@@ -110,7 +110,9 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     
     private static final Proxy DEFAULT_PROXY;
 
-    // The version of the sdk e.g. sdk-22.0.1-BETA that will be set in the User-Agent header for API requests
+    /**
+     * The version of the sdk e.g. sdk-22.0.1-BETA that will be set in the User-Agent header for API requests
+     */
     public static final String API_USER_AGENT;
 
     static {
