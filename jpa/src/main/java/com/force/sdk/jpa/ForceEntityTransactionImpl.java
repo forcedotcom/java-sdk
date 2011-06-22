@@ -31,8 +31,8 @@ import org.datanucleus.jpa.EntityTransactionImpl;
 
 /**
  * 
- * Force.com specific transactions. We will have to restricts what people can do with it's limited TX-API
- * capabilities.
+ * Force.com specific transactions. We have to restrict functionality due to the
+ * limited supported for transactions in Force.com API calls.
  *
  * @author Fiaz Hossain
  */

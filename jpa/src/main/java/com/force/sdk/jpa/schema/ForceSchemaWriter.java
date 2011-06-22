@@ -76,7 +76,7 @@ import com.sforce.ws.parser.XmlOutputStream;
 
 /**
  * 
- * Writes schema to Force.com database using the metadata API. It can be used 
+ * Writes schema to the Force.com database using the Metadata API. It can be used 
  * to create or delete objects/fields
  *
  * @author Fiaz Hossain
@@ -97,7 +97,7 @@ public class ForceSchemaWriter extends ForceAsyncResultProcessor {
     private final Map<CustomField, PackageTypeMembers> fields = new HashMap<CustomField, PackageTypeMembers>();
     
     /**
-     * Create a schema writer for generating the deploy zip and using the metadata API
+     * Creates a schema writer for generating the deploy zip and using the Metadata API
      * to manipulate schema.
      * 
      * @param deleteProperty whether this application has been started with a persistence.xml
@@ -129,7 +129,7 @@ public class ForceSchemaWriter extends ForceAsyncResultProcessor {
      * This method is used by test cleanup. Use {@link #addCustomObject(com.sforce.soap.metadata.CustomObject,
      * org.datanucleus.metadata.AbstractClassMetaData, com.force.sdk.jpa.ForceStoreManager,
      * com.force.sdk.jpa.table.ForceMetaData)} if you're intending to use schemaCreation. includeInPackageFile
-     * can be true or false depending on the table metadata.
+     * can be {@code true} or {@code false} depending on the table metadata.
      *
      * @param object  the object to be included in schema creation or deletion
      * @param includeInPackageFile whether the package.xml or destructiveChanges.xml file should include this object
@@ -145,7 +145,7 @@ public class ForceSchemaWriter extends ForceAsyncResultProcessor {
     }
     
     /**
-     * add a custom field to the map which will be written to the package file later
+     * Adds a custom field to the map which will be written to the package file later
      * for deployment.
      * 
      * @param object  the custom object this field belongs to
@@ -162,9 +162,9 @@ public class ForceSchemaWriter extends ForceAsyncResultProcessor {
     }
     
     /**
-     * create the proper deploy zip and make the metadata API call.
+     * Creates the proper deploy zip and makes the Metadata API call.
      * 
-     * @param mconn the metdata API connection
+     * @param mconn the Metadata API connection
      * @throws Exception thrown if something goes wrong during the schema write
      */
     public void write(ForceManagedConnection mconn) throws Exception {
@@ -279,7 +279,7 @@ public class ForceSchemaWriter extends ForceAsyncResultProcessor {
     }
     
     /**
-     * Read in the zip file contents into a byte array.
+     * Reads the zip file contents into a byte array.
      * @return byte[]
      * @throws Exception - if cannot find the zip file to deploy
      */  

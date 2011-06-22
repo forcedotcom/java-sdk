@@ -45,8 +45,8 @@ import com.sforce.soap.partner.sobject.SObject;
 
 /**
  * 
- * Object manager that manages the objects being created, updated, or deleted.
- * Special handling for all or nothing operations.
+ * Object manager for the objects being created, updated, or deleted.
+ * Special handling for all-or-nothing operations.
  *
  * @author Fiaz Hossain
  */
@@ -61,7 +61,7 @@ public class ForceObjectManagerImpl extends ObjectManagerImpl {
     private List<String> deleteObjectList;
     
     /**
-     * create an object manager with datastore credentials.
+     * Creates an object manager with datastore credentials.
      * 
      * @param omf  the object manager factory
      * @param owner  the owning persistence manager or entity manager
@@ -74,26 +74,27 @@ public class ForceObjectManagerImpl extends ObjectManagerImpl {
     }
     
     /**
-     * check for whether an active transaction is currently flushing data to the datastore in all or nothing mode.
+     * Checks whether an active transaction is currently flushing data to the datastore in all or nothing mode.
      * 
-     * @return true if all or nothing mode is enabled and we are currently flushing data in this mode
+     * @return {@code true} if all or nothing mode is enabled and we are currently flushing data in this mode
      */
     public boolean isInAllOrNothingMode() {
         return allOrNothingEnabled && this.inAllOrNothingMode;
     }
     
     /**
-     * This method flushes all dirty, new, and deleted instances to the
-     * datastore. It has no effect if a transaction is not active. If a
-     * datastore transaction is active, this method synchronizes the cache with
+     * Flushes all dirty, new, and deleted instances to the
+     * datastore. It has no effect if a transaction is not active.
+     *<p>
+     * If a datastore transaction is active, this method synchronizes the cache with
      * the datastore and reports any exceptions. If an optimistic transaction is
      * active, this method obtains a datastore connection and synchronizes the
      * cache with the datastore using this connection. The connection obtained
      * by this method is held until the end of the transaction.
      * 
-     * @param flushToDatastore Whether to ensure any changes reach the datastore
-     *     Otherwise they will be flushed to the datastore manager and leave it to
-     *     decide the opportune moment to actually flush them to the datastore
+     * @param flushToDatastore Whether to ensure any changes reach the datastore.
+     *     Otherwise, they will be flushed to the datastore manager which
+     *     determines the opportune moment to actually flush them to the datastore
      */
     @Override
     public synchronized void flushInternal(boolean flushToDatastore) {
@@ -129,7 +130,7 @@ public class ForceObjectManagerImpl extends ObjectManagerImpl {
     }
 
     /**
-     * Retrieve the Force.com object (SObject) for the given parent.
+     * Retrieves the Force.com object (SObject) for the given parent.
      * 
      * @param parent Object
      * @return the Force.com object (SObject) corresponding to the given parent
@@ -143,7 +144,7 @@ public class ForceObjectManagerImpl extends ObjectManagerImpl {
     }
     
     /**
-     * add to the current list of entities to be created.
+     * Adds an object to the current list of entities to be created.
      * 
      * @param object  the object to be created
      * @param op  the object provider
@@ -158,10 +159,11 @@ public class ForceObjectManagerImpl extends ObjectManagerImpl {
     }
     
     /**
-     * add to the current list of entities to be updated.
+     * Adds an object to the current list of entities to be updated.
      * 
      * @param object  the object to update (complete with updated fields) 
-     * @param version  this should be the time of modification. Pass in a version if we're checking if-modified-before headers
+     * @param version  this should be the time of modification. Pass in a version if we're checking
+     *                  if-modified-before headers for optimistic transactions
      */
     public synchronized void addToUpdateList(SObject object, Calendar version) {
         if (updateObjectList == null) {
@@ -175,7 +177,7 @@ public class ForceObjectManagerImpl extends ObjectManagerImpl {
     }
     
     /**
-     * add to the current list of entities to be deleted.
+     * Adds an entity to the current list of entities to be deleted.
      * 
      * @param id the id of the entity to delete
      */
@@ -187,9 +189,9 @@ public class ForceObjectManagerImpl extends ObjectManagerImpl {
     }
     
     /**
-     * Method to mark an object (StateManager) as dirty.
+     * Marks an object (StateManager) as dirty.
      * @param sm The StateManager
-     * @param directUpdate Whether the object has had a direct update made on it (if known)
+     * @param directUpdate Flags whether the object has had a direct update made on it (if known)
      */
     @Override
     public synchronized void markDirty(StateManager sm, boolean directUpdate) {
@@ -199,9 +201,9 @@ public class ForceObjectManagerImpl extends ObjectManagerImpl {
     }
 
     /**
-     * There are some cases when a postrollback tries to detach an object that has not been persisted.
-     * In the case of detachment the object is attempted to be reloaded which throws an NucleusObjectNotFoundException
-     * since the object was never stored in the db. We can ignore that exception.
+     * There are some cases when a postRollback tries to detach an object that has not been persisted.
+     * In the case of detachment, an object reload is attempted, which throws a {@code NucleusObjectNotFoundException}
+     * since the object was never stored in the database. We can ignore that exception.
      */
     @Override
     public synchronized void postRollback() {
@@ -213,7 +215,7 @@ public class ForceObjectManagerImpl extends ObjectManagerImpl {
     }
     
     /**
-     * We add this method so that we can support detach of a newly created persistent object that has never been saved to the db.
+     * Added this method so that we can support detach of a newly created persistent object that has never been saved to the database.
      * {@inheritDoc}
      */
     @Override

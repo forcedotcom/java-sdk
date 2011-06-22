@@ -35,7 +35,7 @@ import java.lang.annotation.Target;
 
 /**
  * 
- * Annotation for collections of related objects. Using a JoinFilter allows
+ * Annotation for collections of related objects. Using an {@code @JoinFilter} annotation allows
  * developers to specify a filter that will always be applied when populating
  * relationship collections.
  *
@@ -51,7 +51,7 @@ public @interface JoinFilter {
     String value() default "";
 
     /**
-     * optional, the alias for the relationship object that
+     * Optional. The alias for the relationship object that
      * may be used in the JoinFilter value.
      */
     String alias() default "";

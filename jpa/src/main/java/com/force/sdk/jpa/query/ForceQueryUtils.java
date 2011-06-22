@@ -64,7 +64,7 @@ import com.sforce.ws.bind.XmlObject;
 /**
  * 
  * This class contains the bulk of the logic for building SOQL queries based on 
- * the java query object.
+ * the Java query object.
  *
  * @author Fiaz Hossain
  */
@@ -112,7 +112,7 @@ public class ForceQueryUtils {
     private int currentHint;
    
     /**
-     * Create the query util for a specific query.
+     * Creates the query util for a specific query.
      * 
      * @param ec the ExecutionContext
      * @param mconn the managed connection to connect to Force.com
@@ -134,7 +134,7 @@ public class ForceQueryUtils {
     }
     
     /**
-     * See if there is a limit set and if we can use SOQL to do our job.
+     * See if there is a limit set and if we can use SOQL to execute the query.
      * 
      * @param query Query
      * @return the limit type of Soql, Java, or None
@@ -233,8 +233,8 @@ public class ForceQueryUtils {
             TableImpl table = null;
             /**
              * - If there is a candidate class and result class we are in JPQL and give result class the upper hand
-             * -    If result class can be mapped to a table use it otherwise result class must be a non-persistence capable class
-             * - If there is no candidate class but a result class it can be JPQL or NativeQuery. Either ways use that class
+             * -    If result class can be mapped to a table use it. Otherwise result class must be a non-persistence capable class
+             * - If there is no candidate class but a result class it can be JPQL or NativeQuery. Either way, use that class.
              */
             if (query.getCandidateClass() != null) {
                 AbstractClassMetaData candidateCmd = ec.getMetaDataManager().getMetaDataForClass(query.getCandidateClass(), clr);
@@ -245,7 +245,7 @@ public class ForceQueryUtils {
                 if (query.getResultClass() != null) {
                    /**
                     * Validate that Result class is compatible with the candidate class. This can happen if two entities are
-                    * mapped to the same Standard/Custom Object in force.com
+                    * mapped to the same standard/custom object in Force.com
                     */
                     acmd = ec.getMetaDataManager().getMetaDataForClass(query.getResultClass(), clr);
                     if (acmd != null) {
@@ -490,7 +490,7 @@ public class ForceQueryUtils {
     /**
      * Given a list of expressions in a.b.c format return a list of expressions that are only field names, 'c' in this example.
      * @param exprs - expressions to convert
-     * @return - returns an array of expression whic only contain the field name
+     * @return - returns an array of expressions that only contain the field name
      */
     private Expression[] toShortNameExpressions(Expression[] exprs) {
         if (exprs == null || exprs.length == 0) return exprs;
@@ -647,7 +647,7 @@ public class ForceQueryUtils {
     private Collection<Object> readNonEntityObjects(SObject[] sObjects, Expression[] exprs, Class resultClass)
         throws ConnectionException, SQLException {
         
-        // Create a metadata first.
+        // Create metadata first.
         // Assume the data comes back in the same order as the expressions and use first item to get the metadata
         List<String> fieldNameList = new ArrayList<String>();
         List<Expression> fieldNameExprs = new ArrayList<Expression>();
@@ -719,13 +719,13 @@ public class ForceQueryUtils {
     
     /**
      * 
-     * Build a query for fetching multiple top level objects.
+     * Builds a query for fetching multiple top level objects.
      * 
      * @param table  the table representing the object being queried
      * @param acmd  the class metadata for the object being queried
      * @param fieldsToLoad the set of fields to load
      * @param compilation the compile query
-     * @param skipId  true if the id field should be skipped which might be necessary during joins
+     * @param skipId  {@code true} if the id field should be skipped which might be necessary during joins
      * @param maxLimit the max number of entities that can be retrieved by this query
      * @param fetchPlan  the fetch plan used for this query
      * @param tableName  the name of the entity in Force.com
@@ -739,13 +739,13 @@ public class ForceQueryUtils {
     
     /**
      * 
-     * Build a query for fetching multiple objects, whether top level or part of a join query.
+     * Builds a query for fetching multiple objects, whether top level or part of a join query.
      * 
      * @param table  the table representing the object being queried
      * @param acmd  the class metadata for the object being queried
      * @param fieldsToLoad the set of fields to load
      * @param compilation the compile query
-     * @param skipId  true if the id field should be skipped which might be necessary during joins
+     * @param skipId  {@code true} if the id field should be skipped which might be necessary during joins
      * @param maxLimit the max number of entities that can be retrieved by this query
      * @param fetchPlan  the fetch plan used for this query
      * @param fetchDepth the depth that fetches should go (i.e. how many relationships can be traversed)
@@ -832,7 +832,7 @@ public class ForceQueryUtils {
                 helper.sb.append(" group by ");
                 appendExpressionList(helper, compilation.getExprGrouping(), ec);
             }
-            // Do the having by clause
+            // Do the having clause
             if (isTopLevel && compilation.getExprHaving() != null) {
                 if (compilation.getExprGrouping() == null) {
                     throw new NucleusException("Queries specifying a HAVING clause must also specify a GROUP BY clause");
@@ -892,7 +892,7 @@ public class ForceQueryUtils {
     }
     
     /**
-     * This method is invoked to handle explicit JOIN o.ownerId type of joins or implicit member of o.children.name.
+     * Handles explicit JOIN o.ownerId type of joins or implicit member of o.children.name.
      * 
      * @return h.sb is updated with in where (select ...) query.
      *         The query is unclosed and the caller is expected to close it with ')'
@@ -1000,7 +1000,7 @@ public class ForceQueryUtils {
 
                     /**
                      * There are certain InvokeExpressions that are rewritten to not require the right expression.
-                     * However we do not want to propagate doneness any further
+                     * However, we do not want to propagate doneness any further
                      */
                     if (!skip) {
                         h.sb.append(expr.getOperator().toString());
@@ -1061,7 +1061,7 @@ public class ForceQueryUtils {
                             executionContext.getMetaDataManager().getMetaDataForClass(subCompilation.getCandidateClass(),
                                                                             executionContext.getClassLoaderResolver());
                         TableImpl joinTable = ((ForceStoreManager) executionContext.getStoreManager()).getTable(cmd);
-                        // Pretend it's a top level query since it has it's own compilation. Also fieldsList is null as
+                        // Pretend it's a top level query since it has its own compilation. Also fieldsList is null as
                         // we want select to use subCompilation.getExprResult()
                         h.sb.append("(").append(buildQuery(joinTable, cmd, null, subCompilation, true,
                                                             0, h.fetchPlan, joinTable.getTableName().getForceApiName()))
@@ -1291,7 +1291,7 @@ public class ForceQueryUtils {
     }
     
     /**
-     * convenience method for getting the id value from an entity.
+     * Convenience method for getting the id value from an entity.
      * 
      * @param entity the entity containing the id
      * @param acmd the class metadata (for discovering the id field)
@@ -1312,7 +1312,7 @@ public class ForceQueryUtils {
     }
     
     /**
-     * helper method to handle joining a relationship field to a query that is currently being built.
+     * Helper method to handle joining a relationship field to a query that is currently being built.
      * 
      * @param helper  the expression builder with the in progress query
      * @param ammd  the member metadata for the relationship being appended
@@ -1326,7 +1326,7 @@ public class ForceQueryUtils {
                            .append(buildQuery(helper.table, helper.acmd, joinFieldsToLoad, null, false,
                                                0, fetchPlan, helper.fetchDepth, relName, false, false, null, null));
         /**
-         * If there is filter for these related object in the context use it
+         * If there is a filter for these related object in the context use it
          * Else use any JoinFilters
          * Else no filter
          */

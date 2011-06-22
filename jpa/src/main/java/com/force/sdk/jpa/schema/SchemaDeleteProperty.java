@@ -28,8 +28,8 @@ package com.force.sdk.jpa.schema;
 
 /**
  * 
- * This class tells the schema process how to handle schema deletion. Via persistence.xml or through other schema tools
- * a user can delete the schema in their org, and purge it from the recycle bin if necessary
+ * Tells the schema process how to handle schema deletion. Using persistence.xml or other schema tools,
+ * a user can delete the schema in their organization, and purge it from the Recycle Bin if necessary
  *
  * @author Jill Wetzler
  */
@@ -39,13 +39,13 @@ public class SchemaDeleteProperty {
     private boolean purgeSchemaOnDelete;
     
     /**
-     * Create a delete property that signifies whether we want to delete the schema objects by sending them to the recycle bin
-     * or whether we want to bypass the recycle bin and do a hard delete. Note that purgeSchemaOnDelete will be ignored unless
-     * deleteSchema is true.
+     * Creates a delete property that signifies whether we want to delete the schema objects by sending them to the Recycle Bin
+     * or whether we want to bypass the Recycle Bin and do a hard delete. Note that purgeSchemaOnDelete will be ignored unless
+     * deleteSchema is {@code true}.
      * 
      * @param deleteSchema  whether the schema for this application should be deleted  
-     * @param purgeSchemaOnDelete  if purgeSchemaOnDelete is true, schema objects will bypass the recycle bin and be hard deleted,
-     *                             if false, schema objects will be placed in the recycle bin
+     * @param purgeSchemaOnDelete  if purgeSchemaOnDelete is {@code true}, schema objects will bypass the Recycle Bin and be hard deleted,
+     *                             if {@code false}, schema objects will be placed in the Recycle Bin
      */
     public SchemaDeleteProperty(boolean deleteSchema, boolean purgeSchemaOnDelete) {
         this.deleteSchema = deleteSchema;
@@ -55,14 +55,14 @@ public class SchemaDeleteProperty {
     }
     
     /** 
-     * @return true if schema should be deleted, optionally skip recycle bin by purgeOnDelete 
+     * @return {@code true} if schema should be deleted, optionally skip Recycle Bin by purgeOnDelete 
      */
     public boolean getDeleteSchema() {
         return deleteSchema;
     }
     
     /**
-     * @return true if getDeleteSchema() is true and schema should bypass the recycle bin 
+     * @return {@code true} if {@code getDeleteSchema()} is {@code true} and schema should bypass the Recycle Bin 
      */
     public boolean getPurgeSchemaOnDelete() {
         return purgeSchemaOnDelete;

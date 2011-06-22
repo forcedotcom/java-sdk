@@ -37,7 +37,7 @@ import com.sforce.ws.ConnectionException;
 
 /**
  * 
- * Managed connection class that delegates to the ForceServiceConnector.
+ * Managed connection class that delegates to the {@code ForceServiceConnector}.
  *
  * @author Fiaz Hossain
  */
@@ -48,7 +48,7 @@ public class ForceManagedConnection extends AbstractManagedConnection {
     /**
      * Constructor for a managed connection. 
      * 
-     * @param connector  a ForceServiceConnector object configured for the org
+     * @param connector  a ForceServiceConnector object configured for the organization
      *                   that the application will run against
      */
     public ForceManagedConnection(ForceServiceConnector connector) {
@@ -56,7 +56,7 @@ public class ForceManagedConnection extends AbstractManagedConnection {
     }
 
     /**
-     * Closes all API connections (SOAP, metadata, and bulk) and resets configs.
+     * Closes all API connections (SOAP Web services API, Metadata API, and Bulk API) and resets configs.
      */
     @Override
     public void close() {
@@ -64,7 +64,7 @@ public class ForceManagedConnection extends AbstractManagedConnection {
     }
 
     /**
-     * Get the PartnerConnection object, connection will be lazily instantiated.
+     * Gets the PartnerConnection object, connection will be lazily instantiated.
      * 
      * @return a PartnerConnection to the Force.com SOAP API
      */
@@ -80,7 +80,7 @@ public class ForceManagedConnection extends AbstractManagedConnection {
     /**
      * Get the MetadataConnection object, connection will be lazily instantiated.
      * 
-     * @return MetadataConnection to the Force.com metadata API
+     * @return MetadataConnection to the Force.com Metadata API
      * @throws ConnectionException  thrown if an error occurs during initialization of the connection
      */
     public MetadataConnection getMetadataConnection() throws ConnectionException {
@@ -102,7 +102,7 @@ public class ForceManagedConnection extends AbstractManagedConnection {
      * Retrieve the namespace of the Force.com organization.  Connection will be instantiated
      * if it hasn't been established yet.
      * 
-     * @return the SFDC namespace of the organization that is connected to Force.com
+     * @return the Salesforce namespace of the organization that is connected to Force.com
      * @throws ConnectionException  thrown if an error occurs during initialization of the connection
      *                              (if the connection has not yet been instantiated this method will
      *                              first instantiate it) 

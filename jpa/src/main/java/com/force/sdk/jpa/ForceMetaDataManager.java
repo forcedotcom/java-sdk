@@ -54,17 +54,17 @@ import com.sforce.ws.ConnectionException;
 public class ForceMetaDataManager extends JPAMetaDataManager {
     
     /**
-     * Create the metadata manager.
+     * Creates the metadata manager.
      * 
-     * @param ctxt the object manager facory context
+     * @param ctxt the object manager factory context
      */
     public ForceMetaDataManager(OMFContext ctxt) {
         super(ctxt);
     }
     
     /**
-     * Load and sync schema for all persistence units.  The call to the super class will do the main work --
-     * everything data nucleus needs plus the creation of custom SObjects in the user's Force.com org. The second part
+     * Loads and syncs schema for all persistence units.  The call to the super class will do the main work --
+     * everything DataNucleus needs plus the creation of custom SObjects in the user's Force.com organization. The second part
      * is to create the custom fields on each object.  We have to do these separately because the order of object
      * creation is not guaranteed, and this way we can be sure that all lookup fields will be referring to an object
      * that already exists
@@ -87,10 +87,10 @@ public class ForceMetaDataManager extends JPAMetaDataManager {
         ForceStoreManager storeManager = (ForceStoreManager) omfContext.getStoreManager();
         if (storeManager.isSchemaCreateClient()) {
             /**
-             * DN does not automatically initialize classes from jars.
-             * When we are mucking with schema from CLIforce and we are using a existing artifact jar we have to
-             * forceDN to look at the classes in the jar. To do that we add the jar into the PersistenceUnitMetaData
-             * as if the jar was included there. However, we should only add the jar if the PU does not already
+             * DataNucleus does not automatically initialize classes from jars.
+             * When we are mucking with schema from cliforce and we are using an existing artifact jar we have to
+             * forceDN to look at the classes in the jar. To do that, we add the jar into the {@code PersistenceUnitMetaData}
+             * as if the jar was included there. However, we should only add the jar if the persistence unit does not already
              * contain explicitly provided classes.
              */
             if ((pumd.getClassNames() == null || pumd.getClassNames().size() == 0)
@@ -150,7 +150,7 @@ public class ForceMetaDataManager extends JPAMetaDataManager {
             }
         } .initialize(fileMD, storeManager);
         
-        //now do the writing
+        // now do the writing
         try {
             storeManager.getSchemaWriter().write(storeManager.createConnection());
         } catch (Exception e) {
@@ -195,8 +195,8 @@ public class ForceMetaDataManager extends JPAMetaDataManager {
     }
     
     /**
-     * This method creates all of the CustomObjects and CustomFields and registers them with the SchemaWriter.
-     * The SchemaWriter's write() call is made after calling this method.
+     * Creates all the CustomObjects and CustomFields and registers them with the {@code SchemaWriter}.
+     * The SchemaWriter's {@code write()} call is made after calling this method.
      */
     private void createSchema(final ClassMetaData cmd, Class cls, final ClassLoaderResolver clr, ForceStoreManager storeManager) {
         synchronized (cmd) {
@@ -206,7 +206,7 @@ public class ForceMetaDataManager extends JPAMetaDataManager {
             if (PersistenceUtils.hasNoSchema(cmd)) return; //nothing to create
             
             // only create the table if autoCreateTables is true.
-            // create the fields without creating the table if the object is already in the org
+            // create the fields without creating the table if the object is already in the organization
             if (storeManager.isAutoCreateTables() && (!table.getTableAlreadyExistsInOrg()
                     || storeManager.isForDelete()) && !PersistenceUtils.isReadOnlySchema(cmd, true)) {
                 table.createTableAndFields(cmd, storeManager, mconn);
@@ -214,7 +214,7 @@ public class ForceMetaDataManager extends JPAMetaDataManager {
                 table.createFields(cmd, storeManager);
             }
             
-            //handle the case where autoCreateTables is disabled but the object does not exist in the org
+            // handle the case where autoCreateTables is disabled but the object does not exist in the organization
             if (!storeManager.isAutoCreateTables() && !table.getTableAlreadyExistsInOrg()) {
                 StringBuilder msg = new StringBuilder(256);
                 msg.append("Table does not exist in force.com and datanucleus.autoCreateTables is false, table: ")
@@ -229,10 +229,10 @@ public class ForceMetaDataManager extends JPAMetaDataManager {
     }
     
     /**
-     * Method to initialise the provided FileMetaData, ready for use. We copied this method verbatim from base class only to be 
+     * Initialises the provided FileMetaData so that it's ready for use. We copied this method verbatim from base class only to be 
      * able to call the pre/postInitialise methods.
      * 
-     * @param fileMetaData Collection of FileMetaData
+     * @param fileMetaData Collection of {@code FileMetaData}
      * @param clr ClassLoader resolver
      * @throws NucleusUserException thrown if an error occurs during the populate/initialise
      *     of the supplied metadata.
@@ -291,8 +291,8 @@ public class ForceMetaDataManager extends JPAMetaDataManager {
         
         // Grab transactional connection factory
         TableImpl table = storeManager.getTable(acmd);
-        //now that we've stored all of the salesforce fields, find the @Entity definition and register the
-        //java field name on the ColumnImpl.  we'll need this info later
+        // now that we've stored all the Salesforce fields, find the {@code @Entity} definition and register the
+        // Java field name on the ColumnImpl.  We'll need this info later
         int[] fieldNumbers =  acmd.getAllMemberPositions();
         if (fieldNumbers != null && fieldNumbers.length > 0) {
             for (int column : fieldNumbers) {
@@ -327,12 +327,12 @@ public class ForceMetaDataManager extends JPAMetaDataManager {
     }
 
     /**
-     * inner class for providing initialization methods when entities are first loaded.
+     * Inner class for providing initialization methods when entities are first loaded.
      */
     private abstract static class ClassInitializer {
 
         /**
-         * Provide an init method which will be run when the class is initialized.
+         * Provides an init method which will be run when the class is initialized.
          *
          * @param cmd the class metadata for the entity being initialized
          * @param storemanager  the store manager

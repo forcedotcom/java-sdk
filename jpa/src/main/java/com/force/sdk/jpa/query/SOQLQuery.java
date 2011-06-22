@@ -52,7 +52,7 @@ public class SOQLQuery extends AbstractJavaQuery {
     private QueryResultMetaData resultMetadata;
     
     /**
-     * Create a query object for SOQL queries.
+     * Creates a query object for SOQL queries.
      * 
      * @param ec the execution context for this query
      */
@@ -61,7 +61,7 @@ public class SOQLQuery extends AbstractJavaQuery {
     }
     
     /**
-     * Create a query object for SOQL queries.
+     * Creates a query object for SOQL queries.
      * 
      * @param ec the execution context for this query
      * @param query the SOQL query string

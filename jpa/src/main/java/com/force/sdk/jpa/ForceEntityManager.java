@@ -47,9 +47,9 @@ import com.force.sdk.jpa.query.QueryHints;
 
 /**
  * 
- * This is the main EntityManager for the Force.com JPA implementation.  Persist,
- * find, etc. calls go through here. This class is what defines native queries as
- * using the SOQL language
+ * The main EntityManager for the Force.com JPA implementation.  Persist,
+ * find, etc. calls go through here. This class is where we configure native queries
+ * to use SOQL.
  *
  * @author Fiaz Hossain
  */
@@ -87,7 +87,7 @@ public class ForceEntityManager extends EntityManagerImpl {
     }
     
     /**
-     * This method is over-ridden from the base class to implement our own ForceTransactionImpl.
+     * Overrides the base class method to implement our own ForceTransactionImpl.
      */
     @Override
     public void joinTransaction() {
@@ -117,9 +117,9 @@ public class ForceEntityManager extends EntityManagerImpl {
     /**
      * Method added to allow a StateManager to be injected into a transient object
      * so that we can track which fields have been touched. Then if the user calls
-     * merge() on that transient object we can copy the fields over to a detached
-     * object and call merge on it. If the user called persist instead we simply
-     * toss this injected StateManager and proceed as usual.
+     * <code>merge()</code> on that transient object we can copy the fields over to a detached
+     * object and call <code>merge()</code> on it. If the user called persist instead, we simply
+     * discard this injected StateManager and proceed as usual.
      * 
      * @param pc PersistenceCapable
      */
@@ -309,6 +309,7 @@ public class ForceEntityManager extends EntityManagerImpl {
         return super.getReference(entityClass, primaryKey);
     }
     
+
     @Override
     public void refresh(Object entity, LockModeType lock, Map<String, Object> properties) {
         if (LOGGER.isDebugEnabled()) {
@@ -317,6 +318,10 @@ public class ForceEntityManager extends EntityManagerImpl {
         super.refresh(entity, lock, properties);
     }
     
+    /**
+     * We ignore <code>flush()</code> if we are running within a transaction.
+     * Use commit() instead for transactions.
+     */
     @Override
     public void flush() {
         if (getTransaction().isActive()) {
@@ -332,6 +337,7 @@ public class ForceEntityManager extends EntityManagerImpl {
         }
     }
     
+
     @Override
     public void lock(Object entity, LockModeType lock, Map<String, Object> properties) {
         if (LOGGER.isDebugEnabled()) {
@@ -340,6 +346,7 @@ public class ForceEntityManager extends EntityManagerImpl {
         super.lock(entity, lock, properties);
     }
     
+
     @Override
     public void detach(Object entity) {
         if (LOGGER.isDebugEnabled()) {
@@ -356,7 +363,7 @@ public class ForceEntityManager extends EntityManagerImpl {
     
     /**
      * Convenience method to throw the supplied exception.
-     * If the supplied exception is a PersistenceException then also marks the current transaction for rollback.
+     * If the supplied exception is a PersistenceException, also mark the current transaction for rollback.
      * @param re The exception
      */
     private Object throwException(RuntimeException re) {
@@ -365,8 +372,8 @@ public class ForceEntityManager extends EntityManagerImpl {
             boolean markForRollback = conf.getBooleanProperty("datanucleus.jpa.txnMarkForRollbackOnException");
             if (markForRollback) {
                 // The JPA spec says that all PersistenceExceptions thrown should mark the transaction for 
-                // rollback. Seems stupid to me. e.g you try to find an object with a particular id and it 
-                // doesn't exist so you then have to rollback the txn and start again. FFS.
+                // rollback. Seems excessive to me. For example, you try to find an object with a particular id and it 
+                // doesn't exist so you then have to rollback the txn and start again.
                 getTransaction().setRollbackOnly();
             }
         }

@@ -41,8 +41,8 @@ public final class ForceApiExceptionMap {
     private ForceApiExceptionMap() {  }
     
     /**
-     * Method to map specific api exception codes to the proper DataNucleus
-     * exception.
+     * Maps specific API exception codes to the proper DataNucleus
+     * exceptions.
      * 
      * @param af  the Force.com ApiFault exception to map
      * @param isQuery whether the exception happened during a query or not

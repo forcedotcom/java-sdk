@@ -36,7 +36,7 @@ public interface QueryNotifier {
 
     /**
      * 
-     * add a listener to a query that will be called when the soql query is 
+     * Adds a listener to a query that will be called when the soql query is 
      * generated.
      * 
      * @param name  the name to register the listener with
@@ -45,7 +45,7 @@ public interface QueryNotifier {
     void addListener(String name, QueryListener listener);
     
     /**
-     * remove a listener with the given name.
+     * Removes a listener with the given name.
      * 
      * @param name  the name the listener was registered with
      */

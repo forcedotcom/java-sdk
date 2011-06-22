@@ -31,8 +31,8 @@ import javax.persistence.EntityManager;
 
 /**
  * 
- * Utility for allowing merges on transient objects, i.e. objects that have not necessarily
- * been persisted or retrieved via the EntityManager
+ * Utility for allowing merges on transient objects, such as objects that have not 
+ * been persisted or retrieved via the <code>EntityManager</code>
  *
  * @author Fiaz Hossain
  */
@@ -41,8 +41,8 @@ public final class BaseEntity {
     private BaseEntity() {  }
     
     /**
-     * Initialise an object of type T to be available for a merge() call even if it has not
-     * been persisted or retrieved, by injecting a custom state manager into the object.
+     * Initialise an object of type T to be available for a <code>merge()</code> call even if it has not
+     * been persisted or retrieved. We do this by injecting a custom state manager into the object.
      * 
      * @param <T>  the type of a PersistenceCapable entity
      * @param em  the entity manager used for persisting

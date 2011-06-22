@@ -45,7 +45,7 @@ public class RelationshipImpl extends ColumnImpl {
     private final boolean isCustomRelationship;
     
     /**
-     * create a RelationshipImpl with a given field name, such as "Opportunities"
+     * Creates a RelationshipImpl with a given field name, such as "Opportunities"
      * on the account object, or "MyCustomObjects__r".
      * 
      * @param fieldName the name of the relationship field
@@ -56,10 +56,10 @@ public class RelationshipImpl extends ColumnImpl {
     }
     
     /**
-     * method that returns whether the relationship is from a custom lookup field
+     * Returns whether the relationship is from a custom lookup field
      * or one that comes standard with Force.com.
      * 
-     * @return true if the relationship is custom, false if standard
+     * @return {@code true} if the relationship is custom, {@code false} if standard
      */
     @Override
     public boolean isCustom() {
@@ -77,7 +77,7 @@ public class RelationshipImpl extends ColumnImpl {
     }
     
     /**
-     * appends itself to the select statement of a query.
+     * Appends itself to the select statement of a query.
      * {@inheritDoc}
      */
     @Override

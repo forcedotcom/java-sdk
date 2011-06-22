@@ -51,7 +51,7 @@ public abstract class ForceMetaData extends ForceAsyncResultProcessor {
     protected final boolean isReadOnlyFields;
     
     /**
-     * Create a metadata object so we can cache information about an entity.
+     * Creates a metadata object so we can cache information about an entity.
      * 
      * @param cmd  the DataNucleus metadata object
      * @param tableImpl  our own Table object
@@ -64,7 +64,7 @@ public abstract class ForceMetaData extends ForceAsyncResultProcessor {
     }
 
     /**
-     * Remove the '__c' notation if it exists.
+     * Removes the '__c' notation if it exists.
      * 
      * @param name an object name
      * @return  the object name without '__c'

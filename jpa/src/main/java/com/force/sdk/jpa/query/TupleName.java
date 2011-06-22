@@ -30,7 +30,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * This is a conveneient class to maintain short and long names for a tuple i.e. c as short and a.b.c
+ * Convenience class to maintain short and long names for a tuple i.e. c as short and a.b.c
  * as long name.
  *
  * @author Fiaz Hossain
@@ -40,7 +40,7 @@ public class TupleName {
     List<String> tuple;
     
     /**
-     * Create a tuple name out of a list.
+     * Creates a tuple name out of a list.
      * 
      * @param tuple  A list of strings that make up the name
      */
@@ -49,7 +49,7 @@ public class TupleName {
     }
     
     /**
-     * Create a tuple name from just one string.
+     * Creates a tuple name from just one string.
      * 
      * @param name  the name of the tuple
      */
@@ -62,7 +62,7 @@ public class TupleName {
     }
     
     /**
-     * Return tuple short name.
+     * Returns tuple short name.
      * 
      * @return tuple short name
      */
@@ -71,10 +71,10 @@ public class TupleName {
     }
     
     /**
-     * Return the prefix that when combined with the tuple
+     * Returns the prefix that when combined with the tuple
      * short name creates the tuple long name.
      * <p>
-     * E.g. If tuple long name is a.b.c, the short name prefix is a.b
+     * For example, If tuple long name is a.b.c, the short name prefix is a.b
      * 
      * @return short name prefix
      */
@@ -88,7 +88,7 @@ public class TupleName {
     }
     
     /**
-     * Return the tuple long name.
+     * Returns the tuple long name.
      * 
      * @return fully qualified tuple name
      */
