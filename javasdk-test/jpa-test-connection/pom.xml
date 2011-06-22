@@ -33,6 +33,12 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${surefire.version}</version>
         <configuration>
+            <properties>
+                <property>
+                    <name>listener</name>
+                    <value>mockit.integration.testng.Initializer</value>
+                </property>
+            </properties>
           <environmentVariables>
             <FORCE_CONNURLENVVAR_URL>
               force://${endpoint}/services/Soap/u/${force.apiVersion};user=${user};password=${password}
@@ -44,6 +50,10 @@
   </build>
 
   <dependencies>
+      <dependency>
+        <groupId>mockit</groupId>
+        <artifactId>jmockit</artifactId>
+      </dependency>
     <dependency>
       <groupId>com.force.api</groupId>
       <artifactId>force-metadata-api</artifactId>
@@ -90,11 +100,6 @@
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>mockit</groupId>
-      <artifactId>jmockit</artifactId>
-      <scope>test</scope>
     </dependency>
 
   </dependencies>

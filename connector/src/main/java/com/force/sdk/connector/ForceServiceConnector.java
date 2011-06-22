@@ -154,6 +154,8 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     // Cache for saved configs
     private static final Map<String, ForceConnectorConfig> CACHED_CONFIGS =
         new ConcurrentHashMap<String, ForceConnectorConfig>();
+    // map a connection name to a config id
+    private static final Map<String, String> CONN_NAME_TO_CACHED_CONFIGS = new ConcurrentHashMap<String, String>();
     private boolean skipCache = false; // Flag which tells us whether to check the config cache or not
     
     // The ForceConnectorConfig used to construct a connection
@@ -266,6 +268,11 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
         
         // Next, try to retrieve saved connection construction state using the connection name
         if (connectionName != null) {
+            final ForceConnectorConfig cachedConfig = getCachedConfig(getCacheIdForConnectionName(connectionName));
+            if (cachedConfig != null) {
+                return cachedConfig;
+            }
+
             ForceConnectorConfig loadedConfig;
             try {
                 loadedConfig = ForceConnectorConfig.loadFromName(connectionName);
@@ -274,7 +281,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
             }
             
             if (loadedConfig != null) {
-                return checkConfigCache(loadedConfig);
+                return checkConfigCache(loadedConfig, connectionName);
             }
         }
         
@@ -293,16 +300,32 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
 
         throw new ConnectionException(errorMsg.toString());
     }
-    
+
+    private String getCacheIdForConnectionName(String connectionName) {
+        return CONN_NAME_TO_CACHED_CONFIGS.get(connectionName);
+    }
+
+    private void setCacheIdForConnectionName(String connectionName, String cacheId) {
+        if (connectionName != null && cacheId != null) {
+            LOGGER.trace("ForceServiceConnector Cache: Mapping connectionName: " + connectionName + " to cacheId: " + cacheId);
+            CONN_NAME_TO_CACHED_CONFIGS.put(connectionName, cacheId);
+        }
+    }
+
     private ForceConnectorConfig checkConfigCache(ForceConnectorConfig configToCheck) throws ConnectionException {
+        return checkConfigCache(configToCheck, null);
+    }
+
+    private ForceConnectorConfig checkConfigCache(ForceConnectorConfig configToCheck, String connectionName) throws ConnectionException {
         validateConnectorConfig(configToCheck);
-        
+
         String cacheId = configToCheck.getCacheId();
         if (cacheId != null && !skipCache) {
             LOGGER.trace("ForceServiceConnector Cache: Checking for id: " + cacheId);
             
-            ForceConnectorConfig cachedConfig;
-            if ((cachedConfig = CACHED_CONFIGS.get(cacheId)) != null) {
+            ForceConnectorConfig cachedConfig = getCachedConfig(cacheId);
+            setCacheIdForConnectionName(connectionName, cacheId);
+            if (cachedConfig  != null) {
                 LOGGER.trace("ForceServiceConnector Cache: HIT for id: " + cacheId);
                 return cachedConfig;
             }
@@ -313,7 +336,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
         
         return configToCheck;
     }
-    
+
     private void validateConnectorConfig(ForceConnectorConfig configToValidate) throws ConnectionException {
         if (configToValidate.getSessionId() == null && configToValidate.getAuthEndpoint() == null) {
             throw new ConnectionException("ForceConnectorConfig must have an AuthEndpoint");
