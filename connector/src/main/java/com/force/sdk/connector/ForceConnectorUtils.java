@@ -38,6 +38,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Shared utilities for Force.com connectors.
@@ -55,6 +56,8 @@ public final class ForceConnectorUtils {
     static final Logger LOGGER = LoggerFactory.getLogger("com.force.sdk.connector");
 
     static final String FORCE_API_ENDPOINT_PATH;
+
+    static final Map<String, Map<ForceConnectionProperty, String>> propertiesCache = new ConcurrentHashMap<String, Map<ForceConnectionProperty, String>>();
 
     static {
         try {
@@ -162,6 +165,11 @@ public final class ForceConnectorUtils {
 
         if (connectionName == null) return null;
 
+        if (propertiesCache.containsKey(connectionName)) {
+            LOGGER.info("Connection : loading " + connectionName + " from cache");
+            return propertiesCache.get(connectionName);
+        }
+
         String connectionUrl;
         
         // First, try getting a connection url from an environment variable
@@ -169,7 +177,7 @@ public final class ForceConnectorUtils {
         String envVarName = "FORCE_" + connectionName.toUpperCase() + "_URL";
         if ((connectionUrl = System.getenv(envVarName)) != null) {
             LOGGER.info("Connection : Creating " + connectionName + " from environment variable: " + envVarName);
-            return loadConnectorPropsFromUrl(connectionUrl);
+            return cache(connectionName, loadConnectorPropsFromUrl(connectionUrl));
         }
 
         // Next, try getting a connection url from a java system property
@@ -177,7 +185,7 @@ public final class ForceConnectorUtils {
         String sysPropName = "force." + connectionName + ".url";
         if ((connectionUrl = System.getProperty(sysPropName)) != null) {
             LOGGER.info("Connection : Creating " + connectionName + " from Java system property: " + sysPropName);
-            return loadConnectorPropsFromUrl(connectionUrl);
+            return cache(connectionName, loadConnectorPropsFromUrl(connectionUrl));
         }
 
         // Next, look for a properties file on the classpath
@@ -185,13 +193,12 @@ public final class ForceConnectorUtils {
         URL propsFileUrl;
         if ((propsFileUrl = ForceConnectorUtils.class.getResource("/" + connectionName + ".properties")) != null) {
             LOGGER.info("Connection : Creating " + connectionName + " from classpath properties file: " + propsFileUrl);
-            return loadConnectorPropsFromFile(propsFileUrl);
+            return cache(connectionName, loadConnectorPropsFromFile(propsFileUrl));
         }
 
         // Finally, look for a connection url in the cliforce connections file
         // Note: This is a case sensitive match
         if (cliforceConnFile.canRead()) {
-
             InputStream is = null;
             Properties cliforceConnUrls = new Properties();
             try {
@@ -205,7 +212,7 @@ public final class ForceConnectorUtils {
 
             if (cliforceConnUrls.containsKey(connectionName)) {
                 LOGGER.info("Connection : Creating " + connectionName + " from cliforce connections file: " + cliforceConnFile);
-                return loadConnectorPropsFromUrl(cliforceConnUrls.getProperty(connectionName));
+                return cache(connectionName, loadConnectorPropsFromUrl(cliforceConnUrls.getProperty(connectionName)));
             }
         }
 
@@ -313,5 +320,21 @@ public final class ForceConnectorUtils {
         }
 
         return proxyPort;
+    }
+
+    /*
+     * Adds properties to cache.  This is a workaround to using propertiesCache.put(K,V) directly.
+     * When using put directly, it doesn't return the value to the caller.
+     */
+    private static Map<ForceConnectionProperty, String> cache(String connectionName, Map<ForceConnectionProperty, String> props) {
+        propertiesCache.put(connectionName, props);
+        return props;
+    }
+
+    /*
+     * Empties the named connections cache
+     */
+    public static void clearCache() {
+        propertiesCache.clear();
     }
 }

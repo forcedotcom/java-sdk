@@ -33,6 +33,7 @@ import java.io.IOException;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.force.sdk.qa.util.MockAppender;
@@ -45,7 +46,12 @@ import com.sforce.ws.ConnectionException;
  * @author Fiaz Hossain
  */
 public class ForceServiceConnectorLoggingTest extends BaseForceServiceConnectorTest {
-    
+
+    @BeforeMethod
+    public void clearNamedConnectionsCache() {
+        ForceConnectorUtils.clearCache();
+    }
+
     @Test
     public void testApiTraceLogging() throws ConnectionException {
         Logger logger = Logger.getLogger("com.force.sdk.connector");

@@ -30,6 +30,8 @@ import static org.testng.Assert.*;
 
 import java.util.Properties;
 
+import com.force.sdk.connector.ForceConnectorUtils;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -41,7 +43,12 @@ import com.force.sdk.qa.util.PropsUtil;
  * @author Tim Kral
  */
 public class ForceOAuthConnectionInfoTest {
-       
+
+    @BeforeMethod
+    public void clearNamedConnectionsCache() {
+        ForceConnectorUtils.clearCache();
+    }
+
     @Test
     public void testAppendOauthKeyParam() throws Exception {
         StringBuffer url = new StringBuffer("url?params");

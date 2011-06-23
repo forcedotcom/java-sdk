@@ -28,11 +28,16 @@ package com.force.sdk.connector;
 
 import static org.testng.Assert.assertEquals;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.Assert;
+import org.testng.annotations.*;
 
 /**
  * Unit Tests for ForceConnectorUtils.
@@ -40,7 +45,9 @@ import org.testng.annotations.Test;
  * @author Tim Kral
  */
 public class ForceConnectorUtilsTest {
-    
+
+    File cachedCliforceConnFile;
+
     @DataProvider
     protected Object[][] endpointProvider() {
         return new Object[][] {
@@ -63,4 +70,83 @@ public class ForceConnectorUtilsTest {
         assertEquals(apiUrl.getPort(), expectedPort);
         assertEquals(apiUrl.getPath(), new URL(com.sforce.soap.partner.Connector.END_POINT).getPath());
     }
+
+    @AfterMethod
+    public void cleanPropertiesCache() {
+        ForceConnectorUtils.clearCache();
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.size(), 0);
+    }
+
+    @Test
+    public void testFilePropertiesCache() throws IOException {
+        Map<ForceConnectionProperty, String> props = ForceConnectorUtils.loadConnectorPropsFromName("unitconnurl");
+
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.size(), 1);
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get("unitconnurl"), props);
+    }
+
+    @Test
+    public void testFilePropertiesCacheWithTwoMatchingFiles() throws IOException {
+        final String connName = "unitconnurl";
+        Map<ForceConnectionProperty, String> props = ForceConnectorUtils.loadConnectorPropsFromName(connName);
+        Map<ForceConnectionProperty, String> duplicateProps = ForceConnectorUtils.loadConnectorPropsFromName(connName);
+
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.size(), 1);
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(connName), props);
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(connName), duplicateProps);
+    }
+
+    @Test
+    public void testFilePropertiesCacheWithTwoDifferentFiles() throws IOException {
+        final String connName = "unitconnurl";
+        Map<ForceConnectionProperty, String> props = ForceConnectorUtils.loadConnectorPropsFromName(connName);
+
+        final String secondConnName = "unitconnuserinfo";
+        Map<ForceConnectionProperty, String> secondProps = ForceConnectorUtils.loadConnectorPropsFromName(secondConnName);
+
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.size(), 2);
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(connName), props);
+        Assert.assertNotSame(ForceConnectorUtils.propertiesCache.get(connName), secondProps);
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(secondConnName), secondProps);
+        Assert.assertNotSame(ForceConnectorUtils.propertiesCache.get(secondConnName), props);
+    }
+
+    @Test
+    public void testCliforcePropsCache() throws IOException, URISyntaxException {
+        ForceConnectorUtils.cliforceConnFile = new File(this.getClass().getResource("/cliforce").toURI());
+        final String connName = "connA";
+        final Map<ForceConnectionProperty, String> cliforceProps = ForceConnectorUtils.loadConnectorPropsFromName(connName);
+        final Map<ForceConnectionProperty, String> duplicateCliforceProps = ForceConnectorUtils.loadConnectorPropsFromName(connName);
+
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.size(), 1);
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(connName), cliforceProps);
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(connName), duplicateCliforceProps);
+    }
+
+    @BeforeClass
+    public void cacheCliforceConnFile() {
+        cachedCliforceConnFile = ForceConnectorUtils.cliforceConnFile;
+    }
+
+    @AfterClass
+    public void resetCliforceConnFile() {
+        ForceConnectorUtils.cliforceConnFile = cachedCliforceConnFile;
+    }
+
+    @Test
+    public void testCliforcePropsCacheWithTwoDifferentURLs() throws IOException, URISyntaxException {
+        // init cliforce file to a test file
+        ForceConnectorUtils.cliforceConnFile = new File(this.getClass().getResource("/cliforce").toURI());
+        final String connName = "connA";
+        final Map<ForceConnectionProperty, String> cliforceProps = ForceConnectorUtils.loadConnectorPropsFromName(connName);
+        final String secondConnName = "connB";
+        final Map<ForceConnectionProperty, String> duplicateCliforceProps = ForceConnectorUtils.loadConnectorPropsFromName(secondConnName);
+
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.size(), 2);
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(connName), cliforceProps);
+        Assert.assertNotSame(ForceConnectorUtils.propertiesCache.get(connName), duplicateCliforceProps);
+        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(secondConnName), duplicateCliforceProps);
+        Assert.assertNotSame(ForceConnectorUtils.propertiesCache.get(secondConnName), cliforceProps);
+    }
+
 }
