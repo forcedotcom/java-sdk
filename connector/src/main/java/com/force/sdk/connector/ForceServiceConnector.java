@@ -501,6 +501,11 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     
     static void clearCache() {
         CACHED_CONFIGS.clear();
+        CONN_NAME_TO_CACHED_CONFIGS.clear();
+    }
+
+    static Map<String, ForceConnectorConfig> getCachedConfigs() {
+        return CACHED_CONFIGS;
     }
     
     static ForceConnectorConfig getCachedConfig(String cacheId) {
