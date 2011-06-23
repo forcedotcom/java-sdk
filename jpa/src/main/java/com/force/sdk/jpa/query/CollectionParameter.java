@@ -45,7 +45,7 @@ public class CollectionParameter {
 
     /**
      * 
-     * Stores off the given collection for use with the toString() method later.
+     * Stores the given collection for use with the {@code toString()} method later.
      * 
      * @param collection  the collection that will be formatted as a String for SOQL queries
      */
@@ -55,9 +55,9 @@ public class CollectionParameter {
     
     /**
      * Given a collection of unknown type, return a serialized String representation of the collection
-     * appropriate to inclusion in SOQL queries.
+     * appropriate for inclusion in SOQL queries.
      * 
-     * Empty arrays return the value NULL, resulting in queries like '... WHERE Id IN (NULL). This works in SOQL
+     * Empty arrays return the value {@code NULL}, resulting in queries like '... WHERE Id IN (NULL). This works in SOQL
      * independent of type.
      * 
      * Strings are wrapped in single quotes.

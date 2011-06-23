@@ -82,7 +82,7 @@ public class ForceFetchFieldManager extends AbstractFieldManager {
     
     /**
      * 
-     * Create a manager that will retrieve the specified field values of a particular entity with a known id.
+     * Creates a manager that will retrieve the specified field values of a particular entity with a known id.
      * 
      * @param objectProvider  the object provider
      * @param storeManager  the store manager
@@ -118,7 +118,7 @@ public class ForceFetchFieldManager extends AbstractFieldManager {
     }
     
     /**
-     * Instantiate a fetch field manager with an sobject.
+     * Instantiates a fetch field manager with an sobject.
      * 
      * @param objectProvider the object provider
      * @param storeManager the store manager
@@ -140,7 +140,7 @@ public class ForceFetchFieldManager extends AbstractFieldManager {
     
     /**
      * 
-     * Instantiate a fetch field manager with an sobject and execution context.
+     * Instantiates a fetch field manager with an sobject and execution context.
      * 
      * @param ec  the execution context for this query
      * @param acmd  the class metadata object for the entity we're retrieving
@@ -221,7 +221,7 @@ public class ForceFetchFieldManager extends AbstractFieldManager {
     
     /**
      * Fetch the field value from the sObject and return it as a string. Most of the fetch fields will
-     * delegate to this one and that parse it into the proper type (like an int or double)
+     * delegate to this one and then parse it into the proper type (like an int or double)
      * {@inheritDoc} 
      */
     @Override
@@ -233,7 +233,7 @@ public class ForceFetchFieldManager extends AbstractFieldManager {
 
     /**
      * 
-     * For fields containing objects rather than strings or primitive types this method will return the proper type of
+     * For fields containing objects rather than strings or primitive types, this method returns the proper type of the
      * object depending on the field type. On occasion we use this method to fetch the proper objects for use in expressions
      * and must override the actual value of the object, in that case use the override value instead of getting it from the
      * sObject
@@ -241,7 +241,7 @@ public class ForceFetchFieldManager extends AbstractFieldManager {
      * @param ammd  the member metadata for the field/property holding the value
      * @param valueOverride the value to use in case of an override where you don't want what's in the sObject
      *                      (used for expressions)
-     * @return  the value cast to it's proper object type
+     * @return  the value cast to its proper object type
      */
     public Object fetchObjectField(AbstractMemberMetaData ammd, Object valueOverride) {
         if (ammd.getCollection() != null || ammd.getMap() != null) {
@@ -373,7 +373,7 @@ public class ForceFetchFieldManager extends AbstractFieldManager {
                     throw new NucleusUserException(e.getMessage(), e);
                 }
             } else {
-                // We return just a hollow object with ID that will have it's fields fetched later
+                // We return just a hollow object with ID that will have its fields fetched later
                 return ec.findObject(new StringIdentity(ammd.getType(), (String) o), false, false, ammd.getTypeName());
 
             }

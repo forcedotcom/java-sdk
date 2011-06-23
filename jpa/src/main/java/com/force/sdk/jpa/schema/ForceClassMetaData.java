@@ -34,7 +34,7 @@ import org.datanucleus.metadata.*;
 
 /**
  * 
- * This is an extra metadata class we use during annotation processing
+ * Metadata class used during annotation processing
  * (see {@link com.force.sdk.jpa.annotation.ForceAnnotationReader}).
  * It's used to gain access to the list of members
  *
@@ -46,7 +46,7 @@ public class ForceClassMetaData extends AbstractClassMetaData {
     private List<AbstractMemberMetaData> members;
     
     /**
-     * create a class metadata object with the enclosing package.
+     * Creates a class metadata object with the enclosing package.
      * 
      * @param parent The package to which this class/interface belongs
      * @param name (Simple) name of class (omitting the package name)
@@ -56,7 +56,7 @@ public class ForceClassMetaData extends AbstractClassMetaData {
     }
 
     /**
-     * create a class metadata object for an implementation of a "persistent-abstract-class".
+     * Creates a class metadata object for an implementation of a "persistent-abstract-class".
      * 
      * @param cmd MetaData for the implementation of the "persistent-abstract-class"
      * @param implClassName Name of the implementation class
@@ -66,7 +66,7 @@ public class ForceClassMetaData extends AbstractClassMetaData {
     }
 
     /**
-     * create a class metadata object for an implementation of a "persistent-interface".
+     * Creates a class metadata object for an implementation of a "persistent-interface".
      * 
      * @param imd MetaData for the "persistent-interface"
      * @param implClassName Name of the implementation class
@@ -100,7 +100,7 @@ public class ForceClassMetaData extends AbstractClassMetaData {
     }
     
     /**
-     * Lazily instantiate the member list.
+     * Lazily instantiates the member list.
      */
     private List<AbstractMemberMetaData> getMembersList() {
         if (members == null) {

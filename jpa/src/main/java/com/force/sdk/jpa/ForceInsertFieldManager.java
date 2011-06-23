@@ -69,11 +69,11 @@ public class ForceInsertFieldManager extends AbstractFieldManager {
     private boolean dirty;
     
     /**
-     * Create a manager that will upsert the specified field values of a particular entity.
+     * Creates a manager that will upsert the specified field values of a particular entity.
      *
      * @param objectProvider the object provider for this entity
      * @param storeManager the store manager
-     * @param pkValue the id object (string for Force.com entities) for this entity, null if this is an insert
+     * @param pkValue the id object (string for Force.com entities) for this entity, <code>null</code> if this is an insert
      */
     public ForceInsertFieldManager(ObjectProvider objectProvider, ForceStoreManager storeManager, Object pkValue) {
         this.objectProvider = objectProvider;
@@ -88,7 +88,7 @@ public class ForceInsertFieldManager extends AbstractFieldManager {
         if (pkValue != null) {
             sobject.addField(table.getPKFieldName(acmd), pkValue);
         } else {
-            // If PK value is null then this is an insert and we consider this object to be dirty all the time
+            // If PK value is null, this is an insert and we consider this object to be dirty all the time
             dirty = true;
         }
         // During insert this field index should not be added as it is the "id" field which should be null.
@@ -111,7 +111,7 @@ public class ForceInsertFieldManager extends AbstractFieldManager {
      * Retrieves the Force.com object (SObject) for this {@code ForceInsertFieldManager}.
      * 
      * @param appendExternalId flag indicating if an external id should be added to
-     *                         the Force.com object (SObject) is none exists
+     *                         the Force.com object (SObject) if none exists
      * @return the Force.com object (SObject) for this {@code ForceInsertFieldManager}
      */
     public SObject getSObject(boolean appendExternalId) {
@@ -129,14 +129,14 @@ public class ForceInsertFieldManager extends AbstractFieldManager {
     /**
      * The entity is considered dirty if fields have been updated (meaning an update is necessary).
      * Entities with no ids, meaning they are for insert, are always marked as dirty.
-     * @return true if the entity is considered dirty and needs to be upserted
+     * @return {@code true} if the entity is considered dirty and needs to be upserted
      */
     public boolean isDirty() {
         return dirty;
     }
     
     /**
-     * All store methods delegate to this one, to do the proper transformation on the value so it
+     * All store methods delegate to this method for proper transformation on the value so it
      * can be stored in the sObject and upserted properly by the API.
      * 
      * @param fieldNumber the index of the field to update

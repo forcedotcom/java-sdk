@@ -39,7 +39,7 @@ import com.force.sdk.jpa.schema.ForceClassMetaData;
 
 /**
  * 
- * Our own version of a MetaDataListener that does all of the registration and
+ * Customized version of a {@code MetaDataListener} that does all the registration and
  * setup needed when an application starts.  The object schema is validated
  * and cached.
  *
@@ -56,7 +56,7 @@ public class ForceMetaDataListener implements MetaDataListener {
     
     /**
      * 
-     * Create a MetaDataListener and store off the store manager, instantiates the
+     * Create a {@code MetaDataListener} and store off the store manager, instantiates the
      * annotation reader.
      * 
      * @param storeManager  the store manager with the persistence properties that should be used
@@ -67,9 +67,9 @@ public class ForceMetaDataListener implements MetaDataListener {
     }
     
     /**
-     * This method gets called when an entity is loaded during startup. There is
+     * This method is called when an entity is loaded during startup. There is
      * some basic validation that happens here as well as the caching of objects 
-     * (a.k.a. @Entity classes).  Registration of fields happens in the {@link ForceMetaDataManager}
+     * (@Entity classes).  Registration of fields happens in the {@link ForceMetaDataManager}
      * 
      * @param cmd  the class metadata to load
      */
@@ -98,7 +98,7 @@ public class ForceMetaDataListener implements MetaDataListener {
     /**
      * This is a lot of hackery. Basically, force the class to go through ForceAnnotationReader
      * and create a fake class that has Force.com annotations read in as 
-     * extension data. We then transfer the extension data from the fake class to actual one.
+     * extension data. We then transfer the extension data from the fake class to the actual one.
      *
      * @param cmd - actual class metadata that will get updated with Force.com annotations
      */
@@ -123,7 +123,7 @@ public class ForceMetaDataListener implements MetaDataListener {
     }
     
     /**
-     * perform basic validations on the class metadata right after it's been loaded.
+     * Performs basic validations on the class metadata right after it's been loaded.
      * 
      * @param cmd  the class metadata to validate
      */
@@ -203,7 +203,7 @@ public class ForceMetaDataListener implements MetaDataListener {
             throw new NucleusUserException("Embedded objects cannot have table specification."
                                             + " Offending entity: " + cmd.getFullClassName());
         }
-        // Version field has to be called lastModified and type Calendar or GregorianCalendar
+        // Version field must be called lastModified and have type Calendar or GregorianCalendar
         if (cmd.getVersionMetaData() != null) {
             checkColumnOrFieldName("lastModifiedDate", cmd.getMetaDataForMember(cmd.getVersionMetaData().getFieldName()),
                 cmd.getVersionMetaData().getFieldName(), Calendar.class,

@@ -112,11 +112,11 @@ public final class TableName {
 
     /**
      * 
-     * creates a TableName object with all the components necessary for Force.com
+     * Creates a TableName object with all the components necessary for Force.com
      * API access, including the name of the object, the namespace, and the suffix
      * if needed.
      * 
-     * @param namespace in most cases this will be the namespace of the org holding the API connection
+     * @param namespace in most cases this will be the namespace of the organization holding the API connection
      * @param acmd  the metadata of the entity
      * @return  The name to use for Force.com API access
      */
@@ -210,9 +210,9 @@ public final class TableName {
     }
     
     /**
-     * for denoting whether an object is user created or standard in Force.com.
+     * Returns whether an object is user created or standard in Force.com.
      * 
-     * @return true if this object is custom
+     * @return {@code true} if this object is custom
      */
     public boolean isCustom() {
         return isCustom;

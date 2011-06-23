@@ -40,7 +40,7 @@ import com.force.sdk.jpa.query.ForceQueryUtils.LimitType;
 
 /**
  * 
- * Extension of AbstractJDOQLQuery to apply result restrictions. Implements QueryNotifier
+ * Extension of AbstractJDOQLQuery to apply result restrictions. Implements {@code QueryNotifier}
  * so that listeners can be attached to queries.
  *
  * @author Fiaz Hossain
@@ -50,7 +50,7 @@ public class JDOQLQuery extends AbstractJDOQLQuery implements QueryNotifier {
     private Map<String, QueryListener> listeners = new HashMap<String, QueryListener>(4);
     
     /**
-     * construct a JDOQL query with a null query.
+     * Constructs a JDOQL query with a {@code null} query.
      * 
      * @param ec the execution context
      */
@@ -59,7 +59,7 @@ public class JDOQLQuery extends AbstractJDOQLQuery implements QueryNotifier {
     }
 
     /**
-     * construct a JDOQL query.
+     * Constructs a JDOQL query.
      * 
      * @param ec the execution context
      * @param q the JDOQL query object
@@ -69,7 +69,7 @@ public class JDOQLQuery extends AbstractJDOQLQuery implements QueryNotifier {
     }
 
     /**
-     * construct a JDOQL query with a string query.
+     * Constructs a JDOQL query with a string query.
      * 
      * @param ec  the execution context
      * @param query  the query in string form
@@ -79,7 +79,7 @@ public class JDOQLQuery extends AbstractJDOQLQuery implements QueryNotifier {
     }
 
     /**
-     * Execute the JDOQL query against the Force.com db.
+     * Executes the JDOQL query against the Force.com database.
      */
     @Override
     protected Object performExecute(Map parameters) {

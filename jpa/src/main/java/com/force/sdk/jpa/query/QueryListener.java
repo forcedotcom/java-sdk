@@ -37,7 +37,7 @@ public interface QueryListener {
     
     /**
      * 
-     * This method will be called when the soqlQuery has been built, implement
+     * This method will be called when the soqlQuery has been built, implement it
      * if you need to intercept the soqlQuery for a particular query call.
      * 
      * @param soqlQuery Force.com SOQL query

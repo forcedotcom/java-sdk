@@ -44,7 +44,7 @@ import org.datanucleus.jpa.EntityManagerFactoryImpl;
 public class ForceEntityManagerFactory extends EntityManagerFactoryImpl {
 
     /**
-     * creates an entity manager factory with the given persistence unit info and property overrides.
+     * Creates an entity manager factory with the given persistence unit info and property overrides.
      * 
      * @param unitInfo the persistence unit info for this application
      * @param overridingProps a map of properties that should override the properties in the persistence unit
@@ -54,7 +54,7 @@ public class ForceEntityManagerFactory extends EntityManagerFactoryImpl {
     }
 
     /**
-     * creates an entity manager factory via the unit name.
+     * Creates an entity manager factory via the unit name.
      * 
      * @param unitName  the name of the persistence unit to use
      * @param overridingProps  a map of properties that should override the properties in the persistence unit

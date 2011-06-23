@@ -38,6 +38,7 @@ import org.datanucleus.util.NucleusLogger;
 
 /**
  * 
+ * We don't support JDO. Use JPA instead.
  * Factory for the JDOPersistenceManager.  Overriding so we can provide our own PersistenceManager
  *
  * @author Fiaz Hossain

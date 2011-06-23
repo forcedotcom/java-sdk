@@ -48,7 +48,7 @@ import com.force.sdk.jpa.schema.ForceMemberMetaData;
 public class ForceAnnotationReader extends AbstractAnnotationReader {
 
     /**
-     * Create an annotation reader that is designed to read specific Force.com annotations.
+     * Creates an annotation reader that is designed to read specific Force.com annotations.
      * 
      * @param mgr the metadata manager for this application
      */
@@ -60,7 +60,7 @@ public class ForceAnnotationReader extends AbstractAnnotationReader {
     }
 
     /**
-     * process annotations at the class level.
+     * Processes annotations at the class level.
      */
     @Override
     protected AbstractClassMetaData processClassAnnotations(PackageMetaData pmd, Class cls,
@@ -88,7 +88,7 @@ public class ForceAnnotationReader extends AbstractAnnotationReader {
     }
 
     /**
-     * process annotations at the field/property level.
+     * Processes annotations at the field/property level.
      */
     @Override
     protected AbstractMemberMetaData processMemberAnnotations(AbstractClassMetaData cmd, Member member,
@@ -116,9 +116,9 @@ public class ForceAnnotationReader extends AbstractAnnotationReader {
     }
     
     /**
-     * add extensions with a signifier that these are Force.com specific.
+     * Adds extensions with a signifier that these are Force.com specific.
      * 
-     * @param cmd the class metdata that contains members with force annotations
+     * @param cmd the class metdata that contains members with Force.com annotations
      * @param member the member with the annotation
      * @param annotation the annotation to add
      * @param clazz the class of the annoation
@@ -149,7 +149,7 @@ public class ForceAnnotationReader extends AbstractAnnotationReader {
     }
 
     /**
-     * do not process annotations on methods, stick to properties only.
+     * Overrides base class method to disable processing of annotations on methods, stick to properties only.
      */
     @Override
     protected void processMethodAnnotations(AbstractClassMetaData cmd, Method method) {  }

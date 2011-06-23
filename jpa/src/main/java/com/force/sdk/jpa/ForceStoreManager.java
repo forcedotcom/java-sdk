@@ -49,7 +49,7 @@ import com.force.sdk.jpa.table.TableImpl;
 
 /**
  * 
- * The store manager that holds all of the persistence.xml properties.
+ * Store manager that holds all the persistence.xml properties.
  *
  * @author Fiaz Hossain
  */
@@ -79,7 +79,7 @@ public class ForceStoreManager extends AbstractStoreManager {
     private final boolean schemaCreateClient;
     
     /**
-     * create a store manager for use with the Force.com API. Setup the API connection
+     * Creates a store manager for use with the Force.com API. Set up the API connection
      * configs, set some default properties and read in values from persistence.xml
      * 
      * @param clr  the class loader resolver
@@ -175,7 +175,7 @@ public class ForceStoreManager extends AbstractStoreManager {
     }
     
     /**
-     * Release of resources.
+     * Releases resources.
      */
     @Override
     public void close() {
@@ -202,28 +202,28 @@ public class ForceStoreManager extends AbstractStoreManager {
     }
     
     /**
-     * Whether fields should be created automatically on app startup.
-     * @return true if fields should be created
+     * Specifies whether fields should be created automatically on app startup.
+     * @return {@code true} if fields should be created
      */
     public boolean isAutoCreateColumns() {
         return autoCreateColumns;
     }
     
     /**
-     * Whether objects should be created automatically on app startup.
-     * @return true if objects should be created
+     * Specifies whether objects should be created automatically on app startup.
+     * @return {@code true} if objects should be created
      */
     public boolean isAutoCreateTables() {
         return autoCreateTables;
     }
     
     /**
-     * Used for schema mismatches, e.g. a column or table are specified in an application,
-     * the column or table does not exist in the Force.com organization, and schema creation
-     * is turned OFF for field or columns. Value defaults to false but can be set in persistence.xml,
+     * Used for schema mismatches. For example, a column or table is specified in an application,
+     * but the column or table doesn't exist in the Force.com organization, and schema creation
+     * is turned OFF for field or columns. Value defaults to {@code false} but can be set in persistence.xml,
      * if true warnings will be logged, exceptions will not be thrown.
      * 
-     * @return true if schema mismatches should log warnings, false if they should throw errors
+     * @return {@code true} if schema mismatches should log warnings, {@code false} if they should throw errors
      */
     public boolean isAutoCreateWarnOnError() {
         return autoCreateWarnOnError;
@@ -249,7 +249,7 @@ public class ForceStoreManager extends AbstractStoreManager {
     }
     
     /**
-     * register a table with the schema handler.
+     * Registers a table with the schema handler.
      * 
      * @param acmd the class metadata of the table to register
      * @param mconn the managed connection to the Force.com APIs
@@ -261,10 +261,10 @@ public class ForceStoreManager extends AbstractStoreManager {
     }
     
     /**
-     * register a virtual table with the schema handler (a table not backed by
+     * Registers a virtual table with the schema handler (a table not backed by
      * an actual object but is still needed for JPA queries, e.g. Owner)
      * 
-     * @param acmd the class metadata of the virtual table to regsiter
+     * @param acmd the class metadata of the virtual table to register
      * @return the TableImpl for this object
      */
     public TableImpl addVirtualTable(AbstractClassMetaData acmd) {
@@ -273,10 +273,10 @@ public class ForceStoreManager extends AbstractStoreManager {
     }
     
     /**
-     * Whether optimistic locking is enabled for this persistence unit. Optimistic transactions
+     * Specifies whether optimistic locking is enabled for this persistence unit. Optimistic transactions
      * prevent two separate transactions from updating the same record at the same time, thus
      * overwriting one transaction's update
-     * @return true if optimistic transactions are enabled
+     * @return {@code true} if optimistic transactions are enabled
      */
     public boolean isEnableOptimisticTransactions() {
         return enableOptimisticTransactions;
@@ -287,7 +287,7 @@ public class ForceStoreManager extends AbstractStoreManager {
     }
 
     /**
-     * creates a ForceManagedConnection for connection to Force.com.
+     * Creates a {@code ForceManagedConnection} for connection to Force.com.
      * @return the created managed connection to Force.com
      */
     public ForceManagedConnection createConnection() {
@@ -298,7 +298,7 @@ public class ForceStoreManager extends AbstractStoreManager {
     }
     
     /**
-     * Before entities are registered or created we do describes on the entities to determine
+     * Before entities are registered or created, we execute describe calls on the entities to determine
      * entity shape and whether the entities already exist.
      * 
      * @param classes a collection of class metadata to cache describe results for
@@ -313,7 +313,7 @@ public class ForceStoreManager extends AbstractStoreManager {
     }
     
     /**
-     * clears out the describe calls for all entities in this application.
+     * Clears out the describe calls for all entities in this application.
      */
     void postInitialiseFileMetaData() {
         ((ForceStoreSchemaHandler) getSchemaHandler()).clearDescribeSObjects();
@@ -324,19 +324,19 @@ public class ForceStoreManager extends AbstractStoreManager {
     }
     
     /**
-     * whether this application has been started up with the flag to delete schema
+     * Specifies whether this application has been started up with the flag to delete schema
      * rather than create/upsert it.
-     * @return true if this application should delete schema
+     * @return {@code true} if this application should delete schema
      */
     public boolean isForDelete() {
         return forDelete;
     }
     
     /**
-     * This is a flag for clients that can create schema to set. Users would not
+     * This is a flag set by clients that can create schema. Users would not
      * be setting this flag themselves
      * 
-     * @return true if the schema creation call is being made by a client (like CLIforce)
+     * @return {@code true} if the schema creation call is being made by a client, such as cliforce
      */
     public boolean isSchemaCreateClient() {
         return schemaCreateClient;

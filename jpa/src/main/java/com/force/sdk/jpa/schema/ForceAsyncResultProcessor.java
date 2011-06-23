@@ -38,7 +38,7 @@ import com.sforce.ws.ConnectionException;
 
 /**
  * 
- * Processor for results from Force.com metadata API requests.  Used during schema creation.
+ * Processor for results from Force.com Metadata API requests.  Used during schema creation.
  *
  * @author Fiaz Hossain
  */
@@ -50,14 +50,14 @@ public abstract class ForceAsyncResultProcessor {
 
     /**
      * 
-     * Checks the results of a Force.com metadata API call and waits until the status
-     * indicates the request is finished.  Any errors will throw an exception if throwOnErrors
-     * is true
+     * Checks the results of a Force.com Metadata API call and waits until the status
+     * indicates the request is finished.  Any errors will throw an exception if {@code throwOnErrors}
+     * is {@code true}
      * 
-     * @param service  the metadata API connection
-     * @param ar  the result returned from a metadata API call
+     * @param service  the Metadata API connection
+     * @param ar  the result returned from a Metadata API call
      * @param throwOnErrors  whether an exception should be thrown when errors are encountered
-     * @param metaData  the object passed to the metadata API request
+     * @param metaData  the object passed to the Metadata API request
      * @throws RemoteException  thrown if there is a problem completing the request
      * @throws InterruptedException  thrown if the request is interrupted
      */

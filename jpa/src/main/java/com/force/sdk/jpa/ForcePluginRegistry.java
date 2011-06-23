@@ -34,8 +34,8 @@ import org.datanucleus.plugin.*;
 
 /**
  * 
- * This is a bit of a hack just to give us the ability to swap out the MetaDataManager,
- * since DataNucleus doesn't provide us with an easy way of specifying our own.
+ * Hack to provide us the ability to swap out the {@code MetaDataManager},
+ * since DataNucleus doesn't provide an easy way of specifying a custom version.
  *
  * @author Jill Wetzler
  */
@@ -44,7 +44,7 @@ public class ForcePluginRegistry implements PluginRegistry {
     private final PluginRegistry delegate;
     
     /**
-     * Create a ForcePluginRegistry that can delegate to the existing DataNucleus
+     * Creates a ForcePluginRegistry that can delegate to the existing DataNucleus
      * plugin registry.
      * 
      * @param pluginRegistry the existing plugin registry

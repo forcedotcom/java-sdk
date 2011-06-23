@@ -38,9 +38,9 @@ import org.datanucleus.store.ExecutionContext;
 
 /**
  * 
- * This is a utility class that will compile JPQL query fragments into expression for use.
- * This is mostly intended to take query expressions from annotations and converting them
- * into expression that can be appended to existing queries.
+ * Utility class that compiles JPQL query fragments into query expressions.
+ * This is mostly intended to take query expressions from annotations and convert them
+ * into expressions that can be appended to existing queries.
  *
  * @author Fiaz Hossain
  */
@@ -50,11 +50,11 @@ public class JPQLPartialCompiler {
     private SymbolTable symbolTable;
     
     /**
-     * Instantiate a JPQLParser and store the symbol table from the compilation, or 
-     * create a new one.
+     * Instantiates a JPQLParser and stores the symbol table from the compilation, or 
+     * creates a new one.
      * 
      * @param ec  the current execution context
-     * @param compilation  possibly null, contains components of a query string
+     * @param compilation  possibly {@code null}, contains components of a query string
      * @param options  JPQL parser options
      * @param params  parameters for the parser
      */
@@ -65,7 +65,7 @@ public class JPQLPartialCompiler {
     
     /**
      * 
-     * adds the proper ordering to the parser and returns the resulting expressions.
+     * Adds the proper ordering to the parser and returns the resulting expressions.
      * 
      * @param ordering  the orderBy string
      * @return  an ordered expression array

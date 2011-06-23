@@ -60,7 +60,7 @@ public class TableImpl {
     private boolean tableAlreadyExistsInOrg;
 
     /**
-     * Create a TableImpl for an entity.
+     * Creates a TableImpl for an entity.
      * 
      * @param defaultNamespace the namespace of the organization connecting to Force.com, to be used by default
      * @param tableName the table name of the entity
@@ -79,7 +79,7 @@ public class TableImpl {
     }
     
     /**
-     * Constructor used for virtual schema (aka tables that aren't actually backed by an object, like Owner).
+     * Constructor used for virtual schema (tables that aren't actually backed by an object, like Owner).
      * 
      * @param tableName the table name of the entity
      * @param acmd  the class metadata
@@ -143,8 +143,8 @@ public class TableImpl {
      * but should return to valid after a describe call confirms its existence.
      * Use {@link #exists()} instead if you want to find out if the table exists in the org
      * 
-     * @return true if the table has been validated as existing in the Force.com database,
-     *         false doesn't necessarily mean it will not be created
+     * @return {@code true} if the table has been validated as existing in the Force.com database,
+     *         {@code false} doesn't necessarily mean it will not be created
      */
     public boolean isValid() {
         return this.isValid;
@@ -155,9 +155,9 @@ public class TableImpl {
     }
     
     /**
-     * Check existence of a table in the organization used by the application.
+     * Checks existence of a table in the organization used by the application.
      * 
-     * @return true if the entity was already in the org before the application starts up or it has already been created
+     * @return {@code true} if the entity was already in the organization before the application starts up or it has already been created
      */
     public boolean exists() {
         return tableAlreadyExistsInOrg || created;
@@ -199,7 +199,7 @@ public class TableImpl {
     }
     
     /**
-     * Register a column impl (with specific Force.com attributes, like the API name) under its field or
+     * Registers a column impl (with specific Force.com attributes, like the API name) under its field or
      * property  name in java.
      * 
      * @param javaFieldName the name of a field or property in java
@@ -236,7 +236,7 @@ public class TableImpl {
     }
     
     /**
-     * Retrieve a list of Force.com columns with the given JPA field metadata.
+     * Retrieves a list of Force.com columns with the given JPA field metadata.
      * <p>
      * This method can handle embedded JPA metadata.
      * 
@@ -259,7 +259,7 @@ public class TableImpl {
     }
     
     /**
-     * Retrieve a Force.com column from the given JPA class metadata at the given field position.
+     * Retrieves a Force.com column from the given JPA class metadata at the given field position.
      * 
      * @param acmd JPA class metadata
      * @param fieldNumber JPA field position
@@ -321,7 +321,7 @@ public class TableImpl {
     }
     
     /**
-     * Create the custom objects and fields for schema creation. This method should only be called if it has been verified
+     * Creates the custom objects and fields for schema creation. This method should only be called if it has been verified
      * that schema creation for tables is enabled 
      * 
      * @param cmd  the class metadata for the table being created
@@ -337,9 +337,9 @@ public class TableImpl {
     }
     
     /**
-     * Create custom fields only.
-     * If autoCreateTables is false but autoCreateColumns is true, this method should be called.
-     * It assumes that the table already exists in the org or has already been created
+     * Creates custom fields only.
+     * If autoCreateTables is {@code false} but autoCreateColumns is {@code true}, this method should be called.
+     * It assumes that the table already exists in the organization or has already been created
      * 
      * @param cmd the class metadata for the table containing the fields to be created
      * @param storeManager the store manager
@@ -350,7 +350,7 @@ public class TableImpl {
 
 
     /**
-     * refresh the describe result to verify that objects have been created as we expected.
+     * Refreshesd the describe result to verify that objects have been created as we expected.
      * 
      * @param result the describe result for this entity
      * @param mconn the managed connection to the Force.com APIs
@@ -413,7 +413,7 @@ public class TableImpl {
     }
     
     /**
-     * clear the existing table metadata.
+     * Clears the existing table metadata.
      */
     void clearMetaData() {
         tableMetaData = null;

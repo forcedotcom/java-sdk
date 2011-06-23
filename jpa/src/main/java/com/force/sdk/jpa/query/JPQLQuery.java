@@ -40,7 +40,7 @@ import com.force.sdk.jpa.query.ForceQueryUtils.LimitType;
 
 /**
  * 
- * Extension of AbstractJPQLQuery to apply result restrictions. Implements QueryNotifier
+ * Extension of {@code AbstractJPQLQuery} to apply result restrictions. Implements {@code QueryNotifier}
  * so that listeners can be attached to queries.
  *
  * @author Fiaz Hossain
@@ -50,7 +50,7 @@ public class JPQLQuery extends AbstractJPQLQuery implements QueryNotifier {
     private Map<String, QueryListener> listeners = new HashMap<String, QueryListener>(4);
     
     /**
-     * construct a JPQL query with a null query.
+     * Constructs a JPQL query with a null query.
      * 
      * @param ec the execution context
      */
@@ -59,7 +59,7 @@ public class JPQLQuery extends AbstractJPQLQuery implements QueryNotifier {
     }
 
     /**
-     * construct a JPQL query.
+     * Constructs a JPQL query.
      * 
      * @param ec the execution context
      * @param q the JPQL query object
@@ -69,7 +69,7 @@ public class JPQLQuery extends AbstractJPQLQuery implements QueryNotifier {
     }
 
     /**
-     * construct a JPQL query with a string query.
+     * Constructs a JPQL query with a string query.
      * 
      * @param ec  the execution context
      * @param query  the query in string form

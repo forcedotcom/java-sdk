@@ -87,7 +87,7 @@ public class ExpressionBuilderHelper {
         /**
          * For maxFetchDepth use the following priority -
          * First preference given to QueryHints.
-         * Second preference to passed in fetchPlan.
+         * Second preference to fetchPlan parameter.
          * Finally use the default configured "datanucleus.maxFetchDepth" property
          */
         int maxDepth = mfd != null ? (Integer) mfd : fetchPlan != null ? fetchPlan.getMaxFetchDepth()
@@ -111,7 +111,7 @@ public class ExpressionBuilderHelper {
      * @param fieldNum the field number of the relationship column
      * @param col the column object for the relationship field
      * @param prefix the prefix to use for the join
-     * @param isQuery true if we're appending the relationship field but not all of the fields of the related object
+     * @param isQuery {@code true} if we're appending the relationship field but not all of the fields of the related object
      */
     public void appendRelationship(AbstractClassMetaData colCmd, int fieldNum, ColumnImpl col, String prefix, boolean isQuery)  {
         AbstractMemberMetaData ammd = colCmd.getMetaDataForManagedMemberAtAbsolutePosition(fieldNum);
@@ -122,7 +122,7 @@ public class ExpressionBuilderHelper {
         if (cmd == null) {
             /**
              * This can be true if there are Foreign key fields in Force.com that are not fully mapped in Java, e.g.
-             * User has a ProfileId field but there is no Profile entity in Java. Treat it just as a string field
+             * User has a ProfileId field but there is no Profile entity in Java. Treat it just as a string field.
              */
             sb.append(col.getFieldName());
             return;
@@ -154,9 +154,9 @@ public class ExpressionBuilderHelper {
     }
     
     /**
-     * check for whether the query is joined.
+     * Checks whether the query is joined.
      * 
-     * @return true if this query is being joined
+     * @return {@code true} if this query is being joined
      */
     public boolean isJoinQuery() {
         return isJoin;
@@ -174,7 +174,7 @@ public class ExpressionBuilderHelper {
     }
     
     /**
-     * this method tells us whether to skip querying for relationship fields
+     * Determines whether to skip querying for relationship fields
      * by comparing the current depth of the query to the maximum.
      * 
      * @return true if the current depth of the query is greater or equal to the maximum depth we can fetch
@@ -200,7 +200,7 @@ public class ExpressionBuilderHelper {
                     List<String> t = ((JoinExpression) expr).getPrimaryExpression().getTuples();
                     relatedJoinAliases.put(new TupleName(t), expr.getAlias());
                     /**
-                     * Datanucleus seems to have incorrect alias mapping for this in symbols
+                     * DataNucleus seems to have incorrect alias mapping for this in symbols
                      */
                     AbstractMemberMetaData mmd = acmd.getMetaDataForMember(t.get(t.size() - 1));
                     AbstractClassMetaData cmd = PersistenceUtils.getMemberElementClassMetaData(mmd,

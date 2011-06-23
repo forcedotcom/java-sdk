@@ -49,7 +49,7 @@ import com.sforce.ws.bind.XmlObject;
 /**
  * 
  * Persistence handler that handles all CRUD operations and translates them into
- * SOQL calls.
+ * API calls.
  *
  * @author Fiaz Hossain
  */
@@ -58,7 +58,7 @@ public class ForcePersistenceHandler extends AbstractPersistenceHandler {
     protected final ForceStoreManager storeManager;
 
     /**
-     * create the persistence handler that will be used for all API operations.
+     * Creates the persistence handler that will be used for all API operations.
      * 
      * @param storeManager the store manager
      */
@@ -122,7 +122,7 @@ public class ForcePersistenceHandler extends AbstractPersistenceHandler {
         try {
             int pkPosition = op.getClassMetaData().getPKMemberPositions()[0];
             /**
-             * Check is we are being asked for PK only. If so return the ID that has been passed in
+             * Check if we are being asked for PK only. If so, return the ID that has been passed in
              */
             ForceFetchFieldManager fm;
             if (fieldNumbers.length == 1 && fieldNumbers[0] == pkPosition) {
@@ -199,7 +199,7 @@ public class ForcePersistenceHandler extends AbstractPersistenceHandler {
     }
 
     /**
-     * This method is used for AllOrNothing operations.
+     * Creates objects for AllOrNothing operations.
      *
      * @param objects the objects to be created
      * @param objectProviders the object providers for each object
@@ -240,10 +240,10 @@ public class ForcePersistenceHandler extends AbstractPersistenceHandler {
     }
 
     /**
-     * This method is used for AllOrNothing operations.
+     * Updates objects for AllOrNothing operations.
      *
      * @param objects  the objects to be updated
-     * @param versions the versions corresponding with each object for if-modified-before checks
+     * @param versions the versions corresponding with each object for if-modified-before checks for optimistic transactions
      * @param ec the execution context of this transaction
      */
     public void updateObjects(SObject[] objects, Calendar[] versions, ExecutionContext ec) {
@@ -279,7 +279,7 @@ public class ForcePersistenceHandler extends AbstractPersistenceHandler {
     }
 
     /**
-     * This method is used for AllOrNothing operations.
+     * Deletes objects for AllOrNothing operations.
      *
      * @param objects the objects to be deleted
      * @param ec the execution context for this transaction
@@ -363,8 +363,9 @@ public class ForcePersistenceHandler extends AbstractPersistenceHandler {
                 }
             } else {
                 if (fieldNumbers != null) {
-                    //When we do a-o-n + optimistic, per jpa spec we need to save properly even if some objs are missong @Version,
-                    //so if op.getVersion is null, we give a Calendar set to System.currentTimeMilis + 1 HOUR so
+                    //When we do all-or-nothing with optimistic transactions, per jpa spec we need to save properly
+                    // even if some objects are missing @Version,
+                    // so if op.getVersion is null, we give a Calendar set to System.currentTimeMilis + 1 HOUR so
                     // the if-modified-before check for the object without @Version will always succeed
                     toSave = fm.getSObject(false);
                     ((ForceObjectManagerImpl) om).addToUpdateList(toSave,
@@ -465,9 +466,9 @@ public class ForcePersistenceHandler extends AbstractPersistenceHandler {
     }
 
     /**
-     * checks for errors in a delete call and handles the results properly.
+     * Checks for errors in a {@code delete()} call and handles the results properly.
      * 
-     * @param results the results from the delete API call
+     * @param results the results from the {@code delete()} API call
      */
     public static void checkForErrors(DeleteResult[] results) {
         List<Error> failures = null;
@@ -484,9 +485,9 @@ public class ForcePersistenceHandler extends AbstractPersistenceHandler {
     }
 
     /**
-     * checks for errors in an empty recycle bin call.
+     * Checks for errors in an {@code emptyRecycleBin()} call.
      * 
-     * @param results the results from the empty recycle bin API call
+     * @param results the results from the {@code emptyRecycleBin()} API call
      */
     public static void checkForRecycleBinErrors(EmptyRecycleBinResult[] results) {
         List<Error> failures = null;
