@@ -233,8 +233,10 @@ public class ForceQueryUtils {
             TableImpl table = null;
             /**
              * - If there is a candidate class and result class we are in JPQL and give result class the upper hand
-             * -    If result class can be mapped to a table use it. Otherwise result class must be a non-persistence capable class
-             * - If there is no candidate class but a result class it can be JPQL or NativeQuery. Either way, use that class.
+             * - If result class can be mapped to a table use it.
+             *       Otherwise result class must be a non-persistence capable class
+             * - If there is no candidate class but a result class it can be JPQL or NativeQuery.
+             *       Either way, use that class.
              */
             if (query.getCandidateClass() != null) {
                 AbstractClassMetaData candidateCmd = ec.getMetaDataManager().getMetaDataForClass(query.getCandidateClass(), clr);

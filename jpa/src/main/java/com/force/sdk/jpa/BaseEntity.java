@@ -32,7 +32,7 @@ import javax.persistence.EntityManager;
 /**
  * 
  * Utility for allowing merges on transient objects, such as objects that have not 
- * been persisted or retrieved via the <code>EntityManager</code>
+ * been persisted or retrieved via the {@code EntityManager}.
  *
  * @author Fiaz Hossain
  */

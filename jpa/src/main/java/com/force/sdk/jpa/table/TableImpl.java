@@ -157,7 +157,8 @@ public class TableImpl {
     /**
      * Checks existence of a table in the organization used by the application.
      * 
-     * @return {@code true} if the entity was already in the organization before the application starts up or it has already been created
+     * @return {@code true} if the entity was already in the organization before the application starts up
+     *              or it has already been created
      */
     public boolean exists() {
         return tableAlreadyExistsInOrg || created;

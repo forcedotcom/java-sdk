@@ -229,7 +229,8 @@ public class ForceMetaDataManager extends JPAMetaDataManager {
     }
     
     /**
-     * Initialises the provided FileMetaData so that it's ready for use. We copied this method verbatim from base class only to be 
+     * Initialises the provided FileMetaData so that it's ready for use.
+     * We copied this method verbatim from base class only to be 
      * able to call the pre/postInitialise methods.
      * 
      * @param fileMetaData Collection of {@code FileMetaData}

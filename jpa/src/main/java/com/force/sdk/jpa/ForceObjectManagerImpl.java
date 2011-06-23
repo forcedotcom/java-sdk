@@ -215,7 +215,8 @@ public class ForceObjectManagerImpl extends ObjectManagerImpl {
     }
     
     /**
-     * Added this method so that we can support detach of a newly created persistent object that has never been saved to the database.
+     * Added this method so that we can support detachment of a newly created
+     * persistent object that has never been saved to the database.
      * {@inheritDoc}
      */
     @Override

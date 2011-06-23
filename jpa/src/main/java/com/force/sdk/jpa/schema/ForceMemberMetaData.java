@@ -34,7 +34,7 @@ import com.sforce.soap.partner.FieldType;
 /**
  * 
  * Holds all the metadata information about individual members (fields) of
- * an {@code @Entity}
+ * an {@code @Entity}.
  *
  * @author Fiaz Hossain
  */

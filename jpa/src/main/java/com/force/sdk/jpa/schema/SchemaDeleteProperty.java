@@ -44,7 +44,8 @@ public class SchemaDeleteProperty {
      * deleteSchema is {@code true}.
      * 
      * @param deleteSchema  whether the schema for this application should be deleted  
-     * @param purgeSchemaOnDelete  if purgeSchemaOnDelete is {@code true}, schema objects will bypass the Recycle Bin and be hard deleted,
+     * @param purgeSchemaOnDelete  if purgeSchemaOnDelete is {@code true},
+     *                                  schema objects will bypass the Recycle Bin and be hard deleted,
      *                             if {@code false}, schema objects will be placed in the Recycle Bin
      */
     public SchemaDeleteProperty(boolean deleteSchema, boolean purgeSchemaOnDelete) {
