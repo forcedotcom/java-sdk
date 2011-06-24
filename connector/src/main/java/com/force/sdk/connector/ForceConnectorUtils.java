@@ -332,7 +332,7 @@ public final class ForceConnectorUtils {
     }
 
     /**
-     * Empties the named connections cache
+     * Empties the named connection's cache.
      */
     public static void clearCache() {
         propertiesCache.clear();
