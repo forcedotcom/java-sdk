@@ -34,7 +34,6 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -74,15 +73,15 @@ public class ForceConnectorUtilsTest {
     @AfterMethod
     public void cleanPropertiesCache() {
         ForceConnectorUtils.clearCache();
-        Assert.assertEquals(ForceConnectorUtils.propertiesCache.size(), 0);
+        Assert.assertEquals(ForceConnectorUtils.PROPERTIES_CACHE.size(), 0);
     }
 
     @Test
     public void testFilePropertiesCache() throws IOException {
         Map<ForceConnectionProperty, String> props = ForceConnectorUtils.loadConnectorPropsFromName("unitconnurl");
 
-        Assert.assertEquals(ForceConnectorUtils.propertiesCache.size(), 1);
-        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get("unitconnurl"), props);
+        Assert.assertEquals(ForceConnectorUtils.PROPERTIES_CACHE.size(), 1);
+        Assert.assertEquals(ForceConnectorUtils.PROPERTIES_CACHE.get("unitconnurl"), props);
     }
 
     @Test
@@ -91,9 +90,9 @@ public class ForceConnectorUtilsTest {
         Map<ForceConnectionProperty, String> props = ForceConnectorUtils.loadConnectorPropsFromName(connName);
         Map<ForceConnectionProperty, String> duplicateProps = ForceConnectorUtils.loadConnectorPropsFromName(connName);
 
-        Assert.assertEquals(ForceConnectorUtils.propertiesCache.size(), 1);
-        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(connName), props);
-        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(connName), duplicateProps);
+        Assert.assertEquals(ForceConnectorUtils.PROPERTIES_CACHE.size(), 1);
+        Assert.assertEquals(ForceConnectorUtils.PROPERTIES_CACHE.get(connName), props);
+        Assert.assertEquals(ForceConnectorUtils.PROPERTIES_CACHE.get(connName), duplicateProps);
     }
 
     @Test
@@ -104,11 +103,11 @@ public class ForceConnectorUtilsTest {
         final String secondConnName = "unitconnuserinfo";
         Map<ForceConnectionProperty, String> secondProps = ForceConnectorUtils.loadConnectorPropsFromName(secondConnName);
 
-        Assert.assertEquals(ForceConnectorUtils.propertiesCache.size(), 2);
-        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(connName), props);
-        Assert.assertNotSame(ForceConnectorUtils.propertiesCache.get(connName), secondProps);
-        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(secondConnName), secondProps);
-        Assert.assertNotSame(ForceConnectorUtils.propertiesCache.get(secondConnName), props);
+        Assert.assertEquals(ForceConnectorUtils.PROPERTIES_CACHE.size(), 2);
+        Assert.assertEquals(ForceConnectorUtils.PROPERTIES_CACHE.get(connName), props);
+        Assert.assertNotSame(ForceConnectorUtils.PROPERTIES_CACHE.get(connName), secondProps);
+        Assert.assertEquals(ForceConnectorUtils.PROPERTIES_CACHE.get(secondConnName), secondProps);
+        Assert.assertNotSame(ForceConnectorUtils.PROPERTIES_CACHE.get(secondConnName), props);
     }
 
     @Test
@@ -116,11 +115,12 @@ public class ForceConnectorUtilsTest {
         ForceConnectorUtils.cliforceConnFile = new File(this.getClass().getResource("/cliforce").toURI());
         final String connName = "connA";
         final Map<ForceConnectionProperty, String> cliforceProps = ForceConnectorUtils.loadConnectorPropsFromName(connName);
-        final Map<ForceConnectionProperty, String> duplicateCliforceProps = ForceConnectorUtils.loadConnectorPropsFromName(connName);
+        final Map<ForceConnectionProperty, String> duplicateCliforceProps =
+                ForceConnectorUtils.loadConnectorPropsFromName(connName);
 
-        Assert.assertEquals(ForceConnectorUtils.propertiesCache.size(), 1);
-        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(connName), cliforceProps);
-        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(connName), duplicateCliforceProps);
+        Assert.assertEquals(ForceConnectorUtils.PROPERTIES_CACHE.size(), 1);
+        Assert.assertEquals(ForceConnectorUtils.PROPERTIES_CACHE.get(connName), cliforceProps);
+        Assert.assertEquals(ForceConnectorUtils.PROPERTIES_CACHE.get(connName), duplicateCliforceProps);
     }
 
     @BeforeClass
@@ -140,13 +140,14 @@ public class ForceConnectorUtilsTest {
         final String connName = "connA";
         final Map<ForceConnectionProperty, String> cliforceProps = ForceConnectorUtils.loadConnectorPropsFromName(connName);
         final String secondConnName = "connB";
-        final Map<ForceConnectionProperty, String> duplicateCliforceProps = ForceConnectorUtils.loadConnectorPropsFromName(secondConnName);
+        final Map<ForceConnectionProperty, String> duplicateCliforceProps =
+                ForceConnectorUtils.loadConnectorPropsFromName(secondConnName);
 
-        Assert.assertEquals(ForceConnectorUtils.propertiesCache.size(), 2);
-        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(connName), cliforceProps);
-        Assert.assertNotSame(ForceConnectorUtils.propertiesCache.get(connName), duplicateCliforceProps);
-        Assert.assertEquals(ForceConnectorUtils.propertiesCache.get(secondConnName), duplicateCliforceProps);
-        Assert.assertNotSame(ForceConnectorUtils.propertiesCache.get(secondConnName), cliforceProps);
+        Assert.assertEquals(ForceConnectorUtils.PROPERTIES_CACHE.size(), 2);
+        Assert.assertEquals(ForceConnectorUtils.PROPERTIES_CACHE.get(connName), cliforceProps);
+        Assert.assertNotSame(ForceConnectorUtils.PROPERTIES_CACHE.get(connName), duplicateCliforceProps);
+        Assert.assertEquals(ForceConnectorUtils.PROPERTIES_CACHE.get(secondConnName), duplicateCliforceProps);
+        Assert.assertNotSame(ForceConnectorUtils.PROPERTIES_CACHE.get(secondConnName), cliforceProps);
     }
 
 }

@@ -57,7 +57,8 @@ public final class ForceConnectorUtils {
 
     static final String FORCE_API_ENDPOINT_PATH;
 
-    static final Map<String, Map<ForceConnectionProperty, String>> propertiesCache = new ConcurrentHashMap<String, Map<ForceConnectionProperty, String>>();
+    static final Map<String, Map<ForceConnectionProperty, String>> PROPERTIES_CACHE =
+        new ConcurrentHashMap<String, Map<ForceConnectionProperty, String>>();
 
     static {
         try {
@@ -165,9 +166,9 @@ public final class ForceConnectorUtils {
 
         if (connectionName == null) return null;
 
-        if (propertiesCache.containsKey(connectionName)) {
+        if (PROPERTIES_CACHE.containsKey(connectionName)) {
             LOGGER.info("Connection : loading " + connectionName + " from cache");
-            return propertiesCache.get(connectionName);
+            return PROPERTIES_CACHE.get(connectionName);
         }
 
         String connectionUrl;
@@ -327,7 +328,7 @@ public final class ForceConnectorUtils {
      * When using put directly, it doesn't return the value to the caller.
      */
     private static Map<ForceConnectionProperty, String> cache(String connectionName, Map<ForceConnectionProperty, String> props) {
-        propertiesCache.put(connectionName, props);
+        PROPERTIES_CACHE.put(connectionName, props);
         return props;
     }
 
@@ -335,6 +336,6 @@ public final class ForceConnectorUtils {
      * Empties the named connection's cache.
      */
     public static void clearCache() {
-        propertiesCache.clear();
+        PROPERTIES_CACHE.clear();
     }
 }

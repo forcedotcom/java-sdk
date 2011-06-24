@@ -324,14 +324,14 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
         throw new ConnectionException(errorMsg.toString());
     }
 
-    private String getCacheIdForConnectionName(String connectionName) {
-        return CONN_NAME_TO_CACHED_CONFIGS.get(connectionName);
+    private String getCacheIdForConnectionName(String cachedConnectionName) {
+        return CONN_NAME_TO_CACHED_CONFIGS.get(cachedConnectionName);
     }
 
-    private void setCacheIdForConnectionName(String connectionName, String cacheId) {
-        if (connectionName != null && cacheId != null) {
-            LOGGER.trace("ForceServiceConnector Cache: Mapping connectionName: " + connectionName + " to cacheId: " + cacheId);
-            CONN_NAME_TO_CACHED_CONFIGS.put(connectionName, cacheId);
+    private void setCacheIdForConnectionName(String cacheConnectionName, String cacheId) {
+        if (cacheConnectionName != null && cacheId != null) {
+            LOGGER.trace("ForceServiceConnector Cache: Mapping connectionName: " + cacheConnectionName + " to cacheId: " + cacheId);
+            CONN_NAME_TO_CACHED_CONFIGS.put(cacheConnectionName, cacheId);
         }
     }
 
@@ -339,7 +339,8 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
         return checkConfigCache(configToCheck, null);
     }
 
-    private ForceConnectorConfig checkConfigCache(ForceConnectorConfig configToCheck, String connectionName) throws ConnectionException {
+    private ForceConnectorConfig checkConfigCache(ForceConnectorConfig configToCheck, String cachedConnectionName)
+            throws ConnectionException {
         validateConnectorConfig(configToCheck);
 
         String cacheId = configToCheck.getCacheId();
@@ -347,7 +348,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
             LOGGER.trace("ForceServiceConnector Cache: Checking for id: " + cacheId);
             
             ForceConnectorConfig cachedConfig = getCachedConfig(cacheId);
-            setCacheIdForConnectionName(connectionName, cacheId);
+            setCacheIdForConnectionName(cachedConnectionName, cacheId);
             if (cachedConfig  != null) {
                 LOGGER.trace("ForceServiceConnector Cache: HIT for id: " + cacheId);
                 return cachedConfig;
