@@ -91,7 +91,13 @@
     	
 		
     </build>
-
+    <repositories>
+        <repository>
+            <id>jmockit.repo</id>
+            <name>JMockit Repository</name>
+            <url>http://jmockit.googlecode.com/svn/maven-repo</url>
+        </repository>
+    </repositories>
     <!-- Even though we skip deploy, we need to specify
          this so that deploy can execute from main. -->
     <distributionManagement>
@@ -183,7 +189,7 @@
     <dependency>
       <groupId>mockit</groupId>
       <artifactId>jmockit</artifactId>
-		<version>0.999.6</version>
+		<version>0.999.8</version>
     </dependency>
   </dependencies>
 </project>
