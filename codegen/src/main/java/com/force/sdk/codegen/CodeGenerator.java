@@ -60,7 +60,7 @@ import com.sforce.ws.ConnectionException;
  *    the code being generated.
  *    </li>
  *    <li>
- *    A {@code WriterProvider} provides Jave {@code Writer}s to the {@code CodeGenerator}
+ *    A {@code WriterProvider} provides Java {@code Writer}s to the {@code CodeGenerator}
  *    to tell it where to write the generated code. 
  *    </li>
  * </ol>
@@ -109,13 +109,13 @@ public final class CodeGenerator {
      */
     public int generateCode(PartnerConnection conn) throws ConnectionException, IOException {
         
-        // Get all known SObjects in the org
+        // Get all known SObjects in the organization
         List<String> allOrgObjectNames = new ArrayList<String>();
         for (DescribeGlobalSObjectResult dgsr : conn.describeGlobal().getSobjects()) {
             allOrgObjectNames.add(dgsr.getName());
         }
         
-        // Describe all known SObjects in the org.  Batch by the appropriate size.
+        // Describe all known SObjects in the organization.  Batch by the appropriate size.
         // TODO: Is this ok to read entirely into memory?
         List<DescribeSObjectResult> allOrgObjects = new ArrayList<DescribeSObjectResult>();
         for (int i = 0; i < allOrgObjectNames.size(); i += MAX_BATCH_DESCRIBE_SIZE) {

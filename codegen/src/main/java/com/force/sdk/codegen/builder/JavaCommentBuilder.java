@@ -39,10 +39,10 @@ public class JavaCommentBuilder extends BaseBuilder<String> {
 
     /**
      * Initializes a {@code JavaCommentBuilder} with the number
-     * of intentions that should proceed each Java comment.
+     * of indentations that should precede each Java comment.
      * 
      * @param numIndents the number of indentations that should
-     *                   proceed each Java comment
+     *                   precede each Java comment
      */
     public JavaCommentBuilder(int numIndents) {
         super(numIndents);

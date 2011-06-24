@@ -41,12 +41,13 @@ import java.util.Map;
 
 /**
  * 
- * The security context service provides the basic functionality for managing a security context
+ * Provides the basic functionality for managing a security context
  * in the session of the authenticated user.
  * 
- * The implementation provided here is customizable because it delegates user data retrieval to a UserDataRetrievalService
- * and the security context storage to a SecurityContextStorageService. The implementation used for each of these can vary
- * depending on if a custom user data retriever is being used and whether server side session or browser cookie based
+ * The implementation provided here is customizable because it delegates user data retrieval to a
+ * {@code UserDataRetrievalService} and the security context storage to a {@code SecurityContextStorageService}.
+ * The implementation used for each of these can vary
+ * depending on whether a custom user data retriever is being used and whether server side session or browser cookie based
  * security context storage is used.
  *
  * @author John Simone
@@ -66,7 +67,7 @@ public class SecurityContextServiceImpl implements SecurityContextService {
     }
     
     /**
-     * Use the SecurityContextStorageService to store the security context.
+     * Uses the {@code SecurityContextStorageService} to store the security context.
      * {@inheritDoc}
      */
     @Override
@@ -77,16 +78,16 @@ public class SecurityContextServiceImpl implements SecurityContextService {
             LOGGER.error("Cannot store security information: ", e);
         }
         //set cookies with sid and endpoint regardless of the securityContextStorageService used
-        //cookies should be secure if hose is anything other than localhost
+        //cookies should be secure if host is anything other than localhost
         boolean secure = !("localhost".equalsIgnoreCase(request.getLocalName())
                 || "0:0:0:0:0:0:0:1".equals(request.getLocalName()));
         SecurityContextUtil.setCookieValues(sc, response, secure);
     }
     
     /**
-     * This method retrieves the security context. The security context
+     * Retrieves the security context. The security context
      * will either come out of the session or will be built from a call
-     * to the partner api. The partner api will be called if:
+     * to the SOAP partner API. The partner API will be called if:
      * - There is no security context in the session, but there is 
      * a session id available in a cookie
      * - There is a security context in the session, but the session id
@@ -110,10 +111,10 @@ public class SecurityContextServiceImpl implements SecurityContextService {
     }
     
     /**
-     * Verify the passed in security context against the browser cookies. This will
-     * make sure that the necessary cookies exist and that the values match those
+     * Verifies the security context against the browser cookies. This will
+     * ensure that the necessary cookies exist and that the values match those
      * in the security context. It will create a fresh security context with data 
-     * from the partner API if necessary.
+     * from the SOAP partner API if necessary.
      * {@inheritDoc}
      */
     @Override
@@ -138,8 +139,8 @@ public class SecurityContextServiceImpl implements SecurityContextService {
         
         //populate the security context with user information
         if (sessionId != null && endpoint != null && sc == null) {
-            //attempt to connect to the partner api and retrieve the user data
-            //if this fails then set the security context to null because we'll
+            //attempt to connect to the partner API and retrieve the user data
+            //if this fails, set the security context to null because we'll
             //need to redo the oauth handshake.
             try {
                 sc = userDataRetrievalService.retrieveUserData(sessionId, endpoint, null);
@@ -152,8 +153,8 @@ public class SecurityContextServiceImpl implements SecurityContextService {
     }
 
     /**
-     * Clear the security context from the security context store and use the
-     * SecurityContextUtil to clear the other security related cookies.
+     * Clears the security context from the security context store and uses the
+     * {@code SecurityContextUtil} to clear the other security related cookies.
      * {@inheritDoc}
      */
     @Override

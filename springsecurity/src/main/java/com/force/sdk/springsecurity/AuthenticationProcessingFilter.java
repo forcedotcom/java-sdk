@@ -43,12 +43,12 @@ import com.force.sdk.oauth.connector.ForceOAuthConnector;
 
 /**
  * 
- * This filter gets configured into the spring security filter chain as the FORM_LOGIN_FILTER.
+ * Filter that is added to the spring security filter chain as the FORM_LOGIN_FILTER.
  * There are two URLs of interest to this filter:
  * <ul>
  *  <li>The oauth access code callback (_auth)
  *  <li>The application's configured login page url. This is configured in the login-url attribute of the fss:oauth element. 
- *  See @doclink force-security for more information.
+ *  See @doclink spring-security for more information.
  *  </ul>
  * 
  *
@@ -81,7 +81,7 @@ public class AuthenticationProcessingFilter extends AbstractAuthenticationProces
     
     /**
      * The main purpose of this filter is to decide if this is a request for the application's configured login URL.
-     * If it is then a redirect to the Force.com login page will be sent to begin the OAuth handshake.
+     * If it is, a redirect to the Force.com login page will be sent to begin the OAuth handshake.
      * 
      * @param req {@code ServletRequest }
      * @param res {@code ServletResponse }
@@ -122,7 +122,7 @@ public class AuthenticationProcessingFilter extends AbstractAuthenticationProces
     
     /**
      * Called when the access code callback is received. This will eventually trigger the {@code OAuthAuthenticationProvider}
-     * which is registered as a provider to the authentication manager. 
+     * registered as a provider to the authentication manager. 
      * 
      * @param request {@code HttpServletRequest}
      * @param response {@code HttpServletResponse}

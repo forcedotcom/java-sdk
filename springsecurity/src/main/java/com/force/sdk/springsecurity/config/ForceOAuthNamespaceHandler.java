@@ -29,7 +29,7 @@ package com.force.sdk.springsecurity.config;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**
- * Registers the {@code OAuthBeanDefinitionParser} to handle the oauth namespace.
+ * Registers the {@code OAuthBeanDefinitionParser} to handle the OAuth namespace.
  *
  * @author Fiaz Hossain
  */

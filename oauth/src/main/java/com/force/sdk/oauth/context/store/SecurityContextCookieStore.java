@@ -77,7 +77,7 @@ public class SecurityContextCookieStore implements
     }
 
     /**
-     * retrieves the security context from a browser cookie.
+     * Retrieves the security context from a browser cookie.
      * {@inheritDoc}
      */
     @Override
@@ -110,7 +110,7 @@ public class SecurityContextCookieStore implements
     }
     
     /**
-     * Serialize and encrypt the security context so that it can be stored in a cookie.
+     * Serializes and encrypts the security context so that it can be stored in a cookie.
      * 
      * @param sc
      * @param encrypt
@@ -135,7 +135,7 @@ public class SecurityContextCookieStore implements
     }
     
     /**
-     * Decrypt and deserialize the security context.
+     * Decrypts and deserializes the security context.
      * 
      * @param securityContextSer
      * @param isEncrypted
@@ -172,7 +172,7 @@ public class SecurityContextCookieStore implements
     }
     
     /**
-     * base 64 encode the passed in byte array.
+     * Returns a base-64 encoded byte array.
      * 
      * @param b - byte array
      * @return b64 String representation
@@ -182,7 +182,7 @@ public class SecurityContextCookieStore implements
     }
     
     /**
-     * decode a base 64 encoded string back to the original byte array.
+     * Decodes a base-64 encoded string and returns a byte array.
      * 
      * @param s - the encoded string
      * @return the byte array

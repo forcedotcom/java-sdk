@@ -42,7 +42,7 @@ public class ForceUserPrincipal implements Principal, Serializable {
     private final String sessionId;
     
     /**
-     * Create a ForceUserPrincipal with this name and session id.
+     * Creates a {@code ForceUserPrincipal} with this name and session id.
      * 
      * @param name String
      * @param sessionId String

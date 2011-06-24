@@ -29,7 +29,7 @@ package com.force.sdk.connector;
 import java.util.regex.Pattern;
 
 /**
- * Property that can be used for in a Force.com connection URL.
+ * Property used for a Force.com connection URL.
  * <p>
  * These enum values represent available Force.com connection URL
  * properties.  Each value contains two parts: 
@@ -108,7 +108,7 @@ public enum ForceConnectionProperty {
     /**
      * Returns the connection property validation regular expression
      * <p>
-     * The validation regular expression is used to valid
+     * The validation regular expression is used to validate
      * a property value that is set in a key=value pair within
      * a Force.com connection URL.
      * 
@@ -117,13 +117,13 @@ public enum ForceConnectionProperty {
     public Pattern getValidationRegex() { return this.validationRegex; }
     
     /**
-     * Validations a connection property value.
+     * Validates a connection property value.
      * <p>
-     * Ensures that the connection property value is not null, has a length
+     * Ensures that the connection property value is not {@code null}, has a length
      * greater than zero and matches the validation regular expression.
      * 
      * @param propertyValue the connection property value
-     * @throws IllegalArgumentException if the given propertyValue is null or zero length or
+     * @throws IllegalArgumentException if the given {@code propertyValue} is {@code null} or zero length or
      *                                  does not match the validation regular expression 
      */
     public void validateValue(String propertyValue) {
@@ -131,15 +131,15 @@ public enum ForceConnectionProperty {
     }
     
     /**
-     * Validations a connection property value.
+     * Validates a connection property value.
      * <p>
-     * Ensures that the connection property value is not null, has a length
+     * Ensures that the connection property value is not {@code null}, has a length
      * greater than zero and matches the validation regular expression.
      * 
      * @param propertyValue the connection property value
      * @param customErrorMessage an error message to be included in the thrown exception message
      *                           should validation fail
-     * @throws IllegalArgumentException if the given propertyValue is null or zero length or
+     * @throws IllegalArgumentException if the given {@code propertyValue} is {@code null} or zero length or
      *                                  does not match the validation regular expression 
      */
     public void validateValue(String propertyValue, String customErrorMessage) {
@@ -165,11 +165,11 @@ public enum ForceConnectionProperty {
     }
     
     /**
-     * Load the ForceConnectionProperty enum value from a connection 
+     * Loads the {@code ForceConnectionProperty} enum value from a connection 
      * property name.
      * 
      * @param propertyName A connection property name
-     * @return The ForceConnectionProperty enum value matching the given
+     * @return The {@code ForceConnectionProperty} enum value matching the given
      *         propertyName or {@code null} if no such value exists
      */
     public static ForceConnectionProperty fromPropertyName(String propertyName) {

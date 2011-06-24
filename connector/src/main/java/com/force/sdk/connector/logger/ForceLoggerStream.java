@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * An OutputStream which writes to a log file.
+ * OutputStream that writes to a log file.
  *
  * @author Fiaz Hossain
  */

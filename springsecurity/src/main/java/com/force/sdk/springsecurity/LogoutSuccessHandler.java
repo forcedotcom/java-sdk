@@ -43,10 +43,10 @@ import com.force.sdk.oauth.context.SecurityContextService;
 
 /**
  * 
- * Called after all logout handlers are processed. Redirects user to the configured logout URL.
+ * Redirects user to the configured logout URL. Called after all logout handlers are processed.
  * Can be configured to also log the user out of Force.com. Both options can be configured on the fss:oauth element.
  * The logout URL comes from the default-logout-success attribute and the flag for logging out from Force.com comes
- * from the logout-from-force-dot-com attribute. See @doclink force-security for more information.
+ * from the logout-from-force-dot-com attribute. See @doclink spring-security for more information.
  *
  * @author Fiaz Hossain
  * @author John Simone
@@ -105,7 +105,7 @@ public class LogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler
     }
 
     /**
-     * Clear the security context. This is necessary when cookie based storage is used. 
+     * Clears the security context. This is necessary when cookie based storage is used. 
      * 
      * @param request {@code HttpServletRequest}
      * @param response {@code HttpServletResponse}
