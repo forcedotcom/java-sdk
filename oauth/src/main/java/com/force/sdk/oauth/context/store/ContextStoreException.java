@@ -28,7 +28,7 @@ package com.force.sdk.oauth.context.store;
 
 /**
  * 
- * Thrown by a SecurityContextStore when an issue occurs.
+ * Exception thrown by a {@code SecurityContextStore} when an issue occurs.
  *
  * @author John Simone
  */
@@ -37,7 +37,7 @@ public class ContextStoreException extends Exception {
     private static final long serialVersionUID = 1L;
     
     /**
-     * Used for wrapping other exceptions with a ContextStoreException.
+     * Used for wrapping other exceptions with a {@code ContextStoreException}.
      * 
      * @param e - the exception to wrap
      */

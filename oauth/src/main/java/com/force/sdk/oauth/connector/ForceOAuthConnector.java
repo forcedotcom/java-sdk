@@ -43,12 +43,12 @@ import com.sforce.ws.ConnectionException;
 
 /**
  * 
- * This is the main actor in the OAuth handshake. The other pieces of the OAuth integration will
- * ultimately rely on the ForceOAuthConnector to handle the details of the OAuth flow.
+ * Main actor in the OAuth handshake. The other pieces of the OAuth integration
+ * rely on the {@code ForceOAuthConnector} to handle the details of the OAuth flow.
  * <p>
- * In addition to the usual OAuth 2.0 protocol a UserDataRetrievalService is passed in and used to retrieve
+ * In addition to the usual OAuth 2.0 protocol a {@code UserDataRetrievalService} is passed in and used to retrieve
  * data about the authenticated user after the handshake completes. This service can either be the standard 
- * service or an application specific one. This allows user data to be made available to the application.
+ * service or an application specific one. This allows user data to be accessible to the application.
  * <p>
  * This object is used from a per application singleton. DO NOT store per request values with this class.
  *
@@ -112,7 +112,7 @@ public class ForceOAuthConnector implements ForceConnector {
     }
     
     /**
-     * Sets OAuth version to 2.0. Takes in a UserDataRetrievalService so that
+     * Sets OAuth version to 2.0. Takes in a {@code UserDataRetrievalService} so that
      * an extension can be used. 
      * 
      * @param userDataRetrievalService UserDataRetrievalService
@@ -124,10 +124,10 @@ public class ForceOAuthConnector implements ForceConnector {
     }
     
     /**
-     * Get the access token for user. This gets called after an access code has been obtained.
+     * Gets the access token for user. This gets called after an access code has been obtained.
      * That access code will now be exchanged for an access token or "auth token". Once an 
-     * access token is obtained it will immediately be used to retrieve data about the user to
-     * populate a SecurityContext.
+     * access token is obtained, it will immediately be used to retrieve data about the user to
+     * populate a {@code SecurityContext}.
      * 
      * @param accessCode String
      * @param redirectUri String
@@ -146,7 +146,7 @@ public class ForceOAuthConnector implements ForceConnector {
     }
     
     /**
-     * Use the refresh token to obtain a new auth token for the user.
+     * Uses the refresh token to obtain a new auth token for the user.
      * 
      * @param refreshToken String
      * @return a SecurityContext containing data about the authenticated user
@@ -163,10 +163,11 @@ public class ForceOAuthConnector implements ForceConnector {
     }
     
     /**
-     * Obtain an access token by calling the OAuth authentication endpoint and either trading an 
+     * Obtains an access token by calling the OAuth authentication endpoint and either trading an 
      * access code or refresh token for it.
      * 
-     * The UserDataRetrievalService is called to retrieve data about the user after the access token is obtained.
+     * The {@code UserDataRetrievalService} is called to retrieve data about the user
+     * after the access token is obtained.
      * 
      * @param params String
      * @param refreshToken String
@@ -214,7 +215,7 @@ public class ForceOAuthConnector implements ForceConnector {
     }
     
     /**
-     * Close the connection.
+     * Closes the connection.
      */
     public void close() {
         this.connInfo = null;
@@ -225,7 +226,7 @@ public class ForceOAuthConnector implements ForceConnector {
     }
 
     /**
-     * Parse the access code out of the servlet request.
+     * Parses the access code in the servlet request.
      * 
      * @param request HttpServletRequest
      * @return OAuth access code
@@ -235,7 +236,7 @@ public class ForceOAuthConnector implements ForceConnector {
     }
 
     /**
-     * Build the logout url.
+     * Builds the logout url.
      * 
      * @param request HttpServletRequest
      * @param forceEndpoint String
@@ -302,8 +303,8 @@ public class ForceOAuthConnector implements ForceConnector {
     }
     
     /**
-     * get the url that the user will be redirected to for authentication. This url should send the user to a login
-     * screen so that they can enter their credentials. Once the user sucessfully authenticates a callback will 
+     * Gets the url that the user will be redirected to for authentication. This url should send the user to a login
+     * screen so that they can enter their credentials. Once the user successfully authenticates, a callback will 
      * be received with the access code.
      * 
      * @param request HttpServletRequest
@@ -341,7 +342,7 @@ public class ForceOAuthConnector implements ForceConnector {
     }
 
     /**
-     * get the URI to redirect to for user authentication.
+     * Gets the URI to redirect to for user authentication.
      * 
      * @param request HttpServletRequest
      * @return the redirection URI

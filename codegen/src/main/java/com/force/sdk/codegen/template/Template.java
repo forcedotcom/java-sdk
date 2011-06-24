@@ -41,7 +41,7 @@ import java.io.Writer;
 public interface Template {
 
     /**
-     * Inject view state into a {@code Template}.
+     * Injects view state into a {@code Template}.
      * <p>
      * A {@code Template} should recognize view state
      * by a name.  Thereforce, this method will inject

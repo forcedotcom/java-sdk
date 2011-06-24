@@ -53,7 +53,7 @@ import com.sforce.ws.ConnectionException;
  * This will generate a closed set of Force.com JPA enabled Java classes based on a list of
  * Force.com schema object (SObject) names from a Force.com store (organization).  For example, 
  * a caller wishing to generate a Java class for the Account object will get the Account Java 
- * class plus the all Java classes to which the Account class will refer (i.e. the Account 
+ * class plus all the Java classes to which the Account class refers (i.e. the Account 
  * object's references).  If the first name in the list of schema object names is a single star 
  * ("*") then the generator will produce Java classes for all known objects in the Force.com
  * store (organization).
@@ -152,7 +152,7 @@ public class ForceJPAClassGenerator {
     }
 
     /**
-     * Execute the Java class generation.
+     * Executes the Java class generation.
      * 
      * @param objectNames the Force.com schema objects that are to be generated as
      *                    Java classes (along with their references)
@@ -173,7 +173,7 @@ public class ForceJPAClassGenerator {
             throw new IllegalArgumentException("Object name list is null");
         }
         
-        // If the first object name parameter a '*' then we'll
+        // If the first object name parameter is '*' then we'll
         // generate source files for all the org's SObjects
         DataFilter filter;
         if (objectNames.size() > 0 && "*".equals(objectNames.get(0))) {

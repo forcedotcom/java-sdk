@@ -32,9 +32,9 @@ import com.sforce.soap.partner.GetUserInfoResult;
 
 /**
  * 
- * This is the default implementation of a SecurityContext. This is what will hold an authenticated user's data
- * if a custom user data retriever is not used. When using a custom user data retriever the CustomSecurityContext
- * will wrap a ForceSecurityContext and add the additional custom fields.
+ * Default implementation of a {@code SecurityContext}. Holds an authenticated user's data
+ * if a custom user data retriever is not used. When using a custom user data retriever, the {@code CustomSecurityContext}
+ * will wrap a {@code ForceSecurityContext} and add the additional custom fields.
  *
  * @author John Simone
  */
@@ -54,7 +54,7 @@ public final class ForceSecurityContext implements SecurityContext, Serializable
     private String role;
     
     /**
-     * Initialize the security context from a GetUserInfoResult object.
+     * Initializes the security context from a GetUserInfoResult object.
      * {@inheritDoc}
      */
     @Override

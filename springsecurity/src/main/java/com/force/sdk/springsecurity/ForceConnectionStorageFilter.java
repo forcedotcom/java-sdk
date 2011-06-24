@@ -46,11 +46,11 @@ import com.force.sdk.oauth.exception.ForceOAuthSessionExpirationException;
 import com.sforce.ws.*;
 
 /**
- * This filter should run after all other Force.com filters in the spring security chain. It ensures
+ * Filter that runs after all other Force.com filters in the spring security chain. It ensures
  * that the connection information of the authenticated user is set into the Force.com Connector
  * framework so that it is available to other Force.com SDK frameworks.
  * 
- * It's important that this filter run as the last Force.com Spring Security filter because it is important that
+ * It's important that this filter run as the last Force.com Spring Security filter to ensure that
  * the connection storage takes place regardless of which authentication method and data storage method
  * was used. It's also important that the final result of the entire authentication chain is what gets stored in 
  * the connector.
@@ -132,7 +132,7 @@ public class ForceConnectionStorageFilter extends GenericFilterBean implements S
     }
 
     /**
-     * We will renew a session by sending the user into the OAuth flow. A renewal attempt
+     * Renews a session by sending the user into the OAuth flow. A renewal attempt
      * results in a runtime exception so that it can either be handled by an application or
      * be allowed to bubble up to the servlet filter where the authentication redirect takes place.
      * {@inheritDoc}

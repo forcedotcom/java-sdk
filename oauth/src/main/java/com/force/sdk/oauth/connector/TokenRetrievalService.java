@@ -37,13 +37,13 @@ import java.io.IOException;
 public interface TokenRetrievalService {
     
     /**
-     * Obtain an access token by calling the OAuth authentication endpoint and either trading an 
+     * Obtains an access token by calling the OAuth authentication endpoint and either trading an 
      * access code or refresh token for it.
      * 
-     * @param hostAndPort the post and port to call
+     * @param hostAndPort the host and port to call
      * @param params - the parameters for the token request
      * @param refreshToken - The refresh token (optional)
-     * @param connInfo - A ForceOAuthConnectionInfo object
+     * @param connInfo - A {@code ForceOAuthConnectionInfo} object
      * @return The response from the token request
      * @throws IOException if there is a problem retrieving the token
      */

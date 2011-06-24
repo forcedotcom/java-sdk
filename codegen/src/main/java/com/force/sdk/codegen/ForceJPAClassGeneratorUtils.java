@@ -82,7 +82,7 @@ public final class ForceJPAClassGeneratorUtils {
     
     /**
      * Constructs a Java package name based on a Force.com store name
-     * (Organization name).
+     * (organization name).
      * 
      * @param userInfo the Force.com user who is running the code generation
      * @return a non {@code null} {@code String} which conforms
@@ -109,7 +109,7 @@ public final class ForceJPAClassGeneratorUtils {
      * @see ForceJPAClassGeneratorUtils#STANDARD_OBJECT_COMMON_FIELDS
      */
     public static boolean hasAllCommonFields(DescribeSObjectResult dsr) {
-        // Custom object always have all common fields
+        // Custom objects always have all common fields
         if (dsr.isCustom()) return true;
         
         // Gather up all the field names for this standard object
@@ -168,7 +168,7 @@ public final class ForceJPAClassGeneratorUtils {
         return renderJavaName(field.getName(), "Field", firstCharLowerCase);
     }
     
-    // Convert the given name into a suitable Java name
+    // Converts the given name into a suitable Java name
     private static String renderJavaName(String name, String keywordSuffix, boolean firstCharLowerCase) {
         // First, strip off any custom suffix
         if (name.endsWith("__c") || name.endsWith("__r")) {

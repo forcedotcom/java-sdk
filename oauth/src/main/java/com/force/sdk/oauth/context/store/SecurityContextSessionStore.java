@@ -33,7 +33,7 @@ import com.force.sdk.oauth.context.SecurityContext;
 
 /**
  * 
- * Handles the storage of a SecurityContext via server side session.
+ * Handles the storage of a {@code SecurityContext} via server side session.
  *
  * @author John Simone
  */
@@ -41,12 +41,12 @@ public class SecurityContextSessionStore implements
         SecurityContextStorageService {
 
     /**
-     * The key used to store the SecurityContext in the session.
+     * The key used to store the {@code SecurityContext} in the session.
      */
     public static final String SECURITY_CONTEXT_SESSION_KEY = "com.force.sdk.securitycontext";
 
     /**
-     * Store the security context to the session.
+     * Stores the security context in the session.
      * {@inheritDoc}
      */
     @Override
@@ -58,7 +58,7 @@ public class SecurityContextSessionStore implements
     }
 
     /**
-     * Retrieve the security context from the session.
+     * Retrieves the security context from the session.
      * {@inheritDoc}
      */
     @Override
@@ -71,7 +71,7 @@ public class SecurityContextSessionStore implements
     }
 
     /**
-     * This does nothing when server side sessions are being used for SecurityContext storage.
+     * This does nothing when server side sessions are being used for {@code SecurityContext} storage.
      * {@inheritDoc}
      */
     @Override

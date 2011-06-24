@@ -38,8 +38,8 @@ import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
 
 /**
- * This utility class is in place to handle all interaction with the browser cookies
- * that will be used to track a user's authentication status. This will include the logic
+ * Utility class to handle all interactions with the browser cookies
+ * sed to track a user's authentication status. This will include the logic
  * required to refresh the security context if it isn't available in the server side session.
  * 
  * @author John Simone
@@ -63,7 +63,7 @@ public final class SecurityContextUtil {
     private SecurityContextUtil() {  }
     
     /**
-     * Get the session id and endpoint out of cookies.
+     * Gets the session id and endpoint from cookies.
      * 
      * @param request HttpServletRequest
      * @return Map<String, String> - cookie name, cookie value
@@ -90,7 +90,7 @@ public final class SecurityContextUtil {
     }
     
     /**
-     * Set the session id and endpoint from the security context into cookies.
+     * Sets the session id and endpoint from the security context into cookies.
      * 
      * @param sc SecurityContext
      * @param response HttpServletResponse
@@ -106,7 +106,7 @@ public final class SecurityContextUtil {
     }
     
     /**
-     * Set the map of cookie names and values into cookies on the response.
+     * Sets the map of cookie names and values into cookies on the response.
      * 
      * @param cookieValueMap Map<String, String> - cookie name, cookie value
      * @param response HttpServletResponse
@@ -123,7 +123,7 @@ public final class SecurityContextUtil {
     }
     
     /**
-     * Clear the endpoint and session cookies.
+     * Clears the endpoint and session cookies.
      * 
      * @param response HttpServletResponse
      */

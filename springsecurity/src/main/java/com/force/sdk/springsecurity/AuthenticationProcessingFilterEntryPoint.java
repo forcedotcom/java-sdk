@@ -41,7 +41,7 @@ import com.force.sdk.oauth.connector.ForceOAuthConnector;
 
 /**
  * 
- * This is the entry point to the authentication handshake. It uses the {@code ForceOAuthConnector} to get the 
+ * Provides the entry point to the authentication handshake. It uses the {@code ForceOAuthConnector} to get the 
  * URL to the Force.com login page and then sends a redirect to that URL.
  *
  * @author Fiaz Hossain
