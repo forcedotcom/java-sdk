@@ -34,16 +34,16 @@ import com.force.sdk.oauth.context.SecurityContext;
 
 /**
  * 
- * Defines the interface for storing, retrieving, and clearing a SecurityContext to/from 
- * a means of storage. Implementors of this interface will represent different methods of 
- * of handling the storage of a SecurityContext.
+ * Defines the interface for storing, retrieving, and clearing a {@code SecurityContext} to/from 
+ * a storage service. Implementors of this interface will represent different methods 
+ * of handling the storage of a {@code SecurityContext}.
  *
  * @author John Simone
  */
 public interface SecurityContextStorageService {
 
     /**
-     * Store the security context. The means of storage will vary by implementation.
+     * Stores the security context. The means of storage will vary by implementation.
      * 
      * @param request HttpServletRequest
      * @param response HttpServletResponse
@@ -55,7 +55,7 @@ public interface SecurityContextStorageService {
             throws ContextStoreException;
     
     /**
-     * Retrieve the security context. The means of storage will vary by implementation.
+     * Retrieves the security context. The means of storage will vary by implementation.
      * 
      * @param request HttpServletRequest
      * @return the stored SecurityContext

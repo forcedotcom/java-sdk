@@ -32,14 +32,14 @@ import java.net.URL;
 
 /**
  * 
- * Retrieve the auth token by calling the token request URL.
+ * Retrieves the auth token by calling the token request URL.
  *
  * @author John Simone
  */
 public class TokenRetrievalServiceImpl implements TokenRetrievalService {
 
     /**
-     * Obtain an access token by calling the OAuth authentication endpoint and either trading an 
+     * Obtains an access token by calling the OAuth authentication endpoint and either trading an 
      * access code or refresh token for it.
      * 
      * {@inheritDoc}

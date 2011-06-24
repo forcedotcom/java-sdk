@@ -31,12 +31,12 @@ import java.util.*;
 import com.sforce.soap.partner.DescribeSObjectResult;
 
 /**
- * A {@link DataFilter} which filters based on Force.com schema object (SObject)
+ * A {@link DataFilter} that filters based on Force.com schema object (SObject)
  * names.
  * <p>
- * This {@code DataFilter} will filter in a Force.com schema object if and only if
+ * This {@code DataFilter} will filter a Force.com schema object if and only if
  * its name exactly matches one in the {@code ObjectNameDataFilter} state.  Names
- * in the {@code ObjectNameDataFilter} state which match no schema objects are
+ * in the {@code ObjectNameDataFilter} state that don't match schema objects are
  * ignored.
  * 
  * @author Tim Kral
@@ -47,8 +47,7 @@ public class ObjectNameDataFilter implements DataFilter {
     
     /**
      * Initializes a {@code ObjectNameDataFilter} with a set of
-     * Force.com schema object names that are to be filtered
-     * in.
+     * Force.com schema object names that are to be filtered.
      * 
      * @param objectNames a {@code java.util.Set} of exact object
      *                    names that are to be filtered in
@@ -59,10 +58,9 @@ public class ObjectNameDataFilter implements DataFilter {
     
     /**
      * Initializes a {@code ObjectNameDataFilter} with a set of
-     * Force.com schema object names that are to be filtered
-     * in.
+     * Force.com schema object names that are to be filtered.
      * <p>
-     * Note that duplicates within the given array with be eliminated.
+     * Note that duplicates within the given array will be eliminated.
      * 
      * @param objectNames an {@code Array} of exact object
      *                    names that are to be filtered in
@@ -88,7 +86,7 @@ public class ObjectNameDataFilter implements DataFilter {
      * Returns the {@code java.util.Set} of schema object names
      * on which this {@code ObjectNameDataFilter} will filter.
      * 
-     * @return a non {@code null} {@code java.util.Set} which
+     * @return a non {@code null} {@code java.util.Set} that
      *         contains the schema object names on which this
      *         {@code ObjectNameDataFilter} will filter
      */

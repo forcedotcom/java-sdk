@@ -28,12 +28,12 @@ package com.force.sdk.oauth.exception;
 
 /**
  * 
- * This exception will be thrown when a Database.com API session id that was obtained via OAuth
- * expires. If not handled it will bubble up to the Database.com SDK security framework (Spring integrated
+ * Exception thrown when an API session id that was obtained via OAuth
+ * expires. If not handled, it will bubble up to the SDK security framework (Spring integrated
  * or not) and will result in the user being asked to log in again.
  * 
- * In order to avoid seeing this exception be sure to set the session timeout of your application to be equal to
- * or shorter than your Database.com session timeout.
+ * To avoid seeing this exception, set the session timeout of your application to be equal to
+ * or shorter than your organization's session timeout.
  *
  * @author John Simone
  */

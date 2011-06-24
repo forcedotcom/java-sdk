@@ -31,42 +31,42 @@ import java.util.*;
 import com.sforce.soap.partner.*;
 
 /**
- * A {@link DataFilter} which filters based on Force.com schema object (SObject)
+ * A {@link DataFilter} that filters based on Force.com schema object (SObject)
  * names and follows object references to produce a closed set of schema objects.
  * <p>
- * This {@code DataFilter} will filter in a Force.com schema object if and only if
+ * This {@code DataFilter} will filter a Force.com schema object if and only if
  * at least one of the two following conditions are met:
  * <p>
  * <ol>
  *   <li>Its name exactly matches one in the {@code ObjectNameWithRefDataFilter} state</li>
- *   <li>It is referenced by a schema object that has already been filtered in</li>
+ *   <li>It is referenced by a schema object that has already been filtered</li>
  * </ol>
- * Names in the {@code ObjectNameWithRefDataFilter} state which match no schema objects are
+ * Names in the {@code ObjectNameWithRefDataFilter} state that don't match schema objects are
  * ignored.
  * 
  * @author Tim Kral
  */
 public class ObjectNameWithRefDataFilter implements DataFilter {
 
-    // The object names that we want to filter for
+    // The object names that we want to filter
     private final Set<String> objectNames;
     
     // Map from object name to object for all known objects
     private final Map<String, DescribeSObjectResult> objectMap =
         new HashMap<String, DescribeSObjectResult>();
     
-    // Since we're using recursion to filter in object references
-    // we'll need to know what we've filtered in already
+    // Since we're using recursion to filter object references
+    // we'll need to know what we've filtered already
     private Set<String> filteredResultNames = new HashSet<String>();
     private List<DescribeSObjectResult> filteredResult = new ArrayList<DescribeSObjectResult>();
     
     /**
      * Initializes a {@code ObjectNameWithRefDataFilter} with a set of
      * Force.com schema object names that are to be filtered
-     * in along with their references.
+     * along with their references.
      * 
      * @param objectNames a {@code java.util.Set} of exact object
-     *                    names that are to be filtered in along with
+     *                    names that are to be filtered along with
      *                    their references
      */
     public ObjectNameWithRefDataFilter(Set<String> objectNames) {
@@ -76,12 +76,12 @@ public class ObjectNameWithRefDataFilter implements DataFilter {
     /**
      * Initializes a {@code ObjectNameWithRefDataFilter} with a set of
      * Force.com schema object names that are to be filtered
-     * in along with their references.
+     * along with their references.
      * <p>
-     * Note that duplicates within the given array with be eliminated.
+     * Note that duplicates in the given array will be eliminated.
      * 
      * @param objectNames an {@code Array} of exact object
-     *                    names that are to be filtered in along with
+     *                    names that are to be filtered along with
      *                    their references
      */
     public ObjectNameWithRefDataFilter(String... objectNames) {

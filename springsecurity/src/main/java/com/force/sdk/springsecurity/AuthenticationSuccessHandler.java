@@ -33,7 +33,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 
 /**
  * 
- * Called after a successful authentication. In this case that is after the access code callback is received.
+ * Called after a successful authentication. In this case, that is after the access code callback is received.
  * The target URL is determined and the user is redirected there.
  *
  * @author Fiaz Hossain
@@ -48,19 +48,19 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
     }
 
     /**
-     * Create with the given defaultTargetUrl.
+     * Creates a handler with the given {@code defaultTargetUrl}.
      * 
-     * @param defaultTargetUrl the default URL to redirect to after
-     * authentication
+     * @param defaultTargetUrl the default URL to redirect to after authentication
      */
     public AuthenticationSuccessHandler(String defaultTargetUrl) {
         super(defaultTargetUrl);
     }
 
     /**
+     * Determines the target URL.
      * The target URL either comes from the state parameter in the callback request or the default target url is used.
      * The default target url is configured in the default-login-success attribute of the fss:oauth element. 
-     * See @doclink force-security for more information.
+     * See @doclink spring-security for more information.
      */
     @Override
     protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response) {

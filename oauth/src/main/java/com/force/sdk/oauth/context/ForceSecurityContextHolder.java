@@ -30,8 +30,8 @@ import com.force.sdk.connector.threadlocal.ForceThreadLocalStore;
 
 /**
  * 
- * Provides a mechanism to access the SecurityContext for the authenticated user.
- * Security conexts are stored in thread local variables and managed by the ForceThreadLocalStore.
+ * Provides a mechanism to access the {@code SecurityContext} for the authenticated user.
+ * Security contexts are stored in thread local variables and managed by the {@code ForceThreadLocalStore}.
  *
  * @author Fiaz Hossain
  */
@@ -40,7 +40,7 @@ public final class ForceSecurityContextHolder {
     private ForceSecurityContextHolder() {  }
     
     /**
-     * Get the security context that is stored in the thread local store.
+     * Gets the security context stored in the thread local store.
      * Do not create one if it doesn't exist.
      * @return the current security context
      */
@@ -49,7 +49,7 @@ public final class ForceSecurityContextHolder {
     }
 
     /**
-     * Get the security context that is stored in the thread local store.
+     * Gets the security context stored in the thread local store.
      * 
      * @param createIfNeeded Create the security context if there currently isn't one
      * @return the current security context
@@ -65,7 +65,7 @@ public final class ForceSecurityContextHolder {
     }
     
     /**
-     * Set the security context to the thread local store.
+     * Sets the security context to the thread local store.
      * @param sc SecurityContext
      */
     public static void set(SecurityContext sc) {
@@ -73,7 +73,7 @@ public final class ForceSecurityContextHolder {
     }
 
     /**
-     * release the current security context from the thread local store.
+     * Releases the current security context from the thread local store.
      */
     public static void release() {
         ForceThreadLocalStore.setThreadLocal(SecurityContext.class, null);

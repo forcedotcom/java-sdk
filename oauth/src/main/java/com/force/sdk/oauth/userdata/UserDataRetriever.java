@@ -30,14 +30,14 @@ import com.force.sdk.oauth.context.SecurityContext;
 import com.sforce.ws.ConnectionException;
 
 /**
- * A UserDataRetriever calls out to external sources to retrieve data about a user.
+ * Retrieves data about a userby calling out to external sources.
  * 
  * @author John Simone
  */
 public interface UserDataRetriever {
 
     /**
-     * Retrieve the user data and store it in a SecurityContext object.
+     * Retrieves the user data and stores it in a {@code SecurityContext} object.
      * 
      * @return SecurityContext containing the user data
      * @throws ConnectionException connection error

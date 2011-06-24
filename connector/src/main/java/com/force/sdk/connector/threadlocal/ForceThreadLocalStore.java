@@ -31,7 +31,7 @@ import java.util.HashMap;
 import com.force.sdk.connector.ForceConnectorConfig;
 
 /**
- * Class for storing connector configs in a {@code ThreadLocal} cache.
+ * Stores connector configs in a {@code ThreadLocal} cache.
  *
  * @author John Simone
  */
@@ -67,7 +67,7 @@ public final class ForceThreadLocalStore {
     }
     
     /**
-     * Retrieve the object of type {@code clazz} from the
+     * Retrieves the object of type {@code clazz} from the
      * {@code ForceThreadLocalStore} {@code ThreadLocal} cache.
      * 
      * @param <T> describes the object type to be searched for in the {@code ThreadLocal} cache

@@ -31,7 +31,7 @@ import com.sforce.soap.partner.DescribeSObjectResult;
 import com.sforce.soap.partner.GetUserInfoResult;
 
 /**
- * A class which selects data from a Force.com {@code GetUserInfoResult} object and a
+ * Selects data from a Force.com {@code GetUserInfoResult} object and a
  * Force.com {@code DescribeSObjectResult} object and injects it into a code generation 
  * {@link Template}.
  *
@@ -45,8 +45,8 @@ public interface DataSelector {
      * 
      * @param userInfo the Force.com user who is running the code generation  
      * @param dsr the Force.com schema object for which code will be generated
-     * @param template the {@code Template} object which represents the physical 
-     *                 layout of the code that is to be generated
+     * @param template the {@code Template} object representing the physical 
+     *                 layout of the code to be generated
      */
     void select(GetUserInfoResult userInfo, DescribeSObjectResult dsr, Template template);
 }

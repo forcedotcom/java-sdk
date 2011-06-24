@@ -36,7 +36,7 @@ import com.force.sdk.oauth.ForceUserPrincipal;
 
 /**
  * 
- * Used to represent an OAuth Authentication. The principal is the username and the credentials are the
+ * Represents an OAuth Authentication. The principal is the username and the credentials are the
  * OAuth authentication token also known as the session id. The {@code SecurityContext} is set into the 
  * details field that gets inherited.
  *
@@ -58,7 +58,7 @@ public class OAuthAuthenticationToken extends AbstractAuthenticationToken {
     }
     
     /**
-     * Create with given principal, credentials, and authorities.
+     * Creates token with given principal, credentials, and authorities.
      * 
      * @param principal (username)
      * @param credentials (auth token / session id)

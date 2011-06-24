@@ -54,10 +54,10 @@ public class ForcePicklistEnumBuilder extends BaseBuilder<PicklistEntry> {
     
     /**
      * Initializes a {@code ForcePicklistEnumBuilder} with the number
-     * of intentions that should proceed each Java enum value.
+     * of indentations that should precede each Java enum value.
      * 
      * @param numIndents the number of indentations that should
-     *                   proceed each Java enum value
+     *                   precede each Java enum value
      */
     public ForcePicklistEnumBuilder(int numIndents) {
         super(numIndents);

@@ -36,11 +36,11 @@ import com.force.sdk.oauth.context.SecurityContext;
 import com.force.sdk.oauth.context.SecurityContextService;
 
 /**
- * ForceRememberMeServices is used by the standard spring {@code RememberMeAuthenticationFilter}.
+ * Used by the standard spring {@code RememberMeAuthenticationFilter}.
  * This is how the {@code SecurityContext} is retrieved from the {@code SecurityContextService}. Normally
  * this piece of the Spring Security framework is used for a simple remember me cookie, but in this case it is used
  * to validate the presence of a {@code SecurityContext} in the {@code SecurityContextStorageService} so that the
- * authentication can be skipped completely if necessary.
+ * authentication can be skipped completely, if necessary.
  *
  * @author John Simone
  */

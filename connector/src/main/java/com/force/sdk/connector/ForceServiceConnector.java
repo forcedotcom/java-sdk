@@ -59,8 +59,8 @@ import com.sforce.ws.SessionRenewer;
  * <p>
  * <ul>
  *   <li>PartnerConnection - Used for SOAP API calls</li>
- *   <li>MetadataConnection - Used for Force.com's Metadata API</li>
- *   <li>BulkConnection - Used for Force.com's Bulk API</li>
+ *   <li>MetadataConnection - Used for the Force.com Metadata API</li>
+ *   <li>BulkConnection - Used for the Force.com Bulk API</li>
  * </ul>
  * Connectors require a {@link ForceConnectorConfig} to provide connection
  * properties.  They can handle {@code ForceConnectorConfig}s from the following
@@ -72,7 +72,7 @@ import com.sforce.ws.SessionRenewer;
  *   <li>A {@code ForceConnectorConfig} stored in the connector's {@code ThreadLocal} cache</li>
  * </ol>
  * Connectors are capable of caching {@code ForceConnectorConfig} objects both in a {@code ThreadLocalCache}
- * and an in memory cache.  The {@code ThreadLocalCache} is directly controlled by the caller.  The in memory
+ * and an in-memory cache.  The {@code ThreadLocalCache} is directly controlled by the caller.  The in-memory
  * cache is controlled internally by the connector.  By default, a connector will cache a {@code ForceConnectorConfig}
  * in memory whenever it constructs a connection.  However, this can be turned off by the caller.
  * <p>
@@ -99,10 +99,11 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     public static final javax.xml.namespace.QName SESSION_HEADER_QNAME =
         new javax.xml.namespace.QName("urn:partner.soap.sforce.com", "SessionHeader");
     
-    // This is used to create a metadata API uri (i.e. */services/Soap/u/* -> */services/Soap/m/*)
+    // This is used to create a Metadata API uri (i.e. */services/Soap/u/* -> */services/Soap/m/*)
     private static final Pattern METADATA_URI_PATTERN = Pattern.compile("(.*/Soap)/./(.*)");
     
-    // This is used to create a REST (Bulk) API uri (i.e. */services/Soap/u/*/<orgId> -> */services/async/*)
+    // This is used to create a Bulk (REST) API uri (i.e. */services/Soap/u/*/<orgId> -> */services/async/*)
+    // The Bulk API was the first "REST API", hence the var name. This is different from the REST API, which came later.
     private static final Pattern RESTAPI_URI_PATTERN = Pattern.compile("(.*)/Soap/./(.*)/(.*)$");
     
     // Version under which we will get Metadata describe results
@@ -204,7 +205,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     }
 
     /**
-     * Initializes a {@code ForceServiceConnector} which will use the given {@code ForceConnectorConfig}
+     * Initializes a {@code ForceServiceConnector} that uses the given {@code ForceConnectorConfig}
      * to get Force.com connections.
      * 
      * @param config the {@code ForceConnectorConfig} to be used when getting Force.com connections
@@ -364,8 +365,8 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     /**
      * Returns a Force.com API {@code MetadataConnection}.
      * <p>
-     * This connection type can be use to make Force.com Metadata API calls to the Force.com
-     * service.  The {@code MetadataConnection} will be lazily constructed and
+     * This connection type can be use to make Force.com Metadata API calls.
+     * The {@code MetadataConnection} will be lazily constructed and
      * stored in this {@code ForceServiceConnector}'s state.  This state
      * can be cleared with a call to {@code close}
      * 
@@ -410,10 +411,10 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     }
 
     /**
-     * Returns a Force.com API {@code BulkConnection}.
+     * Returns a Force.com Bulk API {@code BulkConnection}.
      * <p>
-     * This connection type can be use to make Force.com Bulk API calls to the Force.com
-     * service.  The {@code BulkConnection} will be lazily constructed and
+     * This connection type can be use to make Force.com Bulk API calls.
+     * The {@code BulkConnection} will be lazily constructed and
      * stored in this {@code ForceServiceConnector}'s state.  This state
      * can be cleared with a call to {@code close}
      * 
@@ -477,7 +478,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     /**
      * Clears this {@code ForceServiceConnector}'s local state.
      * <p>
-     * The connections gotten by a {@code ForceServiceConnector} are lazily
+     * The connections from a {@code ForceServiceConnector} are lazily
      * constructed and stored in the {@code ForceServiceConnector}'s local state.  Thus
      * multiple calls to get a connection will return the same connection object without
      * re-establishing a connection to the Force.com service.  The {@code close} method
@@ -518,7 +519,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     /**
      * Automatically renews Force.com timed out sessions.
      * <p>
-     * The connections gotten by a {@code ForceServiceConnector} are lazily
+     * The connections from a {@code ForceServiceConnector} are lazily
      * constructed and stored in the {@code ForceServiceConnector}'s local state.  Thus
      * multiple calls to get a connection will return the same connection object without
      * re-establishing a connection to the Force.com service.  However, this presents
@@ -557,8 +558,8 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     /**
      * Sets the Force.com connection client id.
      * <p>
-     * The client id is a {@code String} identifier which will be set on the Force.com
-     * connection gotten by this {@code ForceServiceConnector}.  Note that the client
+     * The client id is a {@code String} identifier that is set on the Force.com
+     * connection in this {@code ForceServiceConnector}.  Note that the client
      * id set here will override the client id in this {@code ForceServiceConnector}'s
      * {@code ForceConnectorConfig} state.
      *
@@ -594,7 +595,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
      * A named {@code ForceConnectorConfig} source specifies connection
      * properties in a named location.  These properties can be used to construct
      * a {@code ForceConnectorConfig}.  Note that a named connection {@code ForceConnectorConfig} 
-     * source can be overridden by directly injecting {@code ForceConnectorConfig} state.
+     * source can be overridden by directly injecting the {@code ForceConnectorConfig} state.
      * 
      * @param connectionName the name of a {@code ForceConnectorConfig} source
      * @see ForceConnectorUtils#loadConnectorPropsFromName(String)
@@ -623,7 +624,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     
     /**
      * Indicates whether or not this {@code ForceServiceConnector} should skip
-     * in memory {@code ForceConnectorConfig} cache reads and writes.
+     * in-memory {@code ForceConnectorConfig} cache reads and writes.
      * <p>
      * By default, a {@code ForceServiceConnector} will cache {@code ForceConnectorConfig}
      * objects when getting a connection to the Force.com service.   This state allows
@@ -637,7 +638,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     }
     
     /**
-     * Sets the read timeout for all Force.com connections gotten by this {@code ForceServiceConnector}.
+     * Sets the read timeout for all Force.com connections using this {@code ForceServiceConnector}.
      * <p>
      * Note that this timeout value will override any read timeout value set in
      * a {@code ForceConnectorConfig}.

@@ -35,7 +35,7 @@ import com.sforce.soap.partner.GetUserInfoResult;
  * A pass-through code generation {@link WriterProvider}.
  * <p>
  * This {@code WriterProvider} simply returns the {@code Writer}
- * instant found in its state.
+ * instance found in its state.
  * 
  * @author Tim Kral
  */
@@ -44,7 +44,7 @@ public class BasicWriterProvider implements WriterProvider {
     private final Writer writer;
     
     /**
-     * Initalizes a {@code BasicWriterProvider} which will return the given {@code Writer}
+     * Initalizes a {@code BasicWriterProvider} that returns the given {@code Writer}
      * on any call to {@link BasicWriterProvider#getWriter(GetUserInfoResult, DescribeSObjectResult)}.
      * 
      * @param writer the {@code Writer} to return on a call to 

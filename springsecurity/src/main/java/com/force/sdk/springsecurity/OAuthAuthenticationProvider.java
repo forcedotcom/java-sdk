@@ -59,7 +59,7 @@ public class OAuthAuthenticationProvider implements AuthenticationProvider {
     }
 
     /**
-     * If this is the access code callback request use the {@code ForceOAuthConnector} to retrieve the
+     * If this is the access code callback request, use the {@code ForceOAuthConnector} to retrieve the
      * access token.
      * 
      * @param authentication {@code Authentication}
@@ -90,10 +90,10 @@ public class OAuthAuthenticationProvider implements AuthenticationProvider {
     }
     
     /**
-     * Create an authentication object from the {@code SecurityContext}.
+     * Creates an authentication object from the {@code SecurityContext}.
      * 
      * @param sc {@code SecurityContext}
-     * @return an {@code OAuthAuthenticationToken} which is used as the {@code Authentication} object by the Spring Security
+     * @return an {@code OAuthAuthenticationToken} that is used as the {@code Authentication} object by the Spring Security
      */
     public static Authentication createAuthentication(SecurityContext sc) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();

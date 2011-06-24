@@ -34,7 +34,7 @@ import com.force.sdk.oauth.context.store.ForceEncryptionException;
 
 /**
  * 
- * The security context service provides the basic functionality for managing a security context
+ * Provides the basic functionality for managing a security context
  * in the session of the authenticated user.
  *
  * @author John Simone
@@ -51,9 +51,9 @@ public interface SecurityContextService {
     void setSecurityContextToSession(HttpServletRequest request, HttpServletResponse response, SecurityContext sc);
     
     /**
-     * This method retrieves the security context. The security context
+     * Retrieves the security context. The security context
      * will either come out of the session or will be built from a call
-     * to the partner api. The partner api will be called if:
+     * to the partner API. The partner API will be called if:
      * - There is no security context in the session, but there is 
      * a session id available in a cookie
      * - There is a security context in the session, but the session id
@@ -65,10 +65,10 @@ public interface SecurityContextService {
     SecurityContext getSecurityContextFromSession(HttpServletRequest request);
     
     /**
-     * Verify the passed in security context against the browser cookies. This will
+     * Verifies the security context against the browser cookies. This will
      * make sure that the necessary cookies exist and that the values match those
      * in the security context. It will create a fresh security context with data 
-     * from the partner API if necessary.
+     * from the partner API, if necessary.
      * 
      * @param sc SecurityContext
      * @param request HttpServletRequest
@@ -85,7 +85,7 @@ public interface SecurityContextService {
     void clearSecurityContext(HttpServletRequest request, HttpServletResponse response);
     
     /**
-     * Return the secret key if one is being used.
+     * Returns the secret key if one is being used.
      * 
      * @return SecretKeySpec
      * @throws ForceEncryptionException {@link ForceEncryptionException}

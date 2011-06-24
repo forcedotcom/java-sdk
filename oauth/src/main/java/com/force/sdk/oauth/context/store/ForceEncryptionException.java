@@ -28,7 +28,7 @@ package com.force.sdk.oauth.context.store;
 
 /**
  * 
- * Thrown when an error occurs during encryption.
+ * Exception thrown when an error occurs during encryption.
  *
  * @author John Simone
  */

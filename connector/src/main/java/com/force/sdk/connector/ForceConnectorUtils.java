@@ -47,7 +47,7 @@ import java.util.Properties;
 public final class ForceConnectorUtils {
 
     /**
-     * The file in which the CLIForce client stores Force.com connection information.
+     * The file in which the cliforce client stores Force.com connection information.
      */
     static File cliforceConnFile =
         new File(System.getProperty("cliforce.home", System.getProperty("user.home")) + "/.force/cliforce_urls");
@@ -87,7 +87,7 @@ public final class ForceConnectorUtils {
         String[] parsedEndpoint = endpoint.split("://");
         String endpointNoProtocol = parsedEndpoint[parsedEndpoint.length - 1];
 
-        // This is the endpoint that will be supplied to the Api
+        // This is the endpoint that will be supplied to the API
         StringBuffer apiEndpoint = new StringBuffer(endpointNoProtocol);
 
         // Append the web services path, if necessary
@@ -146,14 +146,14 @@ public final class ForceConnectorUtils {
      *   (case sensitive match)
      *   </li>
      *   <li>
-     *   Force.com connection URL in the CLIForce connection file of the form <connectionName>=<connection URL> 
+     *   Force.com connection URL in the cliforce connection file of the form <connectionName>=<connection URL> 
      *   (case sensitive match)
      *   </li> 
      * </ol>
      * 
-     * @param connectionName a name which represents one of the locations above
+     * @param connectionName a name representing one of the locations above
      * @return a {@link Map} which maps {@link ForceConnectionProperty} enum values to connection property values
-     * @throws IOException if an attempt to interact with a classpath properties file or the CLIForce connection
+     * @throws IOException if an attempt to interact with a classpath properties file or the cliforce connection
      *                     file results in a thrown {@code IOException}
      * @see ForceConnectionProperty
      */
@@ -246,14 +246,14 @@ public final class ForceConnectorUtils {
      * Loads Force.com connection properties from a Force.com connection url
      * <p>
      * A Force.com connection url must start with the force:// protocol followed
-     * by a non empty endpoint string.  Connection properties are specified with
+     * by a non-empty endpoint string.  Connection properties are specified with
      * key=value pairs and delimited by a semi-colon (';') after the endpoint.
      * Any connection property keys not recognized (i.e. that are not in the 
      * {@link ForceConnectionProperty} enum) are ignored.
      * 
      * @param connectionUrl a well qualified Force.com connection URL
-     * @return a {@link Map} which maps {@link ForceConnectionProperty} enum values to connection property values
-     * @throws IllegalArgumentException if connectionUrl is null
+     * @return a {@link Map} that maps {@link ForceConnectionProperty} enum values to connection property values
+     * @throws IllegalArgumentException if connectionUrl is {@code null}
      * @throws IllegalArgumentException if connectionUrl does not start with force://
      * @throws IllegalArgumentException if the endpoint within connectionUrl is empty
      * @throws IllegalArgumentException if the endpoint within connectionUrl is not valid

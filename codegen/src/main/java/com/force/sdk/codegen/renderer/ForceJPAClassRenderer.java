@@ -71,7 +71,7 @@ public class ForceJPAClassRenderer implements AttributeRenderer {
         return toString(o);
     }
 
-    // Render annotations that are to be add to a JPA object
+    // Render annotations that are to be added to a JPA object
     // at the class level
     private String renderClassAnnotation(DescribeSObjectResult dsr) {
         JPAAnnotationBuilder builder = new JPAAnnotationBuilder(0 /*numIndents*/);
@@ -94,7 +94,7 @@ public class ForceJPAClassRenderer implements AttributeRenderer {
         if (dsr.isCustom()) return BaseForceCustomObject.class.getName();
         
         // If the standard object doesn't contain *all* the common
-        // standard object fields just extend the generic base class (e.g. User, UserLicense)
+        // standard object fields, just extend the generic base class (e.g. User, UserLicense)
         if (!ForceJPAClassGeneratorUtils.hasAllCommonFields(dsr)) return BaseForceObject.class.getName();
         return BaseForceStandardObject.class.getName();
     }

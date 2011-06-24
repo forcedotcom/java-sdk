@@ -51,7 +51,7 @@ public class StringTemplateWrapper extends StringTemplate implements Template {
      * Initializes an anonymous {@code StringTemplateWrapper} from
      * the given {@code String}.
      * 
-     * @param template a {@code String} which represents a {@code StringTemplate}
+     * @param template a {@code String} that represents a {@code StringTemplate}
      *                 pattern
      */
     public StringTemplateWrapper(String template) {
