@@ -330,7 +330,8 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
 
     private void setCacheIdForConnectionName(String cacheConnectionName, String cacheId) {
         if (cacheConnectionName != null && cacheId != null) {
-            LOGGER.trace("ForceServiceConnector Cache: Mapping connectionName: " + cacheConnectionName + " to cacheId: " + cacheId);
+            LOGGER.trace("ForceServiceConnector Cache: Mapping connectionName: "
+                    + cacheConnectionName + " to cacheId: " + cacheId);
             CONN_NAME_TO_CACHED_CONFIGS.put(cacheConnectionName, cacheId);
         }
     }

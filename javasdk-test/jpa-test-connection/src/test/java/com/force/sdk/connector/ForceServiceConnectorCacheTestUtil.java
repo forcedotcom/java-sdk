@@ -1,13 +1,14 @@
 package com.force.sdk.connector;
 
 /**
- * ForceServiceConnectorCacheTestUtil
+ * Test utility for inspecting and manipulating ForceServiceConnector
+ * caches.
  *
  * @author Naaman Newbold
  */
-public class ForceServiceConnectorCacheTestUtil {
+public final class ForceServiceConnectorCacheTestUtil {
 
-    private ForceServiceConnectorCacheTestUtil() {}
+    private ForceServiceConnectorCacheTestUtil() { }
 
     /**
      * Test utility method that clears ForceServiceConnector cache.
