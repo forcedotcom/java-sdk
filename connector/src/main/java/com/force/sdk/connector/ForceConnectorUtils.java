@@ -331,7 +331,7 @@ public final class ForceConnectorUtils {
         return props;
     }
 
-    /*
+    /**
      * Empties the named connections cache
      */
     public static void clearCache() {
