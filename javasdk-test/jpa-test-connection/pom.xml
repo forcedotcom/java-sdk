@@ -46,14 +46,22 @@
           </environmentVariables>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <configuration>
+          <!-- Use Findbugs exclude filter from test resources -->
+          <excludeFilterFile>${project.build.testOutputDirectory}/findbugs-exclude.xml</excludeFilterFile>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
   <dependencies>
-      <dependency>
-        <groupId>mockit</groupId>
-        <artifactId>jmockit</artifactId>
-      </dependency>
+    <dependency>
+      <groupId>mockit</groupId>
+      <artifactId>jmockit</artifactId>
+    </dependency>
     <dependency>
       <groupId>com.force.api</groupId>
       <artifactId>force-metadata-api</artifactId>

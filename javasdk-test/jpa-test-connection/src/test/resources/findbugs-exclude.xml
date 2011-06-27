@@ -28,25 +28,12 @@
 
 <FindBugsFilter>
   <!--
-  Ignore unconfirmed cast because ForceServiceConnector should only be used with a ForceConnectorConfig.
+    An unused mocked instance is how jmockit injects a mocked implementation and needs to be here in order
+    for tests to count method invocations.
   -->
   <Match>
-    <Class name="com.force.sdk.connector.ForceServiceConnector"/>
-    <Method name="renewSession"/>
-    <Bug pattern="BC_UNCONFIRMED_CAST"/>
-  </Match>
-
-  <!--
-    Ignore writing to static instance variables.  We are resetting the static vars in order to test
-    the caching functionality.
-  -->
-  <Match>
-    <Class name="com.force.sdk.connector.ForceConnectorUtilsTest" />
-    <Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" />
-    <Or>
-        <Method name="testCliforcePropsCache" />
-        <Method name="resetCliforceConnFile" />
-        <Method name="testCliforcePropsCacheWithTwoDifferentURLs" />
-    </Or>
+    <Class name="com.force.sdk.jpa.connection.MultipleJPAConnectionTest"/>
+    <Field name="unused" />
+    <Bug pattern="UUF_UNUSED_FIELD"/>
   </Match>
 </FindBugsFilter>
