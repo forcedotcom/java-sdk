@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.springsecurity.listener;
+package com.force.sdk.qa.listener;
 
 import static org.testng.Assert.fail;
 
@@ -39,8 +39,9 @@ import com.force.sdk.qa.util.TestContext.TestType;
  * TestNG Listener to specify TestType for spring security integration tests.
  *
  * @author Jeff Lai
+ * @author Nawab Iqbal
  */
-public class SpringSecurityIntegTestTypeListener implements ISuiteListener {
+public class TestTypeListener implements ISuiteListener {
 
     @Override
     public void onStart(ISuite suite) {

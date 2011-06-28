@@ -128,7 +128,7 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
   echo
   echo "For certain tests to run, it is required to create an OAuth Consumer in the test org."
   echo "Please create a record under Setup > Develop > Remote Access."
-  echo "**The callback URL *must* be: http://localhost:8888/force-springsecurity-app/_auth"
+  echo "**The callback URL *must* be: http://localhost:8888/force-app/_auth"
   echo "**This option *must* be selected: No user approval required for users in this organization"
   echo
   echo "Once created, please enter the key and secret below."

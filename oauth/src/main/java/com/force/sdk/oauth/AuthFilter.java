@@ -242,8 +242,7 @@ public class AuthFilter implements Filter, SessionRenewer {
                     response,
                     oauthConnector.getAccessToken(oauthConnector.getAccessCode(request),
                             oauthConnector.getRedirectUri(request)));
-            // response.sendRedirect(URLEncoder.encode(request.getParameter("state"), "UTF-8"));
-            response.sendRedirect(response.encodeRedirectURL(URLEncoder.encode(request.getParameter("state"), "UTF-8")));
+            response.sendRedirect(response.encodeRedirectURL(request.getParameter("state")));
         } else {
             response.sendRedirect(oauthConnector.getLoginRedirectUrl(request));
         }

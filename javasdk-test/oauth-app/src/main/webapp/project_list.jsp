@@ -26,19 +26,29 @@
 
 -->
 
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<%@ page import="java.util.List" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page session="false" %>
 
-<suite name="springsecurity-mock-integration-tests" verbose="7">
-  <parameter name="testType" value="INTEG_MOCK_SPRING_SECURITY"/>
-  
-  <listeners>
-    <listener class-name="com.force.sdk.qa.listener.TestTypeListener"/>
-  </listeners>
-  
-  <test name="springsecurity-mock-integration-test">
-    <packages>
-       <package name="com.force.sdk.springsecurity.mock" />
-    </packages>
-  </test>
+<hml>
 
-</suite>
+    <head>
+        <title>Project List</title>
+    </head>
+	<body>
+    <table class="itemlist" width="100%" border="1">
+			<tr>
+				<th>Name</th><th>Desc</th>
+			</tr>
+			<c:forEach items="${list}" var="project">
+				<tr>
+					<td>${project.name}</td>
+					<td>${project.desc}</td>
+				</tr>
+			</c:forEach>
+		</table>
+		<p/>
+
+	</body>
+</hml>

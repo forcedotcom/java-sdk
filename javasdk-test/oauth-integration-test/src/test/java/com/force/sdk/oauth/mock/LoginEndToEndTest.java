@@ -24,57 +24,41 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.springsecurity.endtoend;
-
-import java.io.IOException;
+package com.force.sdk.oauth.mock;
 
 import com.force.sdk.qa.util.BaseSecurityIntegrationTest;
+import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
-import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlPasswordInput;
-import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
-import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
+import java.io.IOException;
 
 /**
+ * Integration tests that verify redirected URL after OAuth handshake.
  * 
- * This is the base class for End To End Spring Security integration tests that hit the salesforce core app for authentication.
- *
  * @author Jeff Lai
- * 
  */
-public abstract class BaseEndToEndTest extends BaseSecurityIntegrationTest {
+public class LoginEndToEndTest extends BaseSecurityIntegrationTest  {
 
     private WebClient webClient;
-    
+
     @BeforeMethod
     public void methodSetup() throws FailingHttpStatusCodeException, IOException {
         webClient = new WebClient();
     }
-    
+
     @AfterMethod(alwaysRun = true)
     public void methodTeardown() {
         webClient.closeAllWindows();
     }
-    
-    public WebClient getWebClient() {
-        return webClient;
+
+    @Test
+    public void testLoginRedirectToDefaultTargetUrl() throws FailingHttpStatusCodeException, IOException {
+        HtmlPage page = webClient.getPage(appEndpoint + "/ProjectList");
+        Assert.assertEquals(page.getTitleText(), "Project List");
     }
-    
-    public HtmlPage fillOutCredentialsAndLogin(HtmlPage page) throws IOException {
-        Assert.assertEquals(page.getTitleText(), "salesforce.com - Customer Secure Login Page", "unexpected page");
-        HtmlForm form = page.getFormByName("login");
-        HtmlSubmitInput button = form.getInputByName("Login");
-        HtmlTextInput textFieldUsername = form.getInputByName("username");
-        HtmlPasswordInput textFieldPassword = form.getInputByName("pw");
-        textFieldUsername.setValueAttribute(username);
-        textFieldPassword.setValueAttribute(password);
-        return button.click();
-    }
-    
 }

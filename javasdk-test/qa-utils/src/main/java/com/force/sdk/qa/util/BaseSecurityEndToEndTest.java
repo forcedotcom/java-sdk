@@ -24,31 +24,26 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.springsecurity.endtoend;
+package com.force.sdk.qa.util;
 
-import java.io.IOException;
-
-import com.force.sdk.qa.util.BaseSecurityIntegrationTest;
+import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlPasswordInput;
-import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
-import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
+import java.io.IOException;
 
 /**
  * 
  * This is the base class for End To End Spring Security integration tests that hit the salesforce core app for authentication.
  *
  * @author Jeff Lai
+ * @author Nawab Iqbal
  * 
  */
-public abstract class BaseEndToEndTest extends BaseSecurityIntegrationTest {
+public abstract class BaseSecurityEndToEndTest extends BaseSecurityIntegrationTest {
 
     private WebClient webClient;
     

@@ -20,6 +20,8 @@
     <module>qa-utils</module>
     <module>springsecurity-app</module>
     <module>mock-oauth-server</module>
+    <module>oauth-app</module>
+    <module>oauth-integration-test</module>
     <module>connector-test</module>
     <module>jpa-test</module>
     <module>jpa-test-beanvalidation</module>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 
     Copyright (c) 2011, salesforce.com, inc.
@@ -26,19 +27,47 @@
 
 -->
 
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+           version="2.5">
 
-<suite name="springsecurity-mock-integration-tests" verbose="7">
-  <parameter name="testType" value="INTEG_MOCK_SPRING_SECURITY"/>
-  
-  <listeners>
-    <listener class-name="com.force.sdk.qa.listener.TestTypeListener"/>
-  </listeners>
-  
-  <test name="springsecurity-mock-integration-test">
-    <packages>
-       <package name="com.force.sdk.springsecurity.mock" />
-    </packages>
-  </test>
+    <!-- Enables Security -->
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.force.sdk.oauth.AuthFilter</filter-class>
+             <init-param>
+                <param-name>connectionName</param-name>
+                <param-value>integrationserver</param-value>
+            </init-param>
+             <init-param>
+                <param-name>secure-key-file</param-name>
+                <param-value>oauth-key.properties</param-value>
+            </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/_auth</url-pattern>
+        <url-pattern>/ProjectList</url-pattern>
+    </filter-mapping>
 
-</suite>
+    <servlet>
+        <display-name>ProjectList</display-name>
+        <servlet-name>ProjectList</servlet-name>
+        <servlet-class>com.force.servlets.ProjectList</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProjectList</servlet-name>
+        <url-pattern>/ProjectList</url-pattern>
+    </servlet-mapping>
+
+
+  <welcome-file-list>
+    <welcome-file>
+      index.html
+    </welcome-file>
+  </welcome-file-list>
+
+</web-app>

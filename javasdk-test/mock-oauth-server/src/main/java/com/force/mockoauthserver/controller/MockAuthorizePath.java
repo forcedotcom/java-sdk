@@ -67,6 +67,7 @@ public class MockAuthorizePath {
         URI u = new URI(redirectUri
                 + "?code=mytoken&"
                 + "state=" + state);
+        System.out.println("Redirected to:" + redirectUri+ "?code=mytoken&" + "state=" + state);
 
         return    Response.temporaryRedirect(u).status(302).build();
     }

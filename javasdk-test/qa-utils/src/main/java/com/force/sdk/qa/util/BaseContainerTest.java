@@ -26,13 +26,6 @@
 
 package com.force.sdk.qa.util;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.codehaus.cargo.container.ContainerType;
 import org.codehaus.cargo.container.InstalledLocalContainer;
 import org.codehaus.cargo.container.configuration.Configuration;
@@ -58,6 +51,13 @@ import org.codehaus.cargo.util.log.SimpleLogger;
 import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 
@@ -96,7 +96,11 @@ public abstract class BaseContainerTest {
             (InstalledLocalContainer) containerFac.createContainer(getContainerId(), ContainerType.INSTALLED, configuration);
         container.setLogger(new SimpleLogger());
         container.setHome(installer.getHome());
-        if (getContainerProps() != null) container.setSystemProperties(getContainerProps());
+        Map<String, String> props = getContainerProps();
+        if (props != null) {
+            container.setSystemProperties(props);
+        }
+
         System.out.println("starting container " + getContainerId() + " please wait...");
         container.start();
     }

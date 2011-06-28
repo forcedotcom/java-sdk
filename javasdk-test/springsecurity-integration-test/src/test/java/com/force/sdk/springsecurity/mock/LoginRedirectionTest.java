@@ -26,12 +26,7 @@
 
 package com.force.sdk.springsecurity.mock;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.Map;
-
+import com.force.sdk.qa.util.BaseSecurityIntegrationTest;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.client.HttpClient;
@@ -44,14 +39,18 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.force.sdk.springsecurity.BaseSpringSecurityIntegrationTest;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.Map;
 
 /**
  * Integration tests that verify redirected URL after OAuth handshake.
  * 
  * @author Jeff Lai
  */
-public class LoginRedirectionTest extends BaseSpringSecurityIntegrationTest {
+public class LoginRedirectionTest extends BaseSecurityIntegrationTest {
 
     private HttpClient httpClient;
     

@@ -1,0 +1,84 @@
+/**
+ * Copyright (c) 2011, salesforce.com, inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided
+ * that the following conditions are met:
+ *
+ *    Redistributions of source code must retain the above copyright notice, this list of conditions and the
+ *    following disclaimer.
+ *
+ *    Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+ *    the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *
+ *    Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+ *    promote products derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+ * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package com.force.servlets;
+
+import com.force.model.Project;
+import com.force.sdk.oauth.context.SecurityContextUtil;
+import com.force.utils.MockSecurityContextUtil;
+import mockit.Mockit;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+
+
+/**
+ * This servlet returns a list of projects. It also sets up a mock for returning user info, when {@code mockapi}
+ * system-variable is true.
+ *
+ * @author Nawab Iqbal
+ */
+public class ProjectList extends HttpServlet {
+    /**
+     * springsecurity-integration tests will set mockapi=true; when mock server is used.
+     * For using mock server, while running from command-line, set -Dmockapi=true
+     */
+    static {
+        System.out.println(" ------------------------------------------------------------------------");
+        System.out.println("mockapi: " + System.getProperty("mockapi"));
+
+        if (Boolean.getBoolean("mockapi"))
+        {
+            System.out.println("Mock has been setup.");
+            Mockit.setUpMock(SecurityContextUtil.class, MockSecurityContextUtil.class);
+        }
+        System.out.println(" ------------------------------------------------------------------------");
+    }
+
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List list = new LinkedList<Project>();
+        Project p = new Project();
+        p.setName("a name");
+        p.setDesc("some description");
+        list.add(p);
+        request.setAttribute("list",list);
+        System.out.println(list.size() + " projects.");
+		RequestDispatcher rd = getServletContext().getRequestDispatcher("/project_list.jsp");
+		rd.forward(request, response);
+    }
+}
+

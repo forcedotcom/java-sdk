@@ -28,16 +28,16 @@
 
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="springsecurity-mock-integration-tests" verbose="7">
-  <parameter name="testType" value="INTEG_MOCK_SPRING_SECURITY"/>
+<suite name="oauth-mock-integration-tests" verbose="7">
+  <parameter name="testType" value="INTEG_MOCK_AUTHFILTER"/>
   
   <listeners>
     <listener class-name="com.force.sdk.qa.listener.TestTypeListener"/>
   </listeners>
   
-  <test name="springsecurity-mock-integration-test">
+  <test name="oauth-mock-integration-test">
     <packages>
-       <package name="com.force.sdk.springsecurity.mock" />
+       <package name="com.force.sdk.oauth.mock" />
     </packages>
   </test>
 

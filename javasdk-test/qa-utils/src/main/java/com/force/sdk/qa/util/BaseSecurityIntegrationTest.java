@@ -24,13 +24,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.springsecurity;
+package com.force.sdk.qa.util;
 
-import com.force.sdk.qa.util.BaseContainerTest;
-import com.force.sdk.qa.util.PropsUtil;
-import com.force.sdk.qa.util.TestContext;
 import com.force.sdk.qa.util.TestContext.TestType;
-
 import org.apache.http.HttpResponse;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;
@@ -52,7 +48,7 @@ import java.util.Properties;
  * @author Nawab Iqbal
  *
  */
-public abstract class BaseSpringSecurityIntegrationTest extends BaseContainerTest {
+public abstract class BaseSecurityIntegrationTest extends BaseContainerTest {
     protected final String port = System.getProperty("containerPort");
     protected final String appEndpoint = System.getProperty("appEndpoint");
     protected final String appWarPath = System.getProperty("appWarPath");
@@ -76,7 +72,8 @@ public abstract class BaseSpringSecurityIntegrationTest extends BaseContainerTes
     public void suiteSetup() throws Exception {
         super.suiteSetup();
         deployWar(appWarPath);
-        if (TestContext.get().getTestType() == TestType.INTEG_MOCK_SPRING_SECURITY) {
+        if (TestContext.get().getTestType() == TestType.INTEG_MOCK_SPRING_SECURITY
+                || TestContext.get().getTestType() == TestType.INTEG_MOCK_AUTHFILTER) {
             deployWar(mockOauthServerWarPath);
         }
     }
@@ -112,11 +109,13 @@ public abstract class BaseSpringSecurityIntegrationTest extends BaseContainerTes
             map.put(useMockApi, "false");
             map.put(forceUrlPropName, "force://" + sfdcEndpoint
                     + ";oauth_key=" + oauthKey + ";oauth_secret=" + oauthSecret);
-        } else if (TestContext.get().getTestType() == TestType.INTEG_MOCK_SPRING_SECURITY) {
+        } else if (TestContext.get().getTestType() == TestType.INTEG_MOCK_SPRING_SECURITY
+                ||  TestContext.get().getTestType() == TestType.INTEG_MOCK_AUTHFILTER) {
             map.put(useMockApi, "true");
             map.put(forceUrlPropName, "force://" + mockSfdcEndpoint
                     + ";oauth_key=" + mockOauthKey + ";oauth_secret=" + mockOauthSecret);
         }
+
         return map;
     }
     

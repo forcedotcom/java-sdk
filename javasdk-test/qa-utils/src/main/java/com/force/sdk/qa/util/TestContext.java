@@ -60,7 +60,12 @@ public final class TestContext implements Serializable {
         /**
          * Test type for spring security integration tests that use real force.com oauth server.
          */
-        INTEG_ENDTOEND_SPRING_SECURITY
+        INTEG_ENDTOEND_SPRING_SECURITY,
+
+        /**
+         * Test type for AuthFilter integration tests that use mock oauth server.
+         */
+        INTEG_MOCK_AUTHFILTER
     }
     
     private volatile String testName;
