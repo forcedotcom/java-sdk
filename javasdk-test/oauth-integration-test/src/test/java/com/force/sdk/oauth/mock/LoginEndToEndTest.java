@@ -56,7 +56,7 @@ public class LoginEndToEndTest extends BaseSecurityIntegrationTest  {
         webClient.closeAllWindows();
     }
 
-    @Test
+    @Test (enabled = false)
     public void testLoginRedirectToDefaultTargetUrl() throws FailingHttpStatusCodeException, IOException {
         HtmlPage page = webClient.getPage(appEndpoint + "/ProjectList");
         Assert.assertEquals(page.getTitleText(), "Project List");
