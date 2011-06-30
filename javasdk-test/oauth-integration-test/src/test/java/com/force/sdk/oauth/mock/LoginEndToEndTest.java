@@ -39,8 +39,8 @@ import java.io.IOException;
 
 /**
  * Integration tests that verify redirected URL after OAuth handshake.
- * 
- * @author Jeff Lai
+ *
+ * @author Nawab Iqbal
  */
 public class LoginEndToEndTest extends BaseSecurityIntegrationTest  {
 
@@ -56,9 +56,15 @@ public class LoginEndToEndTest extends BaseSecurityIntegrationTest  {
         webClient.closeAllWindows();
     }
 
-    @Test (enabled = false)
-    public void testLoginRedirectToDefaultTargetUrl() throws FailingHttpStatusCodeException, IOException {
+    @Test
+    public void testLoginRedirectToTargetUrl() throws IOException {
         HtmlPage page = webClient.getPage(appEndpoint + "/ProjectList");
         Assert.assertEquals(page.getTitleText(), "Project List");
+    }
+
+    @Test
+    public void testLoginRedirectToHome() throws IOException {
+        HtmlPage page = webClient.getPage(appEndpoint);
+        Assert.assertEquals(page.getTitleText(), "Home");
     }
 }

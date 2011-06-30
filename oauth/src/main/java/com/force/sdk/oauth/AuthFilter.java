@@ -27,7 +27,6 @@
 package com.force.sdk.oauth;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.security.Principal;
 
 import javax.servlet.*;

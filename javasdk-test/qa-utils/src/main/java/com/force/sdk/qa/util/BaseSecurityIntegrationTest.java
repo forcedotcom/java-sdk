@@ -93,11 +93,35 @@ public abstract class BaseSecurityIntegrationTest extends BaseContainerTest {
         return "tomcat6x";
     }
 
+    public String getJMockitPath() {
+        String[] paths = System.getProperties().getProperty("java.class.path").split(":");
+
+        for(String path: paths) {
+            if(path.contains("jmockit")) {
+                return path;
+            }
+        }
+
+        return null;
+    }
+
     @Override
     public Map<String, String> getConfigProps() {
         Map<String, String> map = new HashMap<String, String>();
         map.put(ServletPropertySet.PORT, port);
         map.put(GeneralPropertySet.LOGGING , "high");
+
+        if (TestContext.get().getTestType() == TestType.INTEG_MOCK_SPRING_SECURITY
+                || TestContext.get().getTestType() == TestType.INTEG_MOCK_AUTHFILTER) {
+            // JDK 1.6.0_24 (Linux) seems to have some different implementation of Attach API as compared to 1.6.0_16
+            // and was failing with exception when setupMock is used in web applications inside the container.
+            // Using the following jvm parameter causes the JMockit agent to load without going through Attach API.
+
+            String mockitPath = getJMockitPath();
+            System.out.println("JMockit jar path:" + mockitPath);
+            map.put(GeneralPropertySet.JVMARGS, "-javaagent:" + mockitPath);
+        }
+
         return map;
     }
 
