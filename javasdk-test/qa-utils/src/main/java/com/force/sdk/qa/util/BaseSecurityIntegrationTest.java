@@ -96,8 +96,8 @@ public abstract class BaseSecurityIntegrationTest extends BaseContainerTest {
     public String getJMockitPath() {
         String[] paths = System.getProperties().getProperty("java.class.path").split(":");
 
-        for(String path: paths) {
-            if(path.contains("jmockit")) {
+        for (String path : paths) {
+            if (path.contains("jmockit")) {
                 return path;
             }
         }
