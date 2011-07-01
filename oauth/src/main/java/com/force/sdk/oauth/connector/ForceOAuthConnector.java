@@ -26,20 +26,18 @@
 
 package com.force.sdk.oauth.connector;
 
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import com.force.sdk.connector.ForceConnector;
 import com.force.sdk.connector.ForceConnectorUtils;
 import com.force.sdk.oauth.context.SecurityContext;
 import com.force.sdk.oauth.userdata.UserDataRetrievalService;
 import com.sforce.ws.ConnectionException;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.Map;
 
 /**
  * 
@@ -321,11 +319,17 @@ public class ForceOAuthConnector implements ForceConnector {
         } else {
             
             // host:post/contextPath/servletPath
-            state = new StringBuffer(getHostPort(request)).append(request.getContextPath())
-                            .append(request.getServletPath());
+            state = new StringBuffer(getHostPort(request))
+                    .append(request.getContextPath())
+                    .append(request.getServletPath());
             
-            if (request.getPathInfo() != null)
+            if (request.getPathInfo() != null) {
                 state.append(request.getPathInfo());
+            }
+
+            if (request.getQueryString() != null) {
+                state.append("?" + request.getQueryString());
+            }
         }
         
         // Build the login redirect url
