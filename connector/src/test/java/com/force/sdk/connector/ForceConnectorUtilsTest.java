@@ -26,7 +26,8 @@
 
 package com.force.sdk.connector;
 
-import static org.testng.Assert.assertEquals;
+import org.testng.Assert;
+import org.testng.annotations.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,8 +36,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
 
-import org.testng.Assert;
-import org.testng.annotations.*;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Unit Tests for ForceConnectorUtils.
@@ -112,7 +112,7 @@ public class ForceConnectorUtilsTest {
 
     @Test
     public void testCliforcePropsCache() throws IOException, URISyntaxException {
-        ForceConnectorUtils.cliforceConnFile = new File(this.getClass().getResource("/cliforce").toURI());
+        ForceConnectorUtils.cliforceConnFile = new File(this.getClass().getResource("/cliforce.properties").toURI());
         final String connName = "connA";
         final Map<ForceConnectionProperty, String> cliforceProps = ForceConnectorUtils.loadConnectorPropsFromName(connName);
         final Map<ForceConnectionProperty, String> duplicateCliforceProps =
@@ -136,7 +136,7 @@ public class ForceConnectorUtilsTest {
     @Test
     public void testCliforcePropsCacheWithTwoDifferentURLs() throws IOException, URISyntaxException {
         // init cliforce file to a test file
-        ForceConnectorUtils.cliforceConnFile = new File(this.getClass().getResource("/cliforce").toURI());
+        ForceConnectorUtils.cliforceConnFile = new File(this.getClass().getResource("/cliforce.properties").toURI());
         final String connName = "connA";
         final Map<ForceConnectionProperty, String> cliforceProps = ForceConnectorUtils.loadConnectorPropsFromName(connName);
         final String secondConnName = "connB";
