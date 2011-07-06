@@ -80,6 +80,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
     </dependency>
+      <dependency>
+        <groupId>mockit</groupId>
+        <artifactId>jmockit</artifactId>
+        <scope>runtime</scope>
+      </dependency>
   </dependencies>
 
 </project>
