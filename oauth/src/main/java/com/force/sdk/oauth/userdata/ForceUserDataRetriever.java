@@ -62,6 +62,10 @@ public class ForceUserDataRetriever implements UserDataRetriever {
         SecurityContext sc = new ForceSecurityContext();
         sc.setSessionId(sessionId);
         sc.setEndPoint(endpoint);
+        if (endpoint.indexOf("/services/Soap/u") > 0) {
+            sc.setEndPointHost(endpoint.substring(0, endpoint.indexOf("/services/Soap/u")));
+        }
+
         if (refreshToken != null) {
             sc.setRefreshToken(refreshToken);
         }

@@ -330,6 +330,7 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
             assertNotNull(sc, "SecurityContext thread local should have been set");
             assertNotNull(sc.getSessionId(), "SecurityContext session id should have been set");
             assertNotNull(sc.getEndPoint(), "SecurityContext end point should have been set");
+            assertNotNull(sc.getEndPointHost(), "SecurityContext end point host should have been set");
             
             if (request.getAttribute("nullUsername") != null && (Boolean) request.getAttribute("nullUsername")) {
                 assertNull(sc.getUserName(), "Username should be null when configured to not store username");

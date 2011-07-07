@@ -26,9 +26,9 @@
 
 package com.force.sdk.oauth.context;
 
-import java.io.Serializable;
-
 import com.sforce.soap.partner.GetUserInfoResult;
+
+import java.io.Serializable;
 
 /**
  * 
@@ -83,6 +83,16 @@ public abstract class CustomSecurityContext implements SecurityContext, Serializ
     @Override
     public final String getEndPoint() {
         return forceSecurityContext.getEndPoint();
+    }
+
+    @Override
+    public final void setEndPointHost(String endPointHost) {
+        forceSecurityContext.setEndPoint(endPointHost);
+    }
+
+    @Override
+    public final String getEndPointHost() {
+        return forceSecurityContext.getEndPointHost();
     }
 
     @Override

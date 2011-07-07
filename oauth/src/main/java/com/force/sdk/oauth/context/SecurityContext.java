@@ -69,6 +69,16 @@ public interface SecurityContext {
     void setEndPoint(String endPoint);
     /**
      * Gets the endPoint.
+     * @return endPointHost
+     */
+    String getEndPointHost();
+    /**
+     * Sets the host of endPoint.
+     * @param endPointHost String
+     */
+    void setEndPointHost(String endPointHost);
+    /**
+     * Gets the host of endPoint.
      * @return endPoint
      */
     String getEndPoint();

@@ -26,9 +26,9 @@
 
 package com.force.sdk.oauth.context;
 
-import java.io.Serializable;
-
 import com.sforce.soap.partner.GetUserInfoResult;
+
+import java.io.Serializable;
 
 /**
  * 
@@ -45,6 +45,7 @@ public final class ForceSecurityContext implements SecurityContext, Serializable
     private String orgId;
     private String userId;
     private String endPoint;
+    private String endPointHost;
     private String sessionId;
     private String refreshToken;
     private String userName;
@@ -96,7 +97,17 @@ public final class ForceSecurityContext implements SecurityContext, Serializable
     public String getEndPoint() {
         return endPoint;
     }
-    
+
+    @Override
+    public String getEndPointHost() {
+        return endPointHost;
+    }
+
+    @Override
+    public void setEndPointHost(String endPointHost) {
+        this.endPointHost = endPointHost;
+    }
+
     @Override
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
