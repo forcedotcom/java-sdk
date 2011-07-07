@@ -1,4 +1,5 @@
 <%--
+
     Copyright (c) 2011, salesforce.com, inc.
     All rights reserved.
 
@@ -30,7 +31,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="false" %>
 
-<hml>
+<html>
 
     <head>
         <title>Project List</title>
@@ -50,4 +51,4 @@
 		<p/>
 
 	</body>
-</hml>
+</html>
