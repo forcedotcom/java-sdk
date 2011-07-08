@@ -34,6 +34,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 /**
  * 
@@ -63,7 +65,7 @@ public class SecurityContextCookieStore implements
             //Refresh tokens should not be stored in cookies. Set it to null.
             securityContext.setRefreshToken(null);
             byte[] securityContextSer = serializeSecurityContext(securityContext, encrypted);
-            contextCookie = new Cookie(SECURITY_CONTEXT_COOKIE_NAME, b64encode(securityContextSer));
+            contextCookie = new Cookie(SECURITY_CONTEXT_COOKIE_NAME, URLEncoder.encode(b64encode(securityContextSer), "UTF-8"));
 
             boolean secure = !("localhost".equalsIgnoreCase(request.getLocalName())
                     || "0:0:0:0:0:0:0:1".equals(request.getLocalName()));
@@ -90,7 +92,7 @@ public class SecurityContextCookieStore implements
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
                     if (SECURITY_CONTEXT_COOKIE_NAME.equals(cookie.getName())) {
-                        value = cookie.getValue();
+                        value = URLDecoder.decode(cookie.getValue(), "UTF-8");
                     }
                 }
             }

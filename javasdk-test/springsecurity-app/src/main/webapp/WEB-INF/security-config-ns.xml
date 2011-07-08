@@ -41,7 +41,7 @@
 
     <!-- Force.com OAuth security config -->
     <fss:oauth default-login-success="/login_success.html" default-logout-success="/logout_success.html"
-        login-url="/login" logout-url="/logout" logout-from-force-dot-com="true" secure-key-file='spring-app-key.properties'>
+        login-url="/login" logout-url="/logout" logout-from-force-dot-com="false" secure-key-file='spring-app-key.properties'>
         
         <fss:connectionName name="integrationserver"/>
     </fss:oauth>

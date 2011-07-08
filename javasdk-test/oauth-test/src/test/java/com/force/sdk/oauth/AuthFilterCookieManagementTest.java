@@ -55,6 +55,7 @@ import javax.servlet.http.HttpSession;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.net.URLDecoder;
 
 /**
  * This class tests the session management of the AuthFilter.
@@ -272,7 +273,7 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
             return null;
         }
         
-        return deserializeSecurityContext(Base64.decode(value.getBytes()), true);
+        return deserializeSecurityContext(Base64.decode(URLDecoder.decode(value, "UTF-8").getBytes()), true);
     }
     
     private SecurityContext deserializeSecurityContext(byte[] securityContextSer, boolean encrypted)

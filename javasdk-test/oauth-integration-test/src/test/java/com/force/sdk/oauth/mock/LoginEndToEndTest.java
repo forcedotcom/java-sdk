@@ -36,6 +36,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 
 /**
  * Integration tests that verify redirected URL after OAuth handshake.
@@ -59,6 +60,8 @@ public class LoginEndToEndTest extends BaseSecurityIntegrationTest  {
     @Test
     public void testLoginRedirectToTargetUrl() throws IOException {
         HtmlPage page = webClient.getPage(appEndpoint + "/ProjectList");
+        String ep = webClient.getCookieManager().getCookie("force_ep").getValue();
+        Assert.assertTrue(URLDecoder.decode(ep, "UTF-8").contains("services/Soap/u/"));
         Assert.assertEquals(page.getTitleText(), "Project List");
     }
 
