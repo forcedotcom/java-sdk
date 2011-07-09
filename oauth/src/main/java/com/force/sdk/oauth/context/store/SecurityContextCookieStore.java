@@ -68,7 +68,7 @@ public class SecurityContextCookieStore implements
             contextCookie = new Cookie(SECURITY_CONTEXT_COOKIE_NAME, URLEncoder.encode(b64encode(securityContextSer), "UTF-8"));
 
             boolean secure = !("localhost".equalsIgnoreCase(request.getLocalName())
-                    || "0:0:0:0:0:0:0:1".equals(request.getLocalName()));
+                    || request.getLocalName().contains("0:0:0:0:0:0:0:1"));
             contextCookie.setSecure(secure);
             response.addCookie(contextCookie);
         } catch (ForceEncryptionException e) {

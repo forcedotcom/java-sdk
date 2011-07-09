@@ -108,7 +108,7 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
                 //retrieve the security context from the cookie. Verify that the cookie is
                 //secure only if the host is not "localhost"
                 boolean secure = !("localhost".equals(req.getLocalName())
-                        || "0:0:0:0:0:0:0:1".equals(req.getLocalName()));
+                        || req.getLocalName().contains("0:0:0:0:0:0:0:1"));
                 sc = retreiveSecurityContextFromCookie(mockResponse, secure);
             } catch (Exception e) {
                 throw new IOException(e);
@@ -239,7 +239,8 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
     protected Object[][] loginRedirectUrlParamProvider() {
         Object [][] servers = {
                 {"localhost"},
-                {"0:0:0:0:0:0:0:1"}
+                {"0:0:0:0:0:0:0:1"},
+                {"[0:0:0:0:0:0:0:1]"}
         };
 
         return servers;
