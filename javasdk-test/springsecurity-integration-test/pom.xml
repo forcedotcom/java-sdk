@@ -71,15 +71,29 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <dependencies>
     <dependency>
       <groupId>com.force.sdk</groupId>
+      <artifactId>force-oauth</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
       <artifactId>qa-utils</artifactId>
     </dependency>
     <dependency>
-      <groupId>net.sourceforge.htmlunit</groupId>
-      <artifactId>htmlunit</artifactId>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpcore</artifactId>
+      <version>4.1</version>
     </dependency>
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.sourceforge.htmlunit</groupId>
+      <artifactId>htmlunit</artifactId>
     </dependency>
     <dependency>
       <groupId>com.googlecode.jmockit</groupId>
