@@ -1,4 +1,4 @@
-<!--
+<%--
 
     Copyright (c) 2011, salesforce.com, inc.
     All rights reserved.
@@ -24,14 +24,14 @@
     NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
 
--->
+--%>
 
 <%@ page import="java.util.List" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="false" %>
 
-<hml>
+<html>
 
     <head>
         <title>Project List</title>
@@ -51,4 +51,4 @@
 		<p/>
 
 	</body>
-</hml>
+</html>

@@ -26,15 +26,14 @@
 
 package com.force.sdk.oauth;
 
-import static org.testng.Assert.*;
-
-import java.util.Properties;
-
-import org.testng.annotations.BeforeClass;
-
 import com.force.sdk.oauth.context.SecurityContext;
 import com.force.sdk.qa.util.PropsUtil;
 import com.force.sdk.qa.util.UserInfo;
+import org.testng.annotations.BeforeClass;
+
+import java.util.Properties;
+
+import static org.testng.Assert.*;
 
 /**
  * Base class for Force.com OAuth functional tests.
@@ -110,7 +109,10 @@ public class BaseOAuthTest {
         assertTrue(sc.getEndPoint().startsWith(expectedEndpoint),
                 "Unexpected endpoint in SecurityContext. Security context endpoint (" + sc.getEndPoint() + "). "
                 + "Expected endpoint (" + expectedEndpoint + ")");
-        
+
+        String expectedHost = sc.getEndPoint().substring(0, sc.getEndPoint().indexOf("/services/Soap/u"));
+        assertEquals(sc.getEndPointHost(), expectedHost, "EndPointHost is not as expected.");
+
         if (checkRefreshToken) {
             // The refresh token should not change
             assertEquals(sc.getRefreshToken(), refreshToken, "Refresh token changed");

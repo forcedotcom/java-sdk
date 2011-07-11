@@ -92,10 +92,17 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <artifactId>testng</artifactId>
     </dependency>
     <dependency>
+<<<<<<< HEAD
       <groupId>com.googlecode.jmockit</groupId>
-      <artifactId>jmockit</artifactId>
+=======
+      <groupId>net.sourceforge.htmlunit</groupId>
+      <artifactId>htmlunit</artifactId>
     </dependency>
-
+    <dependency>
+      <groupId>mockit</groupId>
+>>>>>>> 2435c77a566b3ad868883ec060ce164228b0c0a8
+      <artifactId>jmockit</artifactId>
+      <scope>runtime</scope>
+    </dependency>
   </dependencies>
-
 </project>
