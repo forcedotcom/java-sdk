@@ -68,37 +68,6 @@
     <module>springsecurity</module>
   </modules>
 
-  <repositories>
-    <repository>
-      <id>force.repo</id>
-      <name>Force.com Repository</name>
-      <url>http://repo.t.salesforce.com/archiva/repository/releases</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>force.repo.snapshot</id>
-      <name>Force.com Snapshot Repository</name>
-      <url>http://repo.t.salesforce.com/archiva/repository/snapshots</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>jmockit.repo</id>
-      <name>JMockit Repository</name>
-      <url>http://jmockit.googlecode.com/svn/maven-repo</url>
-    </repository>
-  </repositories>
-
-
   <distributionManagement>
     <repository>
       <id>force.repo</id>
@@ -116,7 +85,6 @@
       <url>file://${maven.site.destination}</url>
     </site>
   </distributionManagement>
-
   <scm>
     <connection>scm:git:git@github.com:forcedotcom/java-sdk.git</connection>
   </scm>
@@ -211,7 +179,7 @@
         </exclusions>
       </dependency>
       <dependency>
-        <groupId>mockit</groupId>
+        <groupId>com.googlecode.jmockit</groupId>
         <artifactId>jmockit</artifactId>
         <version>${jmockit.version}</version>
         <scope>test</scope>

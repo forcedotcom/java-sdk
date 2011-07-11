@@ -96,7 +96,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <artifactId>testng</artifactId>
     </dependency>
     <dependency>
-      <groupId>mockit</groupId>
+      <groupId>com.googlecode.jmockit</groupId>
       <artifactId>jmockit</artifactId>
     </dependency>
   </dependencies>
