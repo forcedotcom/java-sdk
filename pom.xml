@@ -6,6 +6,35 @@
   <name>force-sdk</name>
   <version>22.0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
+  <description>Database.com SDK for Java</description>
+  <url>http://www.force.com/</url>
+  <licenses>
+    <license>
+      <name>BSD License (BSD 3-Clause)</name>
+      <url>https://github.com/forcedotcom/java-sdk/blob/master/build-tools/src/main/resources/license/header.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <url>https://github.com/forcedotcom/java-sdk</url>
+    <connection>scm:git:git@github.com:forcedotcom/java-sdk.git</connection>
+    <developerConnection>scm:git:git@github.com:forcedotcom/java-sdk.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+  <developers><!-- see mailing list --></developers>
+  <mailingLists>
+    <mailingList>
+      <name>Database.com SDK for Java Issues</name>
+      <archive>https://github.com/forcedotcom/java-sdk/issues?state=closed</archive>
+      <subscribe>https://github.com/forcedotcom/java-sdk/toggle_watch</subscribe>
+      <unsubscribe>https://github.com/forcedotcom/java-sdk/toggle_watch</unsubscribe>
+      <post>https://github.com/forcedotcom/java-sdk/issues/new</post>
+    </mailingList>
+  </mailingLists>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/forcedotcom/java-sdk/issues/new</url>
+  </issueManagement>
 
   <properties>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -87,9 +116,6 @@
       <url>file://${maven.site.destination}</url>
     </site>
   </distributionManagement>
-  <scm>
-    <connection>scm:git:git@github.com:forcedotcom/java-sdk.git</connection>
-  </scm>
 
   <dependencyManagement>
     <dependencies>
