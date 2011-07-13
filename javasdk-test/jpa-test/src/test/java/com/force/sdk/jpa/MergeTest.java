@@ -360,7 +360,8 @@ public class MergeTest extends BaseMultiEntityManagerJPAFTest {
         
         Assert.assertTrue(newPerson.getId() != null, "Id is null. Account object was not persisted by merge().");
         
-        //TODO: Currently, we need to find() before merge. Following will pass once we are able to merge without find().
+        //TODO: Currently, we need to find() before merge (but this is how Hibernate works as well).
+        //      Following will pass once we are able to merge without find().
         //Assert.assertEquals(newPerson.getId(), person.getId(), "Ids don't match. New Person object was created by merge().");
         //PersonEntity a1 = em.find(PersonEntity.class, person.getId());
         //Assert.assertEquals(a1.getName(), newPerson.getName(), "New name was not merged by merge().");
@@ -419,4 +420,27 @@ public class MergeTest extends BaseMultiEntityManagerJPAFTest {
         // verify that two objects are different.
         Assert.assertNotSame(a1, personEntity, "New object was not created by merge().");
     }
+    
+    @Test
+    public void testMergeInSeparateTx() {
+        PersonEntity personEntity = new PersonEntity();
+        personEntity.setName("testMergeInSeparateTx");
+        
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.persist(personEntity);
+        tx.commit();
+        
+        String persistPersonEntityId = personEntity.getId();
+        personEntity.setName("testMergeInSeparateTxUpdate");
+        
+        tx = em.getTransaction();
+        tx.begin();
+        em.merge(personEntity);
+        tx.commit();
+        
+        Assert.assertEquals(personEntity.getId(), persistPersonEntityId,
+                                "Created new entity in separate transaction merge.");
+    }
+    
 }
