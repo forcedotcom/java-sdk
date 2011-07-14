@@ -109,7 +109,6 @@ public class ObjectNameFilter implements ObjectFilter {
      * 
      * @return true if and only if this {@code ObjectNameFilter}
      *         is an include filter
-     * @return
      */
     public boolean isInclude() {
         return include;
