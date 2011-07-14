@@ -34,25 +34,29 @@ import com.sforce.soap.partner.DescribeSObjectResult;
  * A {@link ObjectFilter} that filters based on Force.com schema object (SObject)
  * names.
  * <p>
- * This {@code ObjectFilter} will filter a Force.com schema object if and only if
- * its name exactly matches one in the {@code ObjectNameFilter} state.  Names
- * in the {@code ObjectNameFilter} state that don't match schema objects are
- * ignored.
+ * This {@code ObjectFilter} can filter a Force.com schema object if and only if
+ * its name exactly matches one in the {@code ObjectNameFilter} state. It can
+ * be run either as an include filter or an exclude filter. Names in the
+ * {@code ObjectNameFilter} state that don't match schema objects are ignored.
  * 
  * @author Tim Kral
  */
 public class ObjectNameFilter implements ObjectFilter {
 
+    private final boolean include;
     private final Set<String> objectNames;
     
     /**
      * Initializes an {@code ObjectNameFilter} with a set of
      * Force.com schema object names that are to be filtered.
      * 
+     * @param include whether this {@code ObjectNameFilter} is
+     *                an include filter or exclude filter
      * @param objectNames a {@code java.util.Set} of exact object
      *                    names that are to be filtered in
      */
-    public ObjectNameFilter(Set<String> objectNames) {
+    public ObjectNameFilter(boolean include, Set<String> objectNames) {
+        this.include = include;
         this.objectNames = objectNames;
     }
     
@@ -62,10 +66,13 @@ public class ObjectNameFilter implements ObjectFilter {
      * <p>
      * Note that duplicates within the given array will be eliminated.
      * 
+     * @param include whether this {@code ObjectNameFilter} is
+     *                an include filter or exclude filter
      * @param objectNames an {@code Array} of exact object
      *                    names that are to be filtered in
      */
-    public ObjectNameFilter(String... objectNames) {
+    public ObjectNameFilter(boolean include, String... objectNames) {
+        this.include = include;
         this.objectNames = new HashSet<String>();
         this.objectNames.addAll(Arrays.asList(objectNames));
     }
@@ -74,7 +81,9 @@ public class ObjectNameFilter implements ObjectFilter {
     public List<DescribeSObjectResult> filter(List<DescribeSObjectResult> dsrs) {
         List<DescribeSObjectResult> filteredResult = new ArrayList<DescribeSObjectResult>();
         for (DescribeSObjectResult dsr : dsrs) {
-            if (objectNames.contains(dsr.getName())) {
+            // include => objectNames.contains(name)
+            // exclude => !objectNames.contains(name)
+            if (include == objectNames.contains(dsr.getName())) {
                 filteredResult.add(dsr);
             }
         }
@@ -92,5 +101,17 @@ public class ObjectNameFilter implements ObjectFilter {
      */
     public Set<String> getObjectNames() {
         return objectNames;
+    }
+    
+    /**
+     * Returns whether this {@code ObjectNameFilter} is an
+     * include filter or exclude filter.
+     * 
+     * @return true if and only if this {@code ObjectNameFilter}
+     *         is an include filter
+     * @return
+     */
+    public boolean isInclude() {
+        return include;
     }
 }
