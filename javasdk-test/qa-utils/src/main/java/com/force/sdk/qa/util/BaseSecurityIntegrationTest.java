@@ -85,7 +85,7 @@ public abstract class BaseSecurityIntegrationTest extends BaseContainerTest {
 
     @Override
     public String getZipInstallerUrl() {
-        return "http://apache.opensourceresources.org/tomcat/tomcat-6/v6.0.32/bin/apache-tomcat-6.0.32.zip";
+        return "http://apache.mirrors.redwire.net/tomcat/tomcat-6/v6.0.32/bin/apache-tomcat-6.0.32.zip";
     }
 
     @Override
