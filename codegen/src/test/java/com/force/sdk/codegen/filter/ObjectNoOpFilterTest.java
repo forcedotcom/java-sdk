@@ -26,23 +26,37 @@
 
 package com.force.sdk.codegen.filter;
 
+import static org.testng.Assert.*;
+
+import java.util.Collections;
 import java.util.List;
+
+import org.testng.annotations.Test;
 
 import com.sforce.soap.partner.DescribeSObjectResult;
 
 /**
- * Filter that determines which Force.com {@code DescribeSObjectResult} objects
- * are injected into a code generation {@link com.force.sdk.codegen.template.Template}.
+ * Unit tests for {@link ObjectNoOpFilter}.
  *
  * @author Tim Kral
  */
-public interface DataFilter {
+public class ObjectNoOpFilterTest {
 
-    /**
-     * Filters a list of Force.com {@code DescribeSObjectResult} objects.
-     * 
-     * @param dsrs the list of Force.com {@code DescribeSObjectResult} objects to be filtered
-     * @return the filtered list of Force.com {@code DescribeSObjectResult} objects
-     */
-    List<DescribeSObjectResult> filter(List<DescribeSObjectResult> dsrs);
+    @Test
+    public void testFilterWithNullValue() {
+        assertNull(new ObjectNoOpFilter().filter(null), "A no op filter of a null value should be null");
+    }
+    
+    @Test
+    public void testFilterWithNonNullValue() {
+        DescribeSObjectResult dsr = new DescribeSObjectResult();
+        dsr.setName("Object_Name__c");
+        
+        List<DescribeSObjectResult> dsrs =
+            new ObjectNoOpFilter().filter(Collections.<DescribeSObjectResult>singletonList(dsr));
+        
+        assertNotNull(dsrs, "A no op filter of a non-null value should be non-null");
+        assertEquals(dsrs.size(), 1, "Unexpected number of DescribeSObjectResults after no op filter");
+        assertEquals(dsrs.get(0).getName(), "Object_Name__c", "Unexpected DescribeSObjectResult after no op filter");
+    }
 }

@@ -37,11 +37,11 @@ import com.google.inject.internal.Lists;
 import com.sforce.soap.partner.*;
 
 /**
- * Unit tests for {@link ObjectNameWithRefDataFilter}.
+ * Unit tests for {@link ObjectNameWithRefFilter}.
  *
  * @author Tim Kral
  */
-public class ObjectNameWithRefDataFilterTest {
+public class ObjectNameWithRefFilterTest {
 
     @Test
     public void testFilterWithNoReferences() {
@@ -59,7 +59,7 @@ public class ObjectNameWithRefDataFilterTest {
         dsrOut.setFields(new Field[] {idField});
         
         List<DescribeSObjectResult> dsrs =
-            new ObjectNameWithRefDataFilter("Object_Name_In__c").filter(Lists.newArrayList(dsrIn, dsrOut));
+            new ObjectNameWithRefFilter("Object_Name_In__c").filter(Lists.newArrayList(dsrIn, dsrOut));
         
         assertNotNull(dsrs, "An object name with references filter of a non-null value should be non-null");
         assertEquals(dsrs.size(), 1, "Unexpected number of DescribeSObjectResults after object name with references filter");
@@ -84,7 +84,7 @@ public class ObjectNameWithRefDataFilterTest {
         dsrIn.setFields(new Field[] {refField});
         
         List<DescribeSObjectResult> dsrs =
-            new ObjectNameWithRefDataFilter("Object_Name_In__c").filter(Lists.newArrayList(dsrIn, dsrRef));
+            new ObjectNameWithRefFilter("Object_Name_In__c").filter(Lists.newArrayList(dsrIn, dsrRef));
         
         assertNotNull(dsrs, "An object name with references filter of a non-null value should be non-null");
         assertEquals(dsrs.size(), 2, "Unexpected number of DescribeSObjectResults after object name with references filter");
@@ -118,7 +118,7 @@ public class ObjectNameWithRefDataFilterTest {
         dsrRef1.setFields(new Field[] {refField2});
         
         List<DescribeSObjectResult> dsrs =
-            new ObjectNameWithRefDataFilter("Object_Name_In__c").filter(Lists.newArrayList(dsrIn, dsrRef1, dsrRef2));
+            new ObjectNameWithRefFilter("Object_Name_In__c").filter(Lists.newArrayList(dsrIn, dsrRef1, dsrRef2));
         
         assertNotNull(dsrs, "An object name with references filter of a non-null value should be non-null");
         assertEquals(dsrs.size(), 3, "Unexpected number of DescribeSObjectResults after object name with references filter");
@@ -149,7 +149,7 @@ public class ObjectNameWithRefDataFilterTest {
         dsrRef1.setFields(new Field[] {refField2});
         
         List<DescribeSObjectResult> dsrs =
-            new ObjectNameWithRefDataFilter("RefObject1__c").filter(Lists.newArrayList(dsrRef1, dsrRef2));
+            new ObjectNameWithRefFilter("RefObject1__c").filter(Lists.newArrayList(dsrRef1, dsrRef2));
         
         assertNotNull(dsrs, "An object name with references filter of a non-null value should be non-null");
         assertEquals(dsrs.size(), 2, "Unexpected number of DescribeSObjectResults after object name with references filter");

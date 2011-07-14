@@ -31,33 +31,33 @@ import java.util.*;
 import com.sforce.soap.partner.DescribeSObjectResult;
 
 /**
- * A {@link DataFilter} that filters based on Force.com schema object (SObject)
+ * A {@link ObjectFilter} that filters based on Force.com schema object (SObject)
  * names.
  * <p>
- * This {@code DataFilter} will filter a Force.com schema object if and only if
- * its name exactly matches one in the {@code ObjectNameDataFilter} state.  Names
- * in the {@code ObjectNameDataFilter} state that don't match schema objects are
+ * This {@code ObjectFilter} will filter a Force.com schema object if and only if
+ * its name exactly matches one in the {@code ObjectNameFilter} state.  Names
+ * in the {@code ObjectNameFilter} state that don't match schema objects are
  * ignored.
  * 
  * @author Tim Kral
  */
-public class ObjectNameDataFilter implements DataFilter {
+public class ObjectNameFilter implements ObjectFilter {
 
     private final Set<String> objectNames;
     
     /**
-     * Initializes a {@code ObjectNameDataFilter} with a set of
+     * Initializes an {@code ObjectNameFilter} with a set of
      * Force.com schema object names that are to be filtered.
      * 
      * @param objectNames a {@code java.util.Set} of exact object
      *                    names that are to be filtered in
      */
-    public ObjectNameDataFilter(Set<String> objectNames) {
+    public ObjectNameFilter(Set<String> objectNames) {
         this.objectNames = objectNames;
     }
     
     /**
-     * Initializes a {@code ObjectNameDataFilter} with a set of
+     * Initializes an {@code ObjectNameFilter} with a set of
      * Force.com schema object names that are to be filtered.
      * <p>
      * Note that duplicates within the given array will be eliminated.
@@ -65,7 +65,7 @@ public class ObjectNameDataFilter implements DataFilter {
      * @param objectNames an {@code Array} of exact object
      *                    names that are to be filtered in
      */
-    public ObjectNameDataFilter(String... objectNames) {
+    public ObjectNameFilter(String... objectNames) {
         this.objectNames = new HashSet<String>();
         this.objectNames.addAll(Arrays.asList(objectNames));
     }
@@ -84,11 +84,11 @@ public class ObjectNameDataFilter implements DataFilter {
 
     /**
      * Returns the {@code java.util.Set} of schema object names
-     * on which this {@code ObjectNameDataFilter} will filter.
+     * on which this {@code ObjectNameFilter} will filter.
      * 
      * @return a non {@code null} {@code java.util.Set} that
      *         contains the schema object names on which this
-     *         {@code ObjectNameDataFilter} will filter
+     *         {@code ObjectNameFilter} will filter
      */
     public Set<String> getObjectNames() {
         return objectNames;

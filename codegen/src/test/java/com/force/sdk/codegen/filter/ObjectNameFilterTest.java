@@ -26,37 +26,36 @@
 
 package com.force.sdk.codegen.filter;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.testng.annotations.Test;
 
+import com.google.inject.internal.Lists;
 import com.sforce.soap.partner.DescribeSObjectResult;
 
 /**
- * Unit tests for {@link NoOpDataFilter}.
+ * Unit tests for {@link ObjectNameFilter}.
  *
  * @author Tim Kral
  */
-public class NoOpDataFilterTest {
+public class ObjectNameFilterTest {
 
     @Test
-    public void testFilterWithNullValue() {
-        assertNull(new NoOpDataFilter().filter(null), "A no op filter of a null value should be null");
-    }
-    
-    @Test
-    public void testFilterWithNonNullValue() {
-        DescribeSObjectResult dsr = new DescribeSObjectResult();
-        dsr.setName("Object_Name__c");
+    public void testBasicFilter() {
+        DescribeSObjectResult dsrIn = new DescribeSObjectResult();
+        dsrIn.setName("Object_Name_In__c");
+        
+        DescribeSObjectResult dsrOut = new DescribeSObjectResult();
+        dsrOut.setName("Object_Name_Out__c");
         
         List<DescribeSObjectResult> dsrs =
-            new NoOpDataFilter().filter(Collections.<DescribeSObjectResult>singletonList(dsr));
+            new ObjectNameFilter("Object_Name_In__c").filter(Lists.newArrayList(dsrIn, dsrOut));
         
-        assertNotNull(dsrs, "A no op filter of a non-null value should be non-null");
-        assertEquals(dsrs.size(), 1, "Unexpected number of DescribeSObjectResults after no op filter");
-        assertEquals(dsrs.get(0).getName(), "Object_Name__c", "Unexpected DescribeSObjectResult after no op filter");
+        assertNotNull(dsrs, "An object name filter of a non-null value should be non-null");
+        assertEquals(dsrs.size(), 1, "Unexpected number of DescribeSObjectResults after object name filter");
+        assertEquals(dsrs.get(0).getName(), "Object_Name_In__c", "Unexpected DescribeSObjectResult after object name filter");
     }
 }

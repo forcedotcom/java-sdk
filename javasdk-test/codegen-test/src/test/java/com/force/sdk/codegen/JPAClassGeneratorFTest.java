@@ -38,7 +38,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.force.sdk.codegen.filter.ObjectNameWithRefDataFilter;
+import com.force.sdk.codegen.filter.ObjectNameWithRefFilter;
 import com.force.sdk.connector.ForceServiceConnector;
 import com.force.sdk.qa.util.PropsUtil;
 import com.google.common.collect.ImmutableSet;
@@ -85,7 +85,7 @@ public class JPAClassGeneratorFTest {
         try {
             ForceJPAClassGenerator generator = new ForceJPAClassGenerator();
             generator.setPackageName("com.ftest.model");
-            generator.setFilter(new ObjectNameWithRefDataFilter(objectNames));
+            generator.setFilter(new ObjectNameWithRefFilter(objectNames));
             
             ForceServiceConnector connector = new ForceServiceConnector(PropsUtil.FORCE_SDK_TEST_NAME);
             

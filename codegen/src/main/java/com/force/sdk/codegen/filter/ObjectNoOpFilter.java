@@ -26,36 +26,24 @@
 
 package com.force.sdk.codegen.filter;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-
 import java.util.List;
 
-import org.testng.annotations.Test;
-
-import com.google.inject.internal.Lists;
 import com.sforce.soap.partner.DescribeSObjectResult;
 
 /**
- * Unit tests for {@link ObjectNameDataFilter}.
- *
+ * A pass-through code generation {@link ObjectFilter}.
+ * <p>
+ * This {@code ObjectFilter} performs no filtering processing and
+ * simply returns any list of Force.com {@code DescribeSObjectResult} objects
+ * that it receives.
+ * 
  * @author Tim Kral
  */
-public class ObjectNameDataFilterTest {
+public class ObjectNoOpFilter implements ObjectFilter {
 
-    @Test
-    public void testBasicFilter() {
-        DescribeSObjectResult dsrIn = new DescribeSObjectResult();
-        dsrIn.setName("Object_Name_In__c");
-        
-        DescribeSObjectResult dsrOut = new DescribeSObjectResult();
-        dsrOut.setName("Object_Name_Out__c");
-        
-        List<DescribeSObjectResult> dsrs =
-            new ObjectNameDataFilter("Object_Name_In__c").filter(Lists.newArrayList(dsrIn, dsrOut));
-        
-        assertNotNull(dsrs, "An object name filter of a non-null value should be non-null");
-        assertEquals(dsrs.size(), 1, "Unexpected number of DescribeSObjectResults after object name filter");
-        assertEquals(dsrs.get(0).getName(), "Object_Name_In__c", "Unexpected DescribeSObjectResult after object name filter");
+    @Override
+    public List<DescribeSObjectResult> filter(List<DescribeSObjectResult> dsrs) {
+        return dsrs;
     }
+    
 }

@@ -35,8 +35,8 @@ import javax.lang.model.SourceVersion;
 import org.antlr.stringtemplate.AttributeRenderer;
 import org.antlr.stringtemplate.StringTemplateGroup;
 
-import com.force.sdk.codegen.filter.DataFilter;
-import com.force.sdk.codegen.filter.NoOpDataFilter;
+import com.force.sdk.codegen.filter.ObjectFilter;
+import com.force.sdk.codegen.filter.ObjectNoOpFilter;
 import com.force.sdk.codegen.renderer.ForceJPAClassRenderer;
 import com.force.sdk.codegen.renderer.ForceJPAFieldRenderer;
 import com.force.sdk.codegen.selector.DataSelector;
@@ -79,8 +79,8 @@ public class ForceJPAClassGenerator extends AbstractCodeGenerator {
     // generated package name)
     private String packageName;
     
-    // Allow the caller to specify a DataFilter
-    private DataFilter filter;
+    // Allow the caller to specify an ObjectFilter
+    private ObjectFilter filter;
     
     /**
      * Sets the Java package name under which the Java classes
@@ -95,13 +95,13 @@ public class ForceJPAClassGenerator extends AbstractCodeGenerator {
     }
 
     @Override
-    protected final DataFilter getFilter() {
+    protected final ObjectFilter getFilter() {
         if (filter != null) return filter;
         
-        return new NoOpDataFilter();
+        return new ObjectNoOpFilter();
     }
     
-    public final void setFilter(DataFilter filter) {
+    public final void setFilter(ObjectFilter filter) {
         this.filter = filter;
     }
     

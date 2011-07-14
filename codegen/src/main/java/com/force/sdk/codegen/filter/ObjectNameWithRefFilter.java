@@ -31,22 +31,22 @@ import java.util.*;
 import com.sforce.soap.partner.*;
 
 /**
- * A {@link DataFilter} that filters based on Force.com schema object (SObject)
+ * A {@link ObjectFilter} that filters based on Force.com schema object (SObject)
  * names and follows object references to produce a closed set of schema objects.
  * <p>
- * This {@code DataFilter} will filter a Force.com schema object if and only if
+ * This {@code ObjectFilter} will filter a Force.com schema object if and only if
  * at least one of the two following conditions are met:
  * <p>
  * <ol>
- *   <li>Its name exactly matches one in the {@code ObjectNameWithRefDataFilter} state</li>
+ *   <li>Its name exactly matches one in the {@code ObjectNameWithRefFilter} state</li>
  *   <li>It is referenced by a schema object that has already been filtered</li>
  * </ol>
- * Names in the {@code ObjectNameWithRefDataFilter} state that don't match schema objects are
+ * Names in the {@code ObjectNameWithRefFilter} state that don't match schema objects are
  * ignored.
  * 
  * @author Tim Kral
  */
-public class ObjectNameWithRefDataFilter implements DataFilter {
+public class ObjectNameWithRefFilter implements ObjectFilter {
 
     // The object names that we want to filter
     private final Set<String> objectNames;
@@ -61,7 +61,7 @@ public class ObjectNameWithRefDataFilter implements DataFilter {
     private List<DescribeSObjectResult> filteredResult = new ArrayList<DescribeSObjectResult>();
     
     /**
-     * Initializes a {@code ObjectNameWithRefDataFilter} with a set of
+     * Initializes an {@code ObjectNameWithRefFilter} with a set of
      * Force.com schema object names that are to be filtered
      * along with their references.
      * 
@@ -69,12 +69,12 @@ public class ObjectNameWithRefDataFilter implements DataFilter {
      *                    names that are to be filtered along with
      *                    their references
      */
-    public ObjectNameWithRefDataFilter(Set<String> objectNames) {
+    public ObjectNameWithRefFilter(Set<String> objectNames) {
         this.objectNames = new HashSet<String>(objectNames);
     }
     
     /**
-     * Initializes a {@code ObjectNameWithRefDataFilter} with a set of
+     * Initializes an {@code ObjectNameWithRefFilter} with a set of
      * Force.com schema object names that are to be filtered
      * along with their references.
      * <p>
@@ -84,7 +84,7 @@ public class ObjectNameWithRefDataFilter implements DataFilter {
      *                    names that are to be filtered along with
      *                    their references
      */
-    public ObjectNameWithRefDataFilter(String... objectNames) {
+    public ObjectNameWithRefFilter(String... objectNames) {
         this.objectNames = new HashSet<String>();
         this.objectNames.addAll(Arrays.asList(objectNames));
     }

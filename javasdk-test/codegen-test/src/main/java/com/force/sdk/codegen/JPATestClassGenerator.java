@@ -32,7 +32,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 
-import com.force.sdk.codegen.filter.ObjectNameWithRefDataFilter;
+import com.force.sdk.codegen.filter.ObjectNameWithRefFilter;
 import com.force.sdk.connector.ForceServiceConnector;
 import com.force.sdk.qa.util.PropsUtil;
 import com.google.common.collect.ImmutableSet;
@@ -70,7 +70,7 @@ public final class JPATestClassGenerator {
             
             ForceJPAClassGenerator generator = new ForceJPAClassGenerator();
             generator.setPackageName(PACKAGE_NAME);
-            generator.setFilter(new ObjectNameWithRefDataFilter(
+            generator.setFilter(new ObjectNameWithRefFilter(
                                         ImmutableSet.<String>of("Account", "ActivityHistory",
                                                                 "Case", "CaseHistory", "Document",
                                                                 "Folder", "LoginHistory")));

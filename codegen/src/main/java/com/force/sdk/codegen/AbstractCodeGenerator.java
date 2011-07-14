@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.force.sdk.codegen.filter.DataFilter;
+import com.force.sdk.codegen.filter.ObjectFilter;
 import com.force.sdk.codegen.selector.DataSelector;
 import com.force.sdk.codegen.template.Template;
 import com.force.sdk.codegen.writer.WriterProvider;
@@ -56,7 +56,7 @@ import com.sforce.ws.ConnectionException;
  * <p>
  * <ol>
  *   <li>
- *    Model = {@code DataFilter}, {@code DataSelector}. This provides the data that will
+ *    Model = {@code ObjectFilter}, {@code DataSelector}. This provides the data that will
  *    be used in the template.
  *    </li>
  *    <li>
@@ -105,7 +105,7 @@ public abstract class AbstractCodeGenerator implements CodeGenerator {
         // Get the user information
         GetUserInfoResult userInfo = conn.getUserInfo();
         
-        DataFilter filter = getFilter();
+        ObjectFilter filter = getFilter();
         assert filter != null;
         
         Template template = getTemplate();
@@ -140,7 +140,7 @@ public abstract class AbstractCodeGenerator implements CodeGenerator {
         return numGeneratedCode;
     }
     
-    protected abstract DataFilter getFilter();
+    protected abstract ObjectFilter getFilter();
     protected abstract DataSelector getSelector();
     protected abstract Template getTemplate();
     protected abstract WriterProvider getWriterProvider(File destDir);

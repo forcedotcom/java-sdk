@@ -31,19 +31,18 @@ import java.util.List;
 import com.sforce.soap.partner.DescribeSObjectResult;
 
 /**
- * A pass-through code generation {@link DataFilter}.
- * <p>
- * This {@code DataFilter} performs no filtering processing and
- * simply returns any list of Force.com {@code DescribeSObjectResult} objects
- * that it receives.
- * 
+ * Filter that determines which Force.com {@code DescribeSObjectResult} objects
+ * are injected into a code generation {@link com.force.sdk.codegen.template.Template}.
+ *
  * @author Tim Kral
  */
-public class NoOpDataFilter implements DataFilter {
+public interface ObjectFilter {
 
-    @Override
-    public List<DescribeSObjectResult> filter(List<DescribeSObjectResult> dsrs) {
-        return dsrs;
-    }
-    
+    /**
+     * Filters a list of Force.com {@code DescribeSObjectResult} objects.
+     * 
+     * @param dsrs the list of Force.com {@code DescribeSObjectResult} objects to be filtered
+     * @return the filtered list of Force.com {@code DescribeSObjectResult} objects
+     */
+    List<DescribeSObjectResult> filter(List<DescribeSObjectResult> dsrs);
 }

@@ -37,8 +37,8 @@ import java.io.IOException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.force.sdk.codegen.filter.DataFilter;
-import com.force.sdk.codegen.filter.NoOpDataFilter;
+import com.force.sdk.codegen.filter.ObjectFilter;
+import com.force.sdk.codegen.filter.ObjectNoOpFilter;
 import com.sforce.ws.ConnectionException;
 
 /**
@@ -52,9 +52,9 @@ public class ForceJPAClassGeneratorTest {
     public void testFilterDefaultsToNoOpFilter() {
         ForceJPAClassGenerator generator = new ForceJPAClassGenerator();
         
-        DataFilter filter = generator.getFilter();
+        ObjectFilter filter = generator.getFilter();
         assertNotNull(filter, "ForceJPAClassGenerator filter should default when not specified");
-        assertEquals(filter.getClass(), NoOpDataFilter.class,
+        assertEquals(filter.getClass(), ObjectNoOpFilter.class,
                 "ForceJPAClassGenerator filter should default to NoOpFilter");
     }
     
