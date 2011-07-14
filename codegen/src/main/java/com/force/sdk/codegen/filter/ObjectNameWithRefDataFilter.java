@@ -70,7 +70,7 @@ public class ObjectNameWithRefDataFilter implements DataFilter {
      *                    their references
      */
     public ObjectNameWithRefDataFilter(Set<String> objectNames) {
-        this.objectNames = objectNames;
+        this.objectNames = new HashSet<String>(objectNames);
     }
     
     /**

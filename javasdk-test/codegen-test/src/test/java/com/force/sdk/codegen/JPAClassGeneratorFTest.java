@@ -26,24 +26,23 @@
 
 package com.force.sdk.codegen;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
-import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.force.sdk.codegen.filter.ObjectNameWithRefDataFilter;
+import com.force.sdk.connector.ForceServiceConnector;
 import com.force.sdk.qa.util.PropsUtil;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.sforce.ws.ConnectionException;
 
 /**
@@ -62,39 +61,44 @@ public class JPAClassGeneratorFTest {
 
     @DataProvider
     public Object[][] customAndStandardObjectsWithCounts() {
-        Set<String> standardClasses = ImmutableSet.<String>of("Account.java", "CallCenter.java"
-                , "Contact.java", "Group.java", "Organization.java", "Profile.java", "User.java"
-                , "UserLicense.java", "UserRole.java");
+//        Set<String> standardClasses = ImmutableSet.<String>of("Account.java", "CallCenter.java"
+//                , "Contact.java", "Group.java", "Organization.java", "Profile.java", "User.java"
+//                , "UserLicense.java", "UserRole.java");
 
         return new Object[][] {
-                { Lists.newArrayList("Opportunity"), ImmutableSet.<String>of(
+                { ImmutableSet.<String>of("Opportunity"), ImmutableSet.<String>of(
                         "Account.java", "BusinessProcess.java", "CallCenter.java", "Campaign.java", "Contact.java"
                       , "Group.java", "Opportunity.java", "Organization.java", "Pricebook2.java", "Profile.java"
                       , "RecordType.java", "User.java", "UserLicense.java", "UserRole.java") }
-              , { Lists.newArrayList(""), standardClasses }
-              , { Lists.newArrayList("User"), standardClasses }
-              , { new ArrayList<String>(ForceJPAClassGenerator.STANDARD_OBJECTS), standardClasses }
-              , { Lists.<String>newArrayList((String) null), standardClasses }
+              , { ImmutableSet.<String>of("User"), ImmutableSet.<String>of("Account.java", "CallCenter.java"
+                      , "Contact.java", "Group.java", "Organization.java", "Profile.java", "User.java"
+                      , "UserLicense.java", "UserRole.java") }
+//              , { new ArrayList<String>(ForceJPAClassGenerator.STANDARD_OBJECTS), standardClasses }
+              , { ImmutableSet.<String>of(""), Collections.<String>emptySet() }
+              , { Sets.<String>newHashSet((String) null), Collections.<String>emptySet() }
         };
     }
 
     @Test(dataProvider = "customAndStandardObjectsWithCounts")
-    public void testGenerateClasses(List<String> objectNames, Set<String> expectedFileNames)
+    public void testGenerateClassesWithRefs(Set<String> objectNames, Set<String> expectedFileNames)
     throws ConnectionException, IOException {
         try {
-            ForceJPAClassGenerator generator = new ForceJPAClassGenerator(PropsUtil.FORCE_SDK_TEST_NAME, new File(TMP_DIR));
+            ForceJPAClassGenerator generator = new ForceJPAClassGenerator();
             generator.setPackageName("com.ftest.model");
-
-            int classCount = generator.generateJPAClasses(objectNames);
+            generator.setFilter(new ObjectNameWithRefDataFilter(objectNames));
+            
+            ForceServiceConnector connector = new ForceServiceConnector(PropsUtil.FORCE_SDK_TEST_NAME);
+            
+            int classCount = generator.generateCode(connector.getConnection(), new File(TMP_DIR));
             int expectedCount = expectedFileNames.size();
 
             File[] actualFiles =
                 new File(TMP_DIR + File.separator + "com" + File.separator + "ftest" + File.separator + "model")
                     .listFiles();
-            int fileCount = actualFiles.length;
+            int fileCount = actualFiles == null ? 0 : actualFiles.length;
 
-            Assert.assertEquals(classCount, expectedCount, "Unexpected number of generated classes.");
-            Assert.assertEquals(fileCount, expectedCount, "Unexpected number of generated files.");
+            assertEquals(classCount, expectedCount, "Unexpected number of generated classes.");
+            assertEquals(fileCount, expectedCount, "Unexpected number of generated files.");
             assertGeneratedFileNamesMatch(actualFiles, expectedFileNames);
         } finally {
             FileUtils.deleteDirectory(new File(TMP_DIR));
@@ -102,25 +106,16 @@ public class JPAClassGeneratorFTest {
     }
 
     private void assertGeneratedFileNamesMatch(File[] files, Set<String> fileNames) {
-        Assert.assertEquals(files.length, fileNames.size(), "Mismatched number of fileNames for files");
+        if (files == null) {
+            assertEquals(0, fileNames.size(), "Mismatched number of fileNames for files");
+            return;
+        }
+        
+        assertEquals(files.length, fileNames.size(), "Mismatched number of fileNames for files");
 
         for (int i = 0; i < files.length; i++) {
-            Assert.assertTrue(fileNames.contains(files[i].getName()), "Unexpected filename: " + files[i]);
+            assertTrue(fileNames.contains(files[i].getName()), "Unexpected filename: " + files[i]);
         }
     }
     
-    @Test
-    public void testGenerateClassesWithNullObjectNames() throws ConnectionException, IOException {
-        try {
-            ForceJPAClassGenerator generator = new ForceJPAClassGenerator(PropsUtil.FORCE_SDK_TEST_NAME, new File(TMP_DIR));
-            generator.setPackageName("com.failure.model");
-            
-            generator.generateJPAClasses(null);
-            fail("Generate JPA Classes should have failed because we supplyed a null object names list");
-        } catch (IllegalArgumentException expected) {
-            assertEquals(expected.getMessage(), "Object name list is null", "Unexpected error message");
-        } finally {
-            FileUtils.deleteDirectory(new File(TMP_DIR));
-        }
-    }
 }

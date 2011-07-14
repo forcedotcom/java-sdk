@@ -27,25 +27,26 @@
 package com.force.sdk.codegen;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.lang.model.SourceVersion;
 
 import org.antlr.stringtemplate.AttributeRenderer;
 import org.antlr.stringtemplate.StringTemplateGroup;
 
-import com.force.sdk.codegen.filter.*;
+import com.force.sdk.codegen.filter.DataFilter;
+import com.force.sdk.codegen.filter.NoOpDataFilter;
 import com.force.sdk.codegen.renderer.ForceJPAClassRenderer;
 import com.force.sdk.codegen.renderer.ForceJPAFieldRenderer;
+import com.force.sdk.codegen.selector.DataSelector;
 import com.force.sdk.codegen.selector.ForceJPAClassDataSelector;
 import com.force.sdk.codegen.template.StringTemplateWrapper;
+import com.force.sdk.codegen.template.Template;
 import com.force.sdk.codegen.writer.ForceJPAFileWriterProvider;
-import com.force.sdk.connector.ForceConnectorConfig;
-import com.force.sdk.connector.ForceServiceConnector;
-import com.google.common.collect.ImmutableSet;
-import com.sforce.soap.partner.*;
-import com.sforce.ws.ConnectionException;
+import com.force.sdk.codegen.writer.WriterProvider;
+import com.sforce.soap.partner.DescribeSObjectResult;
+import com.sforce.soap.partner.Field;
 
 /**
  * Generator for Force.com JPA enabled Java classes.
@@ -63,11 +64,8 @@ import com.sforce.ws.ConnectionException;
  *
  * @author Tim Kral
  */
-public class ForceJPAClassGenerator {
+public class ForceJPAClassGenerator extends AbstractCodeGenerator {
 
-    // The set of standard objects that will always be generated (along with their dependencies)
-    /* package */ static final Set<String> STANDARD_OBJECTS = ImmutableSet.<String>of("User");
-    
     // The renderers for Force.com JPA object generation
     private static final Map<Class<?>, AttributeRenderer> RENDERER_MAP =
         new HashMap<Class<?>, AttributeRenderer>(2);
@@ -77,68 +75,12 @@ public class ForceJPAClassGenerator {
         RENDERER_MAP.put(Field.class, new ForceJPAFieldRenderer());
     }
     
-    // Connection to the org that we're doing the generation for
-    private final PartnerConnection conn;
-    
-    // The destination of the generated Java classes
-    private final File destDir;
-    
     // Allow a static package name (as opposed to a dynamically
     // generated package name)
     private String packageName;
     
-    /**
-     * Initializes a {@code ForceJPAClassGenerator} with a named {@link ForceConnectorConfig}
-     * source and a destination (project) directory.
-     * <p>
-     * The {@code ForceJPAClassGenerator} will obtain a connection to the Force.com service
-     * using the {@code ForceConnectorConfig} source.  Generated Java classes will be written
-     * to the destination directory. 
-     * 
-     * @param connectionName a named {@code ForceConnectorConfig} source
-     * @param destDir the destination (project) directory to which the generated Java classes
-     *                will be written
-     * @throws ConnectionException if there is an error connecting to the Force.com service
-     */
-    public ForceJPAClassGenerator(String connectionName, File destDir) throws ConnectionException {
-        ForceServiceConnector connector = new ForceServiceConnector(connectionName);
-        this.conn = connector.getConnection();
-        this.destDir = destDir;
-    }
-
-    /**
-     * Initializes a {@code ForceJPAClassGenerator} with a {@link ForceConnectorConfig}
-     * and a destination (project) directory.
-     * <p>
-     * The {@code ForceJPAClassGenerator} will obtain a connection to the Force.com service
-     * using the {@code ForceConnectorConfig}.  Generated Java classes will be written
-     * to the destination directory. 
-     * 
-     * @param config a {@code ForceConnectorConfig}
-     * @param destDir the destination (project) directory to which the generated Java classes
-     *                will be written
-     * @throws ConnectionException if there is an error connecting to the Force.com service
-     */
-    public ForceJPAClassGenerator(ForceConnectorConfig config, File destDir) throws ConnectionException {
-        ForceServiceConnector connector = new ForceServiceConnector(config);
-        this.conn = connector.getConnection();
-        this.destDir = destDir;
-    }
-    
-    /**
-     * Initializes a {@code ForceJPAClassGenerator} with a connection to the Force.com
-     * service and a destination (project) directory.
-     * <p>
-     * Generated Java classes will be written to the destination directory. 
-     * 
-     * @param conn a {@code PartnerConnection} to the Force.com service
-     * @param destDir the destination (project) directory to which the generated Java classes
-     *                will be written
-     */    
-    public ForceJPAClassGenerator(PartnerConnection conn, File destDir) {
-        this.conn = conn;
-        this.destDir = destDir;
-    }
+    // Allow the caller to specify a DataFilter
+    private DataFilter filter;
     
     /**
      * Sets the Java package name under which the Java classes
@@ -148,67 +90,55 @@ public class ForceJPAClassGenerator {
      *                    to Java package naming standards
      */
     public void setPackageName(String packageName) {
+        validatePackageName(packageName);
         this.packageName = packageName;
     }
 
-    /**
-     * Executes the Java class generation.
-     * 
-     * @param objectNames the Force.com schema objects that are to be generated as
-     *                    Java classes (along with their references)
-     * @return the number of Force.com JPA enabled Java classes generated
-     * @throws ConnectionException if an error occurs trying to connection to the Force.com service
-     * @throws IOException if an error occurs trying to write out the generated Java classes
-     */
-    public int generateJPAClasses(List<String> objectNames) throws ConnectionException, IOException {
-        // Generate objects (see ForceObject.st)
-        CodeGenerator codeGenerator = createClassGenerator(objectNames);
-        return codeGenerator.generateCode(conn);
+    @Override
+    protected final DataFilter getFilter() {
+        if (filter != null) return filter;
+        
+        return new NoOpDataFilter();
     }
     
-    private CodeGenerator createClassGenerator(List<String> objectNames) {
-        CodeGenerator.Builder builder = new CodeGenerator.Builder();
-        
-        if (objectNames == null) {
-            throw new IllegalArgumentException("Object name list is null");
-        }
-        
-        // If the first object name parameter is '*' then we'll
-        // generate source files for all the org's SObjects
-        DataFilter filter;
-        if (objectNames.size() > 0 && "*".equals(objectNames.get(0))) {
-            filter = new NoOpDataFilter();
-        } else {
-            Set<String> objectNameSet = new HashSet<String>(STANDARD_OBJECTS);
-            objectNameSet.addAll(objectNames);
-            filter = new ObjectNameWithRefDataFilter(objectNameSet);
-        }
-        
-        ForceJPAClassDataSelector selector = new ForceJPAClassDataSelector();
-        
+    public final void setFilter(DataFilter filter) {
+        this.filter = filter;
+    }
+    
+    @Override
+    protected final Template getTemplate() {
         StringTemplateWrapper template =
-            new StringTemplateWrapper(new StringTemplateGroup("JPA").getInstanceOf("templates/ForceObject"));
+            new StringTemplateWrapper(new StringTemplateGroup("JPA").getInstanceOf("templates/ForceJPAClass"));
         template.setAttributeRenderers(RENDERER_MAP);
         
+        return template;
+    }
+    
+    @Override
+    protected final DataSelector getSelector() {
+        ForceJPAClassDataSelector selector = new ForceJPAClassDataSelector();
+        
+        if (packageName != null) {
+            selector.setPackageName(packageName);
+        }
+        
+        return selector;
+    }
+    
+    @Override
+    protected final WriterProvider getWriterProvider(File destDir) {
         ForceJPAFileWriterProvider writerProvider = new ForceJPAFileWriterProvider(destDir);
         
         if (packageName != null) {
-            if (!isValidPackageName(packageName)) {
-                throw new IllegalArgumentException("Invalid package name: " + packageName);
-            }
-            
-            selector.setPackageName(packageName);
             writerProvider.setPackageName(packageName);
         }
         
-        builder.filter(filter).selector(selector)
-               .template(template).writerProvider(writerProvider);
- 
-        return builder.build();
+        return writerProvider;
     }
     
-    static boolean isValidPackageName(String packageName) {
-        if (!SourceVersion.isName(packageName)) return false;
-        return true;
+    static void validatePackageName(String packageName) {
+        if (!SourceVersion.isName(packageName)) {
+            throw new IllegalArgumentException("Invalid package name: " + packageName);
+        }
     }
 }

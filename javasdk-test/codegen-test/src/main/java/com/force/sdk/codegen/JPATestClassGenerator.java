@@ -32,8 +32,10 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 
+import com.force.sdk.codegen.filter.ObjectNameWithRefDataFilter;
+import com.force.sdk.connector.ForceServiceConnector;
 import com.force.sdk.qa.util.PropsUtil;
-import com.google.common.collect.Lists;
+import com.google.common.collect.ImmutableSet;
 import com.sforce.ws.ConnectionException;
 
 /**
@@ -66,20 +68,23 @@ public final class JPATestClassGenerator {
             Properties props = new Properties();
             props.load(is);
             
+            ForceJPAClassGenerator generator = new ForceJPAClassGenerator();
+            generator.setPackageName(PACKAGE_NAME);
+            generator.setFilter(new ObjectNameWithRefDataFilter(
+                                        ImmutableSet.<String>of("Account", "ActivityHistory",
+                                                                "Case", "CaseHistory", "Document",
+                                                                "Folder", "LoginHistory")));
+            
+            
             // We'll generate the sources into the target directory
             // (as defined in pom.xml under build-helper-maven-plugin)
             String generatedFileDir = props.getProperty("project.root") + File.separator + "target"
                                         + File.separator + "generated-test-files";
             
             // Load the connection information from java-sdk-test.properties
-            ForceJPAClassGenerator generator =
-                new ForceJPAClassGenerator(PropsUtil.FORCE_SDK_TEST_NAME, new File(generatedFileDir));
-      
-        generator.setPackageName(PACKAGE_NAME);
-        generator.generateJPAClasses(
-                Lists.newArrayList("Account", "ActivityHistory",
-                                   "Case", "CaseHistory", "Document",
-                                   "Folder", "LoginHistory"));
+            ForceServiceConnector connector = new ForceServiceConnector(PropsUtil.FORCE_SDK_TEST_NAME);
+            
+            generator.generateCode(connector.getConnection(), new File(generatedFileDir));
         } finally {
             is.close();
         }

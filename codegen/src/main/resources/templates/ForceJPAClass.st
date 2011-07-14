@@ -69,7 +69,7 @@ public class $objectInfo; format="className"$ extends $objectInfo; format="super
     
 $fields: {f |
     $if(f.picklistValues)$
-        $templates/PicklistValueEnum(field=f)$
+        $templates/ForceJPAPicklistValueEnum(field=f)$
     
     $endif$
 }$

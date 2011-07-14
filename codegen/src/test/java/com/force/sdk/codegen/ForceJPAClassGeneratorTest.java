@@ -27,16 +27,18 @@
 package com.force.sdk.codegen;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.sforce.soap.partner.PartnerConnection;
+import com.force.sdk.codegen.filter.DataFilter;
+import com.force.sdk.codegen.filter.NoOpDataFilter;
 import com.sforce.ws.ConnectionException;
 
 /**
@@ -46,6 +48,16 @@ import com.sforce.ws.ConnectionException;
  */
 public class ForceJPAClassGeneratorTest {
 
+    @Test
+    public void testFilterDefaultsToNoOpFilter() {
+        ForceJPAClassGenerator generator = new ForceJPAClassGenerator();
+        
+        DataFilter filter = generator.getFilter();
+        assertNotNull(filter, "ForceJPAClassGenerator filter should default when not specified");
+        assertEquals(filter.getClass(), NoOpDataFilter.class,
+                "ForceJPAClassGenerator filter should default to NoOpFilter");
+    }
+    
     @DataProvider
     protected Object[][] packageNameProvider() {
         return new Object[][] {
@@ -65,19 +77,21 @@ public class ForceJPAClassGeneratorTest {
     
     @Test(dataProvider = "packageNameProvider")
     public void testIsPackageNameValid(String packageName, boolean expectedIsValid) {
-        assertEquals(ForceJPAClassGenerator.isValidPackageName(packageName), expectedIsValid,
-                "This package name should be " + (expectedIsValid ? "valid: " : "invalid: ") + packageName);
+        try {
+            ForceJPAClassGenerator.validatePackageName(packageName);
+            assertTrue(expectedIsValid, "This package name should be invalid: " + packageName);
+        } catch (IllegalArgumentException e) {
+            assertFalse(expectedIsValid, "This package name should be valid: " + packageName);
+        }
     }
     
     @Test
     public void testGenerateWithInvalidPackageName() throws ConnectionException, IOException {
-        ForceJPAClassGenerator generator =
-            new ForceJPAClassGenerator((PartnerConnection) null, new File(System.getProperty("java.io.tmpdir")));
-        generator.setPackageName("1");
+        ForceJPAClassGenerator generator = new ForceJPAClassGenerator();
         
         try {
-            generator.generateJPAClasses(Collections.<String>emptyList());
-            fail("Code generation should have failed due to an invalid package name");
+            generator.setPackageName("1");
+            fail("Should not be able to set an invalid package name");
         } catch (IllegalArgumentException expected) {
             assertEquals(expected.getMessage(), "Invalid package name: 1");
         }
