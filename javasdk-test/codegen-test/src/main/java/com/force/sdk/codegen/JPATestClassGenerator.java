@@ -70,7 +70,7 @@ public final class JPATestClassGenerator {
             
             ForceJPAClassGenerator generator = new ForceJPAClassGenerator();
             generator.setPackageName(PACKAGE_NAME);
-            generator.setFilter(new ObjectNameWithRefFilter(
+            generator.setObjectFilter(new ObjectNameWithRefFilter(
                                         ImmutableSet.<String>of("Account", "ActivityHistory",
                                                                 "Case", "CaseHistory", "Document",
                                                                 "Folder", "LoginHistory")));

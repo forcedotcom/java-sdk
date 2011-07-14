@@ -85,7 +85,7 @@ public class JPAClassGeneratorFTest {
         try {
             ForceJPAClassGenerator generator = new ForceJPAClassGenerator();
             generator.setPackageName("com.ftest.model");
-            generator.setFilter(new ObjectNameWithRefFilter(objectNames));
+            generator.setObjectFilter(new ObjectNameWithRefFilter(objectNames));
             
             ForceServiceConnector connector = new ForceServiceConnector(PropsUtil.FORCE_SDK_TEST_NAME);
             

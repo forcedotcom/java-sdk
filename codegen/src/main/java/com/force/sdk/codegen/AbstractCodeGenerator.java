@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.force.sdk.codegen.filter.FieldFilter;
 import com.force.sdk.codegen.filter.ObjectFilter;
 import com.force.sdk.codegen.selector.DataSelector;
 import com.force.sdk.codegen.template.Template;
@@ -105,8 +106,11 @@ public abstract class AbstractCodeGenerator implements CodeGenerator {
         // Get the user information
         GetUserInfoResult userInfo = conn.getUserInfo();
         
-        ObjectFilter filter = getFilter();
-        assert filter != null;
+        ObjectFilter objectFilter = getObjectFilter();
+        assert objectFilter != null;
+        
+        FieldFilter fieldFilter = getFieldFilter();
+        assert fieldFilter != null;
         
         Template template = getTemplate();
         assert template != null;
@@ -120,7 +124,10 @@ public abstract class AbstractCodeGenerator implements CodeGenerator {
         // Write filtered data to the template
         int numGeneratedCode = 0;
         
-        for (DescribeSObjectResult dsr : filter.filter(allOrgObjects)) {
+        for (DescribeSObjectResult dsr : objectFilter.filter(allOrgObjects)) {
+            
+            dsr = fieldFilter.filter(dsr);
+            
             // Before we write a new source file, make sure the template is reset
             template.reset();
             
@@ -140,9 +147,11 @@ public abstract class AbstractCodeGenerator implements CodeGenerator {
         return numGeneratedCode;
     }
     
-    protected abstract ObjectFilter getFilter();
-    protected abstract DataSelector getSelector();
+    protected abstract ObjectFilter getObjectFilter();
+    protected abstract FieldFilter getFieldFilter();
+
     protected abstract Template getTemplate();
+    protected abstract DataSelector getSelector();
     protected abstract WriterProvider getWriterProvider(File destDir);
     
 }

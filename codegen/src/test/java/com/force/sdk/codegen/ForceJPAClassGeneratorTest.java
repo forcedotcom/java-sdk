@@ -37,6 +37,8 @@ import java.io.IOException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.force.sdk.codegen.filter.FieldFilter;
+import com.force.sdk.codegen.filter.FieldNoOpFilter;
 import com.force.sdk.codegen.filter.ObjectFilter;
 import com.force.sdk.codegen.filter.ObjectNoOpFilter;
 import com.sforce.ws.ConnectionException;
@@ -49,13 +51,23 @@ import com.sforce.ws.ConnectionException;
 public class ForceJPAClassGeneratorTest {
 
     @Test
-    public void testFilterDefaultsToNoOpFilter() {
+    public void testObjectFilterDefaultsToNoOpFilter() {
         ForceJPAClassGenerator generator = new ForceJPAClassGenerator();
         
-        ObjectFilter filter = generator.getFilter();
-        assertNotNull(filter, "ForceJPAClassGenerator filter should default when not specified");
-        assertEquals(filter.getClass(), ObjectNoOpFilter.class,
-                "ForceJPAClassGenerator filter should default to NoOpFilter");
+        ObjectFilter objectFilter = generator.getObjectFilter();
+        assertNotNull(objectFilter, "ForceJPAClassGenerator objectFilter should default when not specified");
+        assertEquals(objectFilter.getClass(), ObjectNoOpFilter.class,
+                "ForceJPAClassGenerator objectFilter should default to ObjectNoOpFilter");
+    }
+    
+    @Test
+    public void testFieldFilterDefaultsToNoOpFilter() {
+        ForceJPAClassGenerator generator = new ForceJPAClassGenerator();
+        
+        FieldFilter fieldFilter = generator.getFieldFilter();
+        assertNotNull(fieldFilter, "ForceJPAClassGenerator fieldFilter should default when not specified");
+        assertEquals(fieldFilter.getClass(), FieldNoOpFilter.class,
+                "ForceJPAClassGenerator fieldFilter should default to FieldNoOpFilter");
     }
     
     @DataProvider

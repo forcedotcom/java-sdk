@@ -35,6 +35,8 @@ import javax.lang.model.SourceVersion;
 import org.antlr.stringtemplate.AttributeRenderer;
 import org.antlr.stringtemplate.StringTemplateGroup;
 
+import com.force.sdk.codegen.filter.FieldFilter;
+import com.force.sdk.codegen.filter.FieldNoOpFilter;
 import com.force.sdk.codegen.filter.ObjectFilter;
 import com.force.sdk.codegen.filter.ObjectNoOpFilter;
 import com.force.sdk.codegen.renderer.ForceJPAClassRenderer;
@@ -80,7 +82,10 @@ public class ForceJPAClassGenerator extends AbstractCodeGenerator {
     private String packageName;
     
     // Allow the caller to specify an ObjectFilter
-    private ObjectFilter filter;
+    private ObjectFilter objectFilter;
+
+    // Allow the caller to specify a FieldFilter
+    private FieldFilter fieldFilter;
     
     /**
      * Sets the Java package name under which the Java classes
@@ -95,14 +100,23 @@ public class ForceJPAClassGenerator extends AbstractCodeGenerator {
     }
 
     @Override
-    protected final ObjectFilter getFilter() {
-        if (filter != null) return filter;
-        
+    protected final ObjectFilter getObjectFilter() {
+        if (objectFilter != null) return objectFilter;
         return new ObjectNoOpFilter();
     }
     
-    public final void setFilter(ObjectFilter filter) {
-        this.filter = filter;
+    public final void setObjectFilter(ObjectFilter objectFilter) {
+        this.objectFilter = objectFilter;
+    }
+    
+    @Override
+    protected final FieldFilter getFieldFilter() {
+        if (fieldFilter != null) return fieldFilter;
+        return new FieldNoOpFilter();
+    }
+    
+    public final void setFieldFilter(FieldFilter fieldFilter) {
+        this.fieldFilter = fieldFilter;
     }
     
     @Override
