@@ -40,10 +40,10 @@ import com.force.sdk.codegen.filter.FieldFilter;
 import com.force.sdk.codegen.filter.ForceJPAFieldFilter;
 import com.force.sdk.codegen.filter.ObjectFilter;
 import com.force.sdk.codegen.filter.ObjectNoOpFilter;
+import com.force.sdk.codegen.injector.ForceJPAClassTemplateInjector;
+import com.force.sdk.codegen.injector.TemplateInjector;
 import com.force.sdk.codegen.renderer.ForceJPAClassRenderer;
 import com.force.sdk.codegen.renderer.ForceJPAFieldRenderer;
-import com.force.sdk.codegen.selector.DataSelector;
-import com.force.sdk.codegen.selector.ForceJPAClassDataSelector;
 import com.force.sdk.codegen.template.StringTemplateWrapper;
 import com.force.sdk.codegen.template.Template;
 import com.force.sdk.codegen.writer.ForceJPAFileWriterProvider;
@@ -138,14 +138,14 @@ public class ForceJPAClassGenerator extends AbstractCodeGenerator {
     }
     
     @Override
-    protected final DataSelector getSelector() {
-        ForceJPAClassDataSelector selector = new ForceJPAClassDataSelector();
+    protected final TemplateInjector getTemplateInjector() {
+        ForceJPAClassTemplateInjector templateInjector = new ForceJPAClassTemplateInjector();
         
         if (packageName != null) {
-            selector.setPackageName(packageName);
+            templateInjector.setPackageName(packageName);
         }
         
-        return selector;
+        return templateInjector;
     }
     
     @Override

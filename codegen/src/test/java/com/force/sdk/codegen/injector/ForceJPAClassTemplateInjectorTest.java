@@ -24,37 +24,43 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.codegen.selector;
+package com.force.sdk.codegen.injector;
 
 import static org.testng.Assert.assertEquals;
 
+import java.util.Collections;
+
 import org.testng.annotations.Test;
 
-import com.force.sdk.codegen.filter.FieldNoOpFilter;
 import com.force.sdk.codegen.template.StringTemplateWrapper;
 import com.sforce.soap.partner.DescribeSObjectResult;
+import com.sforce.soap.partner.Field;
 import com.sforce.soap.partner.GetUserInfoResult;
 
 /**
- * Unit tests for {@link ForceJPAClassDataSelector}.
+ * Unit tests for {@link ForceJPAClassTemplateInjector}.
  *
  * @author Tim Kral
  */
-public class ForceJPAClassDataSelectorTest {
+public class ForceJPAClassTemplateInjectorTest {
     
     @Test
-    public void testBasicSelect() {
+    public void testBasicInjection() {
         GetUserInfoResult userInfo = new GetUserInfoResult();
         userInfo.setOrganizationName("testBasicSelect UserInfo");
         
         DescribeSObjectResult dsr = new DescribeSObjectResult();
         dsr.setName("testBasicSelect DescribeSObjectResult");
         
-        StringTemplateWrapper template = new StringTemplateWrapper("$packageName$ $userInfo.organizationName$ $objectInfo.name$");
-        new ForceJPAClassDataSelector().select(userInfo, dsr, new FieldNoOpFilter(), template);
+        Field field = new Field();
+        field.setName("Field__c");
+        
+        StringTemplateWrapper template =
+            new StringTemplateWrapper("$packageName$ $userInfo.organizationName$ $objectInfo.name$ $fields:{f | $f.name$ }$");
+        new ForceJPAClassTemplateInjector().inject(userInfo, dsr, Collections.<Field>singletonList(field), template);
         
         assertEquals(template.toString(),
-                "com.testbasicselectuserinfo.model testBasicSelect UserInfo testBasicSelect DescribeSObjectResult",
+                "com.testbasicselectuserinfo.model testBasicSelect UserInfo testBasicSelect DescribeSObjectResult Field__c ",
                 "Unexpected template after Force.com JPA class data select");
     }
     
@@ -64,10 +70,10 @@ public class ForceJPAClassDataSelectorTest {
         userInfo.setOrganizationName("testStaticPackageName UserInfo");
         
         StringTemplateWrapper template = new StringTemplateWrapper("$packageName$");
-        ForceJPAClassDataSelector selector = new ForceJPAClassDataSelector();
-        selector.setPackageName("com.staticpackage.model");
+        ForceJPAClassTemplateInjector templateInjector = new ForceJPAClassTemplateInjector();
+        templateInjector.setPackageName("com.staticpackage.model");
         
-        selector.select(userInfo, new DescribeSObjectResult(), new FieldNoOpFilter(), template);
+        templateInjector.inject(userInfo, new DescribeSObjectResult(), null, template);
         
         assertEquals(template.toString(), "com.staticpackage.model",
                 "Unexpected template after Force.com JPA class data select");

@@ -35,7 +35,7 @@ import java.util.List;
 
 import com.force.sdk.codegen.filter.FieldFilter;
 import com.force.sdk.codegen.filter.ObjectFilter;
-import com.force.sdk.codegen.selector.DataSelector;
+import com.force.sdk.codegen.injector.TemplateInjector;
 import com.force.sdk.codegen.template.Template;
 import com.force.sdk.codegen.writer.WriterProvider;
 import com.sforce.soap.partner.DescribeGlobalSObjectResult;
@@ -57,7 +57,7 @@ import com.sforce.ws.ConnectionException;
  * <p>
  * <ol>
  *   <li>
- *    Model = {@code ObjectFilter}, {@code DataSelector}. This provides the data that will
+ *    Model = {@code ObjectFilter}, {@code FieldFilter}. This provides the data that will
  *    be used in the template.
  *    </li>
  *    <li>
@@ -115,8 +115,8 @@ public abstract class AbstractCodeGenerator implements CodeGenerator {
         Template template = getTemplate();
         assert template != null;
         
-        DataSelector selector = getSelector();
-        assert selector != null;
+        TemplateInjector templateInjector = getTemplateInjector();
+        assert templateInjector != null;
         
         WriterProvider writerProvider = getWriterProvider(destDir);
         assert writerProvider != null;
@@ -128,8 +128,8 @@ public abstract class AbstractCodeGenerator implements CodeGenerator {
             // Before we write a new source file, make sure the template is reset
             template.reset();
             
-            // Select the data that we're interested in 
-            selector.select(userInfo, dsr, fieldFilter, template);
+            // Inject the data into the template 
+            templateInjector.inject(userInfo, dsr, fieldFilter.filter(dsr), template);
             
             Writer writer = null;
             try {
@@ -148,7 +148,7 @@ public abstract class AbstractCodeGenerator implements CodeGenerator {
     protected abstract FieldFilter getFieldFilter();
 
     protected abstract Template getTemplate();
-    protected abstract DataSelector getSelector();
+    protected abstract TemplateInjector getTemplateInjector();
     protected abstract WriterProvider getWriterProvider(File destDir);
     
 }

@@ -24,31 +24,34 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.codegen.selector;
+package com.force.sdk.codegen.injector;
 
-import com.force.sdk.codegen.filter.FieldFilter;
+import java.util.List;
+
 import com.force.sdk.codegen.template.Template;
 import com.sforce.soap.partner.DescribeSObjectResult;
+import com.sforce.soap.partner.Field;
 import com.sforce.soap.partner.GetUserInfoResult;
 
 /**
- * Selects data from a Force.com {@code GetUserInfoResult} object and a
- * Force.com {@code DescribeSObjectResult} object and injects it into a code generation 
- * {@link Template}.
+ * Injects state into a code generation {@link Template}. A {@code TemplateInjector}
+ * is paired with a particular {@code Template} and has knowledge about the state
+ * required by that {@code Template}.
  *
  * @author Tim Kral
  */
-public interface DataSelector {
+public interface TemplateInjector {
 
     /**
-     * Selects data from a {@code GetUserInfoResult} object and {@code DescribeSObjectResult}
-     * object and injects it into a {@code Template}.
+     * Injects state from a {@code GetUserInfoResult} object and {@code DescribeSObjectResult}
+     * object into a {@code Template}. It can also run a {@code FieldFilter} on the 
+     * {@code DescribeSObjectResult}.
      * 
      * @param userInfo the Force.com user who is running the code generation  
      * @param dsr the Force.com schema object for which code will be generated
-     * @param fieldFilter the {@code FieldFilter} to run while generating code
+     * @param fieldList the Force.com field list to use for code generation
      * @param template the {@code Template} object representing the physical 
      *                 layout of the code to be generated
      */
-    void select(GetUserInfoResult userInfo, DescribeSObjectResult dsr, FieldFilter fieldFilter, Template template);
+    void inject(GetUserInfoResult userInfo, DescribeSObjectResult dsr, List<Field> fieldList, Template template);
 }
