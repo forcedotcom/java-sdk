@@ -35,8 +35,9 @@ import javax.lang.model.SourceVersion;
 import org.antlr.stringtemplate.AttributeRenderer;
 import org.antlr.stringtemplate.StringTemplateGroup;
 
+import com.force.sdk.codegen.filter.FieldCombinationFilter;
 import com.force.sdk.codegen.filter.FieldFilter;
-import com.force.sdk.codegen.filter.FieldNoOpFilter;
+import com.force.sdk.codegen.filter.ForceJPAFieldFilter;
 import com.force.sdk.codegen.filter.ObjectFilter;
 import com.force.sdk.codegen.filter.ObjectNoOpFilter;
 import com.force.sdk.codegen.renderer.ForceJPAClassRenderer;
@@ -111,8 +112,16 @@ public class ForceJPAClassGenerator extends AbstractCodeGenerator {
     
     @Override
     protected final FieldFilter getFieldFilter() {
-        if (fieldFilter != null) return fieldFilter;
-        return new FieldNoOpFilter();
+        // If the caller has specified a field filter
+        // then ensure we always run a ForceJPAFieldFilter
+        // after it.
+        if (fieldFilter != null) {
+            return new FieldCombinationFilter()
+                        .addFilter(fieldFilter)
+                        .addFilter(new ForceJPAFieldFilter());
+        }
+        
+        return new ForceJPAFieldFilter();
     }
     
     public final void setFieldFilter(FieldFilter fieldFilter) {

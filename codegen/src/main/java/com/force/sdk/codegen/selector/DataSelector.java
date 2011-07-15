@@ -26,6 +26,7 @@
 
 package com.force.sdk.codegen.selector;
 
+import com.force.sdk.codegen.filter.FieldFilter;
 import com.force.sdk.codegen.template.Template;
 import com.sforce.soap.partner.DescribeSObjectResult;
 import com.sforce.soap.partner.GetUserInfoResult;
@@ -45,8 +46,9 @@ public interface DataSelector {
      * 
      * @param userInfo the Force.com user who is running the code generation  
      * @param dsr the Force.com schema object for which code will be generated
+     * @param fieldFilter the {@code FieldFilter} to run while generating code
      * @param template the {@code Template} object representing the physical 
      *                 layout of the code to be generated
      */
-    void select(GetUserInfoResult userInfo, DescribeSObjectResult dsr, Template template);
+    void select(GetUserInfoResult userInfo, DescribeSObjectResult dsr, FieldFilter fieldFilter, Template template);
 }

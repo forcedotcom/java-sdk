@@ -30,9 +30,10 @@ import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.Test;
 
-import com.force.sdk.codegen.renderer.ForceJPAFieldRenderer;
+import com.force.sdk.codegen.filter.FieldNoOpFilter;
 import com.force.sdk.codegen.template.StringTemplateWrapper;
-import com.sforce.soap.partner.*;
+import com.sforce.soap.partner.DescribeSObjectResult;
+import com.sforce.soap.partner.GetUserInfoResult;
 
 /**
  * Unit tests for {@link ForceJPAClassDataSelector}.
@@ -50,7 +51,7 @@ public class ForceJPAClassDataSelectorTest {
         dsr.setName("testBasicSelect DescribeSObjectResult");
         
         StringTemplateWrapper template = new StringTemplateWrapper("$packageName$ $userInfo.organizationName$ $objectInfo.name$");
-        new ForceJPAClassDataSelector().select(userInfo, dsr, template);
+        new ForceJPAClassDataSelector().select(userInfo, dsr, new FieldNoOpFilter(), template);
         
         assertEquals(template.toString(),
                 "com.testbasicselectuserinfo.model testBasicSelect UserInfo testBasicSelect DescribeSObjectResult",
@@ -66,150 +67,10 @@ public class ForceJPAClassDataSelectorTest {
         ForceJPAClassDataSelector selector = new ForceJPAClassDataSelector();
         selector.setPackageName("com.staticpackage.model");
         
-        selector.select(userInfo, new DescribeSObjectResult(), template);
+        selector.select(userInfo, new DescribeSObjectResult(), new FieldNoOpFilter(), template);
         
         assertEquals(template.toString(), "com.staticpackage.model",
                 "Unexpected template after Force.com JPA class data select");
     }
     
-    @Test
-    public void testSelectStandardObjectFields() {
-        DescribeSObjectResult dsr = createDescribeSObjectResult("testSelectStandardObjectFields");
-        dsr.setCustom(false);
-        
-        StringTemplateWrapper template = new StringTemplateWrapper("$fields:{f | $f.name$ }$");
-        new ForceJPAClassDataSelector().select(new GetUserInfoResult(), dsr, template);
-        
-        assertEquals(template.toString(), "IsDeleted OwnerId CustomField__c ",
-                "Unexpected template after Force.com JPA class data select");
-    }
-    
-    @Test
-    public void testSelectStandardObjectWithAllCommonFields() {
-        Field idField = new Field();
-        idField.setName("Id");
-        idField.setType(FieldType.id);
-        
-        Field nameField = new Field();
-        nameField.setName("Name");
-        nameField.setType(FieldType.string);
-        
-        Field deletedField = new Field();
-        deletedField.setName("IsDeleted");
-        deletedField.setType(FieldType._boolean);
-        
-        Field ownerField = new Field();
-        ownerField.setName("OwnerId");
-        ownerField.setType(FieldType.reference);
-        ownerField.setReferenceTo(new String[] { "User" });
-        
-        Field createdByIdField = new Field();
-        createdByIdField.setName("CreatedById");
-        createdByIdField.setType(FieldType.reference);
-        createdByIdField.setReferenceTo(new String[] { "User" });
-        
-        Field createdDateField = new Field();
-        createdDateField.setName("CreatedDate");
-        createdDateField.setType(FieldType.datetime);
-        
-        Field lastModifiedByIdField = new Field();
-        lastModifiedByIdField.setName("LastModifiedById");
-        lastModifiedByIdField.setType(FieldType.reference);
-        lastModifiedByIdField.setReferenceTo(new String[] { "User" });
-        
-        Field lastModifiedDateField = new Field();
-        lastModifiedDateField.setName("LastModifiedDate");
-        lastModifiedDateField.setType(FieldType.datetime);
-        
-        Field systemModstampField = new Field();
-        systemModstampField.setName("SystemModstamp");
-        systemModstampField.setType(FieldType.datetime);
-        
-        Field customField = new Field();
-        customField.setName("CustomField__c");
-        customField.setType(FieldType.string);
-        
-        // Object with all fields common to Force.com standard objects
-        DescribeSObjectResult dsr =
-            createDescribeSObjectResult("testSelectStandardObjectWithAllCommonFields", idField, nameField,
-                    deletedField, ownerField, createdByIdField, createdDateField, lastModifiedByIdField,
-                    lastModifiedDateField, systemModstampField, customField);
-        dsr.setCustom(false);
-        
-        StringTemplateWrapper template = new StringTemplateWrapper("$fields:{f | $f.name$ }$");
-        new ForceJPAClassDataSelector().select(new GetUserInfoResult(), dsr, template);
-        
-        assertEquals(template.toString(), "IsDeleted CreatedById LastModifiedById CustomField__c ",
-                "Unexpected template after Force.com JPA class data select");
-    }
-    
-    @Test
-    public void testSelectCustomObjectFields() {
-        DescribeSObjectResult dsr = createDescribeSObjectResult("testSelectCustomObjectFields");
-        dsr.setCustom(true);
-        
-        StringTemplateWrapper template = new StringTemplateWrapper("$fields:{f | $f.name$ }$");
-        new ForceJPAClassDataSelector().select(new GetUserInfoResult(), dsr, template);
-        
-        assertEquals(template.toString(), "CustomField__c ", "Unexpected template after Force.com JPA class data select");
-    }
-    
-    @Test
-    public void testConflictJavaFieldNames() {
-        Field stdField = new Field();
-        stdField.setName("Field");
-        stdField.setType(FieldType.string);
-        
-        Field customField = new Field();
-        customField.setName("Field__c");
-        customField.setType(FieldType.string);
-        customField.setCustom(true);
-        
-        Field refField = new Field();
-        refField.setName("Field__c");
-        refField.setType(FieldType.reference);
-        refField.setCustom(true);
-        refField.setRelationshipName("Field__r");
-        refField.setReferenceTo(new String[] { "Relationship" });
-        
-        DescribeSObjectResult dsr =
-            createDescribeSObjectResult("testConflictJavaFieldNames", stdField, customField, refField);
-        
-        // Pass the fields through the field renderer to ensure we don't get java name conflicts
-        StringTemplateWrapper template = new StringTemplateWrapper("$fields:{f | $f; format=\"fieldName\"$ }$");
-        template.registerRenderer(Field.class, new ForceJPAFieldRenderer());
-        new ForceJPAClassDataSelector().select(new GetUserInfoResult(), dsr, template);
-        
-        assertEquals(template.toString(), "field fieldCustom fieldRelationship ",
-                "Unexpected template after Force.com JPA class data select");
-    }
-    
-    private DescribeSObjectResult createDescribeSObjectResult(String name) {
-        Field idField = new Field();
-        idField.setName("Id");
-        idField.setType(FieldType.id);
-        
-        Field deletedField = new Field();
-        deletedField.setName("IsDeleted");
-        deletedField.setType(FieldType._boolean);
-        
-        Field ownerField = new Field();
-        ownerField.setName("OwnerId");
-        ownerField.setType(FieldType.reference);
-        ownerField.setReferenceTo(new String[] { "User" });
-        
-        Field customField = new Field();
-        customField.setName("CustomField__c");
-        customField.setType(FieldType.string);
-
-        return createDescribeSObjectResult(name, idField, deletedField, ownerField, customField);
-    }
-    
-    private DescribeSObjectResult createDescribeSObjectResult(String name, Field... fields) {
-        DescribeSObjectResult dsr = new DescribeSObjectResult();
-        dsr.setName(name);
-        dsr.setFields(fields);
-        
-        return dsr;
-    }
 }

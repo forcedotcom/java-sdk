@@ -33,12 +33,15 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.force.sdk.codegen.filter.FieldCombinationFilter;
 import com.force.sdk.codegen.filter.FieldFilter;
 import com.force.sdk.codegen.filter.FieldNoOpFilter;
+import com.force.sdk.codegen.filter.ForceJPAFieldFilter;
 import com.force.sdk.codegen.filter.ObjectFilter;
 import com.force.sdk.codegen.filter.ObjectNoOpFilter;
 import com.sforce.ws.ConnectionException;
@@ -61,13 +64,28 @@ public class ForceJPAClassGeneratorTest {
     }
     
     @Test
-    public void testFieldFilterDefaultsToNoOpFilter() {
+    public void testFieldFilterDefaultsToForceJPAFieldFilter() {
         ForceJPAClassGenerator generator = new ForceJPAClassGenerator();
         
         FieldFilter fieldFilter = generator.getFieldFilter();
         assertNotNull(fieldFilter, "ForceJPAClassGenerator fieldFilter should default when not specified");
-        assertEquals(fieldFilter.getClass(), FieldNoOpFilter.class,
-                "ForceJPAClassGenerator fieldFilter should default to FieldNoOpFilter");
+        assertEquals(fieldFilter.getClass(), ForceJPAFieldFilter.class,
+                "ForceJPAClassGenerator fieldFilter should default to ForceJPAFieldFilter");
+    }
+    
+    @Test
+    public void testFieldFilterAlwaysIncludesForceJPAFieldFilter() {
+        ForceJPAClassGenerator generator = new ForceJPAClassGenerator();
+        generator.setFieldFilter(new FieldNoOpFilter());
+        
+        FieldFilter fieldFilter = generator.getFieldFilter();
+        assertNotNull(fieldFilter, "ForceJPAClassGenerator fieldFilter should never be null");
+        assertEquals(fieldFilter.getClass(), FieldCombinationFilter.class,
+                "ForceJPAClassGenerator should use a FieldCombinationFilter when a caller sets a field filter");
+        
+        List<FieldFilter> filterList = ((FieldCombinationFilter) fieldFilter).getFilterList();
+        assertEquals(filterList.get(filterList.size() - 1).getClass(), ForceJPAFieldFilter.class,
+                "ForceJPAFieldFilter should always be the last field filter in ForceJPAClassGenerator");
     }
     
     @DataProvider

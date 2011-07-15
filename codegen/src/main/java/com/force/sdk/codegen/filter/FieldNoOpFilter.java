@@ -26,7 +26,11 @@
 
 package com.force.sdk.codegen.filter;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
 import com.sforce.soap.partner.DescribeSObjectResult;
+import com.sforce.soap.partner.Field;
 
 /**
  * A pass-through code generation {@link FieldFilter}.
@@ -40,8 +44,9 @@ import com.sforce.soap.partner.DescribeSObjectResult;
 public class FieldNoOpFilter implements FieldFilter {
 
     @Override
-    public DescribeSObjectResult filter(DescribeSObjectResult dsr) {
-        return dsr;
+    public List<Field> filter(DescribeSObjectResult dsr) {
+        if (dsr == null) return null;
+        return Lists.newArrayList(dsr.getFields());
     }
     
 }

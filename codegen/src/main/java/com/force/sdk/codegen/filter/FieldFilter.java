@@ -26,7 +26,10 @@
 
 package com.force.sdk.codegen.filter;
 
+import java.util.List;
+
 import com.sforce.soap.partner.DescribeSObjectResult;
+import com.sforce.soap.partner.Field;
 
 /**
  * Filter that determines which Force.com fields from a
@@ -41,7 +44,7 @@ public interface FieldFilter {
      * Filters fields from a Force.com {@code DescribeSObjectResult} object.
      * 
      * @param dsr the Force.com {@code DescribeSObjectResult} object to be filtered
-     * @return the filtered Force.com {@code DescribeSObjectResult} object
+     * @return the filtered Force.com fields
      */
-    DescribeSObjectResult filter(DescribeSObjectResult dsr);
+    List<Field> filter(DescribeSObjectResult dsr);
 }

@@ -31,7 +31,7 @@ import java.util.*;
 import com.sforce.soap.partner.DescribeSObjectResult;
 
 /**
- * A {@link ObjectFilter} that filters based on Force.com schema object (SObject)
+ * An {@link ObjectFilter} that filters based on Force.com schema object (SObject)
  * names.
  * <p>
  * This {@code ObjectFilter} can filter a Force.com schema object if and only if

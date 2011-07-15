@@ -125,14 +125,11 @@ public abstract class AbstractCodeGenerator implements CodeGenerator {
         int numGeneratedCode = 0;
         
         for (DescribeSObjectResult dsr : objectFilter.filter(allOrgObjects)) {
-            
-            dsr = fieldFilter.filter(dsr);
-            
             // Before we write a new source file, make sure the template is reset
             template.reset();
             
             // Select the data that we're interested in 
-            selector.select(userInfo, dsr, template);
+            selector.select(userInfo, dsr, fieldFilter, template);
             
             Writer writer = null;
             try {

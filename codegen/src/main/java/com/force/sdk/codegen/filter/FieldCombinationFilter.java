@@ -26,49 +26,54 @@
 
 package com.force.sdk.codegen.filter;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-
+import java.util.ArrayList;
 import java.util.List;
-
-import org.testng.annotations.Test;
 
 import com.sforce.soap.partner.DescribeSObjectResult;
 import com.sforce.soap.partner.Field;
-import com.sforce.soap.partner.FieldType;
 
 /**
- * Unit tests for {@link FieldNoOpFilter}.
- *
+ * A {@link FieldFilter} which will apply multiple 
+ * {@code FieldFilter}s to a Force.com {@code DescribeSObjectResult} object.
+ * 
  * @author Tim Kral
  */
-public class FieldNoOpFilterTest {
+public class FieldCombinationFilter implements FieldFilter {
 
-    @Test
-    public void testFilterWithNullValue() {
-        assertNull(new FieldNoOpFilter().filter(null), "A no op filter of a null value should be null");
+    List<FieldFilter> filterList = new ArrayList<FieldFilter>();
+    
+    @Override
+    public List<Field> filter(DescribeSObjectResult dsr) {
+        List<Field> filteredFields = null;
+        for (FieldFilter filter : filterList) {
+            filteredFields = filter.filter(dsr);
+            dsr.setFields(filteredFields.toArray(new Field[filteredFields.size()]));
+        }
+        
+        return filteredFields;
+    }
+
+    /**
+     * Add a {@code FieldFilter} to be executed by this {@code FieldCombinationFilter}.
+     * 
+     * @param fieldFilter a {@code FieldFilter} which is to be executed by
+     *                    this {@code FieldCombinationFilter} in the order in which
+     *                    it was added
+     * @return this {@code FieldCombinationFilter} to ease combination filter
+     *         construction
+     */
+    public FieldCombinationFilter addFilter(FieldFilter fieldFilter) {
+        filterList.add(fieldFilter);
+        return this;
     }
     
-    @Test
-    public void testFilterWithNonNullValue() {
-        DescribeSObjectResult dsr = new DescribeSObjectResult();
-        dsr.setName("Object_Name__c");
-        
-        Field idField = new Field();
-        idField.setName("Id");
-        idField.setType(FieldType.id);
-        
-        Field nameField = new Field();
-        nameField.setName("Name");
-        nameField.setType(FieldType.string);
-        
-        dsr.setFields(new Field[] { idField, nameField });
-        
-        List<Field> filteredFields = new FieldNoOpFilter().filter(dsr);
-        
-        assertNotNull(filteredFields, "A no op filter of a non-null value should be non-null");
-        assertEquals(filteredFields.size(), 2, "Unexpected number of Fields after no op filter");
-        assertEquals(filteredFields.get(0).getName(), "Id", "Unexpected Field order after no op filter");
+    /**
+     * Returns the {@code FieldFilter}s to be executed in order.
+     * 
+     * @return the list of {@code FieldFilter}s that are to be executed
+     *         by thie {@code FieldCombinationFilter}
+     */
+    public List<FieldFilter> getFilterList() {
+        return filterList;
     }
 }

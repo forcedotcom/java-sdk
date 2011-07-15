@@ -26,14 +26,11 @@
 
 package com.force.sdk.codegen.selector;
 
-import static com.force.sdk.codegen.ForceJPAClassGeneratorUtils.*;
-
-import java.util.*;
-
 import com.force.sdk.codegen.ForceJPAClassGeneratorUtils;
+import com.force.sdk.codegen.filter.FieldFilter;
 import com.force.sdk.codegen.template.Template;
-import com.force.sdk.jpa.model.*;
-import com.sforce.soap.partner.*;
+import com.sforce.soap.partner.DescribeSObjectResult;
+import com.sforce.soap.partner.GetUserInfoResult;
 
 /**
  * A {@link DataSelector} that selects data to generate Java classes which conform to
@@ -65,7 +62,7 @@ public class ForceJPAClassDataSelector implements DataSelector {
     }
     
     @Override
-    public void select(GetUserInfoResult userInfo, DescribeSObjectResult dsr, Template template) {
+    public void select(GetUserInfoResult userInfo, DescribeSObjectResult dsr, FieldFilter fieldFilter, Template template) {
         if (packageName != null) {
             template.injectView("packageName", packageName);
         } else {
@@ -73,62 +70,6 @@ public class ForceJPAClassDataSelector implements DataSelector {
         }
         template.injectView("userInfo", userInfo);
         template.injectView("objectInfo", dsr);
-        
-        selectClassFields(dsr, template);
-    }
-    
-    private void selectClassFields(DescribeSObjectResult dsr, Template template) {
-        // This is a list so that field order is always maintained.
-        // This is important for gold file testing.
-        List<Field> fields = new ArrayList<Field>();
-        
-        if (dsr.isCustom()) {
-            // Skip all fields common to Force.com custom objects
-            fields = selectFields(dsr, CUSTOM_OBJECT_COMMON_FIELDS);
-        } else if (ForceJPAClassGeneratorUtils.hasAllCommonFields(dsr)) {
-            // Skip all fields common to Force.com standard objects
-            fields = selectFields(dsr, STANDARD_OBJECT_COMMON_FIELDS);
-        } else {
-            // Skip all fields common to all Force.com objects
-            fields = selectFields(dsr, ALL_OBJECT_COMMON_FIELDS);
-        }
-        
-        template.injectView("fields", fields);
-    }
-    
-    private List<Field> selectFields(DescribeSObjectResult dsr, Set<String> fieldsToSkip) {
-        List<Field> fields = new ArrayList<Field>();
-        Set<String> javaFieldNames = new HashSet<String>();
-        
-        for (Field field : dsr.getFields()) {
-            String fieldNameLower = field.getName().toLowerCase();
-            String javaFieldName = renderJavaName(field, true /*firstCharLowerCase*/);
-            
-            // Skip over fields in the set
-            if (!fieldsToSkip.contains(fieldNameLower)) {
-                
-                // Check to see if we've already used this Java field name
-                if (javaFieldNames.contains(javaFieldName)) {
-                    // If there is a Java name conflict, we have a custom field or
-                    // relationship name that conflicts with a standard field  
-                    // or relationship name. We'll assume that the describe result
-                    // orders standard fields before custom ones so below we are adjusting
-                    // the custom field or relationship names.
-                    
-                    if (useRelationshipName(field)) {
-                        javaFieldName = javaFieldName + "Relationship";
-                        field.setRelationshipName(javaFieldName);
-                    } else {
-                        javaFieldName = javaFieldName + "Custom";
-                        field.setName(javaFieldName);
-                    }
-                }
-                
-                fields.add(field);
-                javaFieldNames.add(javaFieldName);
-            }
-        }
-        
-        return fields;
+        template.injectView("fields", fieldFilter.filter(dsr));
     }
 }
