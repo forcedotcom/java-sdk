@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 
- * Utility for handling encryption logic with AES. 
+ * Utility class to handle encryption logic with AES. 
  *
  * @author John Simone
  */
@@ -54,7 +54,7 @@ public final class AESUtil {
     private AESUtil() {  }
     
     /**
-     * Encrypt the value using the passed in key.
+     * Encrypts the value using the passed in key.
      * 
      * @param value data to encrypt
      * @param skeySpec encryption key
@@ -83,7 +83,7 @@ public final class AESUtil {
     }
     
     /**
-     * Decrypt the value using the passed in key.
+     * Decrypts the value using the passed in key.
      * 
      * @param value data to decrypt
      * @param skeySpec The encryption key
@@ -114,7 +114,7 @@ public final class AESUtil {
     }
     
     /**
-     * Create a SecretKeySpec object from an AES key. This String could come from a 
+     * Creates a SecretKeySpec object from an AES key. This String could come from a 
      * properties file or other means of persistent configuration.
      * 
      * @param key String
@@ -135,7 +135,7 @@ public final class AESUtil {
     }
     
     /**
-     * call getSecretKey(String fileName) with the default filename.
+     * Calls {@code getSecretKey(String fileName)} with the default filename.
      * 
      * @return encryption key
      * @throws ForceEncryptionException {@link ForceEncryptionException}
@@ -145,7 +145,7 @@ public final class AESUtil {
     }
     
     /**
-     * Read in a stored secret key from a properties file and create a SecretKeySpec object from it.
+     * Reads in a stored secret key from a properties file and creates a {@code SecretKeySpec} object from it.
      * 
      * @param fileName String
      * @return encryption key
@@ -189,7 +189,7 @@ public final class AESUtil {
     }
     
     /**
-     * Generate a random secret key.
+     * Generates a random secret key.
      * 
      * @return encryption key
      * @throws ForceEncryptionException {@link ForceEncryptionException}

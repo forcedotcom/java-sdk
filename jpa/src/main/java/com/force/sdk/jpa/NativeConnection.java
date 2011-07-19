@@ -37,8 +37,8 @@ import com.sforce.ws.ConnectionException;
 
 /**
  * 
- * Connection class that provides connections to each Force.com API 
- * (SOAP, Metadata, and Bulk).
+ * Connection class that provides connections to native Force.com APIs 
+ * (SOAP Web services API, Metadata API, and Bulk API).
  *
  * @author Fiaz Hossain
  */
@@ -47,16 +47,16 @@ public class NativeConnection implements NucleusConnection {
     private ForceManagedConnection connection;
     
     /**
-     * Instantiate a Native connection, this must be called with a ForceManagedConnection.
+     * Instantiates a native connection. This must be called with a {@code ForceManagedConnection}.
      * 
-     * @param connection  The ForceManagedConnection object that will be used for all API connections 
+     * @param connection  The {@code ForceManagedConnection} object that will be used for all API connections 
      */
     public NativeConnection(ManagedConnection connection) {
         this.connection = (ForceManagedConnection) connection;
     }
     
     /**
-     * Close all API connections and reset configs.
+     * Closes all API connections and resets configs.
      */
     @Override
     public void close() {
@@ -74,7 +74,7 @@ public class NativeConnection implements NucleusConnection {
      * 
      * Returns whether the connection has been instantiated (i.e. is not null)
      * 
-     * @return true if the connection is non null
+     * @return {@code true} if the connection is not {@code null}
      */
     @Override
     public boolean isAvailable() {
@@ -82,14 +82,14 @@ public class NativeConnection implements NucleusConnection {
     }
 
     /**
-     * @return a connection to the Force.com Partner SOAP API
+     * @return a connection to the Force.com partner SOAP API
      */
     public PartnerConnection getPartnerConnection() {
         return (PartnerConnection) connection.getConnection();
     }
     
     /**
-     * @return a connection to the Force.com metadata API
+     * @return a connection to the Force.com Metadata API
      * @throws ConnectionException thrown if a connection cannot be instantiated
      */
     public MetadataConnection getMetadataConnection() throws ConnectionException {

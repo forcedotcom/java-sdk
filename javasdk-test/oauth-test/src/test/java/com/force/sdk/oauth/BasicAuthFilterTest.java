@@ -26,27 +26,32 @@
 
 package com.force.sdk.oauth;
 
-import static org.testng.Assert.*;
-
-import java.io.IOException;
+import com.force.sdk.connector.ForceServiceConnector;
+import com.force.sdk.oauth.context.ForceSecurityContextHolder;
+import com.force.sdk.oauth.context.SecurityContext;
+import com.force.sdk.oauth.context.SecurityContextUtil;
+import com.sforce.soap.partner.Connector;
+import com.sforce.ws.ConnectionException;
+import com.sforce.ws.ConnectorConfig;
+import org.springframework.mock.web.MockFilterChain;
+import org.springframework.mock.web.MockFilterConfig;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequestWrapper;
+import java.io.IOException;
 
-import org.springframework.mock.web.*;
-import org.testng.annotations.Test;
-
-import com.force.sdk.connector.ForceServiceConnector;
-import com.force.sdk.oauth.context.*;
-import com.sforce.soap.partner.Connector;
-import com.sforce.ws.ConnectionException;
-import com.sforce.ws.ConnectorConfig;
+import static org.testng.Assert.*;
 
 /**
  * Basic functional tests for the OAuth handshake with Force.com.
  *
  * @author Tim Kral
+ * @author Nawab Iqbal
  */
 public class BasicAuthFilterTest extends BaseOAuthTest {
 
@@ -113,15 +118,35 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
             System.clearProperty("force.filterWithConnUrlJavaProperty.url");
         }
     }
-    
-    @Test
-    public void testOAuthLoginRedirectWithPropertyFile() throws Exception {
+
+    /**
+     * Enum for testing different request url options.
+     */
+    private enum RequestOption {
+        NONE,
+        PATH_INFO,
+        QUERY_PARAM,
+        PATH_INFO_AND_QUERY_PARAM,
+    }
+
+    @DataProvider
+    protected Object[][] requestOptions() {
+        return new Object[][] {
+                {RequestOption.NONE},
+                {RequestOption.PATH_INFO},
+                {RequestOption.QUERY_PARAM},
+                {RequestOption.PATH_INFO_AND_QUERY_PARAM}
+        };
+    }
+
+    @Test(dataProvider = "requestOptions")
+    public void testOAuthLoginRedirectWithPropertyFile(RequestOption option) throws Exception {
         // Initialize the filter with a Java property name
         MockFilterConfig filterConfig = new MockFilterConfig();
         // funcconnoauthinfo.properties defined in /src/test/resources
         filterConfig.addInitParameter("connectionName", "funcconnoauthinfo");
 
-        testOAuthLoginRedirectInternal(filterConfig);
+        testOAuthLoginRedirectInternal(filterConfig, option);
     }
     
     @Test
@@ -158,29 +183,59 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
         // a connection url before a connection name
         testOAuthLoginRedirectInternal(filterConfig);
     }
-    
+
     private void testOAuthLoginRedirectInternal(FilterConfig filterConfig) throws Exception {
+        testOAuthLoginRedirectInternal(filterConfig, RequestOption.NONE);
+    }
+
+    private void testOAuthLoginRedirectInternal(FilterConfig filterConfig, RequestOption option) throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader("Host", "host");
         request.setContextPath("/contextpath");
         request.setServletPath("/servletpath");
-        
-        AuthFilter filter = new AuthFilter();
-        filter.init(filterConfig);
-        
-        MockHttpServletResponse response = new MockHttpServletResponse();
-        MockFilterChain filterChain = new MockFilterChain();
-        filter.doFilter(request, response, filterChain);
-        
+
+        String state = "https%3A%2F%2Fhost%2Fcontextpath%2Fservletpath";
+
+        switch (option) {
+            case PATH_INFO:
+                request.setPathInfo("/pathInfo");
+                state += "%2FpathInfo";
+                break;
+            case QUERY_PARAM:
+                request.setQueryString("var1=val1&var2=val2");
+                state += "%3Fvar1%3Dval1%26var2%3Dval2";
+                break;
+            case PATH_INFO_AND_QUERY_PARAM:
+                request.setPathInfo("/pathInfo");
+                request.setQueryString("var1=val1&var2=val2");
+                state += "%2FpathInfo%3Fvar1%3Dval1%26var2%3Dval2";
+                break;
+            default:
+                break;
+        }
+
+        MockHttpServletResponse response = processRequest(filterConfig, request);
+
         // Filter should redirect us to OAuth login page
         assertEquals(response.getRedirectedUrl(),
                 endpoint + "/services/oauth2/authorize?response_type=code&"
                          + "redirect_uri=https%3A%2F%2Fhost%2Fcontextpath%2F_auth&"
-                         + "state=https%3A%2F%2Fhost%2Fcontextpath%2Fservletpath&"
+                         + "state=" + state + "&"
                          + "client_id=" + oauthKey,
                 "Expected OAuth login redirect.");
     }
-    
+
+    private MockHttpServletResponse processRequest(FilterConfig filterConfig, MockHttpServletRequest request)
+            throws ServletException, IOException {
+        AuthFilter filter = new AuthFilter();
+        filter.init(filterConfig);
+
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        MockFilterChain filterChain = new MockFilterChain();
+        filter.doFilter(request, response, filterChain);
+        return response;
+    }
+
     @Test
     public void testLoginWithSessionIdAndEndpoint() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
@@ -275,6 +330,7 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
             assertNotNull(sc, "SecurityContext thread local should have been set");
             assertNotNull(sc.getSessionId(), "SecurityContext session id should have been set");
             assertNotNull(sc.getEndPoint(), "SecurityContext end point should have been set");
+            assertNotNull(sc.getEndPointHost(), "SecurityContext end point host should have been set");
             
             if (request.getAttribute("nullUsername") != null && (Boolean) request.getAttribute("nullUsername")) {
                 assertNull(sc.getUserName(), "Username should be null when configured to not store username");

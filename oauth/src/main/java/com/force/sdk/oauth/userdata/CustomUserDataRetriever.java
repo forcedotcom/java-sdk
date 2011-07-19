@@ -30,8 +30,8 @@ import com.force.sdk.oauth.context.CustomSecurityContext;
 
 /**
  * 
- * When a custom user data retrieval flow is used this class must be extended and must be parameterized with 
- * the application specific extension of CustomSecurityContext.
+ * Base class that must be extended when a custom user data retrieval flow is used. The extending class handles 
+ * the application specific extension of {@code CustomSecurityContext}.
  *
  * @author John Simone
  * @param <T> The class that this custom user data retriever will return
@@ -40,9 +40,9 @@ public abstract class CustomUserDataRetriever<T extends CustomSecurityContext>
     extends ForceUserDataRetriever {
 
     /**
-     * Retrieve data about the authenticated user and return a CustomSecurityContext
+     * Retrieves data about the authenticated user and returns a {@code CustomSecurityContext}.
      * that stores the data.
-     * @return T an extension of CustomSecurityContext
+     * @return T an extension of {@code CustomSecurityContext}
      */
     @Override
     public abstract T retrieveUserData();

@@ -28,6 +28,7 @@ name defaults to the unqualified name of the entity class. If the name attribute
 
 **Note**: The value for the name attribute in <code>@Entity</code> doesn't have to match the value for the name attribute in <code>@Table</code>.
 
+<a name="basicAnnotation"> </a>
 ## @Basic
 Explicitly declares a field in a class as persistent. To make a field in a class persistent, its type must either be one that is persisted by default or you must explicitly declare it as persistent by using the <code>@Basic</code> annotation. The [DataNucleus
 documentation](http://www.datanucleus.org/products/accessplatform/jpa/types.html) lists a table of common Java data types and indicates whether each is persisted by default.

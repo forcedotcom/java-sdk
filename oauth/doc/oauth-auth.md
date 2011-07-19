@@ -6,7 +6,7 @@ title: OAuth Authentication
 ---
 # OAuth Authentication
 
-Your Java applications can use Force.com user accounts for authentication and identity management. The Force.com Java SDK simplifies the process of authenticating users in Force.com using the OAuth protocol. 
+Your Java applications can use Force.com user accounts for authentication and identity management. The Database.com Java SDK simplifies the process of authenticating users in Force.com using the OAuth protocol. 
 
 ## Force.com OAuth Connector
 

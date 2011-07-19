@@ -40,7 +40,7 @@ import org.testng.annotations.Test;
 import com.force.sdk.jpa.entities.*;
 import com.force.sdk.jpa.entities.generated.*;
 import com.force.sdk.jpa.query.QueryHints;
-import com.force.sdk.test.util.BaseJPAFTest;
+import com.force.sdk.qa.util.BaseJPAFTest;
 import com.google.inject.internal.Lists;
 
 /**

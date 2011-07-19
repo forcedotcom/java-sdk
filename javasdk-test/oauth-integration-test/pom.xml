@@ -1,0 +1,89 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.force.sdk</groupId>
+  <artifactId>force-oauth-integration-test</artifactId>
+  <name>force-oauth-integration-test</name>
+  <version>22.0.2-BETA</version>
+
+  <parent>
+    <groupId>com.force.sdk</groupId>
+    <artifactId>force-sdk-test</artifactId>
+    <version>22.0.2-BETA</version>
+  </parent>
+
+  <properties>
+    <appName>oauthtest</appName>
+  </properties>
+
+  <build>
+
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${failsafe.version}</version>
+        <configuration>
+          <suiteXmlFiles>
+            <suiteXmlFile>testng-mock.xml</suiteXmlFile>
+          </suiteXmlFiles>
+          <systemPropertyVariables>
+            <appName>${appName}</appName>
+            <appEndpoint>http://localhost:8888/force-app</appEndpoint>
+            <appWarPath>../oauth-app/target/force-app.war</appWarPath>
+            <mockOauthServerWarPath>../mock-oauth-server/target/force-mock-oauth-server-app.war</mockOauthServerWarPath>
+            <containerPort>8888</containerPort>
+          </systemPropertyVariables>
+        </configuration>
+        <executions>
+          <execution>
+            <id>integration-test</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>integration-test</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>verify</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>qa-utils</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.sourceforge.htmlunit</groupId>
+      <artifactId>htmlunit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.jmockit</groupId>
+      <artifactId>jmockit</artifactId>
+    </dependency>
+  </dependencies>
+
+</project>

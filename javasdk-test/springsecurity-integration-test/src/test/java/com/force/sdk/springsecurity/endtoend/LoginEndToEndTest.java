@@ -26,14 +26,20 @@
 
 package com.force.sdk.springsecurity.endtoend;
 
+import java.io.IOException;
+
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.force.sdk.oauth.context.SecurityContextUtil;
 import com.force.sdk.oauth.context.store.ForceEncryptionException;
+import com.force.sdk.oauth.context.store.SecurityContextCookieStore;
+import com.gargoylesoftware.htmlunit.CookieManager;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
-import java.io.*;
+import com.gargoylesoftware.htmlunit.util.Cookie;
 
 /**
  * 
@@ -64,9 +70,19 @@ public class LoginEndToEndTest extends BaseEndToEndTest {
         Assert.assertEquals(redirectPage.getTitleText(), "Page with login link");
         Assert.assertEquals(redirectPage.getUrl().toString(), appEndpoint + "/page_with_login_link.html");
     }
+
+    @DataProvider
+    protected Object[][] securedPageProvider() {
+        
+        return new Object[][] {
+                {"/secured_page.html"},
+                {"/secured_page_no_session.html"}
+           };
+    }
+
     
-    @Test
-    public void testSecuredPage()
+    @Test(dataProvider = "securedPageProvider")
+    public void testSecuredPage(String securePageLocation)
             throws FailingHttpStatusCodeException, IOException, ForceEncryptionException, ClassNotFoundException {
 
         getWebClient().setRedirectEnabled(false);
@@ -85,10 +101,47 @@ public class LoginEndToEndTest extends BaseEndToEndTest {
 
         // note when we try to access the secured page we are already logged in because HtmlUnit goes into an infinite loop 
         // while trying to execute javascript if you try to access the secured page and then login
-        HtmlPage securedPage = getWebClient().getPage(appEndpoint + "/secured_page.html");
+        HtmlPage securedPage = getWebClient().getPage(appEndpoint + securePageLocation);
 
         Assert.assertEquals(securedPage.getTitleText(), "Secured page");
-        Assert.assertEquals(securedPage.getUrl().toString(), appEndpoint + "/secured_page.html");
+        Assert.assertEquals(securedPage.getUrl().toString(), appEndpoint + securePageLocation);
+    }
+    
+    @Test(dataProvider = "securedPageProvider")
+    public void testSecuredPageCookieDeletion(String securePageLocation)
+            throws FailingHttpStatusCodeException, IOException, ForceEncryptionException, ClassNotFoundException {
+
+        // enabling redirection so that login page redirects to SFDC and we can logon.
+        getWebClient().setRedirectEnabled(true);
+        HtmlPage loginPage = getWebClient().getPage(appEndpoint + "/login");
+        fillOutCredentialsAndLogin(loginPage);
+        
+        //remove the sdk cookies. This should effectively log the user out.
+        removeSdkCookies();
+
+        //attempt the get the secured page and ensure that we are redirected
+        getWebClient().setRedirectEnabled(false);
+        try {
+            getWebClient().getPage(appEndpoint + securePageLocation);
+            Assert.fail("Login page should redirect.");
+        } catch (FailingHttpStatusCodeException e) {
+            Assert.assertEquals(e.getResponse().getStatusCode(), 302, "Redirect code 302 was expected.");
+        }
+    }
+    
+    
+    /**
+     * Remove the sdk cookies from the client so that we can test that login is forced.
+     */
+    private void removeSdkCookies() {
+        CookieManager cookieManager = getWebClient().getCookieManager();
+        Cookie securityContextCookie = cookieManager.getCookie(SecurityContextCookieStore.SECURITY_CONTEXT_COOKIE_NAME);
+        Cookie endpointCookie = cookieManager.getCookie(SecurityContextUtil.FORCE_FORCE_ENDPOINT);
+        Cookie sidCookie = cookieManager.getCookie(SecurityContextUtil.FORCE_FORCE_SESSION);
+        
+        cookieManager.removeCookie(securityContextCookie);
+        cookieManager.removeCookie(endpointCookie);
+        cookieManager.removeCookie(sidCookie);
     }
 
     @Test

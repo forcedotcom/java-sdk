@@ -103,6 +103,7 @@
 	
 	<bean id="connectionStorageFilter" class="com.force.sdk.springsecurity.ForceConnectionStorageFilter">
 		<property name="oauthConnector" ref="oauthConnector" />
+		<property name="useSession" value="false"/>
 	</bean>
 		
 	<bean id="forceRememberMeServices" class="com.force.sdk.springsecurity.ForceRememberMeServices">

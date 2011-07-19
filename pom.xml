@@ -4,10 +4,41 @@
   <groupId>com.force.sdk</groupId>
   <artifactId>force-sdk</artifactId>
   <name>force-sdk</name>
-  <version>22.0.1-BETA</version>
+  <version>22.0.2-BETA</version>
   <packaging>pom</packaging>
+  <description>Database.com SDK for Java</description>
+  <url>http://www.force.com/</url>
+  <licenses>
+    <license>
+      <name>BSD License (BSD 3-Clause)</name>
+      <url>https://github.com/forcedotcom/java-sdk/blob/master/build-tools/src/main/resources/license/header.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <url>https://github.com/forcedotcom/java-sdk</url>
+    <connection>scm:git:git@github.com:forcedotcom/java-sdk.git</connection>
+    <developerConnection>scm:git:git@github.com:forcedotcom/java-sdk.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+  <developers><!-- see mailing list --></developers>
+  <mailingLists>
+    <mailingList>
+      <name>Database.com SDK for Java Issues</name>
+      <archive>https://github.com/forcedotcom/java-sdk/issues?state=closed</archive>
+      <subscribe>https://github.com/forcedotcom/java-sdk/toggle_watch</subscribe>
+      <unsubscribe>https://github.com/forcedotcom/java-sdk/toggle_watch</unsubscribe>
+      <post>https://github.com/forcedotcom/java-sdk/issues/new</post>
+    </mailingList>
+  </mailingLists>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/forcedotcom/java-sdk/issues/new</url>
+  </issueManagement>
 
   <properties>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!--
     Define version boundaries for the API and SDK.
     The max should stay one minor version ahead of the min
@@ -16,7 +47,7 @@
     <force.version.min>22.0</force.version.min>
     <force.version.max>22.1</force.version.max>
     <force.api.version>[22.0.0, 22.1.0)</force.api.version>
-    <force.sdk.version>22.0.1-BETA</force.sdk.version>
+    <force.sdk.version>22.0.2-BETA</force.sdk.version>
     
     <apache.http.version>4.0.1</apache.http.version>
     <commons.io.version>2.0.1</commons.io.version>
@@ -27,6 +58,7 @@
     <datanucleus.core.version>2.2.3</datanucleus.core.version>
     <datanucleus.enhancer.version>2.1.0-release</datanucleus.enhancer.version>
     <datanucleus.jpa.version>2.1.7</datanucleus.jpa.version>
+    <datanucleus.plugin.version>2.1.0-release</datanucleus.plugin.version>
     <datanucleus.rdbms.version>2.1.0-release</datanucleus.rdbms.version>
     <failsafe.version>2.7.1</failsafe.version>
     <findbugs.plugin.version>2.3.2</findbugs.plugin.version>
@@ -39,8 +71,8 @@
     <jackson.version>1.5.4</jackson.version>
     <java.compile.version>1.6</java.compile.version>
     <java.servlet.version>2.5</java.servlet.version>
-    <jdo.version>2.3-ec</jdo.version>
-    <jmockit.version>0.999.6</jmockit.version>
+    <jdo.version>2.3-eb</jdo.version>
+    <jmockit.version>0.999.8</jmockit.version>
     <log4j.version>1.2.15</log4j.version>
     <maven.clover.version>3.0.2</maven.clover.version>
     <site.plugin.version>2.2</site.plugin.version>
@@ -48,8 +80,11 @@
     <source.plugin.version>2.1.2</source.plugin.version>
     <spring.version>3.0.3.RELEASE</spring.version>
     <spring.security.version>3.0.3.RELEASE</spring.security.version>
-    <surefire.version>2.7.1</surefire.version>
+    <surefire.version>2.8.1</surefire.version>
     <testng.version>5.14.2</testng.version>
+    
+    <!-- Whether to fail a static analysis build when an error or warning is found -->
+    <staticAnalysis.failOnError>true</staticAnalysis.failOnError>
     
     <doc.site.destination>/var/www/force-docsite</doc.site.destination>
     <maven.site.destination>/var/www/force-sdk-maven</maven.site.destination>
@@ -63,37 +98,6 @@
     <module>oauth</module>
     <module>springsecurity</module>
   </modules>
-
-  <repositories>
-    <repository>
-      <id>force.repo</id>
-      <name>Force.com Repository</name>
-      <url>http://repo.t.salesforce.com/archiva/repository/releases</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>force.repo.snapshot</id>
-      <name>Force.com Snapshot Repository</name>
-      <url>http://repo.t.salesforce.com/archiva/repository/snapshots</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>jmockit.repo</id>
-      <name>JMockit Repository</name>
-      <url>http://jmockit.googlecode.com/svn/maven-repo</url>
-    </repository>
-  </repositories>
-
 
   <distributionManagement>
     <repository>
@@ -112,10 +116,6 @@
       <url>file://${maven.site.destination}</url>
     </site>
   </distributionManagement>
-
-  <scm>
-    <connection>scm:git:git@github.com:forcedotcom/java-sdk.git</connection>
-  </scm>
 
   <dependencyManagement>
     <dependencies>
@@ -207,7 +207,7 @@
         </exclusions>
       </dependency>
       <dependency>
-        <groupId>mockit</groupId>
+        <groupId>com.googlecode.jmockit</groupId>
         <artifactId>jmockit</artifactId>
         <version>${jmockit.version}</version>
         <scope>test</scope>
@@ -315,6 +315,7 @@
 
     <pluginManagement>
       <plugins>
+
         <plugin>
           <artifactId>maven-enforcer-plugin</artifactId>
           <executions>
@@ -363,9 +364,55 @@
             <target>${java.compile.version}</target>
           </configuration>
         </plugin>
+
+        <plugin>
+          <groupId>org.datanucleus</groupId>
+          <artifactId>maven-datanucleus-plugin</artifactId>
+          <version>${datanucleus.plugin.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.datanucleus</groupId>
+              <artifactId>datanucleus-core</artifactId>
+              <version>${datanucleus.core.version}</version>
+              <scope>runtime</scope>
+            </dependency>
+            <dependency>
+              <groupId>org.datanucleus</groupId>
+              <artifactId>datanucleus-enhancer</artifactId>
+              <version>${datanucleus.enhancer.version}</version>
+              <scope>runtime</scope>
+            </dependency>
+            <dependency>
+              <groupId>org.datanucleus</groupId>
+              <artifactId>datanucleus-rdbms</artifactId>
+              <version>${datanucleus.rdbms.version}</version>
+              <scope>runtime</scope>
+              <optional>true</optional>
+            </dependency>
+            <dependency>
+              <groupId>org.datanucleus</groupId>
+              <artifactId>datanucleus-jpa</artifactId>
+              <version>${datanucleus.jpa.version}</version>
+              <scope>runtime</scope>
+              <optional>true</optional>
+            </dependency>
+            <dependency>
+              <groupId>javax.jdo</groupId>
+              <artifactId>jdo-api</artifactId>
+              <version>3.0</version>
+              <scope>runtime</scope>
+            </dependency>
+          </dependencies>
+          <configuration>
+            <verbose>true</verbose>
+            <enhancerName>ASM</enhancerName>
+            <api>JPA</api>
+          </configuration>
+        </plugin>
  
         <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.2.1</version>
           <configuration>
             <attach>false</attach>
             <descriptorRefs>
@@ -382,77 +429,6 @@
             </execution>
           </executions>
         </plugin>
-
-        <plugin>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <configuration>
-            <ignoreNonCompile>true</ignoreNonCompile>
-            <outputXML>true</outputXML>
-          </configuration>
-        </plugin>
-
-        <plugin>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>${checkstyle.plugin.version}</version>
-          <dependencies>
-            <dependency>
-              <groupId>com.force.sdk</groupId>
-              <artifactId>force-build-tools</artifactId>
-              <version>${force.sdk.version}</version>
-            </dependency>
-          </dependencies>
-          <configuration>
-            <configLocation>checkstyle/force-sdk-checks.xml</configLocation>
-            <includeTestSourceDirectory>true</includeTestSourceDirectory>
-            <suppressionsLocation>checkstyle/force-sdk-suppressions.xml</suppressionsLocation>
-            <violationSeverity>warning</violationSeverity>
-          </configuration>
-        </plugin>
-        
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>findbugs-maven-plugin</artifactId>
-          <version>${findbugs.plugin.version}</version>
-          <configuration>
-            <effort>Max</effort>
-            <includeTests>true</includeTests>
-            <threshold>Default</threshold>
-          </configuration>
-        </plugin>
-        
-        <plugin>
-          <groupId>com.mycila.maven-license-plugin</groupId>
-          <artifactId>maven-license-plugin</artifactId>
-          <dependencies>
-            <dependency>
-              <groupId>com.force.sdk</groupId>
-              <artifactId>force-build-tools</artifactId>
-              <version>${force.sdk.version}</version>
-            </dependency>
-          </dependencies>
-          <configuration>
-            <header>license/header.txt</header>
-            <excludes>
-              <exclude>target/**</exclude>
-              <exclude>**/license/header.txt</exclude>
-              <exclude>**/*.md</exclude>
-              <exclude>**/.gitignore</exclude>
-            </excludes>
-            <failIfMissing>false</failIfMissing>
-            <headerDefinitions>
-              <headerDefinition>license/stringtemplatedefinition.xml</headerDefinition>
-            </headerDefinitions>
-            <mapping>
-              <handlers>SCRIPT_STYLE</handlers> <!-- spring.handlers -->
-              <policy>DOUBLESLASH_STYLE</policy>
-              <props>SCRIPT_STYLE</props>
-              <schemas>SCRIPT_STYLE</schemas> <!-- spring.schemas -->
-              <st>STRINGTEMPLATE_STYLE</st> <!-- StringTemplate -->
-              <yml>SCRIPT_STYLE</yml> <!-- jekyll site generation config -->
-            </mapping>
-            <strictCheck>true</strictCheck>
-          </configuration>
-        </plugin>
         
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -460,15 +436,6 @@
           <version>${site.plugin.version}</version>
         </plugin>
 
-        <plugin>
-          <groupId>com.atlassian.maven.plugins</groupId>
-          <artifactId>maven-clover2-plugin</artifactId>
-          <version>${maven.clover.version}</version>
-          <configuration>
-            <generateHtml>true</generateHtml>
-            <generateXml>true</generateXml>
-          </configuration>
-        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -483,26 +450,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
       <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>com.mycila.maven-license-plugin</groupId>
-        <artifactId>maven-license-plugin</artifactId>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>com.atlassian.maven.plugins</groupId>
-        <artifactId>maven-clover2-plugin</artifactId>
       </plugin>
     </plugins>
 
@@ -568,6 +517,9 @@
     </profile>
   
     <profile>
+      <!-- This profile relies on the Maven Clover plugin.
+      For more information on clover licensing, please
+      view http://www.atlassian.com/software/clover/licensing.jsp -->
       <id>include-test-modules-for-coverage</id>
       <activation>
         <property>
@@ -587,6 +539,40 @@
         <module>javasdk-test/oauth-test</module>
         <module>javasdk-test/springsecurity-test</module>
       </modules>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>com.atlassian.maven.plugins</groupId>
+              <artifactId>maven-clover2-plugin</artifactId>
+              <version>${maven.clover.version}</version>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+        <plugins>
+          <plugin>
+            <groupId>com.atlassian.maven.plugins</groupId>
+            <artifactId>maven-clover2-plugin</artifactId>
+            <configuration>
+              <generateHtml>true</generateHtml>
+              <generateXml>true</generateXml>
+              <!-- exclude qa util classes from instrumentation -->
+              <excludes>
+                <exclude>**/qa/util/*.java</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+      <dependencies>
+        <!-- we need this clover dependency because we are installing 
+        instrumented jars during a clover build -->
+        <dependency>
+          <groupId>com.cenqua.clover</groupId>
+          <artifactId>clover</artifactId>
+          <version>${maven.clover.version}</version>
+        </dependency>
+      </dependencies>
     </profile>
   
     <profile>
@@ -652,6 +638,159 @@
                 <phase>package</phase>
                 <goals>
                   <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+        </plugins>
+      </build>
+    </profile>
+    
+    <profile>
+      <id>license-check</id>
+      <activation>
+        <property>
+          <name>staticAnalysis</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.mycila.maven-license-plugin</groupId>
+            <artifactId>maven-license-plugin</artifactId>
+            <dependencies>
+              <dependency>
+                <groupId>com.force.sdk</groupId>
+                <artifactId>force-build-tools</artifactId>
+                <version>${force.sdk.version}</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <header>license/header.txt</header>
+              <excludes>
+                <exclude>target/**</exclude>
+                <exclude>**/license/header.txt</exclude>
+                <exclude>**/*.md</exclude>
+                <exclude>**/.gitignore</exclude>
+              </excludes>
+              <failIfMissing>${staticAnalysis.failOnError}</failIfMissing>
+              <headerDefinitions>
+                <headerDefinition>license/stringtemplatedefinition.xml</headerDefinition>
+              </headerDefinitions>
+              <mapping>
+                <handlers>SCRIPT_STYLE</handlers> <!-- spring.handlers --> 
+                <policy>DOUBLESLASH_STYLE</policy>
+                <props>SCRIPT_STYLE</props>
+                <schemas>SCRIPT_STYLE</schemas> <!-- spring.schemas --> 
+                <st>STRINGTEMPLATE_STYLE</st> <!-- StringTemplate --> 
+                <yml>SCRIPT_STYLE</yml> <!-- jekyll site generation config --> 
+              </mapping>
+              <strictCheck>true</strictCheck>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>test</phase>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <profile>
+      <id>static-analysis</id>
+      <activation>
+        <property>
+          <name>staticAnalysis</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <!-- Maven dependency check -->
+          <plugin>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <configuration>
+              <failOnWarning>${staticAnalysis.failOnError}</failOnWarning>
+              <ignoreNonCompile>true</ignoreNonCompile>
+              <outputXML>true</outputXML>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>analyze-only</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+          <!-- Javadoc check -->
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${javadoc.plugin.version}</version>
+            <configuration>
+              <quiet>true</quiet>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>javadoc</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+          <!-- Checkstyle -->
+          <plugin>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>${checkstyle.plugin.version}</version>
+            <dependencies>
+              <dependency>
+                <groupId>com.force.sdk</groupId>
+                <artifactId>force-build-tools</artifactId>
+                <version>${force.sdk.version}</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <configLocation>checkstyle/force-sdk-checks.xml</configLocation>
+              <failOnViolation>${staticAnalysis.failOnError}</failOnViolation>
+              <includeTestSourceDirectory>true</includeTestSourceDirectory>
+              <suppressionsLocation>checkstyle/force-sdk-suppressions.xml</suppressionsLocation>
+              <violationSeverity>warning</violationSeverity>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          
+          <!-- Findbugs -->
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>findbugs-maven-plugin</artifactId>
+            <version>${findbugs.plugin.version}</version>
+            <configuration>
+              <effort>Max</effort>
+              <failOnError>${staticAnalysis.failOnError}</failOnError>
+              <includeTests>true</includeTests>
+              <threshold>Default</threshold>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>verify</phase>
+                <goals>
+                  <goal>check</goal>
                 </goals>
               </execution>
             </executions>

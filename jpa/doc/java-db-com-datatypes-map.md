@@ -543,7 +543,7 @@ String[] for selected values</p>
 
 <td width="18.43220338983051%" >URL</td>
 
-<td width="30.720338983050848%" >@Column(length = <em>fieldLength</em>)</td>
+<td width="30.720338983050848%" >@Basic</td>
 
 </tr>
 

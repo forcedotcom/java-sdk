@@ -28,6 +28,16 @@
 
 <FindBugsFilter>
   <!--
+  Skip transient field check for fields added by DataNucleus enhancer.
+  -->
+  <Match>
+    <Or>
+      <Package name="~com\.force\.sdk\.jpa\.entities.*"/>
+      <Package name="~com\.force\.sdk\.jpa\.sample.*"/>
+    </Or>
+    <Bug pattern="SE_TRANSIENT_FIELD_NOT_RESTORED"/>
+  </Match>
+  <!--
   No need to implement a hasCode method for a test entity.
   -->
   <Match>

@@ -26,13 +26,16 @@
 
 package com.force.sdk.oauth.context.store;
 
-import java.io.*;
-
-import javax.crypto.spec.SecretKeySpec;
-import javax.servlet.http.*;
-
 import com.force.sdk.oauth.context.SecurityContext;
 import com.sforce.ws.util.Base64;
+
+import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 /**
  * 
@@ -62,10 +65,11 @@ public class SecurityContextCookieStore implements
             //Refresh tokens should not be stored in cookies. Set it to null.
             securityContext.setRefreshToken(null);
             byte[] securityContextSer = serializeSecurityContext(securityContext, encrypted);
-            contextCookie = new Cookie(SECURITY_CONTEXT_COOKIE_NAME, b64encode(securityContextSer));
-            if (!"localhost".equalsIgnoreCase(request.getLocalName())) {
-                contextCookie.setSecure(true);
-            }
+            contextCookie = new Cookie(SECURITY_CONTEXT_COOKIE_NAME, URLEncoder.encode(b64encode(securityContextSer), "UTF-8"));
+
+            boolean secure = !("localhost".equalsIgnoreCase(request.getLocalName())
+                    || request.getLocalName().contains("0:0:0:0:0:0:0:1"));
+            contextCookie.setSecure(secure);
             response.addCookie(contextCookie);
         } catch (ForceEncryptionException e) {
             throw new ContextStoreException(e);
@@ -75,7 +79,7 @@ public class SecurityContextCookieStore implements
     }
 
     /**
-     * retrieves the security context from a browser cookie.
+     * Retrieves the security context from a browser cookie.
      * {@inheritDoc}
      */
     @Override
@@ -88,7 +92,7 @@ public class SecurityContextCookieStore implements
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
                     if (SECURITY_CONTEXT_COOKIE_NAME.equals(cookie.getName())) {
-                        value = cookie.getValue();
+                        value = URLDecoder.decode(cookie.getValue(), "UTF-8");
                     }
                 }
             }
@@ -108,7 +112,7 @@ public class SecurityContextCookieStore implements
     }
     
     /**
-     * Serialize and encrypt the security context so that it can be stored in a cookie.
+     * Serializes and encrypts the security context so that it can be stored in a cookie.
      * 
      * @param sc
      * @param encrypt
@@ -133,7 +137,7 @@ public class SecurityContextCookieStore implements
     }
     
     /**
-     * Decrypt and deserialize the security context.
+     * Decrypts and deserializes the security context.
      * 
      * @param securityContextSer
      * @param isEncrypted
@@ -170,7 +174,7 @@ public class SecurityContextCookieStore implements
     }
     
     /**
-     * base 64 encode the passed in byte array.
+     * Returns a base-64 encoded byte array.
      * 
      * @param b - byte array
      * @return b64 String representation
@@ -180,7 +184,7 @@ public class SecurityContextCookieStore implements
     }
     
     /**
-     * decode a base 64 encoded string back to the original byte array.
+     * Decodes a base-64 encoded string and returns a byte array.
      * 
      * @param s - the encoded string
      * @return the byte array

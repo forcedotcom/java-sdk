@@ -34,6 +34,7 @@ import java.net.Proxy;
 import java.net.Proxy.Type;
 import java.net.SocketAddress;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
@@ -58,8 +59,8 @@ import com.sforce.ws.SessionRenewer;
  * <p>
  * <ul>
  *   <li>PartnerConnection - Used for SOAP API calls</li>
- *   <li>MetadataConnection - Used for Force.com's Metadata API</li>
- *   <li>BulkConnection - Used for Force.com's Bulk API</li>
+ *   <li>MetadataConnection - Used for the Force.com Metadata API</li>
+ *   <li>BulkConnection - Used for the Force.com Bulk API</li>
  * </ul>
  * Connectors require a {@link ForceConnectorConfig} to provide connection
  * properties.  They can handle {@code ForceConnectorConfig}s from the following
@@ -71,7 +72,7 @@ import com.sforce.ws.SessionRenewer;
  *   <li>A {@code ForceConnectorConfig} stored in the connector's {@code ThreadLocal} cache</li>
  * </ol>
  * Connectors are capable of caching {@code ForceConnectorConfig} objects both in a {@code ThreadLocalCache}
- * and an in memory cache.  The {@code ThreadLocalCache} is directly controlled by the caller.  The in memory
+ * and an in-memory cache.  The {@code ThreadLocalCache} is directly controlled by the caller.  The in-memory
  * cache is controlled internally by the connector.  By default, a connector will cache a {@code ForceConnectorConfig}
  * in memory whenever it constructs a connection.  However, this can be turned off by the caller.
  * <p>
@@ -98,16 +99,22 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     public static final javax.xml.namespace.QName SESSION_HEADER_QNAME =
         new javax.xml.namespace.QName("urn:partner.soap.sforce.com", "SessionHeader");
     
-    // This is used to create a metadata API uri (i.e. */services/Soap/u/* -> */services/Soap/m/*)
+    // This is used to create a Metadata API uri (i.e. */services/Soap/u/* -> */services/Soap/m/*)
     private static final Pattern METADATA_URI_PATTERN = Pattern.compile("(.*/Soap)/./(.*)");
     
-    // This is used to create a REST (Bulk) API uri (i.e. */services/Soap/u/*/<orgId> -> */services/async/*)
+    // This is used to create a Bulk (REST) API uri (i.e. */services/Soap/u/*/<orgId> -> */services/async/*)
+    // The Bulk API was the first "REST API", hence the var name. This is different from the REST API, which came later.
     private static final Pattern RESTAPI_URI_PATTERN = Pattern.compile("(.*)/Soap/./(.*)/(.*)$");
     
     // Version under which we will get Metadata describe results
     static final double DESCRIBE_METADATA_VERSION = 16.0;
     
     private static final Proxy DEFAULT_PROXY;
+
+    /**
+     * The version of the sdk e.g. sdk-22.0.1-BETA that will be set in the User-Agent header for API requests
+     */
+    public static final String API_USER_AGENT;
 
     static {
         if (PROXY_HOST != null) {
@@ -116,6 +123,17 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
         } else {
             DEFAULT_PROXY = null;
         }
+
+        String sdkVersion = null;
+        Properties projectProps = new Properties();
+        try {
+            projectProps.load(ForceServiceConnector.class.getClassLoader().getResource("sdk.properties").openStream());
+            sdkVersion = projectProps.getProperty("force.sdk.version");
+        } catch (IOException e) {
+            LOGGER.error("Unable to load project properties. Logs will not include sdk version!");
+        }
+        if (sdkVersion == null) sdkVersion = "";
+        API_USER_AGENT = String.format("sdk-%s", sdkVersion);
     }
     
     /**
@@ -142,6 +160,8 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     // Cache for saved configs
     private static final Map<String, ForceConnectorConfig> CACHED_CONFIGS =
         new ConcurrentHashMap<String, ForceConnectorConfig>();
+    // map a connection name to a config id
+    private static final Map<String, String> CONN_NAME_TO_CACHED_CONFIGS = new ConcurrentHashMap<String, String>();
     private boolean skipCache = false; // Flag which tells us whether to check the config cache or not
     
     // The ForceConnectorConfig used to construct a connection
@@ -150,10 +170,11 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     // State that can be used to construct config
     private String connectionName;               // Named connections can look up connection construction state        
     private ForceConnectorConfig externalConfig; // ForceConnectorConfig injected from an external source
-    
+
     // Extra state used to initialize config (and the connection)
     private String clientId;
-    private String externalClientId; // A clientId coming from an external source (see getConfig) 
+    private String externalClientId; // A clientId coming from an external source (see getConfig)
+
     private int timeout;
     
     // Saved connection state for multiple getConnection calls
@@ -186,7 +207,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     }
 
     /**
-     * Initializes a {@code ForceServiceConnector} which will use the given {@code ForceConnectorConfig}
+     * Initializes a {@code ForceServiceConnector} that uses the given {@code ForceConnectorConfig}
      * to get Force.com connections.
      * 
      * @param config the {@code ForceConnectorConfig} to be used when getting Force.com connections
@@ -242,13 +263,15 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
         // Give the connection a client id if we have one
         if (this.clientId != null) {
             co.setClient(this.clientId);
-            
-        // Check for any external client id we might
-        // have come across (see getConfig)
         } else if (this.externalClientId != null) {
+            // Check for any external client id we might
+            // have come across (see getConfig)
             co.setClient(this.externalClientId);
+        } else {
+            co.setClient(API_USER_AGENT); //just default it to the version of the sdk
         }
-        
+
+        this.connection.getConfig().setRequestHeader("User-Agent", API_USER_AGENT);
         this.connection.__setCallOptions(co);
     }
     
@@ -257,9 +280,8 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
         
         // First, look for construction state in this object's state.
         if (externalConfig != null) {
-            // Save the client id for possible later use (see initConnection)
+             // Save the client id for possible later use (see initConnection)
             externalClientId = externalConfig.getClientId();
-            
             // Clone the config in case it gets cached.  This will prevent
             // the caller from modifying the cached object.
             return checkConfigCache((ForceConnectorConfig) externalConfig.clone());
@@ -267,6 +289,11 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
         
         // Next, try to retrieve saved connection construction state using the connection name
         if (connectionName != null) {
+            final ForceConnectorConfig cachedConfig = getCachedConfig(getCacheIdForConnectionName(connectionName));
+            if (cachedConfig != null) {
+                return cachedConfig;
+            }
+
             ForceConnectorConfig loadedConfig;
             try {
                 loadedConfig = ForceConnectorConfig.loadFromName(connectionName);
@@ -277,7 +304,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
             if (loadedConfig != null) {
                 // Save the client id for possible later use (see initConnection)
                 externalClientId = loadedConfig.getClientId();
-                return checkConfigCache(loadedConfig);
+                return checkConfigCache(loadedConfig, connectionName);
             }
         }
         
@@ -296,16 +323,34 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
 
         throw new ConnectionException(errorMsg.toString());
     }
-    
+
+    private String getCacheIdForConnectionName(String cachedConnectionName) {
+        return CONN_NAME_TO_CACHED_CONFIGS.get(cachedConnectionName);
+    }
+
+    private void setCacheIdForConnectionName(String cacheConnectionName, String cacheId) {
+        if (cacheConnectionName != null && cacheId != null) {
+            LOGGER.trace("ForceServiceConnector Cache: Mapping connectionName: "
+                    + cacheConnectionName + " to cacheId: " + cacheId);
+            CONN_NAME_TO_CACHED_CONFIGS.put(cacheConnectionName, cacheId);
+        }
+    }
+
     private ForceConnectorConfig checkConfigCache(ForceConnectorConfig configToCheck) throws ConnectionException {
+        return checkConfigCache(configToCheck, null);
+    }
+
+    private ForceConnectorConfig checkConfigCache(ForceConnectorConfig configToCheck, String cachedConnectionName)
+            throws ConnectionException {
         validateConnectorConfig(configToCheck);
-        
+
         String cacheId = configToCheck.getCacheId();
         if (cacheId != null && !skipCache) {
             LOGGER.trace("ForceServiceConnector Cache: Checking for id: " + cacheId);
             
-            ForceConnectorConfig cachedConfig;
-            if ((cachedConfig = CACHED_CONFIGS.get(cacheId)) != null) {
+            ForceConnectorConfig cachedConfig = getCachedConfig(cacheId);
+            setCacheIdForConnectionName(cachedConnectionName, cacheId);
+            if (cachedConfig  != null) {
                 LOGGER.trace("ForceServiceConnector Cache: HIT for id: " + cacheId);
                 return cachedConfig;
             }
@@ -316,7 +361,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
         
         return configToCheck;
     }
-    
+
     private void validateConnectorConfig(ForceConnectorConfig configToValidate) throws ConnectionException {
         if (configToValidate.getSessionId() == null && configToValidate.getAuthEndpoint() == null) {
             throw new ConnectionException("ForceConnectorConfig must have an AuthEndpoint");
@@ -345,8 +390,8 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     /**
      * Returns a Force.com API {@code MetadataConnection}.
      * <p>
-     * This connection type can be use to make Force.com Metadata API calls to the Force.com
-     * service.  The {@code MetadataConnection} will be lazily constructed and
+     * This connection type can be use to make Force.com Metadata API calls.
+     * The {@code MetadataConnection} will be lazily constructed and
      * stored in this {@code ForceServiceConnector}'s state.  This state
      * can be cleared with a call to {@code close}
      * 
@@ -374,24 +419,27 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
         ConnectorConfig configNew = new ConnectorConfig();
         configNew.setSessionId(config.getSessionId());
         configNew.setServiceEndpoint(METADATA_URI_PATTERN.matcher(config.getServiceEndpoint()).replaceFirst("$1/m/$2"));
+
         this.metadataConnection = new MetadataConnection(configNew);
-    
+
         // Give the metadata connection a client id if we have one
         if (this.clientId != null) {
             this.metadataConnection.setCallOptions(this.clientId);
-            
-        // If we've constructed config from ForceServiceConnectionInfo state
-        // then we've saved any client id for use here (see getConfig)
         } else if (this.externalClientId != null) {
+            // If we've constructed config from ForceServiceConnectionInfo state
+            // then we've saved any client id for use here (see getConfig)
             this.metadataConnection.setCallOptions(this.externalClientId);
+        } else {
+            this.metadataConnection.setCallOptions(API_USER_AGENT); //just default to sdk version
         }
+        this.metadataConnection.getConfig().setRequestHeader("User-Agent", API_USER_AGENT);
     }
 
     /**
-     * Returns a Force.com API {@code BulkConnection}.
+     * Returns a Force.com Bulk API {@code BulkConnection}.
      * <p>
-     * This connection type can be use to make Force.com Bulk API calls to the Force.com
-     * service.  The {@code BulkConnection} will be lazily constructed and
+     * This connection type can be use to make Force.com Bulk API calls.
+     * The {@code BulkConnection} will be lazily constructed and
      * stored in this {@code ForceServiceConnector}'s state.  This state
      * can be cleared with a call to {@code close}
      * 
@@ -455,7 +503,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     /**
      * Clears this {@code ForceServiceConnector}'s local state.
      * <p>
-     * The connections gotten by a {@code ForceServiceConnector} are lazily
+     * The connections from a {@code ForceServiceConnector} are lazily
      * constructed and stored in the {@code ForceServiceConnector}'s local state.  Thus
      * multiple calls to get a connection will return the same connection object without
      * re-establishing a connection to the Force.com service.  The {@code close} method
@@ -473,9 +521,10 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
         this.connectionName = null;
         
         this.externalConfig = null;
-        
+
         this.clientId = null;
         this.externalClientId = null;
+
         this.timeout = 0;
         
         this.connection = null;
@@ -485,6 +534,11 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     
     static void clearCache() {
         CACHED_CONFIGS.clear();
+        CONN_NAME_TO_CACHED_CONFIGS.clear();
+    }
+
+    static Map<String, ForceConnectorConfig> getCachedConfigs() {
+        return CACHED_CONFIGS;
     }
     
     static ForceConnectorConfig getCachedConfig(String cacheId) {
@@ -495,7 +549,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     /**
      * Automatically renews Force.com timed out sessions.
      * <p>
-     * The connections gotten by a {@code ForceServiceConnector} are lazily
+     * The connections from a {@code ForceServiceConnector} are lazily
      * constructed and stored in the {@code ForceServiceConnector}'s local state.  Thus
      * multiple calls to get a connection will return the same connection object without
      * re-establishing a connection to the Force.com service.  However, this presents
@@ -530,19 +584,23 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
         return null;
     }
 
+
     /**
      * Sets the Force.com connection client id.
      * <p>
-     * The client id is a {@code String} identifier which will be set on the Force.com
-     * connection gotten by this {@code ForceServiceConnector}.  Note that the client
+     * The client id is a {@code String} identifier that is set on the Force.com
+     * connection in this {@code ForceServiceConnector}.  Note that the client
      * id set here will override the client id in this {@code ForceServiceConnector}'s
      * {@code ForceConnectorConfig} state.
-     * 
+     *
      * @param clientId any non {@code null}, non empty {@code String} that is
      *                 to be used as a Force.com connection identifier
      */
+
     public void setClientId(String clientId) {
+
         this.clientId = clientId;
+
     }
 
     /**
@@ -567,7 +625,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
      * A named {@code ForceConnectorConfig} source specifies connection
      * properties in a named location.  These properties can be used to construct
      * a {@code ForceConnectorConfig}.  Note that a named connection {@code ForceConnectorConfig} 
-     * source can be overridden by directly injecting {@code ForceConnectorConfig} state.
+     * source can be overridden by directly injecting the {@code ForceConnectorConfig} state.
      * 
      * @param connectionName the name of a {@code ForceConnectorConfig} source
      * @see ForceConnectorUtils#loadConnectorPropsFromName(String)
@@ -596,7 +654,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     
     /**
      * Indicates whether or not this {@code ForceServiceConnector} should skip
-     * in memory {@code ForceConnectorConfig} cache reads and writes.
+     * in-memory {@code ForceConnectorConfig} cache reads and writes.
      * <p>
      * By default, a {@code ForceServiceConnector} will cache {@code ForceConnectorConfig}
      * objects when getting a connection to the Force.com service.   This state allows
@@ -610,7 +668,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     }
     
     /**
-     * Sets the read timeout for all Force.com connections gotten by this {@code ForceServiceConnector}.
+     * Sets the read timeout for all Force.com connections using this {@code ForceServiceConnector}.
      * <p>
      * Note that this timeout value will override any read timeout value set in
      * a {@code ForceConnectorConfig}.

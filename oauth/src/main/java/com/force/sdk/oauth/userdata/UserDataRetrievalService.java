@@ -30,7 +30,7 @@ import com.force.sdk.oauth.context.SecurityContext;
 import com.sforce.ws.ConnectionException;
 
 /**
- * Used to retrieve data about the authenticated user for storage in the SecurityContext.
+ * Retrieves data about the authenticated user for storage in the {@code SecurityContext}.
  * 
  * @author John Simone
  */
@@ -40,7 +40,7 @@ public class UserDataRetrievalService {
     private boolean storeUsername;
 
     /**
-     * Create with the given value for the storeUsername flag.
+     * Creates the service with the given value for the {@code storeUsername} flag.
      * 
      * @param storeUsername boolean
      */
@@ -50,14 +50,14 @@ public class UserDataRetrievalService {
     }
 
     /**
-     * Create with a ForceUserDataRetriever.
+     * Creates a {@code ForceUserDataRetriever}.
      */
     public UserDataRetrievalService() {
         this.forceDataRetriever = new ForceUserDataRetriever();
     }
 
     /**
-     * Set up the user data retriever and use it to retrieve data about the user.
+     * Sets up the user data retriever and retrieves data about the user.
      * 
      * @param sessionId String
      * @param endpoint String
@@ -81,7 +81,7 @@ public class UserDataRetrievalService {
 
 
     /**
-     * Flag stating whether or not the username should be stored.
+     * Returns whether or not the username should be stored.
      * @return boolean  
      */
     public boolean isStoreUsername() {

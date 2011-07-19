@@ -31,9 +31,9 @@ import com.sforce.ws.ConnectionException;
 
 /**
  * 
- * This is the standard UserDataRetriever. It calls out to obtain the default user data
- * and should be called to populate the ForceSecurityContext whether or not a customized
- * UserDataRetriever is provided.
+ * Provides the default implementation of {@code UserDataRetriever}. It calls out to obtain the default user data
+ * and should be called to populate the {@code ForceSecurityContext} whether or not a customized
+ * {@code UserDataRetriever} is provided.
  *
  * @author John Simone
  */
@@ -45,7 +45,7 @@ public class ForceUserDataRetriever implements UserDataRetriever {
     private boolean storeUsername;
     
     /**
-     * Retrieve the default user data from the partner API.
+     * Retrieves the default user data from the partner API.
      * @return SecurityContext
      * @throws ConnectionException if a connection to the partner API cannot be made
      */
@@ -62,6 +62,10 @@ public class ForceUserDataRetriever implements UserDataRetriever {
         SecurityContext sc = new ForceSecurityContext();
         sc.setSessionId(sessionId);
         sc.setEndPoint(endpoint);
+        if (endpoint.indexOf("/services/Soap/u") > 0) {
+            sc.setEndPointHost(endpoint.substring(0, endpoint.indexOf("/services/Soap/u")));
+        }
+
         if (refreshToken != null) {
             sc.setRefreshToken(refreshToken);
         }
@@ -104,7 +108,7 @@ public class ForceUserDataRetriever implements UserDataRetriever {
     }
 
     /**
-     * Flag stating whether or not the username should be stored.
+     * Returns whether or not the username should be stored.
      * @return boolean  
      */
     public boolean isStoreUsername() {

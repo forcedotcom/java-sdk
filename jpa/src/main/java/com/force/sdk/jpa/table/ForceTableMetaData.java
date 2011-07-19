@@ -39,10 +39,10 @@ import com.sforce.soap.metadata.*;
 /**
  * 
  * Metadata for Force.com objects.  This class converts your non-read-only @Entity java classes
- * into {@link CustomObject}s that the Force.com metadata API can read. The CustomObject
+ * into {@link CustomObject}s that the Force.com Metadata API can read. The CustomObject
  * gets updated with any specified fields and if schema creation is enabled, the
- * object is emitted to the ForceSchemaWriter to be deployed to the developer's
- * org.
+ * object is emitted to the {@code ForceSchemaWriter} to be deployed to the developer's
+ * organization.
  *
  * @author Fiaz Hossain
  * @author Jill Wetzler
@@ -50,7 +50,7 @@ import com.sforce.soap.metadata.*;
 public class ForceTableMetaData extends ForceMetaData {
 
     /**
-     * Create the metadata for an object in Force.com.
+     * Creates the metadata for an object in Force.com.
      * 
      * @param cmd  the class metadata for the entity 
      * @param tableImpl the table object

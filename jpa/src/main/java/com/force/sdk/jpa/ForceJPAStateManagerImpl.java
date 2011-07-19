@@ -31,15 +31,15 @@ import org.datanucleus.jpa.state.JPAStateManagerImpl;
 import org.datanucleus.metadata.AbstractClassMetaData;
 
 /**
- * This class is currently only used as a marker to distinguish from JPAStateManagerImpl. The logic is used for
- * merge() calls to Transient objects
+ * Used as a marker to distinguish from JPAStateManagerImpl. The logic is used for
+ * {@code merge()} calls to transient objects.
  *
  * @author Fiaz Hossain
  */
 public class ForceJPAStateManagerImpl extends JPAStateManagerImpl {
 
     /**
-     * Create a special state manager to use for merge calls on transient objects.
+     * Create a special state manager to use for {@code merge()} calls on transient objects.
      * 
      * @param om the object manager
      * @param cmd the metadata for an entity class
@@ -49,7 +49,7 @@ public class ForceJPAStateManagerImpl extends JPAStateManagerImpl {
     }
     
     /**
-     * Relationship checks fail with NPE because this StateManager is created on Transient objects. We override the
+     * Relationship checks fail with NPE because this StateManager is created on transient objects. We override the
      * method here to bypass the super class implementation
      */
     @Override
@@ -58,7 +58,7 @@ public class ForceJPAStateManagerImpl extends JPAStateManagerImpl {
     }
     
     /**
-     * Relationship checks fail with NPE because this StateManager is created on Transient objects. We override the
+     * Relationship checks fail with NPE because this StateManager is created on transient objects. We override the
      * method here to bypass the super class implementation
      */
     @Override
@@ -67,7 +67,7 @@ public class ForceJPAStateManagerImpl extends JPAStateManagerImpl {
     }
     
     /**
-     * Relationship checks fail with NPE because this StateManager is created on Transient objects. We override the
+     * Relationship checks fail with NPE because this StateManager is created on transient objects. We override the
      * method here to bypass the super class implementation
      */
     @Override

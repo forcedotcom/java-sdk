@@ -67,7 +67,7 @@ public class ForceStoreSchemaHandler implements StoreSchemaHandler {
     private Map<String , DescribeSObjectResult> sObjectResults; // temporary holding space during initialization
 
     /**
-     * create the schema handler for Force.com sObjects.
+     * Creates the schema handler for Force.com sObjects.
      * 
      * @param storeManager the store manager
      */
@@ -108,7 +108,7 @@ public class ForceStoreSchemaHandler implements StoreSchemaHandler {
     }
     
     /**
-     * makes a describe call for each class in the collection and caches the results.
+     * Makes a describe call for each class in the collection and caches the results.
      * 
      * @param classes a collection of class metadata to describe
      * @param mconn the managed connection to the Force.com APIs
@@ -155,7 +155,7 @@ public class ForceStoreSchemaHandler implements StoreSchemaHandler {
     }
     
     /**
-     * Clear out the describe results after intitialization.
+     * Clears out the describe results after intitialization.
      */
     public void clearDescribeSObjects() {
         // Clear the initialization cache
@@ -163,20 +163,20 @@ public class ForceStoreSchemaHandler implements StoreSchemaHandler {
     }
 
     /**
-     * get the table impl for a particular entity name from the cache.
+     * Gets the table impl for a particular entity name from the cache.
      * 
      * @param objName the name of the object to retrieve a table for
-     * @return the tableImpl, null if it hasn't been registered
+     * @return the tableImpl, {@code null} if it hasn't been registered
      */
     public TableImpl getTable(String objName) {
         return getTable(storeManager.getMetaDataManager().getMetaDataForEntityName(objName));
     }
 
     /**
-     * get the table impl for a particular entity from the cache.
+     * Gets the table impl for a particular entity from the cache.
      * 
      * @param acmd the metadata to retrieve table info for 
-     * @return the tableImpl, null if it hasn't been registered
+     * @return the tableImpl, {@code null} if it hasn't been registered
      */
     public TableImpl getTable(AbstractClassMetaData acmd) {
         if (acmd == null) return null;
@@ -185,7 +185,7 @@ public class ForceStoreSchemaHandler implements StoreSchemaHandler {
     }
     
     /**
-     * register a table with the cache, create its TableName and TableImpl.
+     * Registers a table with the cache, creates its TableName and TableImpl.
      * 
      * @param acmd the class metadata of the entity to register
      * @param conn the managed connection to Force.com APIs, used to get at the namespace
@@ -208,7 +208,7 @@ public class ForceStoreSchemaHandler implements StoreSchemaHandler {
     }
     
     /**
-     * register a virtual table (a table not backed by an actual object in Force.com, like owner).
+     * Registers a virtual table (a table not backed by an actual object in Force.com, like Owner).
      * 
      * @param acmd the class metadata of the virtual table to register with the cache
      * @return the created TableImpl

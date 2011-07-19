@@ -38,7 +38,7 @@ import org.testng.annotations.*;
 
 import com.force.sdk.jpa.query.entities.DataTypesFTestEntity;
 import com.force.sdk.jpa.query.entities.DataTypesFTestEntity.PickValues;
-import com.force.sdk.test.util.BaseJPAFTest;
+import com.force.sdk.qa.util.BaseJPAFTest;
 
 /**
  * 
@@ -362,7 +362,7 @@ public class QueryAggregateFunctionsTest extends BaseJPAFTest {
                 {"avg(o.bigDecimalObject)", "max", new Double(MAX_BIG_DECIMAL), Double.class.toString()},
                 {"sum(o.intType)", "max",  (2 * (long) Integer.MAX_VALUE), Long.class.toString()},
                 {"sum(o.shortType)", "max", (2 * (long) Short.MAX_VALUE), Long.class.toString()},
-                {"sum(o.longType)", "maxSum", (long) ((long) (MAX_LONG / 2) + (long) (MAX_LONG / 2)), Long.class.toString()},
+                {"sum(o.longType)", "maxSum", (long) ((MAX_LONG / 2L) + (MAX_LONG / 2L)), Long.class.toString()},
                 {"sum(o.floatType)", "max", new Double(MAX_FLOAT * 2), Double.class.toString()},
                 {"sum(o.doubleType)", "maxSum", MAX_DOUBLE, Double.class.toString()},
                 {"sum(o.bigIntegerObject)", "maxSum", halfMaxBigInteger.add(halfMaxBigInteger) , BigInteger.class.toString()},

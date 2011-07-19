@@ -39,8 +39,8 @@ public class ForceRolePrincipal implements Principal {
     private final String name;
     
     /**
-     * Create a ForceRolePrincipal with this name.
-     * @param name String
+     * Creates a {@code ForceRolePrincipal} with this name.
+     * @param name String role name
      */
     public ForceRolePrincipal(String name) {
         this.name = name;

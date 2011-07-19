@@ -26,12 +26,11 @@
 
 package com.force.sdk.connector;
 
-import static org.testng.Assert.assertEquals;
-
-import org.testng.annotations.Test;
-
 import com.sforce.soap.metadata.MetadataConnection;
 import com.sforce.soap.partner.PartnerConnection;
+import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * Tests for ForceServiceConnector setters.
@@ -81,28 +80,28 @@ public class ForceServiceConnectorSetterTest extends BaseForceServiceConnectorTe
     @Test
     public void testSetClientId() throws Exception {
         ForceConnectorConfig config = createConfig();
-        
+
         ForceServiceConnector connector = new ForceServiceConnector(config);
         connector.setClientId("testSetClientId");
-        
+
         PartnerConnection conn = connector.getConnection();
         assertEquals(conn.getCallOptions().getClient(), "testSetClientId");
-        
+
         MetadataConnection mdConn = connector.getMetadataConnection();
         assertEquals(mdConn.getCallOptions().getClient(), "testSetClientId");
     }
-    
+
     @Test
     public void testSetTimeout() throws Exception {
         ForceConnectorConfig config = createConfig();
-        
+
         ForceServiceConnector connector = new ForceServiceConnector(config);
         connector.setTimeout(1000);
-        
+
         PartnerConnection conn = connector.getConnection();
         assertEquals(conn.getConfig().getReadTimeout(), 1000);
     }
-   
+
     @Test
     public void testUseClientIdOnConnector() throws Exception {
         ForceConnectorConfig config = createConfig();
@@ -111,10 +110,10 @@ public class ForceServiceConnectorSetterTest extends BaseForceServiceConnectorTe
         ForceServiceConnector connector = new ForceServiceConnector();
         connector.setConnectorConfig(config);
         connector.setClientId("testUseLatestClientId2");
-        
+
         PartnerConnection conn = connector.getConnection();
         assertEquals(conn.getCallOptions().getClient(), "testUseLatestClientId2");
-        
+
         MetadataConnection mdConn = connector.getMetadataConnection();
         assertEquals(mdConn.getCallOptions().getClient(), "testUseLatestClientId2");
     }

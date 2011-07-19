@@ -29,7 +29,7 @@ package com.force.sdk.jpa.query.formatter;
 import java.util.regex.Pattern;
 
 /**
- * This is a convenience class to format a multipicklist value
+ * Convenience class to format a multipicklist value
  * i.e. 'AAA;BBB,CCC' will be formatted as 'AAA;BBB','CCC'
  * for use in the expression of a query.
  *
@@ -42,7 +42,7 @@ public class MultiPicklistFormatter {
     private String value;
     
     /**
-     * Create a formatter for the given string.
+     * Creates a formatter for the given string.
      * 
      * @param value  the string to be formatted.
      */

@@ -38,6 +38,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Shared utilities for Force.com connectors.
@@ -47,7 +48,7 @@ import java.util.Properties;
 public final class ForceConnectorUtils {
 
     /**
-     * The file in which the CLIForce client stores Force.com connection information.
+     * The file in which the cliforce client stores Force.com connection information.
      */
     static File cliforceConnFile =
         new File(System.getProperty("cliforce.home", System.getProperty("user.home")) + "/.force/cliforce_urls");
@@ -55,6 +56,9 @@ public final class ForceConnectorUtils {
     static final Logger LOGGER = LoggerFactory.getLogger("com.force.sdk.connector");
 
     static final String FORCE_API_ENDPOINT_PATH;
+
+    static final Map<String, Map<ForceConnectionProperty, String>> PROPERTIES_CACHE =
+        new ConcurrentHashMap<String, Map<ForceConnectionProperty, String>>();
 
     static {
         try {
@@ -87,7 +91,7 @@ public final class ForceConnectorUtils {
         String[] parsedEndpoint = endpoint.split("://");
         String endpointNoProtocol = parsedEndpoint[parsedEndpoint.length - 1];
 
-        // This is the endpoint that will be supplied to the Api
+        // This is the endpoint that will be supplied to the API
         StringBuffer apiEndpoint = new StringBuffer(endpointNoProtocol);
 
         // Append the web services path, if necessary
@@ -146,14 +150,14 @@ public final class ForceConnectorUtils {
      *   (case sensitive match)
      *   </li>
      *   <li>
-     *   Force.com connection URL in the CLIForce connection file of the form <connectionName>=<connection URL> 
+     *   Force.com connection URL in the cliforce connection file of the form <connectionName>=<connection URL> 
      *   (case sensitive match)
      *   </li> 
      * </ol>
      * 
-     * @param connectionName a name which represents one of the locations above
+     * @param connectionName a name representing one of the locations above
      * @return a {@link Map} which maps {@link ForceConnectionProperty} enum values to connection property values
-     * @throws IOException if an attempt to interact with a classpath properties file or the CLIForce connection
+     * @throws IOException if an attempt to interact with a classpath properties file or the cliforce connection
      *                     file results in a thrown {@code IOException}
      * @see ForceConnectionProperty
      */
@@ -162,6 +166,11 @@ public final class ForceConnectorUtils {
 
         if (connectionName == null) return null;
 
+        if (PROPERTIES_CACHE.containsKey(connectionName)) {
+            LOGGER.info("Connection : loading " + connectionName + " from cache");
+            return PROPERTIES_CACHE.get(connectionName);
+        }
+
         String connectionUrl;
         
         // First, try getting a connection url from an environment variable
@@ -169,7 +178,7 @@ public final class ForceConnectorUtils {
         String envVarName = "FORCE_" + connectionName.toUpperCase() + "_URL";
         if ((connectionUrl = System.getenv(envVarName)) != null) {
             LOGGER.info("Connection : Creating " + connectionName + " from environment variable: " + envVarName);
-            return loadConnectorPropsFromUrl(connectionUrl);
+            return cache(connectionName, loadConnectorPropsFromUrl(connectionUrl));
         }
 
         // Next, try getting a connection url from a java system property
@@ -177,7 +186,7 @@ public final class ForceConnectorUtils {
         String sysPropName = "force." + connectionName + ".url";
         if ((connectionUrl = System.getProperty(sysPropName)) != null) {
             LOGGER.info("Connection : Creating " + connectionName + " from Java system property: " + sysPropName);
-            return loadConnectorPropsFromUrl(connectionUrl);
+            return cache(connectionName, loadConnectorPropsFromUrl(connectionUrl));
         }
 
         // Next, look for a properties file on the classpath
@@ -185,13 +194,12 @@ public final class ForceConnectorUtils {
         URL propsFileUrl;
         if ((propsFileUrl = ForceConnectorUtils.class.getResource("/" + connectionName + ".properties")) != null) {
             LOGGER.info("Connection : Creating " + connectionName + " from classpath properties file: " + propsFileUrl);
-            return loadConnectorPropsFromFile(propsFileUrl);
+            return cache(connectionName, loadConnectorPropsFromFile(propsFileUrl));
         }
 
         // Finally, look for a connection url in the cliforce connections file
         // Note: This is a case sensitive match
         if (cliforceConnFile.canRead()) {
-
             InputStream is = null;
             Properties cliforceConnUrls = new Properties();
             try {
@@ -205,7 +213,7 @@ public final class ForceConnectorUtils {
 
             if (cliforceConnUrls.containsKey(connectionName)) {
                 LOGGER.info("Connection : Creating " + connectionName + " from cliforce connections file: " + cliforceConnFile);
-                return loadConnectorPropsFromUrl(cliforceConnUrls.getProperty(connectionName));
+                return cache(connectionName, loadConnectorPropsFromUrl(cliforceConnUrls.getProperty(connectionName)));
             }
         }
 
@@ -246,14 +254,14 @@ public final class ForceConnectorUtils {
      * Loads Force.com connection properties from a Force.com connection url
      * <p>
      * A Force.com connection url must start with the force:// protocol followed
-     * by a non empty endpoint string.  Connection properties are specified with
+     * by a non-empty endpoint string.  Connection properties are specified with
      * key=value pairs and delimited by a semi-colon (';') after the endpoint.
      * Any connection property keys not recognized (i.e. that are not in the 
      * {@link ForceConnectionProperty} enum) are ignored.
      * 
      * @param connectionUrl a well qualified Force.com connection URL
-     * @return a {@link Map} which maps {@link ForceConnectionProperty} enum values to connection property values
-     * @throws IllegalArgumentException if connectionUrl is null
+     * @return a {@link Map} that maps {@link ForceConnectionProperty} enum values to connection property values
+     * @throws IllegalArgumentException if connectionUrl is {@code null}
      * @throws IllegalArgumentException if connectionUrl does not start with force://
      * @throws IllegalArgumentException if the endpoint within connectionUrl is empty
      * @throws IllegalArgumentException if the endpoint within connectionUrl is not valid
@@ -313,5 +321,21 @@ public final class ForceConnectorUtils {
         }
 
         return proxyPort;
+    }
+
+    /*
+     * Adds properties to cache.  This is a workaround to using propertiesCache.put(K,V) directly.
+     * When using put directly, it doesn't return the value to the caller.
+     */
+    private static Map<ForceConnectionProperty, String> cache(String connectionName, Map<ForceConnectionProperty, String> props) {
+        PROPERTIES_CACHE.put(connectionName, props);
+        return props;
+    }
+
+    /**
+     * Empties the named connection's cache.
+     */
+    public static void clearCache() {
+        PROPERTIES_CACHE.clear();
     }
 }

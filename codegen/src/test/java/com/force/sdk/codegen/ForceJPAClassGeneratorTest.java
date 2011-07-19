@@ -27,16 +27,23 @@
 package com.force.sdk.codegen;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.List;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.sforce.soap.partner.PartnerConnection;
+import com.force.sdk.codegen.filter.FieldCombinationFilter;
+import com.force.sdk.codegen.filter.FieldFilter;
+import com.force.sdk.codegen.filter.FieldNoOpFilter;
+import com.force.sdk.codegen.filter.ForceJPAFieldFilter;
+import com.force.sdk.codegen.filter.ObjectFilter;
+import com.force.sdk.codegen.filter.ObjectNoOpFilter;
 import com.sforce.ws.ConnectionException;
 
 /**
@@ -46,6 +53,41 @@ import com.sforce.ws.ConnectionException;
  */
 public class ForceJPAClassGeneratorTest {
 
+    @Test
+    public void testObjectFilterDefaultsToNoOpFilter() {
+        ForceJPAClassGenerator generator = new ForceJPAClassGenerator();
+        
+        ObjectFilter objectFilter = generator.getObjectFilter();
+        assertNotNull(objectFilter, "ForceJPAClassGenerator objectFilter should default when not specified");
+        assertEquals(objectFilter.getClass(), ObjectNoOpFilter.class,
+                "ForceJPAClassGenerator objectFilter should default to ObjectNoOpFilter");
+    }
+    
+    @Test
+    public void testFieldFilterDefaultsToForceJPAFieldFilter() {
+        ForceJPAClassGenerator generator = new ForceJPAClassGenerator();
+        
+        FieldFilter fieldFilter = generator.getFieldFilter();
+        assertNotNull(fieldFilter, "ForceJPAClassGenerator fieldFilter should default when not specified");
+        assertEquals(fieldFilter.getClass(), ForceJPAFieldFilter.class,
+                "ForceJPAClassGenerator fieldFilter should default to ForceJPAFieldFilter");
+    }
+    
+    @Test
+    public void testFieldFilterAlwaysIncludesForceJPAFieldFilter() {
+        ForceJPAClassGenerator generator = new ForceJPAClassGenerator();
+        generator.setFieldFilter(new FieldNoOpFilter());
+        
+        FieldFilter fieldFilter = generator.getFieldFilter();
+        assertNotNull(fieldFilter, "ForceJPAClassGenerator fieldFilter should never be null");
+        assertEquals(fieldFilter.getClass(), FieldCombinationFilter.class,
+                "ForceJPAClassGenerator should use a FieldCombinationFilter when a caller sets a field filter");
+        
+        List<FieldFilter> filterList = ((FieldCombinationFilter) fieldFilter).getFilterList();
+        assertEquals(filterList.get(filterList.size() - 1).getClass(), ForceJPAFieldFilter.class,
+                "ForceJPAFieldFilter should always be the last field filter in ForceJPAClassGenerator");
+    }
+    
     @DataProvider
     protected Object[][] packageNameProvider() {
         return new Object[][] {
@@ -65,19 +107,21 @@ public class ForceJPAClassGeneratorTest {
     
     @Test(dataProvider = "packageNameProvider")
     public void testIsPackageNameValid(String packageName, boolean expectedIsValid) {
-        assertEquals(ForceJPAClassGenerator.isValidPackageName(packageName), expectedIsValid,
-                "This package name should be " + (expectedIsValid ? "valid: " : "invalid: ") + packageName);
+        try {
+            ForceJPAClassGenerator.validatePackageName(packageName);
+            assertTrue(expectedIsValid, "This package name should be invalid: " + packageName);
+        } catch (IllegalArgumentException e) {
+            assertFalse(expectedIsValid, "This package name should be valid: " + packageName);
+        }
     }
     
     @Test
     public void testGenerateWithInvalidPackageName() throws ConnectionException, IOException {
-        ForceJPAClassGenerator generator =
-            new ForceJPAClassGenerator((PartnerConnection) null, new File(System.getProperty("java.io.tmpdir")));
-        generator.setPackageName("1");
+        ForceJPAClassGenerator generator = new ForceJPAClassGenerator();
         
         try {
-            generator.generateJPAClasses(Collections.<String>emptyList());
-            fail("Code generation should have failed due to an invalid package name");
+            generator.setPackageName("1");
+            fail("Should not be able to set an invalid package name");
         } catch (IllegalArgumentException expected) {
             assertEquals(expected.getMessage(), "Invalid package name: 1");
         }

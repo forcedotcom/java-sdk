@@ -26,26 +26,34 @@
 
 package com.force.sdk.oauth.context;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.*;
-
 import com.sforce.soap.partner.Connector;
 import com.sforce.soap.partner.GetUserInfoResult;
 import com.sforce.soap.partner.sobject.SObject;
 import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * This utility class is in place to handle all interaction with the browser cookies
- * that will be used to track a user's authentication status. This will include the logic
+ * Utility class to handle all interactions with the browser cookies
+ * sed to track a user's authentication status. This will include the logic
  * required to refresh the security context if it isn't available in the server side session.
  * 
  * @author John Simone
  *
  */
 public final class SecurityContextUtil {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityContextUtil.class);
 
     /**
      * Constant that defines the name of the session id cookie.
@@ -63,7 +71,7 @@ public final class SecurityContextUtil {
     private SecurityContextUtil() {  }
     
     /**
-     * Get the session id and endpoint out of cookies.
+     * Gets the session id and endpoint from cookies.
      * 
      * @param request HttpServletRequest
      * @return Map<String, String> - cookie name, cookie value
@@ -80,7 +88,12 @@ public final class SecurityContextUtil {
                     cookieValueMap.put(FORCE_FORCE_SESSION, cookie.getValue());
                     if (++count == totalCookieCount) break;
                 } else if (FORCE_FORCE_ENDPOINT.equals(cookie.getName())) {
-                    cookieValueMap.put(FORCE_FORCE_ENDPOINT, cookie.getValue());
+                    try {
+                        cookieValueMap.put(FORCE_FORCE_ENDPOINT, URLDecoder.decode(cookie.getValue(), "UTF-8"));
+                    } catch (UnsupportedEncodingException e) {
+                        LOGGER.error("Cannot retrieve endpoint information: ", e);
+                    }
+
                     if (++count == totalCookieCount) break;
                 }
             }
@@ -88,42 +101,46 @@ public final class SecurityContextUtil {
         
         return cookieValueMap;
     }
-    
+
     /**
-     * Set the session id and endpoint from the security context into cookies.
-     * 
+     * Sets the session id and endpoint from the security context into cookies.
+     *
      * @param sc SecurityContext
      * @param response HttpServletResponse
      * @param secure Whether or not the cookie should be secure
      */
     public static void setCookieValues(SecurityContext sc, HttpServletResponse response, boolean secure) {
-        
+
         Map<String, String> cookieValueMap = new HashMap<String, String>();
         cookieValueMap.put(FORCE_FORCE_SESSION, sc.getSessionId());
-        cookieValueMap.put(FORCE_FORCE_ENDPOINT, sc.getEndPoint());
+        try {
+            cookieValueMap.put(FORCE_FORCE_ENDPOINT, URLEncoder.encode(sc.getEndPoint(), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            LOGGER.error("Cannot save endpoint information: ", e);
+        }
+
         setCookieValues(cookieValueMap, response, secure);
-        
     }
-    
+
     /**
-     * Set the map of cookie names and values into cookies on the response.
-     * 
+     * Sets the map of cookie names and values into cookies on the response.
+     *
      * @param cookieValueMap Map<String, String> - cookie name, cookie value
      * @param response HttpServletResponse
      * @param secure Whether or not the cookie should be secure
      */
     public static void setCookieValues(Map<String, String> cookieValueMap, HttpServletResponse response, boolean secure) {
-        
+
         for (Map.Entry<String, String> cookieEntry : cookieValueMap.entrySet()) {
             Cookie cookie = new Cookie(cookieEntry.getKey(), cookieEntry.getValue());
             cookie.setSecure(secure);
             response.addCookie(cookie);
         }
-        
+
     }
-    
+
     /**
-     * Clear the endpoint and session cookies.
+     * Clears the endpoint and session cookies.
      * 
      * @param response HttpServletResponse
      */

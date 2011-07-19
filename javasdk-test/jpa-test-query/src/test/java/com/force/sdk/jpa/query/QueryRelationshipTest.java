@@ -36,7 +36,7 @@ import org.testng.annotations.Test;
 
 import com.force.sdk.jpa.query.entities.relationship.ChildRelationshipEntity;
 import com.force.sdk.jpa.query.entities.relationship.ParentRelationshipEntity;
-import com.force.sdk.test.util.BaseJPAFTest;
+import com.force.sdk.qa.util.BaseJPAFTest;
 
 /**
  * 

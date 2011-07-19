@@ -31,7 +31,7 @@ import java.util.*;
 
 /**
  * 
- * Util class for formatting dates in the form that SOQL expects.
+ * Utility class for formatting dates in the form that SOQL expects.
  *
  * @author Saptarshi Roy
  */

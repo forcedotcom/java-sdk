@@ -33,6 +33,7 @@ import com.force.sdk.jpa.ForceObjectManagerImpl;
 
 /**
  * 
+ * We don't support JDO. Use JPA instead.
  * Extension of the JDOPersistenceManager to provide our own object manager and fetch plan.
  *
  * @author Fiaz Hossain

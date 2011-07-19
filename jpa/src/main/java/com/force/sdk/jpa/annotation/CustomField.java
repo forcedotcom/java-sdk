@@ -107,7 +107,7 @@ public @interface CustomField {
     String formula() default "";
     
     /**
-     * Treat blank as value for Force.com Formulat field.
+     * Treat blank as value for Force.com Formula field.
      */
     TreatBlanksAs treatBlanksAs() default TreatBlanksAs.BlankAsBlank;
 }

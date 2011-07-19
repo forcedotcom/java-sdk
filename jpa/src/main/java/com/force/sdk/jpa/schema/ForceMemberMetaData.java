@@ -33,8 +33,8 @@ import com.sforce.soap.partner.FieldType;
 
 /**
  * 
- * Holds all of the metadata information about individual members of
- * an @Entity, i.e. fields
+ * Holds all the metadata information about individual members (fields) of
+ * an {@code @Entity}.
  *
  * @author Fiaz Hossain
  */
@@ -43,7 +43,7 @@ public class ForceMemberMetaData extends AbstractMemberMetaData {
     private FieldType fieldType;
     
     /**
-     * Create member metadata using the member metadata from DataNucleus.
+     * Creates member metadata using the member metadata from DataNucleus.
      * 
      * @param parent  the parent entity metadata
      * @param fmd  the existing member metadata
@@ -54,7 +54,7 @@ public class ForceMemberMetaData extends AbstractMemberMetaData {
 
     /**
      * 
-     * Create member metadata using a name for the member.
+     * Creates member metadata using a name for the member.
      * 
      * @param parent  the parent entity metadata
      * @param name  the field/property name

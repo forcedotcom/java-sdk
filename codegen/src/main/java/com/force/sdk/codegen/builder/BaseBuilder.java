@@ -30,13 +30,13 @@ import static com.force.sdk.codegen.ForceJPAClassGeneratorUtils.INDENT;
 import static com.force.sdk.codegen.ForceJPAClassGeneratorUtils.NEWLINE;
 
 /**
- * A base class for code generation builders.
+ * Base class for code generation builders.
  * <p>
  * Builders will build {@code String}s that can be included in
  * generated source code.
  *
  * @param <T> the object type that is to be added to this builder
- *            (roughly, the object type to be converted into a {@code String}
+ *            (he object type to be converted into a {@code String}
  *            via this builder)
  * @author Tim Kral
  */

@@ -27,7 +27,6 @@
 package com.force.sdk.oauth;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.security.Principal;
 
 import javax.servlet.*;
@@ -44,9 +43,9 @@ import com.force.sdk.oauth.userdata.*;
 import com.sforce.ws.*;
 
 /**
- * This filter can be used to add Force.com OAuth Authentication to any web application. When configuring web.xml all
- * requests that need to be authenticated should be sent through AuthFilter. The OAuth callback (usually _auth) must
- * also be sent through AuthFilter. To use the connector, add the following servlet filter to your application's web.xml
+ * Filter to enable you to add Force.com OAuth Authentication to any web application. When configuring web.xml, all
+ * requests that need to be authenticated should be sent through {@code AuthFilter}. The OAuth callback (usually _auth) must
+ * also be sent through {@code AuthFilter}. To use the connector, add the following servlet filter to your application's web.xml
  * file:
  * <p>
  * {@code
@@ -72,7 +71,7 @@ import com.sforce.ws.*;
  * classpath. See @doclink connection-url for more information. Other init parameters that can be set are:
  * <ul>
  * <li>securityContextStorageMethod - valid values are "cookie" or "session". Defaults to "cookie". See @doclink
- * force-security for more information on session management and security</li>
+ * oauth-auth for more information on session management and security</li>
  * <li>secure-key-file - specify the location of the file where your AES secure key is stored.</li> For Cookie based
  * session management.
  * </ul>
@@ -92,7 +91,7 @@ public class AuthFilter implements Filter, SessionRenewer {
     private SecurityContextService securityContextService = null;
 
     /**
-     * Initialize the filter from the init params.
+     * Initializes the filter from the init params.
      * {@inheritDoc} 
      */
     @Override
@@ -132,7 +131,6 @@ public class AuthFilter implements Filter, SessionRenewer {
             userDataRetrievalService = new UserDataRetrievalService(storeUsername);
         }
 
-        // Now that the data retrieval service is created set the
         securityContextServiceImpl.setUserDataRetrievalService(userDataRetrievalService);
         oauthConnector = new ForceOAuthConnector(userDataRetrievalService);
 
@@ -229,8 +227,8 @@ public class AuthFilter implements Filter, SessionRenewer {
     }
 
     /**
-     * Send the authentication redirect or save the security context to the session depending on which phase of the
-     * handshake we're in.
+     * Sends the authentication redirect or saves the security context to the session depending
+     * on which phase of the handshake we're in.
      * 
      * @param request
      * @param response
@@ -243,8 +241,7 @@ public class AuthFilter implements Filter, SessionRenewer {
                     response,
                     oauthConnector.getAccessToken(oauthConnector.getAccessCode(request),
                             oauthConnector.getRedirectUri(request)));
-            // response.sendRedirect(URLEncoder.encode(request.getParameter("state"), "UTF-8"));
-            response.sendRedirect(response.encodeRedirectURL(URLEncoder.encode(request.getParameter("state"), "UTF-8")));
+            response.sendRedirect(response.encodeRedirectURL(request.getParameter("state")));
         } else {
             response.sendRedirect(oauthConnector.getLoginRedirectUrl(request));
         }
@@ -261,7 +258,7 @@ public class AuthFilter implements Filter, SessionRenewer {
     }
 
     /**
-     * Wrap the request and provide methods that will make the authenticated user information available.
+     * Wraps the request and provides methods to make the authenticated user information available.
      */
     private static final class AuthenticatedRequestWrapper extends HttpServletRequestWrapper {
 

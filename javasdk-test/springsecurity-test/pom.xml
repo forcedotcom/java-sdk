@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk-test</artifactId>
-    <version>22.0.1-BETA</version>
+    <version>22.0.2-BETA</version>
   </parent>
 
 
@@ -48,7 +48,7 @@
       <artifactId>servlet-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>mockit</groupId>
+      <groupId>com.googlecode.jmockit</groupId>
       <artifactId>jmockit</artifactId>
     </dependency>
     <dependency>

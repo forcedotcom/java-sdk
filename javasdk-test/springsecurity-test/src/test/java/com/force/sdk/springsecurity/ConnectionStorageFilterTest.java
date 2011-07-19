@@ -98,10 +98,15 @@ public class ConnectionStorageFilterTest {
         VerificationFilterChain filterChain = new VerificationFilterChain();
 
         filter.doFilter(request, response, filterChain);
+        
+        Assert.assertNull(SecurityContextHolder.getContext().getAuthentication(),
+                "Authentication should be null beause it should be cleared after the request");
     }
 
     @Test
     public void testInvalidSessionRedirect() throws Exception {
+        setupAuthentication();
+        
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
         FilterChain filterChain = new ExceptionThrowingFilterChain();
@@ -110,6 +115,8 @@ public class ConnectionStorageFilterTest {
                 "Expecting the user to be redirected when they recieve a connection exception");
         Assert.assertEquals(response.getRedirectedUrl(), SpringSecurityTestData.REDIRECT_URL,
                 "Incorrect redirect URL. Expecting the user to be redirected to the login page.");
+        Assert.assertNull(SecurityContextHolder.getContext().getAuthentication(),
+        "Authentication should be null beause it should be cleared after the request");
     }
     
     /**

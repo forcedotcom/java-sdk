@@ -28,11 +28,11 @@ package com.force.sdk.springsecurity.endtoend;
 
 import java.io.IOException;
 
+import com.force.sdk.qa.util.BaseSecurityIntegrationTest;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-import com.force.sdk.springsecurity.BaseSpringSecurityIntegrationTest;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
@@ -48,7 +48,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
  * @author Jeff Lai
  * 
  */
-public abstract class BaseEndToEndTest extends BaseSpringSecurityIntegrationTest {
+public abstract class BaseEndToEndTest extends BaseSecurityIntegrationTest {
 
     private WebClient webClient;
     

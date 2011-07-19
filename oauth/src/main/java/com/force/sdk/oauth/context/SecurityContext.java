@@ -30,16 +30,15 @@ import com.sforce.soap.partner.GetUserInfoResult;
 
 /**
  * 
- * Interface to represent the standard fields stored when a user is authenticated.
+ * Interface representing the standard fields stored when a user is authenticated.
  * After authentication the security context is stored and made available to the thread processing the user's request.
- * See @doclink force-security for more information.
  *
  * @author John Simone
  */
 public interface SecurityContext {
     
     /**
-     * Initialize the security context from a GetUserInfoResult object.
+     * Initializes the security context from a {@code GetUserInfoResult} object.
      * @param userInfo GetUserInfoResult
      */
     void init(GetUserInfoResult userInfo);
@@ -70,9 +69,19 @@ public interface SecurityContext {
     void setEndPoint(String endPoint);
     /**
      * Gets the endPoint.
-     * @return endPoint
+     * @return endPoint String
      */
     String getEndPoint();
+    /**
+     * Sets the host of endPoint.
+     * @param endPointHost String
+     */
+    void setEndPointHost(String endPointHost);
+    /**
+     * Gets the host of endPoint.
+     * @return endPointHost String
+     */
+    String getEndPointHost();
     /**
      * Sets the sessionId.
      * @param sessionId String

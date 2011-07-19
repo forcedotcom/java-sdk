@@ -42,13 +42,13 @@ import com.sforce.soap.partner.sobject.SObject;
 import com.sforce.ws.bind.XmlObject;
 
 /**
- * ResultObjectFactory that operates using a QueryResultMetaData and returns objects based on the definition.
- * A QueryResultMetaData allows for a row of a ResultSet to be returned as a mix of :-
+ * ResultObjectFactory that operates using a {@code QueryResultMetaData} and returns objects based on the definition.
+ * A {@code QueryResultMetaData} allows for a row of a ResultSet to be returned as a mix of :-
  * <ul>
  * <li>a number of persistent objects (made up of several ResultSet columns)</li>
  * <li>a number of Objects (from individual ResultSet columns)</li>
  * </ul>
- * Each call to getObject() will then return a set of objects as per the MetaData definition.
+ * Each call to {@code getObject()} will return a set of objects as per the MetaData definition.
  * <h3>ResultSet to object mapping</h3>
  * Each row of the SObject has a set of columns, and these columns are either used for direct outputting
  * back to the user as a "simple" object, or as a field in a persistent object.

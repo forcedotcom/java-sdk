@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk</artifactId>
-    <version>22.0.1-BETA</version>
+    <version>22.0.2-BETA</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -37,6 +37,16 @@
       </plugin>
       
     </plugins>
+
+    <resources>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </resource>
+    </resources>
   </build>
 
   <dependencies>
@@ -61,6 +71,6 @@
       <artifactId>testng</artifactId>
       <scope>test</scope>
     </dependency>
-  </dependencies>  
+  </dependencies>
 
 </project>

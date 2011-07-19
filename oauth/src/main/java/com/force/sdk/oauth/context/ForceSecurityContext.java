@@ -26,15 +26,15 @@
 
 package com.force.sdk.oauth.context;
 
-import java.io.Serializable;
-
 import com.sforce.soap.partner.GetUserInfoResult;
+
+import java.io.Serializable;
 
 /**
  * 
- * This is the default implementation of a SecurityContext. This is what will hold an authenticated user's data
- * if a custom user data retriever is not used. When using a custom user data retriever the CustomSecurityContext
- * will wrap a ForceSecurityContext and add the additional custom fields.
+ * Default implementation of a {@code SecurityContext}. Holds an authenticated user's data
+ * if a custom user data retriever is not used. When using a custom user data retriever, the {@code CustomSecurityContext}
+ * will wrap a {@code ForceSecurityContext} and add the additional custom fields.
  *
  * @author John Simone
  */
@@ -45,6 +45,7 @@ public final class ForceSecurityContext implements SecurityContext, Serializable
     private String orgId;
     private String userId;
     private String endPoint;
+    private String endPointHost;
     private String sessionId;
     private String refreshToken;
     private String userName;
@@ -54,7 +55,7 @@ public final class ForceSecurityContext implements SecurityContext, Serializable
     private String role;
     
     /**
-     * Initialize the security context from a GetUserInfoResult object.
+     * Initializes the security context from a GetUserInfoResult object.
      * {@inheritDoc}
      */
     @Override
@@ -96,7 +97,17 @@ public final class ForceSecurityContext implements SecurityContext, Serializable
     public String getEndPoint() {
         return endPoint;
     }
-    
+
+    @Override
+    public String getEndPointHost() {
+        return endPointHost;
+    }
+
+    @Override
+    public void setEndPointHost(String endPointHost) {
+        this.endPointHost = endPointHost;
+    }
+
     @Override
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;

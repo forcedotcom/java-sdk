@@ -26,18 +26,36 @@
 
 package com.force.sdk.oauth;
 
-import java.io.*;
-
-import javax.servlet.*;
-import javax.servlet.http.*;
-
-import org.springframework.mock.web.*;
-import org.testng.Assert;
-import org.testng.annotations.*;
-
-import com.force.sdk.oauth.context.*;
-import com.force.sdk.oauth.context.store.*;
+import com.force.sdk.oauth.context.ForceSecurityContext;
+import com.force.sdk.oauth.context.SecurityContext;
+import com.force.sdk.oauth.context.SecurityContextService;
+import com.force.sdk.oauth.context.SecurityContextUtil;
+import com.force.sdk.oauth.context.store.AESUtil;
+import com.force.sdk.oauth.context.store.ContextStoreException;
+import com.force.sdk.oauth.context.store.ForceEncryptionException;
+import com.force.sdk.oauth.context.store.SecurityContextCookieStore;
 import com.sforce.ws.util.Base64;
+import org.springframework.mock.web.MockFilterConfig;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockHttpSession;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Factory;
+import org.testng.annotations.Test;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.URLDecoder;
 
 /**
  * This class tests the session management of the AuthFilter.
@@ -89,7 +107,9 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
             try {
                 //retrieve the security context from the cookie. Verify that the cookie is
                 //secure only if the host is not "localhost"
-                sc = retreiveSecurityContextFromCookie(mockResponse, !"localhost".equals(req.getLocalName()));
+                boolean secure = !("localhost".equals(req.getLocalName())
+                        || req.getLocalName().contains("0:0:0:0:0:0:0:1"));
+                sc = retreiveSecurityContextFromCookie(mockResponse, secure);
             } catch (Exception e) {
                 throw new IOException(e);
             }
@@ -214,16 +234,28 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
         filter.doFilter(request, response, new PostAuthFilterChain());
     }
     
+
+    @DataProvider(name = "localServers")
+    protected Object[][] loginRedirectUrlParamProvider() {
+        Object [][] servers = {
+                {"localhost"},
+                {"0:0:0:0:0:0:0:1"},
+                {"[0:0:0:0:0:0:0:1]"}
+        };
+
+        return servers;
+    }
+
     /**
      * Same as testNoDataInSession, but we'll use localhost here to verify that the cookies
      * are not set as secure.
-     */    
-    @Test
-    public void testNoDataInSessionLocalhost() throws ServletException, IOException  {
+     */
+    @Test (dataProvider = "localServers")
+    public void testNoDataInSessionLocalhost(String localName) throws ServletException, IOException  {
         MockHttpSession mockSession = new MockHttpSession();
         mockSession.setAttribute(SECURITY_CONTEXT_TO_VERIFY_KEY, partnerSc);
         request.setSession(mockSession);
-        request.setLocalName("localhost");
+        request.setLocalName(localName);
         filter.doFilter(request, response, new PostAuthFilterChain());
     }
     
@@ -242,7 +274,7 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
             return null;
         }
         
-        return deserializeSecurityContext(Base64.decode(value.getBytes()), true);
+        return deserializeSecurityContext(Base64.decode(URLDecoder.decode(value, "UTF-8").getBytes()), true);
     }
     
     private SecurityContext deserializeSecurityContext(byte[] securityContextSer, boolean encrypted)

@@ -38,7 +38,7 @@ import org.datanucleus.jpa.exceptions.*;
 
 /**
  * 
- * This class allows us to provide the ForceEntityManagerFactory.
+ * This class allows us to provide the {@code ForceEntityManagerFactory}.
  *
  * @author Jill Wetzler
  */
@@ -47,11 +47,11 @@ public class PersistenceProviderImpl extends org.datanucleus.jpa.PersistenceProv
     private static final String PERSISTENCE_PROVIDER_PROPERTY = "javax.persistence.provider";
 
     /**
-     * Method to create an EntityManagerFactory when running in J2EE.
-     * The container will have parsed the persistence.xml files to provide this PersistenceUnitInfo.
-     * @param unitInfo The "persistence-unit"
-     * @param properties EntityManagerFactory properties to override those in the persistence unit
-     * @return The EntityManagerFactory
+     * Creates an {@code EntityManagerFactory} when running in J2EE.
+     * The container will have parsed the persistence.xml files to provide this {@code PersistenceUnitInfo}.
+     * @param unitInfo The persistence unit
+     * @param properties {@code EntityManagerFactory} properties to override those in the persistence unit
+     * @return The {@code EntityManagerFactory}
      */
     @Override
     public EntityManagerFactory createContainerEntityManagerFactory(PersistenceUnitInfo unitInfo, Map properties) {
@@ -68,10 +68,10 @@ public class PersistenceProviderImpl extends org.datanucleus.jpa.PersistenceProv
     }
 
     /**
-     * Method to create an EntityManagerFactory when running in J2SE.
-     * @param unitName Name of the "persistence-unit"
-     * @param properties EntityManagerFactory properties to override those in the persistence unit
-     * @return The EntityManagerFactory
+     * Creates an {@code EntityManagerFactory} when running in J2SE.
+     * @param unitName Name of the persistence unit
+     * @param properties {@code EntityManagerFactory} properties to override those in the persistence unit
+     * @return The {@code EntityManagerFactory}
      */
     @Override
     public EntityManagerFactory createEntityManagerFactory(String unitName, Map properties) {

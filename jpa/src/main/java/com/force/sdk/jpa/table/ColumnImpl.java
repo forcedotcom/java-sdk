@@ -54,9 +54,9 @@ public class ColumnImpl {
     private final Field field;
     
     /**
-     * Create a columnImpl with the name of a field as it would appear in the Force.com SOAP API. 
+     * Creates a columnImpl with the name of a field as it would appear in the Force.com SOAP API. 
      * 
-     * @param fieldName  the name of a field as it would appear in the Force.com API
+     * @param fieldName  the name of a field as it would appear in the Force.com SOAP API
      * @param field the {@link Field} object for this column
      */
     public ColumnImpl(String fieldName, Field field) {
@@ -98,17 +98,17 @@ public class ColumnImpl {
     }
 
     /**
-     * Distinguish whether a field has been created by a user in this organization or whether it comes
+     * Distinguishes whether a field has been created by a user in this organization (custom) or whether it is
      * standard in a Force.com product.
      * 
-     * @return true if the field is a custom field
+     * @return {@code true} if the field is a custom field
      */
     public boolean isCustom() {
         return field != null && field.isCustom();
     }
 
     /**
-     * Append a given prefix during the building of a SOQL query -- used for relationships.
+     * Appends a given prefix during the building of a SOQL query -- used for relationships.
      * 
      * @param queryHelper  the expression builder that is currently in progress
      * @param appendComma  whether to append a comma before the prefix
@@ -121,7 +121,7 @@ public class ColumnImpl {
     
     /**
      * 
-     * Append an in progress SOQL select string with the right name for this field.
+     * Appends an in-progress SOQL select string with the right name for this field.
      * 
      * @param queryHelper  the expression builder that is currently in progress
      * @param acmd the class metadata for the entity this field belongs to

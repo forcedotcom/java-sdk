@@ -31,10 +31,10 @@ import com.force.sdk.oauth.context.SecurityContext;
 import com.sforce.ws.ConnectionException;
 
 /**
- * Defines the logic which calls a CustomUserDataRetriever. When customer user data retrieval is used a
- * CustomerUserDataRetriever that returns the CustomSecurityContext object will be needed. The
- * CustomUserDataRetrievalService is called to retrieve custom user data and it will, in turn, call the application
- * specific CustomerUserDataRetriever.
+ * Defines the logic for calling a {@code CustomUserDataRetriever}. When a custom user data retrieval is used, a
+ * {@code CustomUserDataRetriever} that returns the {@code CustomSecurityContext} object will be needed. The
+ * {@code CustomUserDataRetrievalService} is called to retrieve custom user data and it will, in turn, call the application
+ * specific {@code CustomUserDataRetriever}.
  * 
  * @author John Simone
  */
@@ -47,7 +47,7 @@ public final class CustomUserDataRetrievalService extends UserDataRetrievalServi
     }
 
     /**
-     * Create a custom user data retrieval service with this CustomUserDataRetriever.
+     * Creates a custom user data retrieval service with this {@code CustomUserDataRetriever}.
      * 
      * @param customDataRetriever CustomUserDataRetriever
      * @param storeUsername
@@ -59,9 +59,8 @@ public final class CustomUserDataRetrievalService extends UserDataRetrievalServi
     }
 
     /**
-     * Create a custom user data retrieval service with this CustomUserDataRetriever. Create a custom user data
-     * retrieval service with this CustomUserDataRetriever
-     * 
+     * Creates a custom user data retrieval service with this {@code CustomUserDataRetriever}.
+     *
      * @param customDataRetriever CustomUserDataRetriever
      */
     public CustomUserDataRetrievalService(CustomUserDataRetriever<?> customDataRetriever) {
@@ -73,7 +72,7 @@ public final class CustomUserDataRetrievalService extends UserDataRetrievalServi
     }
 
     /**
-     * Call the super method to retrieve the default user data. Then set up the custom user data retriever and use it to
+     * Calls the super method to retrieve the default user data. Then sets up the custom user data retriever and uses it to
      * retrieve the extended user data.
      * 
      * @param sessionId String

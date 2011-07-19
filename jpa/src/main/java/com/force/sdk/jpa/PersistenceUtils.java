@@ -44,7 +44,7 @@ import com.sforce.soap.metadata.FieldType;
 
 /**
  * 
- * Class for general utility methods needed while persisting and retrieving objects.
+ * General utility methods needed while persisting and retrieving objects.
  *
  * @author Fiaz Hossain
  * @author Jill Wetzler
@@ -66,11 +66,11 @@ public final class PersistenceUtils {
     
     /**
      * 
-     * Return the name of the entity, first checking the name attribute of the annotations and then
+     * Returns the name of the entity, first checking the name attribute of the annotations and then
      * defaulting to the entity name on the metadata object.
      * 
      * @param acmd  the metadata object of the JPA entity
-     * @return  The name of the entity to use in JPA (entity name or JPQL queries)
+     * @return  the name of the entity to use in JPA (entity name or JPQL queries)
      */
     public static String getEntityName(AbstractClassMetaData acmd) {
         Map<String, String> extensions = getForceExtensions(acmd);
@@ -80,11 +80,12 @@ public final class PersistenceUtils {
     
     /**
      * 
-     * An entity does not have schema if it would not directly represent an object in Force.com,
-     * e.g. if the entity is embedded or if it's a subclass of another entity
+     * Returns whether an entity has no schema.
+     * An entity does not have schema if it would not directly represent an object in Force.com;
+     * for example, if the entity is embedded or if it's a subclass of another entity
      * 
      * @param acmd  the metadata object of the JPA entity
-     * @return  true if the entity does not have schema
+     * @return  {@code true} if the entity does not have schema
      */
     public static boolean hasNoSchema(AbstractClassMetaData acmd) {
         return acmd.isEmbeddedOnly() || acmd.getInheritanceMetaData() != null
@@ -99,9 +100,9 @@ public final class PersistenceUtils {
      * 
      * @param acmd  the metadata object of the JPA entity
      * @param checkHierarchy  generally, we don't need to check the hierarchy if we're creating fields, but
-     *                        if we're creating tables we need to check the parent to see if the parent object
+     *                        if we're creating tables, we need to check the parent to see if the parent object
      *                        is read only
-     * @return  true if the schema is read only.
+     * @return  {@code true} if the schema is read only.
      */
     public static boolean isReadOnlySchema(AbstractClassMetaData acmd, boolean checkHierarchy) {
         boolean isReadOnlySchema = false;
@@ -121,7 +122,7 @@ public final class PersistenceUtils {
     }
     
     private static boolean isReadOnlyFieldSchema(AbstractMemberMetaData ammd, OMFContext omf) {
-        // Load up the class metadata for the owning class of this member (e.g. if an inherited field,
+        // Load up the class metadata for the owning class of this member (for example, if an inherited field,
         // the super class which has declared it)
         AbstractClassMetaData owningAcmd =
             omf.getMetaDataManager().getMetaDataForClass(ammd.getClassName(), omf.getClassLoaderResolver(null));
@@ -131,11 +132,11 @@ public final class PersistenceUtils {
     /**
      * 
      * A JPA entity is virtual schema if it is not backed by an
-     * object on Force.com (e.g. Owner is not backed by an
-     * Owner object on Force.com)
+     * object on Force.com (for example, Owner is not backed by an
+     * Owner object on Force.com).
      * 
      * @param acmd the metadata object of the JPA entity
-     * @return  true if the entity is considered virtual schema
+     * @return  {@code true} if the entity is considered virtual schema
      */
     public static boolean isVirtualSchema(AbstractClassMetaData acmd) {
         Map<String, String> extensions = getForceExtensions(acmd);
@@ -145,7 +146,7 @@ public final class PersistenceUtils {
     
     /**
      * 
-     * Check for whether a column has a Persistence Modifier that is anything other than
+     * Checks whether a column has a Persistence Modifier that is anything other than
      * PERSISTENT.
      * 
      * @param ammd  the metadata object representing a column or field
@@ -161,7 +162,7 @@ public final class PersistenceUtils {
      * metadata (either an entity or a field).
      * 
      * @param md  The metadata containing extensions
-     * @return    a map of the extension key and value of the extension, limited to Force.com extensions
+     * @return    a map of the extension key and value of the extension (limited to Force.com extensions)
      */
     public static Map<String, String> getForceExtensions(MetaData md) {
         Map<String, String> map = new HashMap<String, String>(4);
@@ -181,7 +182,7 @@ public final class PersistenceUtils {
      * Utility method to get the field type from a map of extensions.
      * 
      * @param extensions  a Map of Force.com extensions on a metadata object
-     * @return            if a type has been specified, parse to a FieldType, otherwise return null
+     * @return            if a type has been specified, parse to a FieldType, otherwise return {@code null}
      */
     public static FieldType getFieldTypeFromForceAnnotation(Map<String, String> extensions) {
         String value = extensions.get("type");
@@ -190,12 +191,12 @@ public final class PersistenceUtils {
 
     /**
      * 
-     * A check to see if a field has an ordinal enum type, i.e. it's annotated with
-     * \@Enumerated(EnumType.ORDINAL).  Callers of this method should have already verified
+     * A check to see if a field has an ordinal enum type, meaning it's annotated with
+     * {@code @Enumerated(EnumType.ORDINAL)}.  Callers of this method should have already verified
      * ammd to be a picklist field.
      * 
      * @param ammd  the metadata object of a picklist field
-     * @return      true if the field is an ordinal enum
+     * @return      {@code true} if the field is an ordinal enum
      */
     public static boolean isOrdinalEnum(AbstractMemberMetaData ammd) {
         ColumnMetaData[] cmds = ammd.getColumnMetaData();
@@ -207,15 +208,15 @@ public final class PersistenceUtils {
     
     /**
      * 
-     * A check for whether a field is a multiselect picklist or a single select picklist.
-     * Callers of this method ahould have already verified ammd to be a picklist field
+     * Checks whether a field is a multiselect picklist or a single select picklist.
+     * Callers of this method should have already verified ammd to be a picklist field
      * 
      * @param ammd  the metadata object of a picklist field
-     * @return      true if the field represents a multi select picklist, false otherwise.
+     * @return      {@code true} if the field represents a multi select picklist, {@code false} otherwise.
      */
     public static boolean isMultiPicklist(AbstractMemberMetaData ammd) {
         // Somehow when we create an Enum[] and annotate with @Enumerated
-        // it is not picked up by Datanucleus and included into ColumnMetadata
+        // it is not picked up by DataNucleus and included into ColumnMetadata
         if (ammd.getMemberRepresented() == null) return false;
         return ((AccessibleObject) ammd.getMemberRepresented()).isAnnotationPresent(Enumerated.class)
                 && (ammd.getType().isArray() && ammd.getType().getComponentType().isEnum() || ammd.getType() == String[].class);
@@ -223,11 +224,11 @@ public final class PersistenceUtils {
     
     /**
      * 
-     * Check for whether the field is a ManyToOne or OneToMany relationship (the only relationships currently
+     * Checks whether the field is a ManyToOne or OneToMany relationship (the only relationships currently
      * supported).
      * 
      * @param ammd  the metadata object for a field
-     * @return      true if this field is a relationship field
+     * @return      {@code true} if this field is a relationship field
      */
     public static boolean isRelationship(AbstractMemberMetaData ammd) {
         AccessibleObject methodOrProp = (AccessibleObject) ammd.getMemberRepresented();
@@ -237,7 +238,7 @@ public final class PersistenceUtils {
     
     /**
      * 
-     * Retrieve the value stored at a particular position in an entity.
+     * Retrieves the value stored at a particular position in an entity.
      * 
      * @param acmd  the class metadata for the entity that holds the value
      * @param position  the position of the field you want the value for
@@ -254,7 +255,7 @@ public final class PersistenceUtils {
     
     /**
      * 
-     * Retrive the value of a field on an entity via reflection.
+     * Retrieves the value of a field on an entity via reflection.
      * 
      * @param member  the Member object for a particular field on an entity
      * @param entity  the entity that contains the value
@@ -281,8 +282,8 @@ public final class PersistenceUtils {
     
     /**
      * 
-     * Returns the annotation of type T on a field or method, e.g. you could use this method to get
-     * the @Column or @JoinFilter annotation on a getter method for a column
+     * Returns the annotation of type T on a field or method. For example, you can use this method to get
+     * the {@code @Column} or {@code @JoinFilter} annotation on a getter method for a column
      * 
      * @param <T>  an Annotation type
      * @param member the member representing a particular field or method
@@ -348,7 +349,7 @@ public final class PersistenceUtils {
     /**
      * 
      * Utility method to determine the name of a field based on the member metadata. Field names can be set
-     * via JPA or Force.com annotations, and relationship fields call for special handling
+     * via JPA or Force.com annotations, and relationship fields require special handling.
      * 
      * @param ammd  the metadata object for the field we're retrieving a name for
      * @param omf   the Object Manager Factory context
@@ -397,11 +398,11 @@ public final class PersistenceUtils {
     
     /**
      * 
-     * Util method to prepend a namespace to a name, namespace can be null.
+     * Utility method to prepend a namespace to a name, namespace can be {@code null}.
      * 
-     * @param namespace  A possibly null namespace string 
+     * @param namespace  A possibly {@code null} namespace string 
      * @param name  the name of a field or object
-     * @return  the name if namespace is null, otherwise the appended string
+     * @return  the name if namespace is {@code null}, otherwise the appended string
      */
     public static String prependNamespace(String namespace, String name) {
         return namespace == null ? name : String.format("%s__%s", namespace, name);
@@ -409,9 +410,9 @@ public final class PersistenceUtils {
     
     /**
      * 
-     * Get the class metadata for a member's type. For collections, get the metadata for the type parameter
+     * Gets the class metadata for a member's type. For collections, get the metadata for the type parameter
      * 
-     * @param ammd  The member whose class metadata you want to retrive
+     * @param ammd  The member whose class metadata you want to retrieve
      * @param clr  the classloader resolver to use
      * @param mdm  the metadata manager to use
      * @return  the class metadata object for the given member 
@@ -429,8 +430,8 @@ public final class PersistenceUtils {
     
     /**
      * 
-     * Get the name of a field for use with JPA. First try to get the name from the Force.com annotations, the
-     * try to get the name from standard JPA annotations, otherwise use the name of the field in Java
+     * Gets the name of a field for use with JPA. First, try to get the name from the Force.com annotations,
+     * then try to get the name from standard JPA annotations, otherwise use the name of the field in Java.
      * 
      * @param ammd  the metadata object for the field we're retrieving a name for
      * @param extensions  the Force.com extensions for this metadata (see getForceExtensions}
@@ -447,7 +448,7 @@ public final class PersistenceUtils {
         // Next, try to get the field name from JPA annotations
         fieldName = getFieldNameFromJPAAnnotation(ammd);
         if (fieldName == null) {
-            // Fallback to the field/property name
+            // Fall back to the field/property name
             fieldName = ammd.getName();
         }
         if (fieldName.indexOf(":") > -1) {
@@ -459,10 +460,10 @@ public final class PersistenceUtils {
     
     /**
      * 
-     * Returns the name of a column as specified in a JPA annotation (can possibly be null).
+     * Returns the name of a column as specified in a JPA annotation (can possibly be {@code null}).
      * 
      * @param ammd  the metadata object for the field we're retrieving a name for
-     * @return  null if the field name is not defined by a JPA annotation, otherwise return the field name
+     * @return  {@code null} if the field name is not defined by a JPA annotation, otherwise return the field name
      */
     public static String getFieldNameFromJPAAnnotation(AbstractMemberMetaData ammd) {
         String fieldName = null;
@@ -473,7 +474,7 @@ public final class PersistenceUtils {
         if (colmds != null && colmds.length > 0) {
             fieldName = colmds[0].getName();
             
-        // In some cases (e.g. Collections and Arrays)
+        // In some cases (for example Collections and Arrays)
         // the ColumnMetaData will be embedded in ElementMetaData
         } else if ((elemmd = ammd.getElementMetaData()) != null) {
             colmds = elemmd.getColumnMetaData();

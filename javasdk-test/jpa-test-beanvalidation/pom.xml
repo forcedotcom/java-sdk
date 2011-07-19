@@ -9,7 +9,7 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk-test</artifactId>
-    <version>22.0.1-BETA</version>
+    <version>22.0.2-BETA</version>
   </parent>
 
   <build>
@@ -29,13 +29,10 @@
         <groupId>org.datanucleus</groupId>
         <artifactId>maven-datanucleus-plugin</artifactId>
         <configuration>
-          <metadataDirectory>${basedir}/target/test-classes</metadataDirectory>
-          <metadataIncludes>**/*.jdo, **/*.class</metadataIncludes>
-          <mappingIncludes>**/*.jdo, **/*.class</mappingIncludes>
+          <metadataDirectory>${project.build.testOutputDirectory}</metadataDirectory>
+          <metadataIncludes>**/*.class</metadataIncludes>
+          <mappingIncludes>**/*.class</mappingIncludes>
           <persistenceUnitName>testDNJpaPersistence</persistenceUnitName>
-          <verbose>true</verbose>
-          <enhancerName>ASM</enhancerName>
-          <api>JPA</api>
         </configuration>
         <executions>
           <execution>
@@ -54,6 +51,10 @@
     <dependency>
       <groupId>com.force.sdk</groupId>
       <artifactId>qa-utils</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.jdo</groupId>
+      <artifactId>jdo2-api</artifactId>
     </dependency>
     <!-- Bean Validation API -->
     <dependency>

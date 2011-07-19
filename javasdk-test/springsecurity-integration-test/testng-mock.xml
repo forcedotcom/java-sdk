@@ -32,7 +32,7 @@
   <parameter name="testType" value="INTEG_MOCK_SPRING_SECURITY"/>
   
   <listeners>
-    <listener class-name="com.force.sdk.springsecurity.listener.SpringSecurityIntegTestTypeListener"/>
+    <listener class-name="com.force.sdk.qa.listener.TestTypeListener"/>
   </listeners>
   
   <test name="springsecurity-mock-integration-test">

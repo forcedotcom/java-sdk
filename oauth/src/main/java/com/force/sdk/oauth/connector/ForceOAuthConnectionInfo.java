@@ -33,7 +33,7 @@ import com.force.sdk.connector.ForceConnectionProperty;
 import com.force.sdk.connector.ForceConnectorUtils;
 
 /**
- * Bean which stores Force.com oauth connection information.
+ * Bean that stores Force.com oauth connection information.
  *
  * @author Tim Kral
  */
@@ -58,7 +58,7 @@ public class ForceOAuthConnectionInfo {
     }
     
     /**
-     * Append the oauth key parameter to the url.
+     * Appends the oauth key parameter to the url.
      * 
      * @param url 
      * @return url
@@ -68,7 +68,7 @@ public class ForceOAuthConnectionInfo {
     }
     
     /**
-     * Append the oauth secret parameter to the url.
+     * Appends the oauth secret parameter to the url.
      * 
      * @param url
      * @return url
@@ -78,7 +78,7 @@ public class ForceOAuthConnectionInfo {
     }
     
     /**
-     * Parse the connection url and set the values pulled from it.
+     * Parses the connection url and sets the values pulled from it.
      * 
      * @param connectionUrl String
      */
@@ -134,7 +134,7 @@ public class ForceOAuthConnectionInfo {
     }
     
     /**
-     * Ensure that the contained data represents a valid OAuth Connection.
+     * Ensures that the data represents a valid OAuth connection.
      */
     public void validate() {
         ForceConnectionProperty.ENDPOINT.validateValue(getEndpoint());

@@ -45,11 +45,11 @@ import com.sforce.ws.ConnectorConfig;
  * includes:
  * <p>
  * <ul>
- *   <li>A unique cacheId which can be used for config caching</li>
- *   <li>Message tracing which is subject to a log TRACE level</li>
+ *   <li>A unique {@code cacheId} that can be used for config caching</li>
+ *   <li>Message tracing that is subject to a log TRACE level</li>
  *   <li>Force.com connection URL support</li>
  *   <li>Automatic SOAP version binding</li>
- *   <li>ClientId state for conveniently setting a Force.com connection identifier</li>
+ *   <li>A {@code clientId} state for conveniently setting a Force.com connection identifier</li>
  * </ul>
  *
  * @author Tim Kral
@@ -78,10 +78,10 @@ public class ForceConnectorConfig extends ConnectorConfig implements Cloneable {
     }
     
     /**
-     * Initializes a {@code ForceConnectorConfig} object which contains no
+     * Initializes a {@code ForceConnectorConfig} object that contains no
      * connection properties.
      * <p>
-     * This constructor will set the trace message flag to true which means
+     * This constructor will set the trace message flag to {@code true}, which means
      * that messaging tracing is controlled by setting the {@code com.force.sdk.connector}
      * log level to TRACE.
      * 
@@ -136,20 +136,20 @@ public class ForceConnectorConfig extends ConnectorConfig implements Cloneable {
      * The client id is a {@code String} identifier which
      * will be set on the Force.com connection created
      * from this {@code ForceConnectorConfig}
-     * 
+     *
      * @return the Force.com connection client id
      */
     public String getClientId() {
         return this.clientId;
     }
-    
+
     /**
      * Sets the Force.com connection client id.
      * <p>
      * The client id is a {@code String} identifier which
      * will be set on the Force.com connection created
      * from this {@code ForceConnectorConfig}
-     * 
+     *
      * @param clientId any non {@code null}, non empty {@code String} that is
      *                 to be used as a Force.com connection identifier
      */
@@ -158,12 +158,12 @@ public class ForceConnectorConfig extends ConnectorConfig implements Cloneable {
     }
     
     /**
-     * Parses a Force.com connection URL and accordingly sets the connection
+     * Parses a Force.com connection URL and  sets the connection
      * properties found within.
      * 
      * @param connectionUrl A Force.com connection URL
      * @throws IllegalArgumentException if the Force.com connection URL does not
-     *                                  contain a parseable endpoint, username and password
+     *                                  contain a parseable endpoint, username, and password
      * @throws IllegalArgumentException if any of the connection property values are not valid
      * @see ForceConnectionProperty
      */
@@ -204,7 +204,7 @@ public class ForceConnectorConfig extends ConnectorConfig implements Cloneable {
         String passwordValue = propMap.get(ForceConnectionProperty.PASSWORD);
         ForceConnectionProperty.PASSWORD.validateValue(passwordValue, errorMessage);
         setPassword(passwordValue);
-        
+
         String clientIdValue;
         if ((clientIdValue = propMap.get(ForceConnectionProperty.CLIENTID)) != null) {
             ForceConnectionProperty.CLIENTID.validateValue(clientIdValue, errorMessage);
@@ -267,7 +267,7 @@ public class ForceConnectorConfig extends ConnectorConfig implements Cloneable {
      * Force.com connection will print traced API messages.
      * 
      * @return a {@code PrintStream} to a {@code com.force.sdk.connector}
-     *         log if that log is set to the TRACE level; otherwise
+     *         log if that log is set to the TRACE level; otherwise,
      *         a {@code PrintStream} to a trace file set on this
      *         {@code ForceConnectorConfig}; otherwise {@code System.out}
      */

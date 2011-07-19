@@ -26,23 +26,20 @@
 
 package com.force.sdk.jpa;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-
 import java.io.IOException;
+import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import mockit.*;
-
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.force.sdk.test.util.*;
-import com.sforce.soap.partner.LoginResult;
-import com.sforce.soap.partner.PartnerConnection;
+import com.force.sdk.qa.util.MockAppender;
+import com.force.sdk.qa.util.PropsUtil;
 import com.sforce.ws.ConnectionException;
-import com.sforce.ws.ConnectorConfig;
 
 /**
  * One aspect of performance testing that counts
@@ -50,64 +47,33 @@ import com.sforce.ws.ConnectorConfig;
  * 
  * @author Tim Kral
  */
-public class SchemaLoadInvocationFTest extends BaseTestNGTest {
+public class SchemaLoadInvocationFTest {
     
     @Test
-    public void testSchemaCreateLoginInvocations() throws ConnectionException, IOException {
-        populateTestContext(getTestName(), UserInfo.loadFromPropertyFile(PropsUtil.FORCE_SDK_TEST_NAME));
-        UserInfo userInfo = TestContext.get().getUserInfo();
-
-        ConnectorConfig config = new ConnectorConfig();
-        config.setManualLogin(true);
-        config.setServiceEndpoint(userInfo.getServerEndpoint());
-
-        PartnerConnection conn = new PartnerConnection(config);
-
-        // Login to the org.  The LoginResult will be returned by the login counter mock
-        // which simply keeps track of the number of login calls made.
-        LoginResult lr = conn.login(userInfo.getUserName(), userInfo.getPassword());
-        PartnerConnectionWithLoginCounter connWithLoginCounter = new PartnerConnectionWithLoginCounter(lr);
-        Mockit.setUpMock(PartnerConnection.class, connWithLoginCounter);
-
+    public void testSchemaCreateLoginCache() throws ConnectionException, IOException {
+        Logger logger = Logger.getLogger("com.force.sdk.connector");
+        Level oldLevel = logger.getLevel();
+        Properties sdkTestProps = PropsUtil.load(PropsUtil.FORCE_SDK_TEST_PROPS);
+        String expectedLogLine = "ForceServiceConnector Cache: MISS for id: "
+            + sdkTestProps.getProperty(PropsUtil.FORCE_USER_PROP);
+        MockAppender mockAppender = new MockAppender(expectedLogLine);
+        logger.addAppender(mockAppender);
         try {
-            EntityManagerFactory emf =
-                Persistence.createEntityManagerFactory("SchemaLoadInvocationFTest",
-                                                        userInfo.getUserinfoAsPersistenceunitProperties());
-            emf.createEntityManager();
-
-            // Assert that during schema creation, we only logged in once
-            assertEquals(connWithLoginCounter.getLoginCount(), 1,
-                    "Unexpected number of PartnerConnection logins during schema creation.");
+        logger.setLevel(Level.TRACE);
+        EntityManagerFactory emf =
+            Persistence.createEntityManagerFactory("SchemaLoadInvocationFTest");
+        emf.createEntityManager();
         } finally {
-            Mockit.tearDownMocks();
+            logger.setLevel(oldLevel);
+            logger.removeAppender(mockAppender);
         }
+        // if this test is run along with the rest of the force-jpa-test suite, the connector will have
+        // already been instantiated previously, and the cache will always be hit (expected log line
+        // will not appear).  if this test is run by itself, the cache will be missed only once 
+        // (expected log line will appear only once).
+        Assert.assertTrue(mockAppender.getLogLineTimes() == 0 || mockAppender.getLogLineTimes() == 1,
+                "Log line " + expectedLogLine + " appeared unexpected number of times: " + mockAppender.getLogLineTimes());
     }
-
-    /**
-     * Mock Force.com API connection which counts the
-     * number of API logins.
-     * 
-     * @author Tim Kral
-     */
-    @MockClass(realClass = PartnerConnection.class)
-    public static class PartnerConnectionWithLoginCounter {
-
-        private int loginCount = 0;
-        private final LoginResult loginResult;
-
-        public PartnerConnectionWithLoginCounter(LoginResult loginResult) {
-            assertNotNull(loginResult, "Cannot construct PartnerConnectionWithLoginCounter with null LoginResult");
-            this.loginResult = loginResult;
-        }
-
-        @Mock
-        public LoginResult login(String username, String password) throws ConnectionException {
-            loginCount++;
-            return loginResult;
-        }
-
-        int getLoginCount() {
-            return loginCount;
-        }
-    }
+    
+    
 }

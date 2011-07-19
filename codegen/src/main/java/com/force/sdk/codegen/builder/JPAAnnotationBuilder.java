@@ -45,10 +45,10 @@ public class JPAAnnotationBuilder extends BaseBuilder<Class<? extends Annotation
     
     /**
      * Initializes a {@code JPAAnnotationBuilder} with the number
-     * of intentions that should proceed each annotation.
+     * of indentations that should precede each annotation.
      * 
      * @param numIndents the number of indentations that should
-     *                   proceed each annotation
+     *                   precede each annotation
      */
     public JPAAnnotationBuilder(int numIndents) {
         super(numIndents);

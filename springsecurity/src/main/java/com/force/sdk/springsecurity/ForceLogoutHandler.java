@@ -39,7 +39,7 @@ import com.sforce.ws.*;
 
 /**
  * 
- * Called when a logout takes place. Handles the logout from the partner API.
+ * Handles the logout from the partner API. Called when a logout takes place.
  *
  * @author John Simone
  */

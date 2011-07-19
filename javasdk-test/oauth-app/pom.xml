@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+    <groupId>com.force.samples</groupId>
+    <artifactId>force-oauth-app</artifactId>
+    <name>force-oauth-app</name>
+    <packaging>war</packaging>
+    <version>22.0.2-BETA</version>
+
+    <properties>
+      <!-- Need to upgrade when http://jira.codehaus.org/browse/MCHECKSTYLE-147 is fixed -->
+      <checkstyle.plugin.version>2.4</checkstyle.plugin.version>
+      <force.api.version>22.0.0</force.api.version>
+      <force.sdk.version>22.0.2-BETA</force.sdk.version>
+      <spring.version>3.0.3.RELEASE</spring.version>
+      <spring.security.version>3.0.3.RELEASE</spring.security.version>
+      <java.compile.version>1.6</java.compile.version>
+    </properties>
+
+    <build>
+      <defaultGoal>install</defaultGoal>
+      <finalName>force-app</finalName>
+    
+      <plugins>
+
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>${java.compile.version}</source>
+            <target>${java.compile.version}</target>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.1</version>
+          <configuration>
+            <ignoreNonCompile>true</ignoreNonCompile>
+            <outputXML>true</outputXML>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>${checkstyle.plugin.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>com.force.sdk</groupId>
+              <artifactId>force-build-tools</artifactId>
+              <version>${force.sdk.version}</version>
+            </dependency>
+          </dependencies>
+          <configuration>
+            <configLocation>checkstyle/force-sdk-checks.xml</configLocation>
+            <includeTestSourceDirectory>true</includeTestSourceDirectory>
+            <suppressionsLocation>checkstyle/force-sdk-suppressions.xml</suppressionsLocation>
+            <violationSeverity>warning</violationSeverity>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+        <plugin>
+          <!-- This plugin is needed to generate the .projects properly so that they will have springnature and use springbuilder -->
+          <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-eclipse-plugin</artifactId>
+		  <version>2.7</version>  <!-- Note 2.8 does not work with AspectJ aspect path -->
+		  <configuration>
+		    <downloadSources>true</downloadSources>
+		    <downloadJavadocs>true</downloadJavadocs>
+		    <wtpmanifest>true</wtpmanifest>
+		    <wtpapplicationxml>true</wtpapplicationxml>
+		    <wtpversion>2.0</wtpversion>
+		    <additionalBuildcommands>
+		      <buildCommand>
+		        <name>org.springframework.ide.eclipse.core.springbuilder</name>
+		      </buildCommand>
+		    </additionalBuildcommands>
+		    <additionalProjectnatures>
+		      <projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+		    </additionalProjectnatures>
+		  </configuration>
+	    </plugin>
+
+      </plugins>
+    	
+		
+    </build>
+    <!-- Even though we skip deploy, we need to specify
+         this so that deploy can execute from main. -->
+    <distributionManagement>
+      <repository>
+        <id>force.repo</id>
+        <name>Force.com Repository</name>
+        <url>${force.repo.url}</url>
+      </repository>
+      <snapshotRepository>
+        <id>force.repo.snapshot</id>
+        <name>Force.com Snapshot Repository</name>
+        <url>${force.repo.snapshot.url}</url>
+      </snapshotRepository>
+    </distributionManagement>
+
+    <dependencies>
+      <dependency>
+        <groupId>com.force.api</groupId>
+        <artifactId>force-wsc</artifactId>
+        <version>${force.api.version}</version>
+      </dependency>
+      <dependency> 
+        <groupId>com.force.sdk</groupId>
+        <artifactId>force-oauth</artifactId>
+        <version>${force.sdk.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>jstl</artifactId>
+        <version>1.1.2</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>2.4</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>taglibs</groupId>
+        <artifactId>standard</artifactId>
+        <version>1.1.2</version>
+        <scope>runtime</scope>
+      </dependency>
+    <dependency>
+      <groupId>com.googlecode.jmockit</groupId>
+      <artifactId>jmockit</artifactId>
+		<version>0.999.8</version>
+    </dependency>
+  </dependencies>
+</project>

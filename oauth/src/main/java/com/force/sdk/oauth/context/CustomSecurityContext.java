@@ -26,16 +26,16 @@
 
 package com.force.sdk.oauth.context;
 
-import java.io.Serializable;
-
 import com.sforce.soap.partner.GetUserInfoResult;
+
+import java.io.Serializable;
 
 /**
  * 
- * CustomSecurityContext should be extended when using a custom data retriever. The base functionality
- * wraps ForceSecurityContext and provides the methods that are necessary to implement SecurityContext.
+ * Abstract class that should be extended when using a custom data retriever. The base functionality
+ * wraps {@code ForceSecurityContext} and provides the methods necessary to implement {@code SecurityContext}.
  * The extension should contain fields along with getters and setters that represent any custom user data
- * that will be stored about the authenticated user. See @doclink force-security for more information.
+ * that will be stored for the authenticated user. See @doclink retrieve-user-data for more information.
  *
  * @author John Simone
  */
@@ -46,9 +46,9 @@ public abstract class CustomSecurityContext implements SecurityContext, Serializ
     private SecurityContext forceSecurityContext;
     
     /**
-     * Initialize the SecurityContext from a GetUserInfoResult object.
+     * Initializes the SecurityContext from a {@code GetUserInfoResult} object.
      * 
-     * @param userInfo a user info result from the partner api
+     * @param userInfo a user info result from the SOAP partner API
      */
     @Override
     public final void init(GetUserInfoResult userInfo) {
@@ -83,6 +83,16 @@ public abstract class CustomSecurityContext implements SecurityContext, Serializ
     @Override
     public final String getEndPoint() {
         return forceSecurityContext.getEndPoint();
+    }
+
+    @Override
+    public final void setEndPointHost(String endPointHost) {
+        forceSecurityContext.setEndPoint(endPointHost);
+    }
+
+    @Override
+    public final String getEndPointHost() {
+        return forceSecurityContext.getEndPointHost();
     }
 
     @Override

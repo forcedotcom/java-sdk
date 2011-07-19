@@ -36,7 +36,7 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 
 import com.force.sdk.jpa.entities.SerializableEntity;
-import com.force.sdk.test.util.BaseJPAFTest;
+import com.force.sdk.qa.util.BaseJPAFTest;
 
 /**
  * Spec mentions serialized entities may become detached:

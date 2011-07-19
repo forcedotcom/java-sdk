@@ -54,9 +54,9 @@ import com.sforce.ws.types.Time;
 
 /**
  * 
- * Metadata for fields on Force.com objects. This class is what knows how to turn fields
+ * Metadata for fields on Force.com objects. This class turns fields
  * in your @Entity java classes into CustomFields that can be read by the Force.com
- * metadata API. Fields are stored off on the ForceTableMetaData object and optionally
+ * Metadata API. Fields are stored off on the ForceTableMetaData object and optionally
  * handed to the ForceSchemaWriter
  *
  * @author Fiaz Hossain
@@ -87,7 +87,7 @@ public class ForceColumnMetaData extends ForceMetaData {
     private final List<CustomField> fields = new ArrayList<CustomField>();
     
     /**
-     * Create the column metadata for field registration and possible schema creation.
+     * Creates the column metadata for field registration and possible schema creation.
      * 
      * @param cmd  the class this column belongs to
      * @param table  the table where this column is found
@@ -100,9 +100,9 @@ public class ForceColumnMetaData extends ForceMetaData {
     }
     
     /**
-     * Add all of the fields for this table to the object.  We may need to merge with any existing fields
-     * in the case of Entities that extend other entities.  There is only one CustomObject representing all
-     * of the entities and we need the intersection of their fields
+     * Adds all the fields for this table to the object.  We may need to merge with any existing fields
+     * in the case of entities that extend other entities.  There is only one CustomObject representing all
+     * the entities and we need the intersection of their fields
      * 
      * @param customObject CustomObject
      */
@@ -219,9 +219,9 @@ public class ForceColumnMetaData extends ForceMetaData {
         }
         if (ammd.getCollection() != null || ammd.getMap() != null) {
             /**
-             * We do not want JPA set cascade delete for MD relationships.
-             * It's a no-op but quite inefficient anyways since JPA tries to delete all children individually too.
-             * Also, In the case of AllOrNothing transactions trying to delete all children
+             * We do not want JPA set cascade delete for MasterDetail relationships.
+             * It's a no-op but quite inefficient since JPA tries to delete all children individually too.
+             * Also, for AllOrNothing transactions trying to delete all children
              * is an error not just an inefficient call.
              * 
              * So check if this is a MasterDetail relationship. If it is then unset Cascade delete.
@@ -279,10 +279,10 @@ public class ForceColumnMetaData extends ForceMetaData {
     }
     
     /**
-     * registers the missing columns for creations.
+     * Registers the missing columns for creations.
      * 
      * @param namespace  the namespace of the organization creating the schema
-     * @return all the AbstractClassMetaData objects that need to invalidated
+     * @return all the {@code AbstractClassMetaData} objects that need to be invalidated
      */
     private List<AbstractClassMetaData> createColumns(String namespace) {
         
@@ -559,7 +559,7 @@ public class ForceColumnMetaData extends ForceMetaData {
             }
             field.setReferenceTo(columnTypeName.getForceApiName());
             // if we just made the childRelationshipName == tableName
-            // the MD API would fail to create the field if you have more than one lookup on that object
+            // the Metadata API would fail to create the field if you have more than one lookup on that object
             // so for a lookup from entity1__c to entity2__c, your childRelationshipName is entity2_entity1s
             // so we're less likely to collide
             String relationshipName = childRelationshipName != null

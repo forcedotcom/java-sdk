@@ -32,8 +32,8 @@ import static org.testng.Assert.assertNotNull;
 
 import org.testng.annotations.*;
 
-import com.force.sdk.test.util.PropsUtil;
-import com.force.sdk.test.util.UserInfo;
+import com.force.sdk.qa.util.PropsUtil;
+import com.force.sdk.qa.util.UserInfo;
 import com.sforce.async.*;
 import com.sforce.soap.metadata.DescribeMetadataResult;
 import com.sforce.soap.metadata.MetadataConnection;

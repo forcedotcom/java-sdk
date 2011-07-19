@@ -8,16 +8,8 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk-test</artifactId>
-    <version>22.0.1-BETA</version>
+    <version>22.0.2-BETA</version>
   </parent>
-
-  <repositories>
-    <repository>
-      <id>DataNucleus_Repos2</id>
-      <name>DataNucleus Repository</name>
-      <url>http://www.datanucleus.org/downloads/maven2</url>
-    </repository>
-  </repositories>
 
   <build>
     <resources>
@@ -79,11 +71,9 @@
         <groupId>org.datanucleus</groupId>
         <artifactId>maven-datanucleus-plugin</artifactId>
         <configuration>
+          <metadataDirectory>${project.build.testOutputDirectory}</metadataDirectory>
           <metadataIncludes>**/*.class</metadataIncludes>
           <mappingIncludes>**/*.class</mappingIncludes>
-          <verbose>true</verbose>
-          <enhancerName>ASM</enhancerName>
-          <api>JPA</api>
         </configuration>
         <executions>
           <execution>
@@ -92,9 +82,6 @@
             <goals>
               <goal>enhance</goal>
             </goals>
-            <configuration>
-              <metadataDirectory>${basedir}/target/test-classes</metadataDirectory>
-            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -133,6 +120,10 @@
     <dependency>
       <groupId>com.force.sdk</groupId>
       <artifactId>force-codegen</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-connector</artifactId>
     </dependency>
     <dependency>
       <groupId>com.force.sdk</groupId>

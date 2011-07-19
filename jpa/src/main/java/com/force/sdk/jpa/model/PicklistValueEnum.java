@@ -35,9 +35,9 @@ package com.force.sdk.jpa.model;
 public interface PicklistValueEnum {
 
     /**
-     * Whether is a picklist value is active and available for selection.
+     * Whether a picklist value is active and available for selection.
      * 
-     * @return true if this picklist value is active
+     * @return {@code true} if this picklist value is active
      */
     boolean isActive();
     
@@ -45,19 +45,19 @@ public interface PicklistValueEnum {
      * Default values are the picklist values that would be selected
      * automatically.
      * 
-     * @return true if this picklist item is the default selection
+     * @return {@code true} if this picklist item is the default selection
      */
     boolean isDefaultValue();
     
     /**
-     * The label of a picklist item (i.e. what would be displayed to a user).
+     * The label of a picklist item.
      * 
      * @return the label of this picklist item
      */
     String label();
     
     /**
-     * The db value of a picklist item.
+     * The database value of a picklist item.
      * 
      * @return the value stored in the database for this picklist item
      */
