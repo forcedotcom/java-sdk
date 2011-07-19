@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk</artifactId>
-    <version>22.0.2-SNAPSHOT</version>
+    <version>22.0.2-BETA</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
