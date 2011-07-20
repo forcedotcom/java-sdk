@@ -934,6 +934,21 @@
                   </resources>              
                 </configuration>            
               </execution>
+              <execution>
+                <id>javadoc-copy</id>
+                <phase>site</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${doc.site.destination}/apidocs</outputDirectory>
+                  <resources>          
+                    <resource>
+                      <directory>${maven.site.destination}/apidocs</directory>
+                    </resource>
+                  </resources>              
+                </configuration>            
+              </execution>
             </executions>
           </plugin>    
         </plugins>
