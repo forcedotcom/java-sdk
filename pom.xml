@@ -1,5 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.force.sdk</groupId>
   <artifactId>force-sdk</artifactId>
@@ -21,7 +26,14 @@
     <developerConnection>scm:git:git@github.com:forcedotcom/java-sdk.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
-  <developers><!-- see mailing list --></developers>
+  <developers>
+    <!-- see mailing list -->
+    <developer>
+      <id>mailingList</id>
+      <name>mailingList</name>
+      <email>seemailinglist@force.com</email>
+    </developer>
+  </developers>
   <mailingLists>
     <mailingList>
       <name>Database.com SDK for Java Issues</name>
@@ -101,14 +113,14 @@
 
   <distributionManagement>
     <repository>
-      <id>force.repo</id>
-      <name>Force.com Repository</name>
-      <url>${force.repo.url}</url>
+      <id>sonatype-nexus-staging</id>
+      <name>Sonatype Nexus Staging</name>
+      <url>${nexus.url.staging}</url>
     </repository>
     <snapshotRepository>
-      <id>force.repo.snapshot</id>
-      <name>Force.com Snapshot Repository</name>
-      <url>${force.repo.snapshot.url}</url>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Nexus Snapshots</name>
+      <url>${nexus.url.snapshots}</url>
     </snapshotRepository>
     <site>
       <id>force.maven.site</id>
