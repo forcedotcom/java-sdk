@@ -152,7 +152,8 @@ public class LoginEndToEndTest extends BaseEndToEndTest {
      */
     private void removeSdkCookies() {
         CookieManager cookieManager = getWebClient().getCookieManager();
-        Cookie securityContextCookie = cookieManager.getCookie(SecurityContextCookieStore.SECURITY_CONTEXT_COOKIE_NAME);
+        Cookie securityContextCookie = 
+        	cookieManager.getCookie(SecurityContextCookieStore.SECURITY_CONTEXT_COOKIE_NAME);
         Cookie endpointCookie = cookieManager.getCookie(SecurityContextUtil.FORCE_FORCE_ENDPOINT);
         Cookie sidCookie = cookieManager.getCookie(SecurityContextUtil.FORCE_FORCE_SESSION);
         
@@ -163,12 +164,14 @@ public class LoginEndToEndTest extends BaseEndToEndTest {
     
     private void corruptSecurityContextCookie() {
         CookieManager cookieManager = getWebClient().getCookieManager();
-        Cookie securityContextCookie = cookieManager.getCookie(SecurityContextCookieStore.SECURITY_CONTEXT_COOKIE_NAME);
-        
+        Cookie securityContextCookie = 
+        	cookieManager.getCookie(SecurityContextCookieStore.SECURITY_CONTEXT_COOKIE_NAME);
+
         cookieManager.removeCookie(securityContextCookie);
-        
-        securityContextCookie = 
-        	new Cookie(SecurityContextCookieStore.SECURITY_CONTEXT_COOKIE_NAME, securityContextCookie.getValue().substring(5, 30));
+
+        securityContextCookie =
+            new Cookie(SecurityContextCookieStore.SECURITY_CONTEXT_COOKIE_NAME,
+        			securityContextCookie.getValue().substring(5, 30));
         
         cookieManager.addCookie(securityContextCookie);
     }
