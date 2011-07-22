@@ -128,7 +128,24 @@ public class LoginEndToEndTest extends BaseEndToEndTest {
             Assert.assertEquals(e.getResponse().getStatusCode(), 302, "Redirect code 302 was expected.");
         }
     }
-    
+
+    @Test(dataProvider = "securedPageProvider")
+    public void testSecuredPageCookieCorruption(String securePageLocation)
+            throws FailingHttpStatusCodeException, IOException, ForceEncryptionException, ClassNotFoundException {
+
+        // enabling redirection so that login page redirects to SFDC and we can logon.
+        getWebClient().setRedirectEnabled(true);
+        HtmlPage loginPage = getWebClient().getPage(appEndpoint + "/login");
+        fillOutCredentialsAndLogin(loginPage);
+        
+        //corrupt the security context cookie
+        corruptSecurityContextCookie();
+
+        HtmlPage securedPage = getWebClient().getPage(appEndpoint + securePageLocation);
+
+        Assert.assertEquals(securedPage.getTitleText(), "Secured page");
+        Assert.assertEquals(securedPage.getUrl().toString(), appEndpoint + securePageLocation);
+    }
     
     /**
      * Remove the sdk cookies from the client so that we can test that login is forced.
@@ -142,6 +159,18 @@ public class LoginEndToEndTest extends BaseEndToEndTest {
         cookieManager.removeCookie(securityContextCookie);
         cookieManager.removeCookie(endpointCookie);
         cookieManager.removeCookie(sidCookie);
+    }
+    
+    private void corruptSecurityContextCookie() {
+        CookieManager cookieManager = getWebClient().getCookieManager();
+        Cookie securityContextCookie = cookieManager.getCookie(SecurityContextCookieStore.SECURITY_CONTEXT_COOKIE_NAME);
+        
+        cookieManager.removeCookie(securityContextCookie);
+        
+        securityContextCookie = 
+        	new Cookie(SecurityContextCookieStore.SECURITY_CONTEXT_COOKIE_NAME, securityContextCookie.getValue().substring(5, 30));
+        
+        cookieManager.addCookie(securityContextCookie);
     }
 
     @Test
