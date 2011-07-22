@@ -96,12 +96,15 @@ public class ForceJPAClassGenerator extends AbstractCodeGenerator {
      *                    to Java package naming standards
      */
     public void setPackageName(String packageName) {
-        validatePackageName(packageName);
+        if (packageName != null) {
+            validatePackageName(packageName);
+        }
+        
         this.packageName = packageName;
     }
 
     @Override
-    protected final ObjectFilter getObjectFilter() {
+    public final ObjectFilter getObjectFilter() {
         if (objectFilter != null) return objectFilter;
         return new ObjectNoOpFilter();
     }
@@ -111,7 +114,7 @@ public class ForceJPAClassGenerator extends AbstractCodeGenerator {
     }
     
     @Override
-    protected final FieldFilter getFieldFilter() {
+    public final FieldFilter getFieldFilter() {
         // If the caller has specified a field filter
         // then ensure we always run a ForceJPAFieldFilter
         // after it.

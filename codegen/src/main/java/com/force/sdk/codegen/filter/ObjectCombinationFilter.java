@@ -29,52 +29,48 @@ package com.force.sdk.codegen.filter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.Lists;
 import com.sforce.soap.partner.DescribeSObjectResult;
-import com.sforce.soap.partner.Field;
 
 /**
- * A {@link FieldFilter} which will apply multiple 
- * {@code FieldFilter}s to a Force.com {@code DescribeSObjectResult} object.
+ * An {@link ObjectFilter} which will apply multiple 
+ * {@code ObjectFilter}s to Force.com {@code DescribeSObjectResult} objects.
  * 
  * @author Tim Kral
  */
-public class FieldCombinationFilter implements FieldFilter {
+public class ObjectCombinationFilter implements ObjectFilter {
 
-    List<FieldFilter> filterList = new ArrayList<FieldFilter>();
+    List<ObjectFilter> filterList = new ArrayList<ObjectFilter>();
     
     @Override
-    public List<Field> filter(DescribeSObjectResult dsr) {
-        List<Field> filteredFields = Lists.newArrayList(dsr.getFields());
-        for (FieldFilter filter : filterList) {
-            filteredFields = filter.filter(dsr);
-            dsr.setFields(filteredFields.toArray(new Field[filteredFields.size()]));
+    public List<DescribeSObjectResult> filter(List<DescribeSObjectResult> dsrs) {
+        for (ObjectFilter filter : filterList) {
+            dsrs = filter.filter(dsrs);
         }
         
-        return filteredFields;
+        return dsrs;
     }
 
     /**
-     * Add a {@code FieldFilter} to be executed by this {@code FieldCombinationFilter}.
+     * Add an {@code ObjectFilter} to be executed by this {@code ObjectCombinationFilter}.
      * 
-     * @param fieldFilter a {@code FieldFilter} which is to be executed by
-     *                    this {@code FieldCombinationFilter} in the order in which
+     * @param objectFilter an {@code ObjectFilter} which is to be executed by
+     *                    this {@code ObjectCombinationFilter} in the order in which
      *                    it was added
      * @return this {@code FieldCombinationFilter} to ease combination filter
      *         construction
      */
-    public FieldCombinationFilter addFilter(FieldFilter fieldFilter) {
-        filterList.add(fieldFilter);
+    public ObjectCombinationFilter addFilter(ObjectFilter objectFilter) {
+        filterList.add(objectFilter);
         return this;
     }
     
     /**
-     * Returns the {@code FieldFilter}s to be executed in order.
+     * Returns the {@code ObjectFilter}s to be executed in order.
      * 
-     * @return the list of {@code FieldFilter}s that are to be executed
-     *         by thie {@code FieldCombinationFilter}
+     * @return the list of {@code ObjectFilter}s that are to be executed
+     *         by thie {@code ObjectCombinationFilter}
      */
-    public List<FieldFilter> getFilterList() {
+    public List<ObjectFilter> getFilterList() {
         return filterList;
     }
 }

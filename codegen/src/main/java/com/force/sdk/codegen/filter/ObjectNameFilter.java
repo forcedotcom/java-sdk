@@ -53,7 +53,7 @@ public class ObjectNameFilter implements ObjectFilter {
      * @param include whether this {@code ObjectNameFilter} is
      *                an include filter or exclude filter
      * @param objectNames a {@code java.util.Set} of exact object
-     *                    names that are to be filtered in
+     *                    names that are to be filtered
      */
     public ObjectNameFilter(boolean include, Set<String> objectNames) {
         this.include = include;
@@ -69,7 +69,7 @@ public class ObjectNameFilter implements ObjectFilter {
      * @param include whether this {@code ObjectNameFilter} is
      *                an include filter or exclude filter
      * @param objectNames an {@code Array} of exact object
-     *                    names that are to be filtered in
+     *                    names that are to be filtered
      */
     public ObjectNameFilter(boolean include, String... objectNames) {
         this.include = include;
