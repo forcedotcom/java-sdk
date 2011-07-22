@@ -101,8 +101,9 @@ public class SecurityContextServiceImpl implements SecurityContextService {
         try {
             sc = securityContextStorageService.retreiveSecurityContext(request);
         } catch (ContextStoreException e) {
-            LOGGER.error("Cannot retrieve security infromation: ", e);
-            sc = null;
+            LOGGER.warn("Could not retrieve security information, refreshing. "
+                + "Set up an encryption key file to avoid this warning.");
+            return null;
         }
         
         sc = verifyAndRefreshSecurityContext(sc, request);
