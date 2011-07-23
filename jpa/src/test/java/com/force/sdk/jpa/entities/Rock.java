@@ -33,7 +33,7 @@ import com.force.sdk.jpa.mock.MockApiField;
 import com.sforce.soap.partner.FieldType;
 
 /**
- * Rock, Paper, and Scissors entities have a circular relationship
+ * Rock, Paper, and Scissors entities have a circular relationship.
  *
  * @author Jill Wetzler
  */

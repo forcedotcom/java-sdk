@@ -26,26 +26,25 @@
 
 package com.force.sdk.jpa;
 
-import java.lang.reflect.Method;
-import java.util.*;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceException;
-import javax.persistence.Persistence;
-import javax.persistence.EntityManagerFactory;
-
-import org.datanucleus.exceptions.NucleusException;
+import com.force.sdk.jpa.entities.AccountEntity;
+import com.force.sdk.jpa.entities.OpportunityEntity;
+import com.force.sdk.jpa.entities.ParentTestEntity;
+import com.force.sdk.jpa.entities.TestEntity;
+import com.force.sdk.jpa.entities.generated.*;
+import com.force.sdk.jpa.query.QueryHints;
+import com.force.sdk.qa.util.BaseJPAFTest;
+import com.google.inject.internal.Lists;
 import org.datanucleus.jpa.EntityManagerImpl;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
-import com.force.sdk.jpa.entities.*;
-import com.force.sdk.jpa.entities.generated.*;
-import com.force.sdk.jpa.query.QueryHints;
-import com.force.sdk.qa.util.BaseJPAFTest;
-import com.google.inject.internal.Lists;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  *
@@ -355,10 +354,12 @@ public class SubQueryTest extends BaseJPAFTest {
         try {
             tx.begin();
 
-            Entity1 retrievedEntity = em.find(Entity1.class, e1.getId(), Collections.singletonMap(QueryHints.MAX_FETCH_DEPTH, (Object) 3));
+            Entity1 retrievedEntity = em.find(Entity1.class, e1.getId(),
+                    Collections.singletonMap(QueryHints.MAX_FETCH_DEPTH, (Object) 3));
             for (Entity2 child : retrievedEntity.getEntity2s()) {
                 child.getEntity0();
-                System.out.println("e2: " + child.getId() + " --> e2.e0: " + child.getEntity0() + " --> e2.e1: " + child.getEntity1());
+                System.out.println("e2: " + child.getId() + " --> e2.e0: " +
+                        child.getEntity0() + " --> e2.e1: " + child.getEntity1());
             }
 
             tx.commit();

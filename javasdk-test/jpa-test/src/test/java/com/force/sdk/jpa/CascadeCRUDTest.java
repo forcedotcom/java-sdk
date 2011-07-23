@@ -26,18 +26,15 @@
 
 package com.force.sdk.jpa;
 
-import java.util.Iterator;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-
+import com.force.sdk.jpa.entities.cascade.*;
+import com.force.sdk.qa.util.BaseMultiEntityManagerJPAFTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.force.sdk.jpa.entities.cascade.*;
-import com.force.sdk.qa.util.BaseMultiEntityManagerJPAFTest;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Class for Cascade CRUD Tests.

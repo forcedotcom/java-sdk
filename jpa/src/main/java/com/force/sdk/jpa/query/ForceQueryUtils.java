@@ -686,6 +686,7 @@ public class ForceQueryUtils {
      * @param pkValue the id of the object being fetched
      * @param fetchDepth the maximum depth that can be traversed
      *          by a query involving relationships
+     * @param queriedRelationships the current set of relationships already represented in this query
      * @return the SOQL query
      */
     public String buildQueryWithPK(TableImpl table, AbstractClassMetaData acmd, int[] fieldNumbers,
@@ -756,6 +757,7 @@ public class ForceQueryUtils {
      * @param isJoin whether this is part of a join call
      * @param joinAlias the alias for a join query
      * @param parentHelper the expression builder for the parent query
+     * @param queriedRelationships a running set of relationships already represented in this query
      * @return the SOQL query
      */
     public String buildQuery(TableImpl table, AbstractClassMetaData acmd, Set<Integer> fieldsToLoad, QueryCompilation compilation,

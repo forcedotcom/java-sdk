@@ -26,31 +26,20 @@
 
 package com.force.sdk.jpa.query;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.force.sdk.jpa.ForceStoreManager;
+import com.force.sdk.jpa.PersistenceUtils;
+import com.force.sdk.jpa.table.ColumnImpl;
+import com.force.sdk.jpa.table.TableImpl;
 import org.datanucleus.FetchPlan;
 import org.datanucleus.exceptions.NucleusDataStoreException;
 import org.datanucleus.exceptions.NucleusException;
 import org.datanucleus.metadata.AbstractClassMetaData;
 import org.datanucleus.metadata.AbstractMemberMetaData;
 import org.datanucleus.query.compiler.QueryCompilation;
-import org.datanucleus.query.expression.DyadicExpression;
-import org.datanucleus.query.expression.Expression;
-import org.datanucleus.query.expression.InvokeExpression;
-import org.datanucleus.query.expression.JoinExpression;
-import org.datanucleus.query.expression.PrimaryExpression;
+import org.datanucleus.query.expression.*;
 import org.datanucleus.query.symbol.PropertySymbol;
 
-import com.force.sdk.jpa.ForceStoreManager;
-import com.force.sdk.jpa.PersistenceUtils;
-import com.force.sdk.jpa.table.ColumnImpl;
-import com.force.sdk.jpa.table.TableImpl;
-
-import javax.persistence.OneToMany;
+import java.util.*;
 
 /**
  * 
@@ -76,7 +65,8 @@ public class ExpressionBuilderHelper {
     Set<String> queriedRelationships; // a set of strings in the form of ParentEntityName->ChildEntityName (or
                                               // vice versa) so we can keep track of which relationships we've already
                                               // included in our query, will help us avoid cycles
-    
+    private static final String relationshipSeparator = "->";
+
     ExpressionBuilderHelper(ForceQueryUtils forceQuery, int length, TableImpl table,
             AbstractClassMetaData acmd, boolean isJoin, QueryCompilation compilation, FetchPlan fetchPlan,
             int fetchDepth, ExpressionBuilderHelper parent, Set<String> queriedRelationships) {
@@ -141,7 +131,7 @@ public class ExpressionBuilderHelper {
             return;
         }
 
-        String relationshipString = colCmd.getEntityName() + "->" + ammd.getName();
+        String relationshipString = colCmd.getEntityName() + relationshipSeparator + ammd.getName();
         queriedRelationships.add(relationshipString);
 
         TableImpl joinTable = ((ForceStoreManager) forceQuery.getExecutionContext().getStoreManager()).getTable(cmd);
@@ -188,18 +178,20 @@ public class ExpressionBuilderHelper {
         return aliasToFilterMappings != null ? aliasToFilterMappings.get(alias)
                                                 : isTopLevel && compilation != null ? compilation.getExprFilter() : null;
     }
-    
+
     /**
      * Determines whether to skip querying for relationship fields
      * by comparing the current depth of the query to the maximum.
-     * 
+     *
+     * @param cmd       the class with the relationship fields (either OneToMany or ManyToOne)
+     * @param fieldNum  the number of the relationship field
      * @return true if the current depth of the query is greater or equal to the maximum depth we can fetch
      */
-    public boolean skipRelationship(AbstractClassMetaData acmd, int fieldNum) {
+    public boolean skipRelationship(AbstractClassMetaData cmd, int fieldNum) {
         if (fetchDepth >= maxFetchDepth) return true;
-        AbstractMemberMetaData ammd = acmd.getMetaDataForManagedMemberAtAbsolutePosition(fieldNum);
+        AbstractMemberMetaData ammd = cmd.getMetaDataForManagedMemberAtAbsolutePosition(fieldNum);
 
-        String relationshipString = acmd.getEntityName() + "->" + ammd.getName();
+        String relationshipString = cmd.getEntityName() + relationshipSeparator + ammd.getName();
         if (queriedRelationships.contains(relationshipString)) {
             return true;
         }
