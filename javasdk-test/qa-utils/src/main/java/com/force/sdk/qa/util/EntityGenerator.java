@@ -146,8 +146,7 @@ public final class EntityGenerator {
                     String mappedBy = String.format("entity%s", i);
                     String type = String.format("Entity%s", i + 1);
                     String field = String.format("entity%ss", i + 1);
-                    String fetchType = numEntitiesToCreate - i < 4 ? "EAGER" : "LAZY"; //just make the last two OneToMany eager
-                    out.write(String.format("    @OneToMany(mappedBy = \"%s\", fetch = FetchType.%s)\n", mappedBy, fetchType));
+                    out.write(String.format("    @OneToMany(mappedBy = \"%s\", fetch = FetchType.LAZY)\n", mappedBy));
                     out.write(String.format("    private Collection<%s> %s;\n", type, field));
                     out.write(String.format("    public Collection<%s> get%ss() { return %s; }", type, type, field));
                 }

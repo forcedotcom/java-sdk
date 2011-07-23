@@ -231,9 +231,18 @@ public final class PersistenceUtils {
      * @return      {@code true} if this field is a relationship field
      */
     public static boolean isRelationship(AbstractMemberMetaData ammd) {
+        return getRelationshipAnnotation(ammd) != null;
+    }
+
+    public static Class getRelationshipAnnotation(AbstractMemberMetaData ammd) {
         AccessibleObject methodOrProp = (AccessibleObject) ammd.getMemberRepresented();
-        return methodOrProp != null && (methodOrProp.isAnnotationPresent(OneToMany.class)
-                || methodOrProp.isAnnotationPresent(ManyToOne.class));
+        if (methodOrProp == null) return null;
+        if (methodOrProp.isAnnotationPresent(OneToMany.class)) {
+            return OneToMany.class;
+        } else if (methodOrProp.isAnnotationPresent(ManyToOne.class)) {
+            return ManyToOne.class;
+        }
+        return null;
     }
     
     /**

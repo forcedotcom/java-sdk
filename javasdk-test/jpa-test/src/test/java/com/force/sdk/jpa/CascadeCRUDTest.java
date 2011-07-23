@@ -31,6 +31,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -61,7 +62,7 @@ public class CascadeCRUDTest extends BaseMultiEntityManagerJPAFTest {
         em.persist(parent);
         tx.commit();
     }
-    
+
     @Test
     public void testBasicOneToManyCRUDForCollection() throws InstantiationException, IllegalAccessException {
         testBasicOneToManyCRUDInternal(em, CascadeColParentTestEntity.class, CascadeColChildTestEntity.class);
@@ -189,7 +190,7 @@ public class CascadeCRUDTest extends BaseMultiEntityManagerJPAFTest {
         // Cleanup any old data
         deleteAll(childClazz);
         deleteAll(parentClazz);
-        
+
         // setup data
         CascadeChildTestEntity child1 = childClazz.newInstance();
         CascadeChildTestEntity child2 = childClazz.newInstance();
@@ -207,15 +208,14 @@ public class CascadeCRUDTest extends BaseMultiEntityManagerJPAFTest {
         emm.persist(parent);
         tx.commit();
         parent = checkParentAndChild(emm, 1, 2, parentClazz, childClazz);
-        
+
         // Add a third child to parent
         CascadeChildTestEntity child3 = childClazz.newInstance();
         child3.setName(CHILD_NAME + "3");
-        parent.addChild(child3);
         child3.setParent(parent);
-        tx.begin();
-        parent = emm.merge(parent);
-        tx.commit();
+        emm.getTransaction().begin();
+        emm.persist(child3);
+        emm.getTransaction().commit();
         parent = checkParentAndChild(emm, 1, 3, parentClazz, childClazz);
             
         // delete test
@@ -293,11 +293,17 @@ public class CascadeCRUDTest extends BaseMultiEntityManagerJPAFTest {
         child3.setName(CHILD_NAME + "3");
         parent.addChild(child3);
         child3.setParent(parent);
+
+        tx.begin();
+        emm.persist(child3);
+        tx.commit();
+
+        tx.begin();
+        parent = emm.find(parentClazz, parent.getId());
         CascadeChildTestEntity childAny =
             (CascadeChildTestEntity) ((CascadeParentTestEntity2) parent).getChildren().iterator().next();
         final String testChildName = CHILD_NAME + "Test";
         childAny.setName(testChildName);
-        tx.begin();
         parent = emm.merge(parent);
         tx.commit();
         // This validates CascadeType.MERGE
@@ -434,16 +440,16 @@ public class CascadeCRUDTest extends BaseMultiEntityManagerJPAFTest {
         tx.commit();
         // This validates no CascadeType, child count 3
         parent = checkParentAndChild(emm, 1, 3, parentClazz, childClazz);
-        
+
+        tx.begin();
+        //parent = em.find(parentClazz, parent.getId());
         CascadeChildTestEntity childAny =
             (CascadeChildTestEntity) ((CascadeParentTestEntity2) parent).getChildren().iterator().next();
         final String testChildName = CHILD_NAME + "Test";
         childAny.setName(testChildName);
-        tx.begin();
         emm.merge(parent);
         tx.commit();
-        // This means that CascadeType.MERGE is always true even if not set.
-        // Child count 1 and the above merge of parent merged child as well
+
         parent = checkParentAndChild(emm, 1, 3, parentClazz, childClazz);
         Iterator<? extends CascadeChildTestEntity> iter = ((CascadeParentTestEntity2) parent).getChildren().iterator();
         boolean updateFound = false;
@@ -454,7 +460,7 @@ public class CascadeCRUDTest extends BaseMultiEntityManagerJPAFTest {
                 break;
             }
         }
-        Assert.assertTrue(updateFound, "CascadeType none did not update the child, maybe CascadeType.MERGE is fixed now");
+        Assert.assertFalse(updateFound, "CascadeType none should not have updated the child but did");
 
         // Check refresh here
         /**

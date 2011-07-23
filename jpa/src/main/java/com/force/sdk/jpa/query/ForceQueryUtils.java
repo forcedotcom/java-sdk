@@ -689,10 +689,10 @@ public class ForceQueryUtils {
      * @return the SOQL query
      */
     public String buildQueryWithPK(TableImpl table, AbstractClassMetaData acmd, int[] fieldNumbers,
-            String pkValue, int fetchDepth) {
+            String pkValue, int fetchDepth, Set<String> queriedRelationships) {
         ExpressionBuilderHelper helper =
             new ExpressionBuilderHelper(this, fieldNumbers.length * 20 + 100, table, acmd,
-                                            false, null, ec.getFetchPlan(), fetchDepth, null);
+                                            false, null, ec.getFetchPlan(), fetchDepth, null, queriedRelationships);
         helper.sb.append("select id");
         List<ColumnImpl> columns = new ArrayList<ColumnImpl>();
         for (int fieldNum : fieldNumbers) {
@@ -736,7 +736,7 @@ public class ForceQueryUtils {
     public String buildQuery(TableImpl table, AbstractClassMetaData acmd, Set<Integer> fieldsToLoad, QueryCompilation compilation,
             boolean skipId, long maxLimit, FetchPlan fetchPlan, String tableName) {
         return buildQuery(table, acmd, fieldsToLoad, compilation, skipId, maxLimit, fetchPlan,
-                            0, tableName, true, false, null, null);
+                            0, tableName, true, false, null, null, null);
     }
     
     /**
@@ -760,10 +760,11 @@ public class ForceQueryUtils {
      */
     public String buildQuery(TableImpl table, AbstractClassMetaData acmd, Set<Integer> fieldsToLoad, QueryCompilation compilation,
             boolean skipId, long maxLimit, FetchPlan fetchPlan, int fetchDepth,
-            String tableName, boolean isTopLevel, boolean isJoin, String joinAlias, ExpressionBuilderHelper parentHelper)  {
+            String tableName, boolean isTopLevel, boolean isJoin, String joinAlias, ExpressionBuilderHelper parentHelper,
+            Set<String> queriedRelationships)  {
         ExpressionBuilderHelper helper =
             new ExpressionBuilderHelper(this, (fieldsToLoad != null ? fieldsToLoad.size() : 3) * 20 + 100,
-                table, acmd, isJoin, compilation, fetchPlan, fetchDepth, parentHelper);
+                table, acmd, isJoin, compilation, fetchPlan, fetchDepth, parentHelper, queriedRelationships);
         helper.sb.append("select ");
         if (compilation != null && compilation.getResultDistinct()) {
             throw new NucleusException("select distinct not supported by force.com datastore");
@@ -952,7 +953,7 @@ public class ForceQueryUtils {
         if (not) h.sb.append(" not");
         h.sb.append(" in (").append(buildQuery(joinTable, cmd, joinFieldsToLoad, compilation, skipId,
                                                 0, h.fetchPlan, h.fetchDepth, joinTable.getTableName().getForceApiName(),
-                                                false, true, alias, h));
+                                                false, true, alias, h, h.queriedRelationships));
     }
     
     private boolean isAggregate(Expression expr) {
@@ -1326,7 +1327,8 @@ public class ForceQueryUtils {
         String relName = col.getForceApiRelationshipName();
         helper.getBuilder().append("(")
                            .append(buildQuery(helper.table, helper.acmd, joinFieldsToLoad, null, false,
-                                               0, fetchPlan, helper.fetchDepth, relName, false, false, null, null));
+                                               0, fetchPlan, helper.fetchDepth, relName, false, false, null, null,
+                                               helper.queriedRelationships));
         /**
          * If there is a filter for these related object in the context use it
          * Else use any JoinFilters

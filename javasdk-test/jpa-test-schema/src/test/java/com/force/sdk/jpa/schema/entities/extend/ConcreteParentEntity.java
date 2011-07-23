@@ -38,7 +38,7 @@ import javax.persistence.*;
  */
 @Entity
 public class ConcreteParentEntity extends AbstractParentEntity {
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<ChildWithAbstractParentEntity> children;
 
     @Override

@@ -30,8 +30,12 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
+import javax.persistence.Persistence;
+import javax.persistence.EntityManagerFactory;
 
+import org.datanucleus.exceptions.NucleusException;
 import org.datanucleus.jpa.EntityManagerImpl;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -153,14 +157,45 @@ public class SubQueryTest extends BaseJPAFTest {
     }
 
     @Test
-    public void testMaxFetchDepth() throws Exception {
+    public void testFetchDepthError() throws Exception {
+        em.getTransaction().begin();
+        String errorMessage = "Max fetch depth cannot be greater than 5.";
+        try {
+            em.createQuery("select o from Entity3 o)", Entity3.class)
+                        .setHint(QueryHints.MAX_FETCH_DEPTH, 7).getResultList();
+            Assert.fail("Exception was not thrown");
+        } catch (Exception e) {
+            Assert.assertEquals(e.getMessage(), errorMessage);
+        }
+
+        try {
+            em.find(Entity3.class, "xxxxx", Collections.singletonMap(QueryHints.MAX_FETCH_DEPTH, (Object) 9));
+            Assert.fail("Exception was not thrown");
+        } catch (Exception e) {
+            Assert.assertEquals(e.getMessage(), errorMessage);
+        }
+
+        try {
+            EntityManagerFactory badEMF
+                    = Persistence.createEntityManagerFactory("testFetchDepthTooHigh");
+            EntityManager badEM = badEMF.createEntityManager();
+            badEM.createQuery("select o from Entity3 o)", Entity3.class).getResultList();
+            Assert.fail("Exception was not thrown");
+        } catch (Exception e) {
+            Assert.assertEquals(e.getMessage(), errorMessage);
+        }
+        em.getTransaction().commit();
+    }
+
+    @Test
+    public void testLazyFetchingPastFetchDepth() throws Exception {
         deleteAll(Entity0.class);
         deleteAll(Entity1.class);
         deleteAll(Entity2.class);
         deleteAll(Entity3.class);
-        deleteAll(Entity23.class);
-        deleteAll(Entity24.class);
-        deleteAll(Entity25.class);
+        deleteAll(Entity4.class);
+        deleteAll(Entity5.class);
+        deleteAll(Entity6.class);
 
         Entity0 e0 = new Entity0();
         e0.setName("e0");
@@ -173,179 +208,62 @@ public class SubQueryTest extends BaseJPAFTest {
         Entity3 e3 = new Entity3();
         e3.setEntity2(e2);
         e3.setName("e3");
-        Entity23 e23 = new Entity23();
-        e23.setName("e23");
-        Entity24 e24 = new Entity24();
-        e24.setEntity23(e23);
-        e24.setName("e24");
-        Entity25 e25 = new Entity25();
-        e25.setEntity24(e24);
-        e25.setName("e25");
-        addTestDataInTx(Lists.newArrayList(e0, e1, e2, e3, e23, e24, e25));
+        Entity4 e4 = new Entity4();
+        e4.setEntity3(e3);
+        e4.setName("e4");
+        Entity5 e5 = new Entity5();
+        e5.setEntity4(e4);
+        e5.setName("e5");
+        Entity6 e6 = new Entity6();
+        e6.setEntity5(e5);
+        e6.setName("e6");
+        addTestDataInTx(Lists.newArrayList(e0, e1, e2, e3, e4, e5, e6));
 
-        // Test default fetch depth with aggregate subquery
-        List<Entity23> result = em.createQuery("select o from Entity23 o)", Entity23.class).getResultList();
-        Assert.assertEquals(result.size(), 1, "Default fetch level 1 works fine");
-        assertEntity23IsOneLevel(result.get(0));
-        // Test the same with find
-        e23 = em.find(Entity23.class, e23.getId());
-        assertEntity23IsOneLevel(e23);
-
-        // Clear entity manager so that it does not come from the cache
-        em.clear();
-
-        // Test fetch depth > default with aggregate query
-        try {
-            em.createQuery("select o from Entity23 o)", Entity23.class).setHint(QueryHints.MAX_FETCH_DEPTH, 2).getResultList();
-            Assert.fail("Expected exception was not thrown");
-        } catch (PersistenceException ex) {
-            Assert.assertTrue(ex.getMessage()
-                    .contains("SOQL statements cannot query aggregate relationships more than "
-                                + "1 level away from the root entity object."));
-        }
-        // Same test using find()
-        try {
-            e23 = em.find(Entity23.class, e23.getId(), Collections.singletonMap(QueryHints.MAX_FETCH_DEPTH, (Object) 2));
-            Assert.fail("Expected exception was not thrown");
-        } catch (PersistenceException ex) {
-            Assert.assertTrue(ex.getMessage()
-                    .contains("SOQL statements cannot query aggregate relationships more than "
-                                + "1 level away from the root entity object."));
-        }
-        // Test that we can also set the value using EntityManagerImpl.getFetchPlan().setMaxFetchDepth()
-        int oldDepth = ((EntityManagerImpl) em).getFetchPlan().getMaxFetchDepth();
-        try {
+        for (int i = 1; i <= 5; i++) {
+            List<Entity0> entities;
+            // Test that we can also set the value using EntityManagerImpl.getFetchPlan().setMaxFetchDepth()
+            int oldDepth = ((EntityManagerImpl) em).getFetchPlan().getMaxFetchDepth();
             try {
-                ((EntityManagerImpl) em).getFetchPlan().setMaxFetchDepth(2);
-                em.createQuery("select o from Entity23 o)", Entity23.class).getResultList();
-                Assert.fail("Expected exception was not thrown");
-            } catch (PersistenceException ex) {
-                Assert.assertTrue(ex.getMessage()
-                        .contains("SOQL statements cannot query aggregate relationships more than "
-                                    + "1 level away from the root entity object."));
-            }
-            try {
+                ((EntityManagerImpl) em).getFetchPlan().setMaxFetchDepth(i);
+                entities = em.createQuery("select o from Entity0 o)", Entity0.class).getResultList();
+                verifyLazyFetchingOfEntities(entities);
+
                 // Test the same with find
-                e23 = em.find(Entity23.class, e23.getId());
-                Assert.fail("Expected exception was not thrown");
-            } catch (PersistenceException ex) {
-                Assert.assertTrue(ex.getMessage()
-                        .contains("SOQL statements cannot query aggregate relationships more than "
-                                    + "1 level away from the root entity object."));
+                e0 = em.find(Entity0.class, entities.get(0).getId());
+                verifyLazyFetchingOfEntities(Collections.singletonList(e0));
+            } finally {
+                ((EntityManagerImpl) em).getFetchPlan().setMaxFetchDepth(oldDepth);
             }
-        } finally {
-            ((EntityManagerImpl) em).getFetchPlan().setMaxFetchDepth(oldDepth);
-        }
 
-        // Test default fetch depth with relationship queries
-        List<Entity3> result3 = em.createQuery("select o from Entity3 o)", Entity3.class).getResultList();
-        Assert.assertEquals(result3.size(), 1, "Default fetch level 1 works fine");
-        assertEntity3IsOneLevel(result3.get(0));
-        // Test the same with find
-        e3 = em.find(Entity3.class, e3.getId());
-        assertEntity3IsOneLevel(e3);
+            em.clear();
 
-        // Test fetch depth > default with relationship queries
-        result3 = em.createQuery("select o from Entity3 o)", Entity3.class)
-                        .setHint(QueryHints.MAX_FETCH_DEPTH, 2).getResultList();
-        Assert.assertEquals(result3.size(), 1, "Default fetch level 1 works fine");
-        verifyDepth(result3.get(0), 2);
+            entities = em.createQuery("select o from Entity0 o)", Entity0.class)
+                        .setHint(QueryHints.MAX_FETCH_DEPTH, i).getResultList();
+            verifyLazyFetchingOfEntities(entities);
 
-        // This transaction is only for testing find() with query depth.
-        EntityManager fem = emfac.createEntityManager();
-        //EntityTransaction tx = fem.getTransaction();
-        Entity3 e31 = fem.find(Entity3.class, e3.id, Collections.singletonMap(QueryHints.MAX_FETCH_DEPTH, (Object) 3));
-        verifyDepth(e31, 3);
+            EntityManager fem = emfac.createEntityManager();
+            e0 = fem.find(Entity0.class, e0.id, Collections.singletonMap(QueryHints.MAX_FETCH_DEPTH, (Object) i));
+            verifyLazyFetchingOfEntities(Collections.singletonList(e0));
 
-        // soql query is always going to the database.
-        // However, find() first reads the object from the cache if it is present there.
-        // detach only changes the persistence context to detached and leaves some trace of the original object in the cache.
-        // therefore, within the same transaction we will have to clear()  to really clear the cache.
-        em.clear();
-        // e3 and result3.get(0) were references to the same object;
-        // but detaching them didn't clear the cache of persistence context.
-        //em.detach(e3);
-        //em.detach(result3.get(0));
 
-        Entity3 e32 = em.find(Entity3.class, e3.id, Collections.singletonMap(QueryHints.MAX_FETCH_DEPTH, (Object) 3));
-        verifyDepth(e32, 3);
-
-        // Test fetch depth 0
-        List<Entity24> result24 = em.createQuery("select o from Entity24 o)", Entity24.class)
-                                        .setHint(QueryHints.MAX_FETCH_DEPTH, 0).getResultList();
-        Assert.assertEquals(result24.size(), 1, "Default fetch level 1 works fine");
-        Assert.assertEquals(result24.get(0).getEntity25s().size(), 0, "Zero level of subquery object fetched");
-        Assert.assertNull(result24.get(0).getEntity23(), "Zero level of relationship object fetched");
-    }
-
-    private void verifyDepth(Entity3 e3, int depth) {
-        if (depth >= 2) {
-            Assert.assertNotNull(e3.getEntity2(), "One level of object fetched");
-            Assert.assertEquals(e3.getEntity2().getName(), "e2", "Entity name is e2");
-            Assert.assertNotNull(e3.getEntity2().getEntity1(), "Second level of object fetched");
-            Assert.assertEquals(e3.getEntity2().getEntity1().getName(), "e1", "Entity name is e1");
-        }
-
-        if (depth == 2) {
-            Assert.assertNull(e3.getEntity2().getEntity1().getEntity0(), "Third level of object not fetched");
-        }
-
-        if (depth >= 3) {
-            Assert.assertNotNull(e3.getEntity2().getEntity1().getEntity0(), "Third level of object fetched");
         }
     }
 
-    private void assertEntity23IsOneLevel(Entity23 e23) {
-        Assert.assertEquals(e23.getName(), "e23");
-        Assert.assertEquals(e23.getEntity24s().size(), 1, "One level of object fetched");
-        Entity24 e24 = e23.getEntity24s().iterator().next();
-        Assert.assertEquals(e24.getName(), "e24");
-        Assert.assertEquals(e24.getEntity25s().size(), 0, "Second level of object not fetched");
-    }
+    private void verifyLazyFetchingOfEntities(List<Entity0> entities) {
+        Assert.assertEquals(1, entities.size());
+        Entity0 e0 = entities.get(0);
+        Assert.assertEquals(1, e0.getEntity1s().size());
+        Collection<Entity2> e2s = e0.getEntity1s().iterator().next().getEntity2s();
+        Assert.assertEquals(1, e2s.size());
+        Collection<Entity3> e3s = e2s.iterator().next().getEntity3s();
+        Assert.assertEquals(1, e3s.size());
+        Collection<Entity4> e4s = e3s.iterator().next().getEntity4s();
+        Assert.assertEquals(1, e4s.size());
+        Collection<Entity5> e5s = e4s.iterator().next().getEntity5s();
+        Assert.assertEquals(1, e5s.size());
+        Collection<Entity6> e6s = e5s.iterator().next().getEntity6s();
+        Assert.assertEquals(1, e6s.size());
 
-    private void assertEntity3IsOneLevel(Entity3 e3) {
-        Assert.assertEquals(e3.getName(), "e3");
-        Assert.assertNotNull(e3.getEntity2(), "One level of object fetched");
-        Assert.assertEquals(e3.getEntity2().getName(), "e2");
-        Assert.assertNull(e3.getEntity2().getEntity1(), "Second level of object not fetched");
-    }
-
-    @Test
-    public void testMultipleLevelSubqueries() throws Exception {
-        // Delete all entity23
-        deleteAll(Entity23.class);
-
-        //test native first, the API will reject this query immediately
-        try {
-            em.createNativeQuery("select id, name, "
-                                    + "(select id, name, "
-                                        + "(select id, name from " + getRelationshipName(em, Entity1.class, "entity2s") + ") "
-                                    +  "from " + getRelationshipName(em, Entity0.class, "entity1s") + ") "
-                                + "from " + getTableName(em, Entity0.class),
-                Entity0.class).getResultList();
-            Assert.fail("Expected exception was not thrown");
-        } catch (Exception ex) {
-            Assert.assertTrue(ex.getMessage()
-                    .contains("SOQL statements cannot query aggregate relationships more than "
-                                + "1 level away from the root entity object."));
-        }
-
-        Entity23 e23 = new Entity23();
-        e23.setName("e23");
-        addTestDatumInTx(e23);
-
-        // Test a JPQL query that will eventually generate into a query similar to the above native query.
-        // the exception is thrown because we ask for entity23 which eager loads entity24 which eager loads entity25
-        // Note that all the joins are implicit joins but we have to override default fetch depth. This is same as
-        // MaxFetchDepth test.
-        try {
-            em.createQuery("select o from Entity23 o)", Entity23.class).setHint(QueryHints.MAX_FETCH_DEPTH, 2).getResultList();
-            Assert.fail("Expected exception was not thrown");
-        } catch (PersistenceException ex) {
-            Assert.assertTrue(ex.getMessage()
-                    .contains("SOQL statements cannot query aggregate relationships more than "
-                                + "1 level away from the root entity object."));
-        }
     }
 
     @SuppressWarnings("unchecked")
@@ -403,6 +321,52 @@ public class SubQueryTest extends BaseJPAFTest {
             Assert.assertEquals(1, child.size());
             result = child.get(0);
             Assert.assertEquals("e" + (i + 1), result.getClass().getMethod("getName").invoke(result));
+        }
+    }
+
+    @Test
+    public void testManyToOneSubquery() {
+        deleteAll(Entity0.class);
+        deleteAll(Entity1.class);
+        deleteAll(Entity2.class);
+
+        //create the main entity
+        Entity1 e1 = new Entity1();
+        e1.setName("testManyToOneSubquery");
+
+        //create two entity2s, give each their own entity0 and the same entity1
+        Entity2 firstChild = new Entity2();
+        firstChild.setName("entity2_1");
+        firstChild.setEntity1(e1);
+        Entity0 entityForFirst = new Entity0();
+        entityForFirst.setName("entity0_1");
+        firstChild.setEntity0(entityForFirst);
+
+        Entity2 secondChild = new Entity2();
+        secondChild.setName("entity2_2");
+        secondChild.setEntity1(e1);
+        Entity0 entityForSecond = new Entity0();
+        entityForSecond.setName("entity0_2");
+        secondChild.setEntity0(entityForSecond);
+
+        addTestDataInTx(Lists.newArrayList(e1, entityForFirst, entityForSecond, firstChild, secondChild));
+
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+
+            Entity1 retrievedEntity = em.find(Entity1.class, e1.getId(), Collections.singletonMap(QueryHints.MAX_FETCH_DEPTH, (Object) 3));
+            for (Entity2 child : retrievedEntity.getEntity2s()) {
+                child.getEntity0();
+                System.out.println("e2: " + child.getId() + " --> e2.e0: " + child.getEntity0() + " --> e2.e1: " + child.getEntity1());
+            }
+
+            tx.commit();
+            tx = null;
+        } finally {
+            if (tx != null) {
+                tx.rollback();
+            }
         }
     }
 }

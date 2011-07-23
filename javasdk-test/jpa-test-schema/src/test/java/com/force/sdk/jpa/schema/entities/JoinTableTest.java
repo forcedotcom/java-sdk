@@ -48,6 +48,6 @@ public class JoinTableTest implements Serializable {
             joinColumns = @JoinColumn(name = "JoinTableTest_ID", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "JoinColumnTestMany3_ID", referencedColumnName = "id")
         )
-    @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "parent")
     Collection<JoinColumnTestMany3> children;
 }

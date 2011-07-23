@@ -46,7 +46,7 @@ public class ParentEntityOrderByIntString {
     @MockApiField(name = "Id", type = FieldType.id, custom = false)
     private String id;
     
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     @OrderBy("myInt, myString DESC")
     @MockApiRelationship(name = "ParentEntityOrderByIntString_childentity__r")
     private List<ChildEntityOrderByIntString> children;

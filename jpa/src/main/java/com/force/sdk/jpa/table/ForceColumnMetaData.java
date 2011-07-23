@@ -26,6 +26,7 @@
 
 package com.force.sdk.jpa.table;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -175,6 +176,12 @@ public class ForceColumnMetaData extends ForceMetaData {
                                                 + " Please add a foreign key field on child object and use that field name"
                                                 + " for mappedBy attribute."
                                                 + " Offending field: " + ammd.getFullFieldName());
+            }
+
+            Basic b;
+            if (ao.getAnnotation(OneToMany.class).fetch() == FetchType.EAGER ||
+                    ((b = ao.getAnnotation(Basic.class)) != null && b.fetch() == FetchType.EAGER)) {
+                throw new NucleusUserException("@OneToMany relationships with FetchType of EAGER are currently not supported.");
             }
         } else if (ao.isAnnotationPresent(ManyToMany.class)) {
             throw new NucleusUserException("@ManyToMany relationship is not supported."

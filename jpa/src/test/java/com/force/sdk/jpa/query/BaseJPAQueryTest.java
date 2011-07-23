@@ -68,7 +68,7 @@ public abstract class BaseJPAQueryTest {
      */
     @MockClass(realClass = PartnerConnection.class, instantiation = Instantiation.PerMockSetup)
     protected static class MockQueryPartnerConnection {
-        
+
         private String expectedSoqlQuery;
         private QueryResult returnedQueryResult;
         private ConnectionException thrownConnectionException;

@@ -441,6 +441,7 @@ public class BasicCRUDTest extends BaseMultiEntityManagerJPAFTest {
         "JPA Find - entity: com.force.sdk.jpa.entities.ParentTestEntity id: [a-zA-Z0-9]{18} lock: null",
         "Fetch object: ParentTestEntity id: [a-zA-Z0-9]{18}",
         "JPA Remove - entity: com.force.sdk.jpa.entities.ParentTestEntity@",
+        "Fetch object: ParentTestEntity id: [a-zA-Z0-9]{18}",
         "Deleting object: [a-zA-Z0-9]{18}",
     };
     
@@ -494,6 +495,7 @@ public class BasicCRUDTest extends BaseMultiEntityManagerJPAFTest {
         "JPA Find - entity: com.force.sdk.jpa.entities.ParentTestEntity id: [a-zA-Z0-9]{18} lock: null",
         "Fetch object: ParentTestEntity id: [a-zA-Z0-9]{18}",
         "JPA Remove - entity: com.force.sdk.jpa.entities.ParentTestEntity@",
+        "Fetch object: ParentTestEntity id: [a-zA-Z0-9]{18}",
         "Deleting object: [a-zA-Z0-9]{18}"
     };
     
@@ -538,6 +540,7 @@ public class BasicCRUDTest extends BaseMultiEntityManagerJPAFTest {
         "JPA Find - entity: com.force.sdk.jpa.entities.ParentTestEntity id: [a-zA-Z0-9]{18} lock: null",
         "Fetch object: ParentTestEntity id: [a-zA-Z0-9]{18}",
         "JPA Remove - entity: com.force.sdk.jpa.entities.ParentTestEntity@",
+        "Fetch object: ParentTestEntity id: [a-zA-Z0-9]{18}",
         "Queuing for A-O-N delete object: [a-zA-Z0-9]{18}",
         "Deleting objects: \\[[a-zA-Z0-9]{18}\\]"
     };

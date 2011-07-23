@@ -83,7 +83,7 @@ public class RelationshipImpl extends ColumnImpl {
     @Override
     public boolean appendSelectString(ExpressionBuilderHelper queryHelper, AbstractClassMetaData acmd,
             int fieldNum, boolean appendComma, String prefix) {
-        if (queryHelper.skipRelationship()) return false;
+        if (queryHelper.skipRelationship(acmd, fieldNum)) return false;
         appendPrefix(queryHelper, appendComma, null); // just append comma
         queryHelper.appendRelationship(acmd, fieldNum, this, prefix, true);
         return true;
