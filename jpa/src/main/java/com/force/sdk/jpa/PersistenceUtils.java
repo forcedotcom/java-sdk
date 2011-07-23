@@ -233,8 +233,8 @@ public final class PersistenceUtils {
     public static boolean isRelationship(AbstractMemberMetaData ammd) {
         AccessibleObject methodOrProp = (AccessibleObject) ammd.getMemberRepresented();
         if (methodOrProp == null) return false;
-        if (methodOrProp.isAnnotationPresent(OneToMany.class) ||
-                methodOrProp.isAnnotationPresent(ManyToOne.class)) {
+        if (methodOrProp.isAnnotationPresent(OneToMany.class)
+                || methodOrProp.isAnnotationPresent(ManyToOne.class)) {
             return true;
         }
         return false;

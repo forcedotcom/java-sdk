@@ -760,10 +760,12 @@ public class ForceQueryUtils {
      * @param queriedRelationships a running set of relationships already represented in this query
      * @return the SOQL query
      */
+    //CHECKSTYLE:OFF
     public String buildQuery(TableImpl table, AbstractClassMetaData acmd, Set<Integer> fieldsToLoad, QueryCompilation compilation,
             boolean skipId, long maxLimit, FetchPlan fetchPlan, int fetchDepth,
             String tableName, boolean isTopLevel, boolean isJoin, String joinAlias, ExpressionBuilderHelper parentHelper,
             Set<String> queriedRelationships)  {
+        //CHECKSTYLE:ON
         ExpressionBuilderHelper helper =
             new ExpressionBuilderHelper(this, (fieldsToLoad != null ? fieldsToLoad.size() : 3) * 20 + 100,
                 table, acmd, isJoin, compilation, fetchPlan, fetchDepth, parentHelper, queriedRelationships);

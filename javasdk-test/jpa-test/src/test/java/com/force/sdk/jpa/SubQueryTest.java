@@ -358,8 +358,8 @@ public class SubQueryTest extends BaseJPAFTest {
                     Collections.singletonMap(QueryHints.MAX_FETCH_DEPTH, (Object) 3));
             for (Entity2 child : retrievedEntity.getEntity2s()) {
                 child.getEntity0();
-                System.out.println("e2: " + child.getId() + " --> e2.e0: " +
-                        child.getEntity0() + " --> e2.e1: " + child.getEntity1());
+                System.out.println("e2: " + child.getId() + " --> e2.e0: "
+                       + child.getEntity0() + " --> e2.e1: " + child.getEntity1());
             }
 
             tx.commit();

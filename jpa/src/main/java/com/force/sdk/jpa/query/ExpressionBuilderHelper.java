@@ -65,7 +65,7 @@ public class ExpressionBuilderHelper {
     Set<String> queriedRelationships; // a set of strings in the form of ParentEntityName->ChildEntityName (or
                                               // vice versa) so we can keep track of which relationships we've already
                                               // included in our query, will help us avoid cycles
-    private static final String relationshipSeparator = "->";
+    private static final String RELATIONSHIP_SEPARATOR = "->";
 
     ExpressionBuilderHelper(ForceQueryUtils forceQuery, int length, TableImpl table,
             AbstractClassMetaData acmd, boolean isJoin, QueryCompilation compilation, FetchPlan fetchPlan,
@@ -131,7 +131,7 @@ public class ExpressionBuilderHelper {
             return;
         }
 
-        String relationshipString = colCmd.getEntityName() + relationshipSeparator + ammd.getName();
+        String relationshipString = colCmd.getEntityName() + RELATIONSHIP_SEPARATOR + ammd.getName();
         queriedRelationships.add(relationshipString);
 
         TableImpl joinTable = ((ForceStoreManager) forceQuery.getExecutionContext().getStoreManager()).getTable(cmd);
@@ -191,7 +191,7 @@ public class ExpressionBuilderHelper {
         if (fetchDepth >= maxFetchDepth) return true;
         AbstractMemberMetaData ammd = cmd.getMetaDataForManagedMemberAtAbsolutePosition(fieldNum);
 
-        String relationshipString = cmd.getEntityName() + relationshipSeparator + ammd.getName();
+        String relationshipString = cmd.getEntityName() + RELATIONSHIP_SEPARATOR + ammd.getName();
         if (queriedRelationships.contains(relationshipString)) {
             return true;
         }
