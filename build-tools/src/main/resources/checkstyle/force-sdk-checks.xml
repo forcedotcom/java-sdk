@@ -95,6 +95,8 @@
           <property name="ignoreComments" value="true"/>
         </module>
 
+        <module name="FileContentsHolder"/>
+
         <!-- Checks for Javadoc comments.                     -->
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->
         <module name="JavadocMethod">
