@@ -255,7 +255,8 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
             config = getConfig();
             initConfig();
         }
-        
+
+        config.setRequestHeader("User-Agent", API_USER_AGENT);
         this.connection = Connector.newConnection(config);
 
         CallOptions_element co = new CallOptions_element();
@@ -271,7 +272,6 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
             co.setClient(API_USER_AGENT); //just default it to the version of the sdk
         }
 
-        this.connection.getConfig().setRequestHeader("User-Agent", API_USER_AGENT);
         this.connection.__setCallOptions(co);
     }
     

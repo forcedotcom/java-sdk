@@ -28,8 +28,7 @@ package com.force.sdk.jpa.query;
 
 import org.testng.annotations.Test;
 
-import com.force.sdk.jpa.entities.BasicChildTestEntity;
-import com.force.sdk.jpa.entities.BasicParentTestEntity;
+import com.force.sdk.jpa.entities.*;
 
 /**
  * Basic tests for Force.com JPA query joins.
@@ -43,11 +42,10 @@ public class BasicJPAQueryJoinTest extends BaseJPAQueryTest {
     @Test
     public void testBasicSemiJoin() {
         mockQueryConn.setExpectedSoqlQuery(
-                "select id, (select id, Name from BasicParentTestEntity_basicchildtestenti__r), Name "
-                + "from basicparenttestentity__c p  where "
-                + "(id in (select BasicParentTestEntity__c from basicchildtestentity__c c  "
-                        + "where (( c.Name = 'child1' ) OR ( c.Name = 'child2' ))))");
-        
+                "select id, Name from basicparenttestentity__c p  "
+                       + "where (id in (select BasicParentTestEntity__c from basicchildtestentity__c c  "
+                       + "where (( c.Name = 'child1' ) OR ( c.Name = 'child2' ))))");
+
         em.createQuery("select p from " + BasicParentTestEntity.class.getSimpleName() + " p "
                        + "INNER JOIN p.childEntities c "
                        + "where c.name in ('child1', 'child2')").getResultList();
@@ -56,15 +54,14 @@ public class BasicJPAQueryJoinTest extends BaseJPAQueryTest {
     @Test
     public void testSemiJoinWithSubQuery() {
         mockQueryConn.setExpectedSoqlQuery(
-                "select id, (select id, Name from BasicParentTestEntity_basicchildtestenti__r), Name "
-                + "from basicparenttestentity__c p  where "
-                + "(Id IN (select c.BasicParentTestEntity__c from basicchildtestentity__c c  "
-                        + "where (( c.Name = 'child1' ) OR ( c.Name = 'child2' ))))");
-        
+                "select id, Name from basicparenttestentity__c p  "
+                       + "where (Id IN (select c.BasicParentTestEntity__c from basicchildtestentity__c c  "
+                       + "where (( c.Name = 'child1' ) OR ( c.Name = 'child2' ))))");
+
         em.createQuery("select p from " + BasicParentTestEntity.class.getSimpleName() + " p "
                        + "where id in "
-                        + "(select c.parent from " + BasicChildTestEntity.class.getSimpleName() + " c "
-                         + "where c.name in ('child1', 'child2'))").getResultList();
+                       + "(select c.parent from " + BasicChildTestEntity.class.getSimpleName() + " c "
+                       + "where c.name in ('child1', 'child2'))").getResultList();
     }
     
     @Test
@@ -81,11 +78,10 @@ public class BasicJPAQueryJoinTest extends BaseJPAQueryTest {
     @Test
     public void testSemiJoinWithIN() {
         mockQueryConn.setExpectedSoqlQuery(
-                "select id, (select id, Name from BasicParentTestEntity_basicchildtestenti__r), Name "
-                + "from basicparenttestentity__c p  where "
-                + "(id in (select BasicParentTestEntity__c from basicchildtestentity__c c  "
-                        + "where (( c.Name = 'child1' ) OR ( c.Name = 'child2' ))))");
-        
+                "select id, Name from basicparenttestentity__c p  "
+                       + "where (id in (select BasicParentTestEntity__c from basicchildtestentity__c c  "
+                       + "where (( c.Name = 'child1' ) OR ( c.Name = 'child2' ))))");
+
         em.createQuery("select p from " + BasicParentTestEntity.class.getSimpleName() + " p, "
                        + "IN(p.childEntities) c where c.name in ('child1', 'child2')").getResultList();
     }
@@ -94,22 +90,21 @@ public class BasicJPAQueryJoinTest extends BaseJPAQueryTest {
     public void testSemiJoinWithNativeQuery() {
         mockQueryConn.setExpectedSoqlQuery(
                 "select id, name from basicparenttestentity__c where "
-                + "id in (select BasicParentTestEntity__c from basicchildtestentity__c "
-                       + "where name in ('child1', 'child2'))");
+                    + "id in (select BasicParentTestEntity__c from basicchildtestentity__c "
+                    + "where name in ('child1', 'child2'))");
         
         em.createNativeQuery("select id, name from basicparenttestentity__c where "
                              + "id in (select BasicParentTestEntity__c from basicchildtestentity__c "
-                                    + "where name in ('child1', 'child2'))").getResultList();
+                             + "where name in ('child1', 'child2'))").getResultList();
     }
     
     @Test
     public void testBasicAntiJoin() {
         mockQueryConn.setExpectedSoqlQuery(
-                "select id, (select id, Name from BasicParentTestEntity_basicchildtestenti__r), Name "
-                + "from basicparenttestentity__c p  where "
-                + "(id in (select BasicParentTestEntity__c from basicchildtestentity__c c  "
-                        + "where (c.Name <> 'child2')))");
-        
+                "select id, Name from basicparenttestentity__c p  where "
+                       + "(id in (select BasicParentTestEntity__c from basicchildtestentity__c c  "
+                       + "where (c.Name <> 'child2')))");
+
         em.createQuery("select p from " + BasicParentTestEntity.class.getSimpleName() + " p "
                        + "INNER JOIN p.childEntities c "
                        + "where c.name not in ('child2')").getResultList();
@@ -118,25 +113,24 @@ public class BasicJPAQueryJoinTest extends BaseJPAQueryTest {
     @Test
     public void testAntiJoinWithSubQuery() {
         mockQueryConn.setExpectedSoqlQuery(
-                "select id, (select id, Name from BasicParentTestEntity_basicchildtestenti__r), Name "
-                + "from basicparenttestentity__c p  where "
-                + "(p.Id NOT IN (select c.BasicParentTestEntity__c from basicchildtestentity__c c  "
-                              + "where (( c.Name = 'child1' ) OR ( c.Name = 'child2' ))))");
+               "select id, Name from basicparenttestentity__c p  where "
+                       + "(p.Id NOT IN (select c.BasicParentTestEntity__c from basicchildtestentity__c c  "
+                       + "where (( c.Name = 'child1' ) OR ( c.Name = 'child2' ))))");
         
         em.createQuery("select p from " + BasicParentTestEntity.class.getSimpleName() + " p "
                        + "where p.id not in "
                        + "(select c.parent "
-                        + "from " + BasicChildTestEntity.class.getSimpleName() + " c "
-                        + "where c.name in ('child1', 'child2'))").getResultList();
+                       + "from " + BasicChildTestEntity.class.getSimpleName() + " c "
+                       + "where c.name in ('child1', 'child2'))").getResultList();
     }
     
     @Test
     public void testAntiJoinWithRelationship() {
         mockQueryConn.setExpectedSoqlQuery(
                 "select id, Name, BasicParentTestEntity__r.Id, BasicParentTestEntity__r.Name "
-                + "from basicchildtestentity__c c  "
-                + "where (( c.BasicParentTestEntity__r.Name <> 'parent1' )"
-                        + " AND ( c.BasicParentTestEntity__r.Name <> 'parent2' ))");
+                    + "from basicchildtestentity__c c  "
+                    + "where (( c.BasicParentTestEntity__r.Name <> 'parent1' )"
+                    + " AND ( c.BasicParentTestEntity__r.Name <> 'parent2' ))");
         
         em.createQuery("select c from " + BasicChildTestEntity.class.getSimpleName() + " c "
                        + "where c.parent.name not in ('parent1', 'parent2')").getResultList();
@@ -145,10 +139,9 @@ public class BasicJPAQueryJoinTest extends BaseJPAQueryTest {
     @Test
     public void testAntiJoinWithWithIN() {
         mockQueryConn.setExpectedSoqlQuery(
-                "select id, (select id, Name from BasicParentTestEntity_basicchildtestenti__r), Name "
-                + "from basicparenttestentity__c p  where "
-                + "(id in (select BasicParentTestEntity__c from basicchildtestentity__c c  "
-                        + "where (( c.Name <> 'child1' ) AND ( c.Name <> 'child2' ))))");
+                "select id, Name from basicparenttestentity__c p  where "
+                       + "(id in (select BasicParentTestEntity__c from basicchildtestentity__c c  "
+                       + "where (( c.Name <> 'child1' ) AND ( c.Name <> 'child2' ))))");
         
         em.createQuery("select p from " + BasicParentTestEntity.class.getSimpleName() + " p, "
                        + "IN(p.childEntities) c where c.name not in ('child1', 'child2')").getResultList();
@@ -158,11 +151,20 @@ public class BasicJPAQueryJoinTest extends BaseJPAQueryTest {
     public void testAntiJoinWithNativeQuery() {
         mockQueryConn.setExpectedSoqlQuery(
                 "select id, name from basicparenttestentity__c where "
-                + "id not in (select BasicParentTestEntity__c from basicchildtestentity__c "
-                           + "where name in ('child1'))");
+                    + "id not in (select BasicParentTestEntity__c from basicchildtestentity__c "
+                    + "where name in ('child1'))");
         
         em.createNativeQuery("select id, name from basicparenttestentity__c where "
                              + "id not in (select BasicParentTestEntity__c from basicchildtestentity__c "
-                                        + "where name in ('child1'))").getResultList();
+                             + "where name in ('child1'))").getResultList();
+    }
+
+    @Test
+    public void testCircularReferences() {
+        mockQueryConn.setExpectedSoqlQuery("select id, Name, Rocks__r.Id, Rocks__r.Name, Rocks__r.Papers__r.Id, "
+                + "Rocks__r.Papers__r.Name, Rocks__r.Papers__r.Scissors__r.Id, Rocks__r.Papers__r.Scissors__r.Name "
+                + "from rock__c r ");
+
+        em.createQuery("select r from " + Rock.class.getSimpleName() + " r").getResultList();
     }
 }

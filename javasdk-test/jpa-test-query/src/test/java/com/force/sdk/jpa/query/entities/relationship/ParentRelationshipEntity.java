@@ -39,7 +39,7 @@ import javax.persistence.*;
 @Entity
 public class ParentRelationshipEntity extends ParentRelationshipBaseEntity {
     
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<ChildRelationshipEntity> children;
 
     public void setChildren(List<ChildRelationshipEntity> children) {

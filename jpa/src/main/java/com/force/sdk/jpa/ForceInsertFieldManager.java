@@ -26,12 +26,11 @@
 
 package com.force.sdk.jpa;
 
-import java.lang.reflect.InvocationTargetException;
-import java.math.BigInteger;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
-
+import com.force.sdk.jpa.model.PicklistValueEnum;
+import com.force.sdk.jpa.table.ColumnImpl;
+import com.force.sdk.jpa.table.TableImpl;
+import com.sforce.soap.partner.sobject.SObject;
+import com.sforce.ws.types.Time;
 import org.datanucleus.ObjectManager;
 import org.datanucleus.exceptions.NucleusException;
 import org.datanucleus.exceptions.NucleusUserException;
@@ -43,11 +42,11 @@ import org.datanucleus.state.ObjectProviderImpl;
 import org.datanucleus.store.ObjectProvider;
 import org.datanucleus.store.fieldmanager.AbstractFieldManager;
 
-import com.force.sdk.jpa.model.PicklistValueEnum;
-import com.force.sdk.jpa.table.ColumnImpl;
-import com.force.sdk.jpa.table.TableImpl;
-import com.sforce.soap.partner.sobject.SObject;
-import com.sforce.ws.types.Time;
+import java.lang.reflect.InvocationTargetException;
+import java.math.BigInteger;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
 
 /**
  * 

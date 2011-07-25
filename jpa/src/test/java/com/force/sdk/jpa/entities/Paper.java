@@ -24,31 +24,58 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.jpa.schema.entities.extend;
-
-import java.util.List;
+package com.force.sdk.jpa.entities;
 
 import javax.persistence.*;
 
+import com.force.sdk.jpa.mock.MockApiEntity;
+import com.force.sdk.jpa.mock.MockApiField;
+import com.sforce.soap.partner.FieldType;
+
 /**
- * 
- * For testing abstract inheritance.
+ * Rock, Paper, and Scissors entities have a circular relationship.
  *
- * @author Jeff Lai
+ * @author Jill Wetzler
  */
 @Entity
-public class ConcreteParentEntity extends AbstractParentEntity {
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-    private List<ChildWithAbstractParentEntity> children;
+@MockApiEntity
+public class Paper {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @MockApiField(name = "Id", type = FieldType.id, custom = false)
+    String id;
 
-    @Override
-    public void setChildren(List<ChildWithAbstractParentEntity> children) {
-        this.children = children;
+    @MockApiField(name = "Name", type = FieldType.string, custom = false)
+    String name;
+
+    @Column(name = "Scissors")
+    @ManyToOne
+    @MockApiField(name = "Scissors__c", type = FieldType.reference, custom = true,
+                  attrs = { "setRelationshipName=Papers__r" })
+    Scissors scissors;
+
+    public String getId() {
+        return id;
     }
 
-    @Override
-    public List<ChildWithAbstractParentEntity> getChildren() {
-        return children;
+    public void setId(String id) {
+        this.id = id;
     }
-    
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Scissors getScissors() {
+        return scissors;
+    }
+
+    public void setScissors(Scissors scissors) {
+        this.scissors = scissors;
+    }
+
 }

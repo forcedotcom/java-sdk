@@ -35,7 +35,7 @@ WORKDIR=$2
 GITREPO=$3
 COMMITMSG=$4
 rm -r -f $WORKDIR/*
-rm -r -f $WORKDIR/.git
+rm -r -f $WORKDIR/.git*
 cd $WORKDIR
 git clone $GITREPO .
 git checkout gh-pages

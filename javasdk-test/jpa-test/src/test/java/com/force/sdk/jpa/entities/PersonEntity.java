@@ -56,9 +56,6 @@ public class PersonEntity {
     @OneToMany(mappedBy = "phoneOwner",  fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<PhoneEntity> phoneList;
 
-    @OneToMany(mappedBy = "secondOwner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<PhoneEntity> morePhonesEager;
-
     public String getId() {
         return id;
     }
@@ -105,13 +102,5 @@ public class PersonEntity {
 
     public void setPhoneList(List<PhoneEntity> phoneList) {
         this.phoneList = phoneList;
-    }
-
-    public List<PhoneEntity> getMorePhonesEager() {
-        return morePhonesEager;
-    }
-
-    public void setMorePhonesEager(List<PhoneEntity> morePhonesEager) {
-        this.morePhonesEager = morePhonesEager;
     }
 }

@@ -26,31 +26,26 @@
 
 package com.force.sdk.jpa.table;
 
+import com.force.sdk.jpa.ForceStoreManager;
+import com.force.sdk.jpa.PersistenceUtils;
+import com.force.sdk.jpa.schema.ForceMemberMetaData;
+import com.force.sdk.jpa.schema.ForceStoreSchemaHandler;
+import com.sforce.soap.metadata.*;
+import com.sforce.ws.types.Time;
+import org.datanucleus.OMFContext;
+import org.datanucleus.exceptions.NucleusDataStoreException;
+import org.datanucleus.exceptions.NucleusUserException;
+import org.datanucleus.metadata.AbstractClassMetaData;
+import org.datanucleus.metadata.AbstractMemberMetaData;
+import org.datanucleus.metadata.ColumnMetaData;
+
+import javax.persistence.*;
 import java.lang.reflect.AccessibleObject;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Pattern;
-
-import javax.persistence.*;
-
-import org.datanucleus.OMFContext;
-import org.datanucleus.exceptions.NucleusDataStoreException;
-import org.datanucleus.exceptions.NucleusUserException;
-import org.datanucleus.metadata.*;
-
-import com.force.sdk.jpa.ForceStoreManager;
-import com.force.sdk.jpa.PersistenceUtils;
-import com.force.sdk.jpa.schema.ForceMemberMetaData;
-import com.force.sdk.jpa.schema.ForceStoreSchemaHandler;
-import com.sforce.soap.metadata.CustomField;
-import com.sforce.soap.metadata.CustomObject;
-import com.sforce.soap.metadata.FieldType;
-import com.sforce.soap.metadata.Picklist;
-import com.sforce.soap.metadata.PicklistValue;
-import com.sforce.soap.metadata.TreatBlanksAs;
-import com.sforce.ws.types.Time;
 
 /**
  * 
@@ -175,6 +170,12 @@ public class ForceColumnMetaData extends ForceMetaData {
                                                 + " Please add a foreign key field on child object and use that field name"
                                                 + " for mappedBy attribute."
                                                 + " Offending field: " + ammd.getFullFieldName());
+            }
+
+            Basic b;
+            if (ao.getAnnotation(OneToMany.class).fetch() == FetchType.EAGER
+                    || ((b = ao.getAnnotation(Basic.class)) != null && b.fetch() == FetchType.EAGER)) {
+                throw new NucleusUserException("@OneToMany relationships with FetchType of EAGER are currently not supported.");
             }
         } else if (ao.isAnnotationPresent(ManyToMany.class)) {
             throw new NucleusUserException("@ManyToMany relationship is not supported."

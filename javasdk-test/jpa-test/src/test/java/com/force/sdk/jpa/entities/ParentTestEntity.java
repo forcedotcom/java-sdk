@@ -57,7 +57,7 @@ public class ParentTestEntity {
     @CustomField(externalId = true)
     private String extIdField;
     
-    @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "parent")
     private Collection<TestEntity> testEntities;
     
     @ManyToOne

@@ -1,3 +1,5 @@
+
+
 /**
  * Copyright (c) 2011, salesforce.com, inc.
  * All rights reserved.
@@ -52,7 +54,7 @@ public class BasicParentTestEntity {
     @MockApiField(name = "Name", type = FieldType.string, custom = false)
     private String name;
     
-    @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "parent")
     @MockApiRelationship(name = "BasicParentTestEntity_basicchildtestenti__r")
     private Collection<BasicChildTestEntity> childEntities;
     

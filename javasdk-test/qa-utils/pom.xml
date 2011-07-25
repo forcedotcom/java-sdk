@@ -10,7 +10,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <parent>
     <artifactId>force-sdk-test</artifactId>
     <groupId>com.force.sdk</groupId>
-    <version>22.0.2-BETA</version>
+    <version>22.0.3-BETA</version>
   </parent>
 
   <properties>

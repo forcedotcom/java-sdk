@@ -105,7 +105,7 @@ public class ForceFetchFieldManager extends AbstractFieldManager {
         if (pkValue != null) {
             QueryResult qr = ((PartnerConnection) mconn.getConnection()).query(
                     new ForceQueryUtils(objectProvider.getExecutionContext(), mconn, null, null, null, null)
-                    .buildQueryWithPK(table, objectProvider.getClassMetaData(), fieldNumbers, (String) pkValue, 0));
+                    .buildQueryWithPK(table, objectProvider.getClassMetaData(), fieldNumbers, (String) pkValue, 0, null));
             if (qr.getSize() == 0) {
                 throw new NucleusObjectNotFoundException();
             }

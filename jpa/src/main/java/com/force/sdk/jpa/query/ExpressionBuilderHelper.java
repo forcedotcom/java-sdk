@@ -26,28 +26,20 @@
 
 package com.force.sdk.jpa.query;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.datanucleus.FetchPlan;
-import org.datanucleus.exceptions.NucleusDataStoreException;
-import org.datanucleus.metadata.AbstractClassMetaData;
-import org.datanucleus.metadata.AbstractMemberMetaData;
-import org.datanucleus.query.compiler.QueryCompilation;
-import org.datanucleus.query.expression.DyadicExpression;
-import org.datanucleus.query.expression.Expression;
-import org.datanucleus.query.expression.InvokeExpression;
-import org.datanucleus.query.expression.JoinExpression;
-import org.datanucleus.query.expression.PrimaryExpression;
-import org.datanucleus.query.symbol.PropertySymbol;
-
 import com.force.sdk.jpa.ForceStoreManager;
 import com.force.sdk.jpa.PersistenceUtils;
 import com.force.sdk.jpa.table.ColumnImpl;
 import com.force.sdk.jpa.table.TableImpl;
+import org.datanucleus.FetchPlan;
+import org.datanucleus.exceptions.NucleusDataStoreException;
+import org.datanucleus.exceptions.NucleusException;
+import org.datanucleus.metadata.AbstractClassMetaData;
+import org.datanucleus.metadata.AbstractMemberMetaData;
+import org.datanucleus.query.compiler.QueryCompilation;
+import org.datanucleus.query.expression.*;
+import org.datanucleus.query.symbol.PropertySymbol;
+
+import java.util.*;
 
 /**
  * 
@@ -70,10 +62,14 @@ public class ExpressionBuilderHelper {
     Map<TupleName, String> relatedJoinAliases; // fieldname => alias
     boolean isInSelect;
     private final boolean isTopLevel;
-    
+    Set<String> queriedRelationships; // a set of strings in the form of ParentEntityName->ChildEntityName (or
+                                              // vice versa) so we can keep track of which relationships we've already
+                                              // included in our query, will help us avoid cycles
+    private static final String RELATIONSHIP_SEPARATOR = "->";
+
     ExpressionBuilderHelper(ForceQueryUtils forceQuery, int length, TableImpl table,
             AbstractClassMetaData acmd, boolean isJoin, QueryCompilation compilation, FetchPlan fetchPlan,
-            int fetchDepth, ExpressionBuilderHelper parent) {
+            int fetchDepth, ExpressionBuilderHelper parent, Set<String> queriedRelationships) {
         this.forceQuery = forceQuery;
         this.sb = new StringBuilder(length);
         this.table = table;
@@ -83,6 +79,7 @@ public class ExpressionBuilderHelper {
         this.compilation = compilation;
         this.fetchPlan = fetchPlan;
         this.fetchDepth = fetchDepth;
+        this.queriedRelationships = queriedRelationships != null ? queriedRelationships : new HashSet<String>();
         Object mfd = forceQuery.getHints(QueryHints.MAX_FETCH_DEPTH);
         /**
          * For maxFetchDepth use the following priority -
@@ -93,7 +90,10 @@ public class ExpressionBuilderHelper {
         int maxDepth = mfd != null ? (Integer) mfd : fetchPlan != null ? fetchPlan.getMaxFetchDepth()
             : forceQuery.getExecutionContext().getOMFContext()
                                                 .getPersistenceConfiguration().getIntProperty("datanucleus.maxFetchDepth");
-        this.maxFetchDepth = maxDepth >= 0 ? maxDepth : 1;
+        if (maxDepth > 5) {
+            throw new NucleusException("Max fetch depth cannot be greater than 5.");
+        }
+        this.maxFetchDepth = maxDepth >= 0 ? maxDepth : 5;
         if (parent != null) {
             this.aliasToFilterMappings = parent.aliasToFilterMappings;
             this.relatedJoinAliases = parent.relatedJoinAliases;
@@ -124,9 +124,15 @@ public class ExpressionBuilderHelper {
              * This can be true if there are Foreign key fields in Force.com that are not fully mapped in Java, e.g.
              * User has a ProfileId field but there is no Profile entity in Java. Treat it just as a string field.
              */
+            if (prefix != null) {
+                sb.append(prefix);
+            }
             sb.append(col.getFieldName());
             return;
         }
+
+        String relationshipString = colCmd.getEntityName() + RELATIONSHIP_SEPARATOR + ammd.getName();
+        queriedRelationships.add(relationshipString);
 
         TableImpl joinTable = ((ForceStoreManager) forceQuery.getExecutionContext().getStoreManager()).getTable(cmd);
 
@@ -172,15 +178,24 @@ public class ExpressionBuilderHelper {
         return aliasToFilterMappings != null ? aliasToFilterMappings.get(alias)
                                                 : isTopLevel && compilation != null ? compilation.getExprFilter() : null;
     }
-    
+
     /**
      * Determines whether to skip querying for relationship fields
      * by comparing the current depth of the query to the maximum.
-     * 
+     *
+     * @param cmd       the class with the relationship fields (either OneToMany or ManyToOne)
+     * @param fieldNum  the number of the relationship field
      * @return true if the current depth of the query is greater or equal to the maximum depth we can fetch
      */
-    public boolean skipRelationship() {
-        return fetchDepth >= maxFetchDepth;
+    public boolean skipRelationship(AbstractClassMetaData cmd, int fieldNum) {
+        if (fetchDepth >= maxFetchDepth) return true;
+        AbstractMemberMetaData ammd = cmd.getMetaDataForManagedMemberAtAbsolutePosition(fieldNum);
+
+        String relationshipString = cmd.getEntityName() + RELATIONSHIP_SEPARATOR + ammd.getName();
+        if (queriedRelationships.contains(relationshipString)) {
+            return true;
+        }
+        return false;
     }
     
     private void initRelatedAliases(QueryCompilation queryCompilation) {

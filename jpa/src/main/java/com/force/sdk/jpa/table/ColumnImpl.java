@@ -133,7 +133,7 @@ public class ColumnImpl {
     public boolean appendSelectString(ExpressionBuilderHelper queryHelper, AbstractClassMetaData acmd,
             int fieldNum, boolean appendComma, String prefix)  {
         if (field != null && field.getType() == FieldType.reference && !queryHelper.isJoinQuery()) {
-            if (queryHelper.skipRelationship()) return false;
+            if (queryHelper.skipRelationship(acmd, fieldNum)) return false;
             appendPrefix(queryHelper, appendComma, null); // just append comma
             queryHelper.appendRelationship(acmd, fieldNum, this, prefix, false);
         } else {
