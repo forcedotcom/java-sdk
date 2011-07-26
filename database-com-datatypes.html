@@ -81,6 +81,8 @@
 
  <li><a href="java-database-terminology">Database.com Terminology</a></li>
 
+ <li><a href="support">Getting Support</a></li>
+ 
  </ul> </li>
 
  <li> <h3>Persistence</h3> <ul> 
@@ -122,6 +124,14 @@
  <li> <h3>Low-level Connector</h3> <ul> <li><a href="connection-url">Connection Configuration</a></li>
 
  <li><a href="native-api">Native API Clients</a></li>
+
+ </ul> </li>
+ 
+ <li> <h3>Reference</h3> <ul>
+
+ <li><a href="apidocs">Javadoc</a></li>
+ 
+ <li><a href="source-code">Source Code</a></li>
 
  </ul> </li>
 
@@ -183,6 +193,7 @@ end
 <li><a href="#restrictedPicklist">Restricted Versus Non-Restricted Picklists</a></li>
 <li><a href="#email">Email Fields</a></li>
 <li><a href="#phone">Phone Fields</a></li>
+<li><a href="#url">URL Fields</a></li>
 <li><a href="#percent">Percent Fields</a></li>
 <li><a href="#formula">Formula Fields</a></li>
 <li><a href="#relFields">Relationship Fields</a></li>
@@ -352,6 +363,16 @@ String orderEmail;
 
 <pre><code>@CustomField(type=FieldType.Email)
 String orderEmail;
+</code></pre>
+
+<p><a name="url"> </a></p>
+
+<h2>URL Fields</h2>
+
+<p>To create a Force.com URL field, use the <a href="jpa-annotations-standard#basicAnnotation">@Basic annotation</a> with a URL Java type. You need the <code>@Basic</code> annotation to enable persistence for the field because URL is not one of the Java types that is persisted by default. For example:</p>
+
+<pre><code>@Basic
+URL companyUrl;
 </code></pre>
 
 <p><a name="percent"> </a></p>
