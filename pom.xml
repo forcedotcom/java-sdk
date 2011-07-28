@@ -112,15 +112,10 @@
   </modules>
 
   <distributionManagement>
-    <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>Sonatype Nexus Staging</name>
-      <url>${nexus.url.staging}</url>
-    </repository>
     <snapshotRepository>
       <id>sonatype-nexus-snapshots</id>
       <name>Sonatype Nexus Snapshots</name>
-      <url>${nexus.url.snapshots}</url>
+      <url>${sonatype.nexus.snapshots.url}</url>
     </snapshotRepository>
     <site>
       <id>force.maven.site</id>
