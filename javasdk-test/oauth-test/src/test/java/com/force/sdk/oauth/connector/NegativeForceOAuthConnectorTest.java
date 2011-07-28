@@ -46,8 +46,8 @@ public class NegativeForceOAuthConnectorTest extends BaseOAuthTest {
         ForceOAuthConnector connector = new ForceOAuthConnector();
         
         try {
-            connector.refreshAccessToken(refreshToken);
-            fail("ForceOAuthConnector.refreshAccessToken should have failed due to no state");
+            connector.getConnInfo();
+            fail("ForceOAuthConnector.getConnInfo() should have failed due to no state");
         } catch (IOException expected) {
             assertNotNull(expected.getMessage());
             assertTrue(expected.getMessage().contains("No state was found to construct an oauth connection."));
@@ -65,8 +65,8 @@ public class NegativeForceOAuthConnectorTest extends BaseOAuthTest {
         connector.setConnectionInfo(connInfo);
         
         try {
-            connector.refreshAccessToken(refreshToken);
-            fail("ForceOAuthConnector.refreshAccessToken should have failed due to incomplete state");
+            connector.getConnInfo();
+            fail("ForceOAuthConnector.getConnInfo() should have failed due to incomplete state");
         } catch (IllegalArgumentException expected) {
             assertNotNull(expected.getMessage());
             assertTrue(expected.getMessage().contains("The ForceConnectionProperty (oauth_secret) must have a value"));
@@ -79,8 +79,8 @@ public class NegativeForceOAuthConnectorTest extends BaseOAuthTest {
         connector.setConnectionName("badConnectionName");
         
         try {
-            connector.refreshAccessToken(refreshToken);
-            fail("ForceOAuthConnector.refreshAccessToken should have failed due to a bad connection name");
+            connector.getConnInfo();
+            fail("ForceOAuthConnector.getConnInfo() should have failed due to a bad connection name");
         } catch (IOException expected) {
             assertNotNull(expected.getMessage());
             assertTrue(expected.getMessage()

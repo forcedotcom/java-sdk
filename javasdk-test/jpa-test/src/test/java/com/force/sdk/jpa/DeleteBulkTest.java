@@ -36,7 +36,7 @@ import com.force.sdk.jpa.JPATestUtils.Digit;
 import com.force.sdk.jpa.entities.*;
 import com.force.sdk.jpa.entities.FolderEntity.FolderType;
 import com.force.sdk.jpa.query.QueryHints;
-import com.force.sdk.qa.util.BaseJPAFTest;
+import com.force.sdk.qa.util.jpa.BaseJPAFTest;
 import com.sforce.ws.ConnectionException;
 
 /**

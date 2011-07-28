@@ -42,7 +42,7 @@ import org.testng.annotations.Test;
 
 import com.force.sdk.jpa.entities.ParentTestEntity;
 import com.force.sdk.jpa.entities.TestEntity;
-import com.force.sdk.qa.util.BaseTransactionalSpringContextJPAFTest;
+import com.force.sdk.qa.util.jpa.BaseTransactionalSpringContextJPAFTest;
 
 /**
  * 

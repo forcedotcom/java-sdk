@@ -24,29 +24,27 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.qa.util;
+package com.force.sdk.qa.util.jpa;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
+import org.testng.Assert;
 
 import com.force.sdk.jpa.ForceManagedConnection;
 import com.force.sdk.jpa.schema.ForceSchemaWriter;
 import com.force.sdk.jpa.schema.SchemaDeleteProperty;
+import com.force.sdk.qa.util.PropsUtil;
 import com.sforce.soap.metadata.CustomField;
 import com.sforce.soap.metadata.CustomObject;
 import com.sforce.soap.partner.*;
-import com.sforce.ws.ConnectorConfig;
-import org.testng.Assert;
 
 /**
- * Testing util for SFDC specific needs.
+ * Testing util for SFDC Schema specific needs.
  * 
  * @author Jeff Lai
  */
-public final class SfdcTestingUtil {
+public final class SfdcSchemaUtil {
 
     private static Set<String> customFieldsToKeep;
 
@@ -64,22 +62,7 @@ public final class SfdcTestingUtil {
 
     }
 
-    private SfdcTestingUtil() { }
-    
-    /**
-     * This method returns a partner connection for a given UserInfo object.
-     * @param user is the UserInfo object
-     * @return PartnerConnection
-     * @throws Exception Exception
-     */
-    public static PartnerConnection getPartnerConnection(UserInfo user) throws Exception {
-        ConnectorConfig conf = new ConnectorConfig();
-        conf.setAuthEndpoint(user.serverEndpoint);
-        conf.setUsername(user.getUserName());
-        conf.setPassword(user.getPassword());
-        PartnerConnection conn = Connector.newConnection(conf);
-        return conn;
-    }
+    private SfdcSchemaUtil() { }
 
     /**
      * This method deletes and purges custom schema.

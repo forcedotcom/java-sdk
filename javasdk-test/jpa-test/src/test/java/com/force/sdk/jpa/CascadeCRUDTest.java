@@ -27,7 +27,8 @@
 package com.force.sdk.jpa;
 
 import com.force.sdk.jpa.entities.cascade.*;
-import com.force.sdk.qa.util.BaseMultiEntityManagerJPAFTest;
+import com.force.sdk.qa.util.jpa.BaseMultiEntityManagerJPAFTest;
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

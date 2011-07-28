@@ -34,7 +34,7 @@ import java.util.List;
 import org.testng.annotations.*;
 
 import com.force.sdk.jpa.query.entities.FetchTypeFTestEntity;
-import com.force.sdk.qa.util.BaseJPAFTest;
+import com.force.sdk.qa.util.jpa.BaseJPAFTest;
 import com.google.common.collect.Lists;
 
 /**

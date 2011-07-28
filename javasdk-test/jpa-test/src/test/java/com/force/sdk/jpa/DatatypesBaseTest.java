@@ -37,7 +37,7 @@ import org.testng.annotations.*;
 import com.force.sdk.jpa.JPATestUtils.Digit;
 import com.force.sdk.jpa.entities.ParentTestEntity;
 import com.force.sdk.jpa.entities.TestEntity;
-import com.force.sdk.qa.util.BaseJPAFTest;
+import com.force.sdk.qa.util.jpa.BaseJPAFTest;
 
 /**
  * 

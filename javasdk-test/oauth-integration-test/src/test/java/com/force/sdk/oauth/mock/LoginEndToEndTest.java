@@ -26,7 +26,7 @@
 
 package com.force.sdk.oauth.mock;
 
-import com.force.sdk.qa.util.BaseSecurityIntegrationTest;
+import com.force.sdk.qa.util.integration.BaseSecurityIntegrationTest;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;

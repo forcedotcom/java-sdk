@@ -37,8 +37,8 @@ import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.force.sdk.qa.util.MockAppender;
 import com.force.sdk.qa.util.PropsUtil;
+import com.force.sdk.qa.util.logging.MockAppender;
 import com.sforce.ws.ConnectionException;
 
 /**

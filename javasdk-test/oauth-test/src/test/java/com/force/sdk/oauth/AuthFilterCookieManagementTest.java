@@ -26,36 +26,19 @@
 
 package com.force.sdk.oauth;
 
-import com.force.sdk.oauth.context.ForceSecurityContext;
-import com.force.sdk.oauth.context.SecurityContext;
-import com.force.sdk.oauth.context.SecurityContextService;
-import com.force.sdk.oauth.context.SecurityContextUtil;
-import com.force.sdk.oauth.context.store.AESUtil;
-import com.force.sdk.oauth.context.store.ContextStoreException;
-import com.force.sdk.oauth.context.store.ForceEncryptionException;
-import com.force.sdk.oauth.context.store.SecurityContextCookieStore;
-import com.sforce.ws.util.Base64;
-import org.springframework.mock.web.MockFilterConfig;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockHttpSession;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Factory;
-import org.testng.annotations.Test;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.net.URLDecoder;
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+import org.springframework.mock.web.*;
+import org.testng.Assert;
+import org.testng.annotations.*;
+
+import com.force.sdk.oauth.context.*;
+import com.force.sdk.oauth.context.store.*;
+import com.sforce.ws.util.Base64;
 
 /**
  * This class tests the session management of the AuthFilter.

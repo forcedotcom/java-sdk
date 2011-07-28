@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.qa.util;
+package com.force.sdk.qa.util.jpa;
 
 import java.util.Map;
 import java.util.Properties;
@@ -47,6 +47,7 @@ import org.testng.annotations.BeforeClass;
 import com.force.sdk.connector.ForceConnectorConfig;
 import com.force.sdk.connector.ForceServiceConnector;
 import com.force.sdk.jpa.ForceManagedConnection;
+import com.force.sdk.qa.util.*;
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.ws.ConnectionException;
 
@@ -159,7 +160,7 @@ public abstract class BaseTransactionalSpringContextJPAFTest extends
         ConnectionFactory connFactory = om.getStoreManager().getConnectionManager().lookupConnectionFactory("force");
         ForceManagedConnection mconn = (ForceManagedConnection) connFactory.createManagedConnection(null, null);
         // cleanup schema via destructive changes
-        SfdcTestingUtil.cleanSchema(mconn);
+        SfdcSchemaUtil.cleanSchema(mconn);
     }
 
 }

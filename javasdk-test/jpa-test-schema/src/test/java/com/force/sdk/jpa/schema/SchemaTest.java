@@ -42,12 +42,14 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.force.sdk.connector.ForceConnectorConfig;
+import com.force.sdk.connector.ForceServiceConnector;
 import com.force.sdk.jpa.schema.entities.ExistingCustomObject;
 import com.force.sdk.jpa.schema.entities.StandardFieldLinkingEntity;
-import com.force.sdk.qa.util.SfdcTestingUtil;
 import com.force.sdk.qa.util.TestContext;
 import com.sforce.soap.partner.DescribeSObjectResult;
 import com.sforce.soap.partner.PartnerConnection;
+import com.sforce.ws.ConnectionException;
 
 /**
  * 
@@ -384,7 +386,7 @@ public class SchemaTest extends SchemaBaseTest {
      * Verifies that fields are correct in the underlying salesforce custom object.
      */
     private void verifyFieldsOnSObject(String sObject, String[] expectedFieldNames) throws Exception {
-        PartnerConnection conn = SfdcTestingUtil.getPartnerConnection(TestContext.get().getUserInfo());
+        PartnerConnection conn = getPartnerConnection();
         String ns = getNamespaceFromCtx();
         if (ns != null && ns != "") {
             sObject = ns + NAME_SEPARATOR + sObject;
@@ -415,7 +417,7 @@ public class SchemaTest extends SchemaBaseTest {
      */
     private void verifyFieldPrecisions(String sObject,
             Map<String, PrecisionScale> expectedFieldMetadata) throws Exception {
-        PartnerConnection conn = SfdcTestingUtil.getPartnerConnection(TestContext.get().getUserInfo());
+        PartnerConnection conn = getPartnerConnection();
         DescribeSObjectResult describeSObjectResult = conn.describeSObject(sObject);
         com.sforce.soap.partner.Field[] fields = describeSObjectResult.getFields();
 
@@ -431,6 +433,14 @@ public class SchemaTest extends SchemaBaseTest {
                         "Unexpected precisions on field: " + fields[i].getName());
             }
         }
+    }
+    
+    private PartnerConnection getPartnerConnection() throws ConnectionException {
+        ForceConnectorConfig config = new ForceConnectorConfig();
+        config.setAuthEndpoint(TestContext.get().getUserInfo().getServerEndpoint());
+        config.setUsername(TestContext.get().getUserInfo().getUserName());
+        config.setPassword(TestContext.get().getUserInfo().getPassword());
+        return new ForceServiceConnector(config).getConnection();
     }
     
 }

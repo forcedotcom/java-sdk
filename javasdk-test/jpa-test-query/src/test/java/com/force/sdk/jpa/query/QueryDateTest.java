@@ -34,7 +34,7 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 
 import com.force.sdk.jpa.query.entities.date.DateTestEntity;
-import com.force.sdk.qa.util.BaseJPAFTest;
+import com.force.sdk.qa.util.jpa.BaseJPAFTest;
 import com.google.common.collect.Sets;
 
 /**

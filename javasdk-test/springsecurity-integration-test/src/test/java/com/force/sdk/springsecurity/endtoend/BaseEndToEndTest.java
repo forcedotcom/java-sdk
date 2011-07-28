@@ -28,7 +28,8 @@ package com.force.sdk.springsecurity.endtoend;
 
 import java.io.IOException;
 
-import com.force.sdk.qa.util.BaseSecurityIntegrationTest;
+import com.force.sdk.qa.util.integration.BaseSecurityIntegrationTest;
+
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
