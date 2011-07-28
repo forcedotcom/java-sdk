@@ -34,7 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
 
 import com.force.sdk.jpa.beanvalidation.entities.BeanValidationEntity;
-import com.force.sdk.qa.util.BaseTransactionalSpringContextJPAFTest;
+import com.force.sdk.qa.util.jpa.BaseTransactionalSpringContextJPAFTest;
 
 /**
  * 

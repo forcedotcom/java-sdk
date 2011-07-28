@@ -24,9 +24,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.qa.util;
+package com.force.sdk.qa.util.integration;
 
+import com.force.sdk.qa.util.PropsUtil;
+import com.force.sdk.qa.util.TestContext;
 import com.force.sdk.qa.util.TestContext.TestType;
+
 import org.apache.http.HttpResponse;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
 import org.codehaus.cargo.container.property.ServletPropertySet;

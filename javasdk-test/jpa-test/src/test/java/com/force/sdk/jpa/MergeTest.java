@@ -38,7 +38,7 @@ import org.testng.annotations.Test;
 import com.force.sdk.jpa.entities.PersonEntity;
 import com.force.sdk.jpa.entities.PhoneEntity;
 import com.force.sdk.jpa.query.QueryHints;
-import com.force.sdk.qa.util.BaseMultiEntityManagerJPAFTest;
+import com.force.sdk.qa.util.jpa.BaseMultiEntityManagerJPAFTest;
 
 /**
  * This class tests:-

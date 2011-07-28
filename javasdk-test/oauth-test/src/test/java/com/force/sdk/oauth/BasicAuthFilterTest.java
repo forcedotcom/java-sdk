@@ -26,26 +26,23 @@
 
 package com.force.sdk.oauth;
 
-import com.force.sdk.connector.ForceServiceConnector;
-import com.force.sdk.oauth.context.ForceSecurityContextHolder;
-import com.force.sdk.oauth.context.SecurityContext;
-import com.force.sdk.oauth.context.SecurityContextUtil;
-import com.sforce.soap.partner.Connector;
-import com.sforce.ws.ConnectionException;
-import com.sforce.ws.ConnectorConfig;
-import org.springframework.mock.web.MockFilterChain;
-import org.springframework.mock.web.MockFilterConfig;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import static org.testng.Assert.*;
+
+import java.io.IOException;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequestWrapper;
-import java.io.IOException;
 
-import static org.testng.Assert.*;
+import org.springframework.mock.web.*;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.force.sdk.connector.ForceServiceConnector;
+import com.force.sdk.oauth.context.*;
+import com.sforce.soap.partner.Connector;
+import com.sforce.ws.ConnectionException;
+import com.sforce.ws.ConnectorConfig;
 
 /**
  * Basic functional tests for the OAuth handshake with Force.com.
@@ -346,7 +343,7 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
                 throw new IOException(e);
             }
             
-            verifySecurityContext(sc, true /* checkApiEndpoint*/, false /* checkRefreshToken*/);
+            verifySecurityContext(sc, true /* checkApiEndpoint*/);
         }
     }
 }

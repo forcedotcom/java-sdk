@@ -33,7 +33,7 @@ import javax.persistence.Query;
 
 import org.testng.annotations.Test;
 
-import com.force.sdk.qa.util.BaseJPAFTest;
+import com.force.sdk.qa.util.jpa.BaseJPAFTest;
 
 /**
  * Negative ftests for Force.com JPA queries.

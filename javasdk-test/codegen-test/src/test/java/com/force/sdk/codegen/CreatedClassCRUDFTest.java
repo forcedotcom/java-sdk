@@ -47,8 +47,8 @@ import com.force.sdk.codegen.entities.AccountCustomFields;
 import com.force.sdk.codegen.entities.NewCustomObject;
 import com.force.sdk.jpa.model.BaseForceObject;
 import com.force.sdk.jpa.model.Owner;
-import com.force.sdk.qa.util.BaseMultiEntityManagerJPAFTest;
 import com.force.sdk.qa.util.TestContext;
+import com.force.sdk.qa.util.jpa.BaseMultiEntityManagerJPAFTest;
 
 /**
  * Tests that created JPA Java classes 

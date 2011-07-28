@@ -26,18 +26,20 @@
 
 package com.force.sdk.oauth.connector;
 
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import com.force.sdk.connector.ForceConnector;
 import com.force.sdk.connector.ForceConnectorUtils;
 import com.force.sdk.oauth.context.SecurityContext;
 import com.force.sdk.oauth.userdata.UserDataRetrievalService;
 import com.sforce.ws.ConnectionException;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.Map;
 
 /**
  * 
@@ -363,7 +365,7 @@ public class ForceOAuthConnector implements ForceConnector {
      * @return The force oauth connection info
      * @throws IOException i/o error
      */
-    private ForceOAuthConnectionInfo getConnInfo() throws IOException {
+    ForceOAuthConnectionInfo getConnInfo() throws IOException {
         if (connInfo == null) {
             if (this.externalConnInfo != null) {
                 connInfo = this.externalConnInfo;

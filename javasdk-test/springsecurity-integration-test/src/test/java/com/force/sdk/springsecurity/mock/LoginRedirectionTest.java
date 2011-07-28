@@ -26,7 +26,8 @@
 
 package com.force.sdk.springsecurity.mock;
 
-import com.force.sdk.qa.util.BaseSecurityIntegrationTest;
+import com.force.sdk.qa.util.integration.BaseSecurityIntegrationTest;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.client.HttpClient;

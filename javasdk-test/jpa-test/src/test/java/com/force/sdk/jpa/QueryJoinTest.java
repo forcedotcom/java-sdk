@@ -39,7 +39,7 @@ import com.force.sdk.jpa.entities.ParentTestEntity;
 import com.force.sdk.jpa.entities.TestEntity;
 import com.force.sdk.jpa.entities.cascade.*;
 import com.force.sdk.jpa.query.QueryHints;
-import com.force.sdk.qa.util.BaseJPAFTest;
+import com.force.sdk.qa.util.jpa.BaseJPAFTest;
 import com.google.inject.internal.Lists;
 
 /**

@@ -24,52 +24,61 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.qa.util;
+package com.force.sdk.qa.util.logging;
 
-import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.*;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-import java.io.IOException;
+import org.apache.log4j.AppenderSkeleton;
+import org.apache.log4j.spi.LoggingEvent;
 
 /**
+ * Mock log appender which caches log lines received.
  * 
- * This is the base class for End To End Spring Security integration tests that hit the salesforce core app for authentication.
- *
- * @author Jeff Lai
- * @author Nawab Iqbal
- * 
+ * @author Tim Kral
  */
-public abstract class BaseSecurityEndToEndTest extends BaseSecurityIntegrationTest {
-
-    private WebClient webClient;
+public class MockAppender extends AppenderSkeleton {
+    final AtomicBoolean receivedLogLine = new AtomicBoolean(false);
+    final String expectedLogLine;
+    private int logLineTimes = 0;
     
-    @BeforeMethod
-    public void methodSetup() throws FailingHttpStatusCodeException, IOException {
-        webClient = new WebClient();
+    /**
+     * Constructor for Mock Appender.
+     * @param expectedLogLine expected log line String
+     */
+    public MockAppender(String expectedLogLine) {
+        this.expectedLogLine = expectedLogLine;
     }
     
-    @AfterMethod(alwaysRun = true)
-    public void methodTeardown() {
-        webClient.closeAllWindows();
+    @Override
+    public boolean requiresLayout() {
+        return false;
     }
     
-    public WebClient getWebClient() {
-        return webClient;
+    @Override
+    public void close() {  }
+    
+    @Override
+    protected void append(LoggingEvent event) {
+        if (event != null && event.getRenderedMessage().contains(expectedLogLine)) {
+            receivedLogLine.set(true);
+            logLineTimes++;
+        }
     }
     
-    public HtmlPage fillOutCredentialsAndLogin(HtmlPage page) throws IOException {
-        Assert.assertEquals(page.getTitleText(), "salesforce.com - Customer Secure Login Page", "unexpected page");
-        HtmlForm form = page.getFormByName("login");
-        HtmlSubmitInput button = form.getInputByName("Login");
-        HtmlTextInput textFieldUsername = form.getInputByName("username");
-        HtmlPasswordInput textFieldPassword = form.getInputByName("pw");
-        textFieldUsername.setValueAttribute(username);
-        textFieldPassword.setValueAttribute(password);
-        return button.click();
+    /**
+     * Check if expected log line was received.
+     * @return true if log line received, otherwise false
+     */
+    public boolean receivedLogLine() {
+        return receivedLogLine.get();
+    }
+    
+    /**
+     * Return the number of times expected log line was received.
+     * @return int
+     */
+    public int getLogLineTimes() {
+        return logLineTimes;
     }
     
 }
