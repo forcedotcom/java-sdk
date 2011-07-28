@@ -440,7 +440,7 @@ public class SchemaTest extends SchemaBaseTest {
         config.setAuthEndpoint(TestContext.get().getUserInfo().getServerEndpoint());
         config.setUsername(TestContext.get().getUserInfo().getUserName());
         config.setPassword(TestContext.get().getUserInfo().getPassword());
-        return new ForceServiceConnector(config).getConnection(); 
+        return new ForceServiceConnector(config).getConnection();
     }
     
 }
