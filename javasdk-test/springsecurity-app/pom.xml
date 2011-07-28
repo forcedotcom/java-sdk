@@ -91,21 +91,6 @@
     	
 		
     </build>
-    <!-- Even though we skip deploy, we need to specify
-         this so that deploy can execute from main. -->
-    <distributionManagement>
-      <repository>
-        <id>force.repo</id>
-        <name>Force.com Repository</name>
-        <url>${force.repo.url}</url>
-      </repository>
-      <snapshotRepository>
-        <id>force.repo.snapshot</id>
-        <name>Force.com Snapshot Repository</name>
-        <url>${force.repo.snapshot.url}</url>
-      </snapshotRepository>
-    </distributionManagement>
-
     <dependencies>
       <dependency>
         <groupId>com.force.api</groupId>
