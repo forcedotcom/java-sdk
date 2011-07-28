@@ -107,8 +107,7 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
             try {
                 //retrieve the security context from the cookie. Verify that the cookie is
                 //secure only if the host is not "localhost"
-                boolean secure = !("localhost".equals(req.getLocalName())
-                        || req.getLocalName().contains("0:0:0:0:0:0:0:1"));
+                boolean secure = !req.getLocalAddr().equals(req.getRemoteAddr());
                 sc = retreiveSecurityContextFromCookie(mockResponse, secure);
             } catch (Exception e) {
                 throw new IOException(e);
@@ -238,9 +237,12 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
     @DataProvider(name = "localServers")
     protected Object[][] loginRedirectUrlParamProvider() {
         Object [][] servers = {
-                {"localhost"},
-                {"0:0:0:0:0:0:0:1"},
-                {"[0:0:0:0:0:0:0:1]"}
+                {"localhost", "127.0.0.1", "127.0.0.1"},
+                {"0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:1"},
+                {"[0:0:0:0:0:0:0:1]", "0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:1"},
+                {"localhost", "127.2.9.26", "127.4.3.122"},
+                {"0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:2", "0:0:0:0:0:0:0:1"},
+                {"[0:0:0:0:0:0:0:1]", "0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:2"}
         };
 
         return servers;
@@ -251,11 +253,13 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
      * are not set as secure.
      */
     @Test (dataProvider = "localServers")
-    public void testNoDataInSessionLocalhost(String localName) throws ServletException, IOException  {
+    public void testNoDataInSessionLocalhost(String localName, String localAddr, String remoteAddr) throws ServletException, IOException  {
         MockHttpSession mockSession = new MockHttpSession();
         mockSession.setAttribute(SECURITY_CONTEXT_TO_VERIFY_KEY, partnerSc);
         request.setSession(mockSession);
         request.setLocalName(localName);
+        request.setLocalAddr(localAddr);
+        request.setRemoteAddr(remoteAddr);
         filter.doFilter(request, response, new PostAuthFilterChain());
     }
     
