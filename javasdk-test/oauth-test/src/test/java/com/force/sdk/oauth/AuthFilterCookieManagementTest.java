@@ -236,7 +236,7 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
      * are not set as secure.
      */
     @Test (dataProvider = "localServers")
-    public void testNoDataInSessionLocalhost(String localName, String localAddr, String remoteAddr) 
+    public void testNoDataInSessionLocalhost(String localName, String localAddr, String remoteAddr)
         throws ServletException, IOException  {
         
         MockHttpSession mockSession = new MockHttpSession();
