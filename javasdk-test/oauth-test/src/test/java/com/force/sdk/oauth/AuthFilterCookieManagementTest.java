@@ -220,7 +220,7 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
     @DataProvider(name = "localServers")
     protected Object[][] loginRedirectUrlParamProvider() {
         Object [][] servers = {
-        		//check safe addr values (insecure cookies)
+                //check safe addr values (insecure cookies)
                 {"localhost", "127.0.0.1", "127.0.0.1", "test.com", false},
                 {"0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:1", "test.com", false},
                 {"[0:0:0:0:0:0:0:1]", "0.0.0.0", "0:0:0:0:0:0:0:1", "test.com", false},
