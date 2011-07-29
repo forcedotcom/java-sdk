@@ -26,14 +26,15 @@
 
 package com.force.sdk.oauth;
 
-import com.force.sdk.oauth.context.SecurityContext;
-import com.force.sdk.qa.util.PropsUtil;
-import com.force.sdk.qa.util.UserInfo;
-import org.testng.annotations.BeforeClass;
+import static org.testng.Assert.*;
 
 import java.util.Properties;
 
-import static org.testng.Assert.*;
+import org.testng.annotations.BeforeClass;
+
+import com.force.sdk.oauth.context.SecurityContext;
+import com.force.sdk.qa.util.PropsUtil;
+import com.force.sdk.qa.util.UserInfo;
 
 /**
  * Base class for Force.com OAuth functional tests.
@@ -45,10 +46,7 @@ public class BaseOAuthTest {
     protected String endpoint;
     protected String oauthKey;
     protected String oauthSecret;
-    
-    protected String oauthCallback;
-    protected String refreshToken;
-    
+        
     protected UserInfo userInfo;
     
     @BeforeClass
@@ -60,9 +58,6 @@ public class BaseOAuthTest {
         endpoint = assertAndLoadProperty(oauthProperties, "endpoint", oauthPropertiesFileName);
         oauthKey = assertAndLoadProperty(oauthProperties, "oauth_key", oauthPropertiesFileName);
         oauthSecret = assertAndLoadProperty(oauthProperties, "oauth_secret", oauthPropertiesFileName);
-        
-        oauthCallback = assertAndLoadProperty(oauthProperties, "oauth_callback", oauthPropertiesFileName);
-        refreshToken = assertAndLoadProperty(oauthProperties, "refresh_token", oauthPropertiesFileName);
         
         userInfo = UserInfo.loadFromPropertyFile("userInfo");
     }
@@ -84,11 +79,7 @@ public class BaseOAuthTest {
         return connectionUrl.toString();
     }
     
-    protected void verifySecurityContext(SecurityContext sc) {
-        verifySecurityContext(sc, false /* checkApiEndpoint */, true /* checkRefreshToken */);
-    }
-    
-    protected void verifySecurityContext(SecurityContext sc, boolean checkApiEndpoint, boolean checkRefreshToken) {
+    protected void verifySecurityContext(SecurityContext sc, boolean checkApiEndpoint) {
     
         assertEquals(sc.getOrgId(), userInfo.getOrgId(),
                 "Unexpected organization id in SecurityContext");
@@ -113,11 +104,6 @@ public class BaseOAuthTest {
         String expectedHost = sc.getEndPoint().substring(0, sc.getEndPoint().indexOf("/services/Soap/u"));
         assertEquals(sc.getEndPointHost(), expectedHost, "EndPointHost is not as expected.");
 
-        if (checkRefreshToken) {
-            // The refresh token should not change
-            assertEquals(sc.getRefreshToken(), refreshToken, "Refresh token changed");
-        } else {
-            assertNull(sc.getRefreshToken(), "Unexpected refresh token.");
-        }
+        assertNull(sc.getRefreshToken(), "Unexpected refresh token.");
     }
 }

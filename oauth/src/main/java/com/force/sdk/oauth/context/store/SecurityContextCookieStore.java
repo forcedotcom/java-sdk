@@ -27,6 +27,7 @@
 package com.force.sdk.oauth.context.store;
 
 import com.force.sdk.oauth.context.SecurityContext;
+import com.force.sdk.oauth.context.SecurityContextUtil;
 import com.sforce.ws.util.Base64;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -66,10 +67,7 @@ public class SecurityContextCookieStore implements
             securityContext.setRefreshToken(null);
             byte[] securityContextSer = serializeSecurityContext(securityContext, encrypted);
             contextCookie = new Cookie(SECURITY_CONTEXT_COOKIE_NAME, URLEncoder.encode(b64encode(securityContextSer), "UTF-8"));
-
-            boolean secure = !("localhost".equalsIgnoreCase(request.getLocalName())
-                    || request.getLocalName().contains("0:0:0:0:0:0:0:1"));
-            contextCookie.setSecure(secure);
+            contextCookie.setSecure(SecurityContextUtil.useSecureCookies(request));
             response.addCookie(contextCookie);
         } catch (ForceEncryptionException e) {
             throw new ContextStoreException(e);

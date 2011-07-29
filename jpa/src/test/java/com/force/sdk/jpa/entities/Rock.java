@@ -51,7 +51,7 @@ public class Rock {
     @Column(name = "Paper")
     @ManyToOne
     @MockApiField(name = "Paper__c", type = FieldType.reference, custom = true,
-                  attrs = { "setRelationshipName=Rocks__r" })
+                  attrs = { "setRelationshipName=Paper__r" })
     Paper paper;
 
     public String getId() {

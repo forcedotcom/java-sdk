@@ -77,11 +77,7 @@ public class SecurityContextServiceImpl implements SecurityContextService {
         } catch (ContextStoreException e) {
             LOGGER.error("Cannot store security information: ", e);
         }
-        //set cookies with sid and endpoint regardless of the securityContextStorageService used
-        //cookies should be secure if host is anything other than localhost
-        boolean secure = !("localhost".equalsIgnoreCase(request.getLocalName())
-                || request.getLocalName().contains("0:0:0:0:0:0:0:1"));
-        SecurityContextUtil.setCookieValues(sc, response, secure);
+        SecurityContextUtil.setCookieValues(sc, response, SecurityContextUtil.useSecureCookies(request));
     }
     
     /**

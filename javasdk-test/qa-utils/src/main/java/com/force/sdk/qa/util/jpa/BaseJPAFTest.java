@@ -24,7 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.qa.util;
+package com.force.sdk.qa.util.jpa;
 
 import java.io.IOException;
 import java.util.List;
@@ -45,6 +45,7 @@ import com.force.sdk.jpa.ForceManagedConnection;
 import com.force.sdk.jpa.ForceStoreManager;
 import com.force.sdk.jpa.schema.ForceStoreSchemaHandler;
 import com.force.sdk.jpa.table.TableImpl;
+import com.force.sdk.qa.util.*;
 import com.google.inject.internal.Lists;
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.ws.ConnectionException;
@@ -101,7 +102,7 @@ public abstract class BaseJPAFTest implements ITest {
         // Get the EntityManager's PartnerConnection
         ConnectionFactory connFactory = om.getStoreManager().getConnectionManager().lookupConnectionFactory("force");
         ForceManagedConnection mconn = (ForceManagedConnection) connFactory.createManagedConnection(null, null);
-        SfdcTestingUtil.cleanSchema(mconn);
+        SfdcSchemaUtil.cleanSchema(mconn);
     }
     
     /**
@@ -152,9 +153,9 @@ public abstract class BaseJPAFTest implements ITest {
      */
     public static PartnerConnection getServiceFromTestContext(TestContext ctx) throws ConnectionException {
         String username, password, authEndpoint = null;
-        username = ctx.getUserInfo().userName;
-        password = ctx.getUserInfo().password;
-        authEndpoint = ctx.getUserInfo().serverEndpoint;
+        username = ctx.getUserInfo().getUserName();
+        password = ctx.getUserInfo().getPassword();
+        authEndpoint = ctx.getUserInfo().getServerEndpoint();
         ForceConnectorConfig conf = new ForceConnectorConfig();
         conf.setUsername(username);
         conf.setPassword(password);

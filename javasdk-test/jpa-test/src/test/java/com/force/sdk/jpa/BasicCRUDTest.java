@@ -37,9 +37,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.force.sdk.jpa.entities.*;
-import com.force.sdk.qa.util.BaseMultiEntityManagerJPAFTest;
-import com.force.sdk.qa.util.ForceLogAppenderValidator;
 import com.force.sdk.qa.util.TestContext;
+import com.force.sdk.qa.util.jpa.BaseMultiEntityManagerJPAFTest;
+import com.force.sdk.qa.util.logging.ForceLogAppenderValidator;
 
 /**
  * 

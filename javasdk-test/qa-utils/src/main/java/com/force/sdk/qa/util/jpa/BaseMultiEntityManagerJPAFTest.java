@@ -24,37 +24,51 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.qa.listener;
+package com.force.sdk.qa.util.jpa;
 
-import static org.testng.Assert.fail;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
-import org.testng.ISuite;
-import org.testng.ISuiteListener;
+import org.testng.annotations.AfterMethod;
 
 import com.force.sdk.qa.util.TestContext;
-import com.force.sdk.qa.util.TestContext.TestType;
 
 /**
+ * Extend this class if you need more than one EntityManager form different entity manager factory.
  * 
- * TestNG Listener to specify TestType for spring security integration tests.
- *
- * @author Jeff Lai
- * @author Nawab Iqbal
+ * @author Fiaz Hossain
  */
-public class TestTypeListener implements ISuiteListener {
+public abstract class BaseMultiEntityManagerJPAFTest extends BaseJPAFTest {
+
+    protected EntityManagerFactory emfac2;
+    protected EntityManagerFactory emfac3;
+    public EntityManager em2;
+    public EntityManager em3;
 
     @Override
-    public void onStart(ISuite suite) {
-        String testTypeStr = suite.getParameter("testType");
-        if (testTypeStr == null) {
-            fail("Must specify testType as suite parameter.");
+    protected void createStaticEntityMangers() throws Exception {
+        super.createStaticEntityMangers();
+        TestContext ctx = TestContext.get();
+        emfac2 = Persistence.createEntityManagerFactory(ctx.getPersistenceUnitName() + "2");
+        emfac3 = Persistence.createEntityManagerFactory(ctx.getPersistenceUnitName() + "3");
+        em2 = emfac2.createEntityManager();
+        em3 = emfac3.createEntityManager();
+    }
+        
+    /**
+     * Any test unspecific cleaning that needs to be done.
+     * @throws IOException 
+     */
+    @AfterMethod
+    @Override
+    protected void testCleanup() throws Exception {
+        super.testCleanup();
+        if (em2.getTransaction().isActive()) {
+            em2.getTransaction().rollback();
         }
-        TestContext.get().setTestType(TestType.valueOf(testTypeStr.toUpperCase()));
+        if (em3.getTransaction().isActive()) {
+            em3.getTransaction().rollback();
+        }
     }
-
-    @Override
-    public void onFinish(ISuite suite) {
-        TestContext.get().clearTestType();
-    }
-
 }

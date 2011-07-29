@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk-test</artifactId>
-    <version>22.0.3-BETA</version>
+    <version>22.0.4-BETA</version>
   </parent>
 
 
@@ -61,7 +61,7 @@
         </executions>
         <configuration>
 	      <includeProjectDependencies>true</includeProjectDependencies>          
-          <mainClass>com.force.sdk.qa.util.EntityGenerator</mainClass>
+          <mainClass>com.force.sdk.qa.util.jpa.EntityGenerator</mainClass>
           <arguments>
             <argument>${basedir}/src/test/java/com/force/sdk/jpa/entities/generated</argument>
             <argument>26</argument>

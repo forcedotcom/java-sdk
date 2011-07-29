@@ -32,7 +32,7 @@
   <parameter name="testType" value="INTEG_ENDTOEND_SPRING_SECURITY"/>
   
   <listeners>
-    <listener class-name="com.force.sdk.qa.listener.TestTypeListener"/>
+    <listener class-name="com.force.sdk.qa.util.listener.TestTypeListener"/>
   </listeners>
 
   <test name="springsecurity-endtoend-integration-test">

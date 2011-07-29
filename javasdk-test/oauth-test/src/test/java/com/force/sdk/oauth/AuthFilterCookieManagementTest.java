@@ -26,36 +26,19 @@
 
 package com.force.sdk.oauth;
 
-import com.force.sdk.oauth.context.ForceSecurityContext;
-import com.force.sdk.oauth.context.SecurityContext;
-import com.force.sdk.oauth.context.SecurityContextService;
-import com.force.sdk.oauth.context.SecurityContextUtil;
-import com.force.sdk.oauth.context.store.AESUtil;
-import com.force.sdk.oauth.context.store.ContextStoreException;
-import com.force.sdk.oauth.context.store.ForceEncryptionException;
-import com.force.sdk.oauth.context.store.SecurityContextCookieStore;
-import com.sforce.ws.util.Base64;
-import org.springframework.mock.web.MockFilterConfig;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockHttpSession;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Factory;
-import org.testng.annotations.Test;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.net.URLDecoder;
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+import org.springframework.mock.web.*;
+import org.testng.Assert;
+import org.testng.annotations.*;
+
+import com.force.sdk.oauth.context.*;
+import com.force.sdk.oauth.context.store.*;
+import com.sforce.ws.util.Base64;
 
 /**
  * This class tests the session management of the AuthFilter.
@@ -107,8 +90,7 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
             try {
                 //retrieve the security context from the cookie. Verify that the cookie is
                 //secure only if the host is not "localhost"
-                boolean secure = !("localhost".equals(req.getLocalName())
-                        || req.getLocalName().contains("0:0:0:0:0:0:0:1"));
+                boolean secure = "true".equals(req.getParameter("checkSecureCookies"));
                 sc = retreiveSecurityContextFromCookie(mockResponse, secure);
             } catch (Exception e) {
                 throw new IOException(e);
@@ -238,9 +220,20 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
     @DataProvider(name = "localServers")
     protected Object[][] loginRedirectUrlParamProvider() {
         Object [][] servers = {
-                {"localhost"},
-                {"0:0:0:0:0:0:0:1"},
-                {"[0:0:0:0:0:0:0:1]"}
+                //check safe addr values (insecure cookies)
+                {"localhost", "127.0.0.1", "127.0.0.1", "test.com", false},
+                {"0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:1", "test.com", false},
+                {"[0:0:0:0:0:0:0:1]", "0.0.0.0", "0:0:0:0:0:0:0:1", "test.com", false},
+                //check local and remote addr matching (insecure cookies)
+                {"[0:0:0:0:0:0:0:1]", "0.0.0.1", "0.0.0.1", "test.com", false},
+                //check secure cookies
+                {"localhost", "127.2.9.26", "127.4.3.122", "mydomain.com", true},
+                {"0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:2", "0:0:0:0:0:0:0:1", "", true},
+                {"[0:0:0:0:0:0:0:1]", "0:0:0:0:0:0:0:3", "0:0:0:0:0:0:0:2", "test.com:8080", true},
+                //check host header matching (insecure cookies)
+                {"localhost", "127.2.9.26", "127.4.3.122", "localhost", false},
+                {"0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:2", "0:0:0:0:0:0:0:1", "localhost", false},
+                {"[0:0:0:0:0:0:0:1]", "0:0:0:0:0:0:0:3", "0:0:0:0:0:0:0:2", "localhost:8080", false}
         };
 
         return servers;
@@ -251,11 +244,18 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
      * are not set as secure.
      */
     @Test (dataProvider = "localServers")
-    public void testNoDataInSessionLocalhost(String localName) throws ServletException, IOException  {
+    public void testNoDataInSessionLocalhost(
+            String localName, String localAddr, String remoteAddr, String hostHeader, boolean checkSecureCookies)
+            throws ServletException, IOException  {
+
         MockHttpSession mockSession = new MockHttpSession();
         mockSession.setAttribute(SECURITY_CONTEXT_TO_VERIFY_KEY, partnerSc);
         request.setSession(mockSession);
         request.setLocalName(localName);
+        request.setLocalAddr(localAddr);
+        request.setRemoteAddr(remoteAddr);
+        request.addHeader("Host", hostHeader);
+        request.addParameter("checkSecureCookies", String.valueOf(checkSecureCookies));
         filter.doFilter(request, response, new PostAuthFilterChain());
     }
     

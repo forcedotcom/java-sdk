@@ -9,7 +9,7 @@
   <groupId>com.force.sdk</groupId>
   <artifactId>force-sdk</artifactId>
   <name>force-sdk</name>
-  <version>22.0.3-BETA</version>
+  <version>22.0.4-BETA</version>
   <packaging>pom</packaging>
   <description>Database.com SDK for Java</description>
   <url>http://www.force.com/</url>
@@ -59,7 +59,7 @@
     <force.version.min>22.0</force.version.min>
     <force.version.max>22.1</force.version.max>
     <force.api.version>[22.0.0, 22.1.0)</force.api.version>
-    <force.sdk.version>22.0.3-BETA</force.sdk.version>
+    <force.sdk.version>22.0.4-BETA</force.sdk.version>
     
     <apache.http.version>4.0.1</apache.http.version>
     <commons.io.version>2.0.1</commons.io.version>
@@ -112,15 +112,10 @@
   </modules>
 
   <distributionManagement>
-    <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>Sonatype Nexus Staging</name>
-      <url>${nexus.url.staging}</url>
-    </repository>
     <snapshotRepository>
       <id>sonatype-nexus-snapshots</id>
       <name>Sonatype Nexus Snapshots</name>
-      <url>${nexus.url.snapshots}</url>
+      <url>${sonatype.nexus.snapshots.url}</url>
     </snapshotRepository>
     <site>
       <id>force.maven.site</id>
@@ -570,7 +565,7 @@
               <generateXml>true</generateXml>
               <!-- exclude qa util classes from instrumentation -->
               <excludes>
-                <exclude>**/qa/util/*.java</exclude>
+                <exclude>**/qa/util/**/*.java</exclude>
               </excludes>
             </configuration>
           </plugin>

@@ -36,7 +36,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.force.sdk.qa.util.MockAppender;
+import com.force.sdk.qa.util.logging.MockAppender;
 import com.sforce.async.AsyncApiException;
 import com.sforce.ws.ConnectionException;
 
