@@ -565,7 +565,7 @@
               <generateXml>true</generateXml>
               <!-- exclude qa util classes from instrumentation -->
               <excludes>
-                <exclude>**/qa/util/*.java</exclude>
+                <exclude>**/qa/util/**/*.java</exclude>
               </excludes>
             </configuration>
           </plugin>
