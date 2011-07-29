@@ -90,7 +90,7 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
             try {
                 //retrieve the security context from the cookie. Verify that the cookie is
                 //secure only if the host is not "localhost"
-                boolean secure = !req.getLocalAddr().equals(req.getRemoteAddr());
+                boolean secure = "true".equals(req.getParameter("checkSecureCookies"));
                 sc = retreiveSecurityContextFromCookie(mockResponse, secure);
             } catch (Exception e) {
                 throw new IOException(e);
@@ -220,12 +220,20 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
     @DataProvider(name = "localServers")
     protected Object[][] loginRedirectUrlParamProvider() {
         Object [][] servers = {
-                {"localhost", "127.0.0.1", "127.0.0.1"},
-                {"0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:1"},
-                {"[0:0:0:0:0:0:0:1]", "0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:1"},
-                {"localhost", "127.2.9.26", "127.4.3.122"},
-                {"0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:2", "0:0:0:0:0:0:0:1"},
-                {"[0:0:0:0:0:0:0:1]", "0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:2"}
+        		//check safe addr values (insecure cookies)
+                {"localhost", "127.0.0.1", "127.0.0.1", "test.com", false},
+                {"0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:1", "test.com", false},
+                {"[0:0:0:0:0:0:0:1]", "0.0.0.0", "0:0:0:0:0:0:0:1", "test.com", false},
+                //check local and remote addr matching (insecure cookies)
+                {"[0:0:0:0:0:0:0:1]", "0.0.0.1", "0.0.0.1", "test.com", false},
+                //check secure cookies
+                {"localhost", "127.2.9.26", "127.4.3.122", "mydomain.com", true},
+                {"0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:2", "0:0:0:0:0:0:0:1", "", true},
+                {"[0:0:0:0:0:0:0:1]", "0:0:0:0:0:0:0:3", "0:0:0:0:0:0:0:2", "test.com:8080", true},
+                //check host header matching (insecure cookies)
+                {"localhost", "127.2.9.26", "127.4.3.122", "localhost", false},
+                {"0:0:0:0:0:0:0:1", "0:0:0:0:0:0:0:2", "0:0:0:0:0:0:0:1", "localhost", false},
+                {"[0:0:0:0:0:0:0:1]", "0:0:0:0:0:0:0:3", "0:0:0:0:0:0:0:2", "localhost:8080", false}
         };
 
         return servers;
@@ -236,8 +244,9 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
      * are not set as secure.
      */
     @Test (dataProvider = "localServers")
-    public void testNoDataInSessionLocalhost(String localName, String localAddr, String remoteAddr)
-        throws ServletException, IOException  {
+    public void testNoDataInSessionLocalhost(
+            String localName, String localAddr, String remoteAddr, String hostHeader, boolean checkSecureCookies)
+            throws ServletException, IOException  {
 
         MockHttpSession mockSession = new MockHttpSession();
         mockSession.setAttribute(SECURITY_CONTEXT_TO_VERIFY_KEY, partnerSc);
@@ -245,6 +254,8 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
         request.setLocalName(localName);
         request.setLocalAddr(localAddr);
         request.setRemoteAddr(remoteAddr);
+        request.addHeader("Host", hostHeader);
+        request.addParameter("checkSecureCookies", String.valueOf(checkSecureCookies));
         filter.doFilter(request, response, new PostAuthFilterChain());
     }
     

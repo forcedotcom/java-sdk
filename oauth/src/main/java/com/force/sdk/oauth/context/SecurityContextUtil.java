@@ -187,5 +187,37 @@ public final class SecurityContextUtil {
         
         securityContext.setRole(role);
     }
+    
+    /**
+     * We should not use secure cookies if the request came from the local machine because this
+     * will usually mean that we are in a development environment where secure communitcation is not
+     * being used and isn't required to be.
+     * 
+     * @param request Servlet Restust
+     * @return whether or not to use secure cookies
+     */
+    public static boolean useSecureCookies(HttpServletRequest request) {
+        String hostHeader = request.getHeader("Host");
+        boolean isLocalhostHeader = false;
+        if (hostHeader != null && hostHeader.length() > 1 && hostHeader.contains(":"))
+        {
+            hostHeader = hostHeader.substring(0, hostHeader.indexOf(':'));
+        }
+        if ("localhost".equals(hostHeader)) {
+            isLocalhostHeader = true;
+        }
+        
+        //return false (don't use secure cookies) if we're running on localhost.
+        //The check for this is whether any of the following are true:
+        //localAddr equals remoteAddr
+        //the host portoin of the host header is "localhost"
+        //the localAddr is "127.0.0.1", "0.0.0.0", or "0:0:0:0:0:0:0:1"
+        return !(request.getLocalAddr().equals(request.getRemoteAddr())
+                ||  isLocalhostHeader
+                || "127.0.0.1".equals(request.getLocalAddr())
+                || "0.0.0.0".equals(request.getLocalAddr())
+                || "0:0:0:0:0:0:0:1".equals(request.getLocalAddr())
+            );
+    }
 
 }
