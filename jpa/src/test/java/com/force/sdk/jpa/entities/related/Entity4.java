@@ -33,7 +33,7 @@ import com.sforce.soap.partner.FieldType;
 import javax.persistence.*;
 
 /**
- * Entities that are chained together for testing relationships and fetch depths
+ * Entities that are chained together for testing relationships and fetch depths.
  *
  * @author Jill Wetzler
  */

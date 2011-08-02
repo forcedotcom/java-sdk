@@ -36,7 +36,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * Entities that are chained together for testing relationships and fetch depths
+ * Entities that are chained together for testing relationships and fetch depths.
  *
  * @author Jill Wetzler
  */
