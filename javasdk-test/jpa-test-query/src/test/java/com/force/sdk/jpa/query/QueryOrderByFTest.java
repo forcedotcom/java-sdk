@@ -177,8 +177,8 @@ public class QueryOrderByFTest extends BaseJPAFTest {
         intParent.setChildren(intChildren);
         addTestDatumInTx(intParent);
 
-        List<ParentEntityOrderByInt> intResult = em.createQuery("select o from " +
-                ParentEntityOrderByInt.class.getSimpleName() + " o",
+        List<ParentEntityOrderByInt> intResult = em.createQuery("select o from "
+                + ParentEntityOrderByInt.class.getSimpleName() + " o",
                 ParentEntityOrderByInt.class).getResultList();
         Assert.assertEquals(intResult.size(), 1);
         Iterator<ChildEntityOrderByInt> intIterator = intResult.get(0).getChildren().iterator();
@@ -205,8 +205,8 @@ public class QueryOrderByFTest extends BaseJPAFTest {
         strParent.setChildren(strChildren);
         addTestDatumInTx(strParent);
 
-        List<ParentEntityOrderByIntString> strResult = em.createQuery("select o from " +
-                ParentEntityOrderByIntString.class.getSimpleName() + " o",
+        List<ParentEntityOrderByIntString> strResult = em.createQuery("select o from "
+                + ParentEntityOrderByIntString.class.getSimpleName() + " o",
                 ParentEntityOrderByIntString.class).getResultList();
         Assert.assertEquals(strResult.size(), 1);
 
@@ -245,8 +245,8 @@ public class QueryOrderByFTest extends BaseJPAFTest {
             em.getTransaction().commit();
         }
 
-        List<ParentEntityOrderByPk> pkResult = em.createQuery("select o from " +
-                ParentEntityOrderByPk.class.getSimpleName() + " o",
+        List<ParentEntityOrderByPk> pkResult = em.createQuery("select o from "
+                + ParentEntityOrderByPk.class.getSimpleName() + " o",
                 ParentEntityOrderByPk.class).getResultList();
         Assert.assertEquals(pkResult.size(), 1);
         Iterator<ChildEntityOrderByPk> pkIterator = pkResult.get(0).getChildren().iterator();
