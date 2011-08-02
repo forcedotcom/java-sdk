@@ -28,8 +28,6 @@ package com.force.sdk.jpa.query.entities.orderby;
 
 import javax.persistence.*;
 
-import com.sforce.soap.partner.FieldType;
-
 /**
  * Test child entity for ordering by int values.
  *
