@@ -28,8 +28,7 @@ package com.force.sdk.jpa;
 
 import com.force.sdk.jpa.entities.generated.Entity6;
 import com.force.sdk.jpa.query.QueryHints;
-import com.force.sdk.qa.util.BaseJPAFTest;
-import com.force.sdk.qa.util.TestContext;
+import com.force.sdk.qa.util.jpa.BaseJPAFTest;
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.soap.partner.QueryResult;
 import com.sforce.ws.ConnectionException;
