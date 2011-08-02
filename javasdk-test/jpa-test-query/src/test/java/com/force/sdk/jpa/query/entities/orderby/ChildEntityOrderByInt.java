@@ -24,12 +24,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.jpa.entities.orderby;
+package com.force.sdk.jpa.query.entities.orderby;
 
 import javax.persistence.*;
 
-import com.force.sdk.jpa.mock.MockApiEntity;
-import com.force.sdk.jpa.mock.MockApiField;
 import com.sforce.soap.partner.FieldType;
 
 /**
@@ -38,21 +36,16 @@ import com.sforce.soap.partner.FieldType;
  * @author Jeff Lai
  */
 @Entity
-@MockApiEntity
 public class ChildEntityOrderByInt {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @MockApiField(name = "Id", type = FieldType.id, custom = false)
     private String id;
     
     @Column(name = "ParentEntityOrderByInt")
     @ManyToOne
-    @MockApiField(name = "ParentEntityOrderByInt__c", type = FieldType.reference, custom = true,
-                  attrs = { "setRelationshipName=ParentEntityOrderByInt__r" })
     private ParentEntityOrderByInt parent;
     
-    @MockApiField(name = "myInt__c", type = FieldType._double, custom = true)
     private int myInt;
 
     public void setId(String id) {

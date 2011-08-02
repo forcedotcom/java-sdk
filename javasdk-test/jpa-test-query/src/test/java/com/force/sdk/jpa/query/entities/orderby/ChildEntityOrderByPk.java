@@ -24,34 +24,27 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.jpa.entities.orderby;
-
-import java.util.List;
+package com.force.sdk.jpa.query.entities.orderby;
 
 import javax.persistence.*;
 
-import com.force.sdk.jpa.mock.*;
 import com.sforce.soap.partner.FieldType;
 
 /**
- * Test parent entity which orders its children by primary key.
+ * Test child entity for ordering by primary key.
  *
  * @author Jeff Lai
  */
 @Entity
-@MockApiEntity
-public class ParentEntityOrderByPk {
-    
+public class ChildEntityOrderByPk {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @MockApiField(name = "Id", type = FieldType.id, custom = false)
     private String id;
     
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-    @OrderBy
-    @MockApiRelationship(name = "ParentEntityOrderByPk_childentityorderby__r")
-    private List<ChildEntityOrderByPk> children;
-    
+    @Column(name = "ParentEntityOrderByPk")
+    @ManyToOne
+    private ParentEntityOrderByPk parent;
+
     public void setId(String id) {
         this.id = id;
     }
@@ -59,13 +52,13 @@ public class ParentEntityOrderByPk {
     public String getId() {
         return id;
     }
+
+    public void setParent(ParentEntityOrderByPk parent) {
+        this.parent = parent;
+    }
+
+    public ParentEntityOrderByPk getParent() {
+        return parent;
+    }
     
-    public void setChildren(List<ChildEntityOrderByPk> children) {
-        this.children = children;
-    }
-
-    public List<ChildEntityOrderByPk> getChildren() {
-        return children;
-    }
-
 }

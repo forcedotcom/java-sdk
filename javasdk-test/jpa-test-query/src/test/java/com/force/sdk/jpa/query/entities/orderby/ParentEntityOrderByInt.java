@@ -24,13 +24,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.jpa.entities.orderby;
+package com.force.sdk.jpa.query.entities.orderby;
 
 import java.util.List;
 
 import javax.persistence.*;
 
-import com.force.sdk.jpa.mock.*;
 import com.sforce.soap.partner.FieldType;
 
 /**
@@ -39,16 +38,13 @@ import com.sforce.soap.partner.FieldType;
  * @author Jeff Lai
  */
 @Entity
-@MockApiEntity
 public class ParentEntityOrderByInt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @MockApiField(name = "Id", type = FieldType.id, custom = false)
     private String id;
     
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     @OrderBy("myInt ASC")
-    @MockApiRelationship(name = "ParentEntityOrderByInt_childentityorderb__r")
     private List<ChildEntityOrderByInt> children;
     
     public void setId(String id) {

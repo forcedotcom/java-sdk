@@ -24,33 +24,32 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.jpa.entities.orderby;
-
-import java.util.List;
+package com.force.sdk.jpa.query.entities.orderby;
 
 import javax.persistence.*;
 
-import com.force.sdk.jpa.mock.*;
 import com.sforce.soap.partner.FieldType;
 
 /**
- * Test parent entity which orders its children by (int, String) tuples.
+ * Test child entity for ordering by (int, String) tuples.
  *
  * @author Jeff Lai
  */
 @Entity
-@MockApiEntity
-public class ParentEntityOrderByIntString {
+public class ChildEntityOrderByIntString {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @MockApiField(name = "Id", type = FieldType.id, custom = false)
     private String id;
     
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-    @OrderBy("myInt, myString DESC")
-    @MockApiRelationship(name = "ParentEntityOrderByIntString_childentity__r")
-    private List<ChildEntityOrderByIntString> children;
+    @Column(name = "ParentEntityOrderByIntString")
+    @ManyToOne
+    private ParentEntityOrderByIntString parent;
     
+    private int myInt;
+    
+    private String myString;
+
     public void setId(String id) {
         this.id = id;
     }
@@ -59,12 +58,28 @@ public class ParentEntityOrderByIntString {
         return id;
     }
 
-    public void setChildren(List<ChildEntityOrderByIntString> children) {
-        this.children = children;
+    public void setParent(ParentEntityOrderByIntString parent) {
+        this.parent = parent;
     }
 
-    public List<ChildEntityOrderByIntString> getChildren() {
-        return children;
+    public ParentEntityOrderByIntString getParent() {
+        return parent;
     }
-    
+
+    public void setMyInt(int myInt) {
+        this.myInt = myInt;
+    }
+
+    public int getMyInt() {
+        return myInt;
+    }
+
+    public void setMyString(String myString) {
+        this.myString = myString;
+    }
+
+    public String getMyString() {
+        return myString;
+    }
+
 }

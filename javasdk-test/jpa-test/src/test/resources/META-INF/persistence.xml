@@ -95,6 +95,18 @@
         </properties>
     </persistence-unit>
 
+    <persistence-unit name="testFetchDepthInPersistenceUnit">
+        <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+        <properties>
+            <property name="datanucleus.storeManagerType" value="force"/>
+            <property name="datanucleus.autoCreateSchema" value="false" />
+            <property name="datanucleus.detachAllOnCommit" value="true" />
+            <property name="datanucleus.maxFetchDepth" value="1"/>
+            <property name="force.AllOrNothing" value="true" />
+            <property name="force.ConnectionName" value="force-sdk-test"/>
+        </properties>
+    </persistence-unit>
+
     <!-- PU with extended persistence context (detachAllOnCommit=false) -->
     <persistence-unit name="extPersCtxPU">
 	  <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>

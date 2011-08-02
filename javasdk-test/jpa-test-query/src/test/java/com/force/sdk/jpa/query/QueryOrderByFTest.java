@@ -28,8 +28,13 @@ package com.force.sdk.jpa.query;
 
 import static org.testng.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
+import com.force.sdk.jpa.query.entities.orderby.*;
+import org.testng.Assert;
 import org.testng.annotations.*;
 
 import com.force.sdk.jpa.query.entities.DataTypesFTestEntity;
@@ -142,6 +147,113 @@ public class QueryOrderByFTest extends BaseJPAFTest {
         assertEquals(results.size(), DATA_SET_SIZE, "Unexpected number of results for query " + query);
         
         assertEquals(getResultOrder(results), "[ 4 1 2 3 ]", "Unexpected order of results for query " + query);
+    }
+
+
+    /**
+     * Test Order By Query With the @OrderBy annotation
+     * Execute a JPQL query with an order by clause in ascending order on an entity's long field and descending
+     * order on an entity's integer field.
+     * @expectedResults The query result's collections should be sorted according to their annotation
+     * @hierarchy
+     * @userStory
+     */
+    @Test
+    public void testOrderByAnnotations() {
+        deleteAll("ParentEntityOrderByInt");
+        deleteAll("ParentEntityOrderByIntString");
+        deleteAll("ParentEntityOrderByPk");
+
+        Random random = new Random();
+
+        ParentEntityOrderByInt intParent = new ParentEntityOrderByInt();
+        List<ChildEntityOrderByInt> intChildren = new ArrayList<ChildEntityOrderByInt>(3);
+        for (int i = 1; i <= 3; i++) {
+            ChildEntityOrderByInt  intChild = new ChildEntityOrderByInt();
+            intChild.setMyInt(random.nextInt());
+            intChild.setParent(intParent);
+            intChildren.add(intChild);
+        }
+        intParent.setChildren(intChildren);
+        addTestDatumInTx(intParent);
+
+        List<ParentEntityOrderByInt> intResult = em.createQuery("select o from " + ParentEntityOrderByInt.class.getSimpleName() + " o",
+            ParentEntityOrderByInt.class).getResultList();
+        Assert.assertEquals(intResult.size(), 1);
+        Iterator<ChildEntityOrderByInt> intIterator = intResult.get(0).getChildren().iterator();
+        ChildEntityOrderByInt currentIntChild = intIterator.next();
+        while (intIterator.hasNext()) {
+            ChildEntityOrderByInt next = intIterator.next();
+            Assert.assertTrue(currentIntChild.getMyInt() < next.getMyInt());
+            currentIntChild = next;
+        }
+
+        ParentEntityOrderByIntString strParent = new ParentEntityOrderByIntString();
+        List<ChildEntityOrderByIntString> strChildren = new ArrayList<ChildEntityOrderByIntString>(3);
+        //create three children, two of them have the same random int value, their string values are "1", "2" and "3"
+        int repeatedNumber = 0;
+        for (int i = 1; i <= 3; i++) {
+            ChildEntityOrderByIntString  strChild = new ChildEntityOrderByIntString();
+            repeatedNumber = random.nextInt();
+            strChild.setMyInt(repeatedNumber);
+            strChild.setMyString(String.valueOf(i));
+            strChild.setParent(strParent);
+            strChildren.add(strChild);
+        }
+        strChildren.get(0).setMyInt(repeatedNumber); //give the first child the same int as the last child
+        strParent.setChildren(strChildren);
+        addTestDatumInTx(strParent);
+
+        List<ParentEntityOrderByIntString> strResult = em.createQuery("select o from " + ParentEntityOrderByIntString.class.getSimpleName() + " o",
+                ParentEntityOrderByIntString.class).getResultList();
+        Assert.assertEquals(strResult.size(), 1);
+
+        Iterator<ChildEntityOrderByIntString> strIterator = strResult.get(0).getChildren().iterator();
+        ChildEntityOrderByIntString currentStrChild = strIterator.next();
+        boolean repeatedNumberFound = false;
+        while (strIterator.hasNext()) {
+            ChildEntityOrderByIntString next = strIterator.next();
+            if (currentStrChild.getMyInt() == next.getMyInt()) {
+                repeatedNumberFound = true;
+                Assert.assertTrue(currentStrChild.getMyString().compareTo(next.getMyString()) > 0); //string descending
+            } else {
+                Assert.assertTrue(currentStrChild.getMyInt() < next.getMyInt()); //integers ascending
+            }
+            currentStrChild = next;
+        }
+        Assert.assertTrue(repeatedNumberFound, "No children with the same int found next to each other");
+
+        ChildEntityOrderByPk orphan = new ChildEntityOrderByPk();
+        addTestDatumInTx(orphan);
+        ParentEntityOrderByPk pkParent = new ParentEntityOrderByPk();
+        List<ChildEntityOrderByPk> pkChildren = new ArrayList<ChildEntityOrderByPk>(3);
+        for (int i = 1; i <= 3; i++) {
+            ChildEntityOrderByPk pkChild = new ChildEntityOrderByPk();
+            pkChild.setParent(pkParent);
+            pkChildren.add(pkChild);
+        }
+        pkParent.setChildren(pkChildren);
+        addTestDatumInTx(pkParent);
+        em.getTransaction().begin();
+        try {
+            ChildEntityOrderByPk childToMerge = em.find(ChildEntityOrderByPk.class, orphan.getId());
+            childToMerge.setParent(pkParent);
+            em.merge(childToMerge);
+        } finally {
+            em.getTransaction().commit();
+        }
+
+        List<ParentEntityOrderByPk> pkResult = em.createQuery("select o from " + ParentEntityOrderByPk.class.getSimpleName() + " o",
+                ParentEntityOrderByPk.class).getResultList();
+        Assert.assertEquals(pkResult.size(), 1);
+        Iterator<ChildEntityOrderByPk> pkIterator = pkResult.get(0).getChildren().iterator();
+        ChildEntityOrderByPk currentPkChild = pkIterator.next();
+        while (pkIterator.hasNext()) {
+            ChildEntityOrderByPk next = pkIterator.next();
+            Assert.assertTrue(currentPkChild.getId().compareTo(next.getId()) < 0);
+            currentPkChild = next;
+        }
+
     }
     
     private String getResultOrder(List<DataTypesFTestEntity> results) {
