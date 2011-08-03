@@ -41,7 +41,7 @@ import java.net.URL;
  */
 public class TokenRetrievalServiceImpl implements TokenRetrievalService {
 
-    private static final Logger logger = LoggerFactory.getLogger(TokenRetrievalServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TokenRetrievalServiceImpl.class);
 
     /**
      * Obtains an access token by calling the OAuth authentication endpoint and either trading an 
@@ -96,8 +96,7 @@ public class TokenRetrievalServiceImpl implements TokenRetrievalService {
                 String message = errorIn.readLine();
                 if (message != null && !"".equals(message)) {
                     throw new IOException(message, e);
-                }
-                else {
+                } else {
                     throw e;
                 }
             }
@@ -106,7 +105,7 @@ public class TokenRetrievalServiceImpl implements TokenRetrievalService {
                 try {
                     errorIn.close();
                 } catch (IOException e1) {
-                    logger.error("Error closing error-input-stream from api call.");
+                    LOGGER.error("Error closing error-input-stream from api call.");
                 }
             }
         }

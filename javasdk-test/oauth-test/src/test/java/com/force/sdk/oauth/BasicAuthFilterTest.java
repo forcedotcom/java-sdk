@@ -85,7 +85,7 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
     }
 
     @Test(dataProvider = "tokenRetrievalTests")
-    public void TestTokenRetrievalService(String url, String params, String message) throws IOException {
+    public void testTokenRetrievalService(String url, String params, String message) throws IOException {
         TokenRetrievalServiceImpl tokenRetrievalService = new TokenRetrievalServiceImpl();
         try {
             tokenRetrievalService.retrieveToken(url, params, null, null);
