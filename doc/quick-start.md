@@ -27,7 +27,7 @@ Many of the commands in this quick start trigger downloads of additional Maven d
 
 Navigate to the directory where you want to create the new project and create it from a Maven archetype by executing the following command:
 
-    mvn archetype:generate -DarchetypeCatalog=http://repo.t.salesforce.com/archiva/repository/releases/archetype-catalog.xml -DarchetypeGroupId=com.force.sdk -DarchetypeArtifactId=springmvc-archetype
+    mvn archetype:generate -DarchetypeGroupId=com.force.sdk -DarchetypeArtifactId=springmvc-archetype
     
 You will be prompted for a couple of properties for your project. You only need to fill out two: groupId and artifactId. Set groupId to the Java package name for your code and artifactId to your application's name:
 

@@ -1,10 +1,10 @@
-# Database.com Java SDK
+# Database.com SDK for Java
 
 For more information on how to use the Java SDK, please read our documentation at http://forcedotcom.github.com/java-sdk/force-sdk-overview
 
 ## How to build
 
-The Database.com Java SDK is built using [Maven](http://maven.apache.org/) version 2.2.1.  Make sure you have the correct version of Maven installed on your system before attempting to build.
+The Database.com SDK is built using [Maven](http://maven.apache.org/) version 2.2.1.  Make sure you have the correct version of Maven installed on your system before attempting to build.
 
 Run the following maven command to build from source without running any tests
 
