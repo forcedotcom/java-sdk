@@ -38,6 +38,7 @@ import org.datanucleus.exceptions.NucleusUserException;
 import org.datanucleus.metadata.AbstractClassMetaData;
 import org.datanucleus.metadata.AbstractMemberMetaData;
 import org.datanucleus.metadata.ColumnMetaData;
+import org.datanucleus.metadata.InheritanceStrategy;
 
 import javax.persistence.*;
 import java.lang.reflect.AccessibleObject;
@@ -241,22 +242,21 @@ public class ForceColumnMetaData extends ForceMetaData {
     }
     
     private void updateListOfMissingFields() {
-        AbstractMemberMetaData[] membersInThisClass =  cmd.getManagedMembers();
-        if (membersInThisClass != null && membersInThisClass.length > 0) {
-            for (AbstractMemberMetaData ammd : membersInThisClass) {
-                validateColumn(ammd, storeManager.getOMFContext());
-                AbstractClassMetaData relatedEntity =
-                    storeManager.getMetaDataManager().getMetaDataForEntityName(ammd.getType().getSimpleName());
-                if (relatedEntity != null && relatedEntity.isEmbeddedOnly()) {
-                    // Add all embedded fields to embedding entity
-                    for (AbstractMemberMetaData eammd : ammd.getEmbeddedMetaData().getMemberMetaData()) {
-                        addFieldToListIfAbsent(eammd, storeManager);
-                    }
-                } else {
-                    addFieldToListIfAbsent(ammd, storeManager);
+        
+        for (AbstractMemberMetaData ammd : findAllFields()) {
+            validateColumn(ammd, storeManager.getOMFContext());
+            AbstractClassMetaData relatedEntity =
+                storeManager.getMetaDataManager().getMetaDataForEntityName(ammd.getType().getSimpleName());
+            if (relatedEntity != null && relatedEntity.isEmbeddedOnly()) {
+                // Add all embedded fields to embedding entity
+                for (AbstractMemberMetaData eammd : ammd.getEmbeddedMetaData().getMemberMetaData()) {
+                    addFieldToListIfAbsent(eammd, storeManager);
                 }
+            } else {
+                addFieldToListIfAbsent(ammd, storeManager);
             }
         }
+        
         // If there is a discriminator column add that too
         if (cmd.getSuperAbstractClassMetaData() == null && cmd.getDiscriminatorMetaData() != null
                 && cmd.getDiscriminatorMetaData().getColumnMetaData() != null) {
@@ -268,6 +268,25 @@ public class ForceColumnMetaData extends ForceMetaData {
                 }
             }, storeManager);
         }
+    }
+    
+    private List<AbstractMemberMetaData> findAllFields() {
+        List<AbstractMemberMetaData> allFields = new ArrayList<AbstractMemberMetaData>();
+        
+        // Load up fields from this class
+        AbstractMemberMetaData[] membersInThisClass =  cmd.getManagedMembers();
+        if (membersInThisClass != null) allFields.addAll(Arrays.asList(membersInThisClass));
+        
+        // Load up fields from MappedSuperclasses in class hierarchy
+        AbstractClassMetaData superClassMD = cmd.getSuperAbstractClassMetaData();
+        while (superClassMD != null
+                && superClassMD.getInheritanceMetaData().getStrategy() == InheritanceStrategy.SUBCLASS_TABLE) {
+            AbstractMemberMetaData[] membersInSuperClass =  superClassMD.getManagedMembers();
+            if (membersInSuperClass != null) allFields.addAll(Arrays.asList(membersInSuperClass));
+            superClassMD = superClassMD.getSuperAbstractClassMetaData();
+        }
+        
+        return allFields;
     }
     
     private void addFieldToListIfAbsent(AbstractMemberMetaData ammd, ForceStoreManager storeMgr) {

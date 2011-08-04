@@ -64,7 +64,7 @@ public class SchemaTest extends SchemaBaseTest {
     @DataProvider
     public Object[][] schemaDataProvider() throws NumberFormatException, MalformedURLException {
         Object [][] schemaTestVals = new Object[][]{
-                {"testMappedSuperclass", "@AttributeOverride or @AssociationOverride is not supported by Force.com datastore."},
+                {"testMappedSuperclassWithOverride", "@AttributeOverride or @AssociationOverride is not supported by Force.com datastore."},
                 {"testUniqueConstraint", "@UniqueConstraint is not supported by Force.com datastore"},
                 {"testLob", "@Clob field type is not supported"},
                 {"testJoinTable", "@JoinTable is not supported."},
@@ -323,6 +323,17 @@ public class SchemaTest extends SchemaBaseTest {
             new String[] {"CreatedById" , "CreatedDate", "Id", "IsDeleted", "LastModifiedById",
                 "LastModifiedDate", "Name", "OwnerId", "SystemModstamp", "childOnly__c" }
                 );
+    }
+    
+    @Test
+    public void testMappedSuperclass() throws Exception {
+        emfac = Persistence.createEntityManagerFactory("testMappedSuperclass", dynamicOrgConfig);
+        em = emfac.createEntityManager();
+        
+        // The sub-class should have fields from the mapped super class as well
+        verifyFieldsOnSObject("MappedSubclassEntity__c",
+                new String[] {"CreatedById", "CreatedDate", "Id", "IsDeleted", "LastModifiedById",
+                "LastModifiedDate", "Name", "OwnerId", "SystemModstamp", "someSubtypeValue__c", "someSuperTypeValue__c"});
     }
     
     @Test

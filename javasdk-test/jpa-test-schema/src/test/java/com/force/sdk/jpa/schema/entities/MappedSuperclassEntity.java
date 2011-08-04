@@ -31,9 +31,9 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- * 
- * Test @MappedSuperclass annotation.
+ * Test entity used for @MappedSuperclass tests.
  *
+ * @author Tim Kral
  * @author Jill Wetzler
  */
 @MappedSuperclass
@@ -44,4 +44,6 @@ public class MappedSuperclassEntity implements Serializable {
     String id;
     
     String name;
+    
+    int someSuperTypeValue;
 }

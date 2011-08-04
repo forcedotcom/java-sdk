@@ -26,14 +26,20 @@
 
 package com.force.sdk.jpa.schema.entities;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 /**
- * Test entity with inherits from a @MappedSuperclass.
- * 
- * @author Tim Kral
+ * Test entity with illegal override annotations.
+ *
+ * @author Dirk Hain
  */
 @Entity
-public class MappedSubclassEntity extends MappedSuperclassEntity {
+@AttributeOverride(name = "name", column = @Column(name = "NAME_COL"))
+@AssociationOverride(name = "id",
+        joinColumns = @JoinColumn(name = "SUPER_ID", referencedColumnName = "ID", nullable = true))
+public class MappedSubclassWithOverrideEntity extends MappedSuperclassEntity {
+    
+    /*We currently don't assert any exceptions for @AssociationOverride. This is just an 
+     * example how to use the annotation.*/
     int someSubtypeValue;
 }
