@@ -26,13 +26,20 @@
 
 package com.force.sdk.codegen.filter;
 
-import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.sforce.soap.partner.*;
+import com.sforce.soap.partner.DescribeSObjectResult;
+import com.sforce.soap.partner.Field;
+import com.sforce.soap.partner.FieldType;
 
 /**
  * 
@@ -101,7 +108,9 @@ public class ObjectCombinationFilterTest {
      * @author Jeff Lai
      * 
      */
-    private static class DescribeSObjectComparator implements Comparator<DescribeSObjectResult> {
+    private static class DescribeSObjectComparator implements Comparator<DescribeSObjectResult>, Serializable {
+
+        private static final long serialVersionUID = 1L;
 
         @Override
         public int compare(DescribeSObjectResult object1, DescribeSObjectResult object2) {

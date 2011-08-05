@@ -26,13 +26,19 @@
 
 package com.force.sdk.codegen.filter;
 
-import java.util.*;
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.sforce.soap.partner.*;
+import com.sforce.soap.partner.DescribeSObjectResult;
+import com.sforce.soap.partner.Field;
+import com.sforce.soap.partner.FieldType;
 
 /**
  * 
@@ -115,7 +121,9 @@ public class FieldReferenceFilterTest {
      * @author Jeff Lai
      * 
      */
-    private static class FieldComparator implements Comparator<Field> {
+    private static class FieldComparator implements Comparator<Field>, Serializable {
+
+        private static final long serialVersionUID = 1L;
 
         @Override
         public int compare(Field field1, Field field2) {

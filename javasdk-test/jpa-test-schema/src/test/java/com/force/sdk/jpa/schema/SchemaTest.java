@@ -64,7 +64,8 @@ public class SchemaTest extends SchemaBaseTest {
     @DataProvider
     public Object[][] schemaDataProvider() throws NumberFormatException, MalformedURLException {
         Object [][] schemaTestVals = new Object[][]{
-                {"testMappedSuperclassWithOverride", "@AttributeOverride or @AssociationOverride is not supported by Force.com datastore."},
+                {"testMappedSuperclassWithOverride",
+                    "@AttributeOverride or @AssociationOverride is not supported by Force.com datastore."},
                 {"testUniqueConstraint", "@UniqueConstraint is not supported by Force.com datastore"},
                 {"testLob", "@Clob field type is not supported"},
                 {"testJoinTable", "@JoinTable is not supported."},
