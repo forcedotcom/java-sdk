@@ -101,7 +101,7 @@ public class ObjectCombinationFilterTest {
      * @author Jeff Lai
      * 
      */
-    private class DescribeSObjectComparator implements Comparator<DescribeSObjectResult> {
+    private static class DescribeSObjectComparator implements Comparator<DescribeSObjectResult> {
 
         @Override
         public int compare(DescribeSObjectResult object1, DescribeSObjectResult object2) {

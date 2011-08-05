@@ -115,7 +115,7 @@ public class FieldReferenceFilterTest {
      * @author Jeff Lai
      * 
      */
-    private class FieldComparator implements Comparator<Field> {
+    private static class FieldComparator implements Comparator<Field> {
 
         @Override
         public int compare(Field field1, Field field2) {
