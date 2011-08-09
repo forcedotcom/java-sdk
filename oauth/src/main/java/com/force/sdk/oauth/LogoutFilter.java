@@ -17,7 +17,6 @@ import com.force.sdk.oauth.connector.ForceOAuthConnector;
 import com.force.sdk.oauth.context.ForceSecurityContextHolder;
 import com.force.sdk.oauth.context.SecurityContext;
 import com.force.sdk.oauth.context.SecurityContextUtil;
-import com.force.sdk.oauth.context.store.ForceEncryptionException;
 import com.force.sdk.oauth.context.store.SecurityContextCookieStore;
 import com.force.sdk.oauth.context.store.SecurityContextSessionStore;
 import com.force.sdk.oauth.context.store.SecurityContextStorageService;
@@ -65,38 +64,24 @@ public class LogoutFilter implements Filter {
 		
 		SecurityContext sc = ForceSecurityContextHolder.get(false);
 		
-		ForceConnectorConfig config = new ForceConnectorConfig();
-        try {
-        	config.setServiceEndpoint(sc.getEndPoint());
-        	config.setSessionId(sc.getSessionId());
-        	ForceServiceConnector connector = new ForceServiceConnector();
-        	connector.setConnectorConfig(config);
-        	//logout from the partner API
-        	connector.getConnection().logout();
-        	
-        	//clear the security context out of the security context holder
-        	ForceSecurityContextHolder.release();
-        	
-        	//Clear security context and cookies
-        	contextStorageService.clearSecurityContext(req, res);
-        	SecurityContextUtil.clearCookieValues(res);
-        	
-        	String logoutUrl = logoutTargetUrl;
-        	
-        	if(logoutFromForceCom) {
-        		logoutUrl = getForceDotComLogoutUrl(req, sc, logoutTargetUrl);
-        	}
-        	
-        	//TODO: Need a new way to redirect back from force.com
-        	
-        	res.sendRedirect(res.encodeRedirectURL(logoutUrl));
-
-        } catch (ConnectionException e) {
-            if (config.getSessionId() != null) {
-                // If the session id is null that means we visited the renewer method below and the session is dead anyways
-                //TODO: log error
-            }
-        }
+    	//clear the security context out of the security context holder
+    	ForceSecurityContextHolder.release();
+    	
+    	//Clear security context and cookies
+    	contextStorageService.clearSecurityContext(req, res);
+    	SecurityContextUtil.clearCookieValues(res);
+    	
+    	String logoutUrl = logoutTargetUrl;
+    	
+    	if(logoutFromForceCom) {
+    		logoutUrl = getForceDotComLogoutUrl(req, sc, logoutTargetUrl);
+    	}
+    	
+    	//TODO: Need a new way to redirect back from force.com
+    	
+    	res.sendRedirect(res.encodeRedirectURL(logoutUrl));
+    	
+    	chain.doFilter(request, response);
 		
 	}
 	
