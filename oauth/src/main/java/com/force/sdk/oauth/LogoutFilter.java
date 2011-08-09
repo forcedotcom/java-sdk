@@ -16,6 +16,7 @@ import com.force.sdk.connector.ForceServiceConnector;
 import com.force.sdk.oauth.connector.ForceOAuthConnector;
 import com.force.sdk.oauth.context.ForceSecurityContextHolder;
 import com.force.sdk.oauth.context.SecurityContext;
+import com.force.sdk.oauth.context.SecurityContextUtil;
 import com.force.sdk.oauth.context.store.ForceEncryptionException;
 import com.force.sdk.oauth.context.store.SecurityContextCookieStore;
 import com.force.sdk.oauth.context.store.SecurityContextSessionStore;
@@ -24,7 +25,7 @@ import com.sforce.ws.ConnectionException;
 
 public class LogoutFilter implements Filter {
 
-	private boolean logoutFromForceCom = false;
+	private boolean logoutFromForceCom = true;
 	private String logoutTargetUrl = "";
 	
 	private ForceOAuthConnector oauthConnector;
@@ -34,24 +35,21 @@ public class LogoutFilter implements Filter {
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-        if ("true".equalsIgnoreCase(filterConfig.getInitParameter("logoutFromForceDotCom"))) {
-        	logoutFromForceCom = true;
+		
+        if ("false".equalsIgnoreCase(filterConfig.getInitParameter("logoutFromForceDotCom"))) {
+        	logoutFromForceCom = false;
         }
         
         logoutTargetUrl = filterConfig.getInitParameter("logoutSuccessUrl");
         
+        if(logoutTargetUrl == null || "".equals(logoutTargetUrl)) {
+        	logoutTargetUrl = "/";
+        }
+        
         if (CONTEXT_STORE_SESSION_VALUE.equals(filterConfig.getInitParameter("securityContextStorageMethod"))) {
         	contextStorageService = new SecurityContextSessionStore();
         } else {
-            SecurityContextCookieStore cookieStore = new SecurityContextCookieStore();
-
-            try {
-                cookieStore.setKeyFileName(filterConfig.getInitParameter("secure-key-file"));
-            } catch (ForceEncryptionException e) {
-                throw new ServletException(e);
-            }
-
-            contextStorageService = cookieStore;
+        	contextStorageService = new SecurityContextCookieStore();
         }
         
         oauthConnector = new ForceOAuthConnector();
@@ -79,13 +77,19 @@ public class LogoutFilter implements Filter {
         	//clear the security context out of the security context holder
         	ForceSecurityContextHolder.release();
         	
+        	//Clear security context and cookies
         	contextStorageService.clearSecurityContext(req, res);
+        	SecurityContextUtil.clearCookieValues(res);
+        	
+        	String logoutUrl = logoutTargetUrl;
         	
         	if(logoutFromForceCom) {
-        		logoutTargetUrl = getForceDotComLogoutUrl(req, sc, logoutTargetUrl);
+        		logoutUrl = getForceDotComLogoutUrl(req, sc, logoutTargetUrl);
         	}
         	
-        	res.sendRedirect(res.encodeRedirectURL(logoutTargetUrl));
+        	//TODO: Need a new way to redirect back from force.com
+        	
+        	res.sendRedirect(res.encodeRedirectURL(logoutUrl));
 
         } catch (ConnectionException e) {
             if (config.getSessionId() != null) {

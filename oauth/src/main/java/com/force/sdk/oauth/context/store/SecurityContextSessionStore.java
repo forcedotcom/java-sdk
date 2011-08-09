@@ -71,12 +71,15 @@ public class SecurityContextSessionStore implements
     }
 
     /**
-     * This does nothing when server side sessions are being used for {@code SecurityContext} storage.
+     * This invalidates the session when server side sessions are being used for {@code SecurityContext} storage.
      * {@inheritDoc}
      */
     @Override
     public void clearSecurityContext(HttpServletRequest request, HttpServletResponse response) {
-        //Clearing the session isn't necessary
+        HttpSession session = request.getSession(false);
+        if(session != null) {
+        	session.invalidate();
+        }
     }
 
     @Override
