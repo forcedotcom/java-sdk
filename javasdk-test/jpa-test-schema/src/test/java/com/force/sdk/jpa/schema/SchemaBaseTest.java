@@ -130,6 +130,13 @@ public class SchemaBaseTest extends BaseJPAFTest {
         return connector.getNamespace();
     }
     
+    public static String getObjectApiPrefix() throws ConnectionException {
+    	String namespace = getNamespaceFromCtx();
+    	if (namespace == null || "".equals(namespace)) return "";
+    	
+    	return namespace + NAME_SEPARATOR;
+    }
+    
     /**
      * Helper to create connection URL (copied from {@link BaseJPAConnectionTest}.
      * @param info userinfo object to create the connection url from

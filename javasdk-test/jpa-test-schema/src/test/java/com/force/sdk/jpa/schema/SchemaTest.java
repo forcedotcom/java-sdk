@@ -354,7 +354,7 @@ public class SchemaTest extends SchemaBaseTest {
         Persistence.createEntityManagerFactory("testCreateCustomOwnerObject", dynamicOrgConfig).createEntityManager();
         
         try {
-            service.describeSObject("Owner__c");
+            service.describeSObject(getObjectApiPrefix() + "Owner__c");
         } catch (InvalidSObjectFault e) {
             Assert.fail("Custom Owner object was not created.", e);
         }
@@ -378,11 +378,7 @@ public class SchemaTest extends SchemaBaseTest {
                 "longObject__c", "longPrimitive__c", "floatObject__c", "floatPrimitive__c", "bigInteger__c", "bigDecimal__c" }
                 );
         
-        String prefix = "";
-        String namespace = getNamespaceFromCtx();
-        if (namespace != null && namespace != "") {
-            prefix = namespace + NAME_SEPARATOR;
-        }
+        String prefix = getObjectApiPrefix();
         
         Map<String, PrecisionScale> expectedFieldMetadata = new HashMap<String, PrecisionScale>();
         expectedFieldMetadata.put(prefix + "integerObject__c", new PrecisionScale(11, 0));
