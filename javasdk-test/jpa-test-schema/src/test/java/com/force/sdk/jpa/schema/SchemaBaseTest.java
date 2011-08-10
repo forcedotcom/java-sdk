@@ -131,10 +131,10 @@ public class SchemaBaseTest extends BaseJPAFTest {
     }
     
     public static String getObjectApiPrefix() throws ConnectionException {
-    	String namespace = getNamespaceFromCtx();
-    	if (namespace == null || "".equals(namespace)) return "";
-    	
-    	return namespace + NAME_SEPARATOR;
+        String namespace = getNamespaceFromCtx();
+        if (namespace == null || "".equals(namespace)) return "";
+        
+        return namespace + NAME_SEPARATOR;
     }
     
     /**
