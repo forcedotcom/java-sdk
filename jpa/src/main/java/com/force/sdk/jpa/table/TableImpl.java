@@ -79,7 +79,7 @@ public class TableImpl {
     }
     
     /**
-     * Constructor used for virtual schema (tables that aren't actually backed by an object, like Owner).
+     * Constructor used for virtual schema (tables that aren't actually backed by an object, like ForceOwner).
      * 
      * @param tableName the table name of the entity
      * @param acmd  the class metadata

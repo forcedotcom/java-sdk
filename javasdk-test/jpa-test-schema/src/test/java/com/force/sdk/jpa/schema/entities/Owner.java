@@ -24,43 +24,23 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.jpa.model;
+package com.force.sdk.jpa.schema.entities;
 
-import javax.persistence.*;
-
-import com.force.sdk.jpa.annotation.CustomObject;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
- * Java model for a Force.com JPA Owner field.
- * This contains all common fields for a Force.com
- * object Owner.
- *
+ * Test entity for creating a custom owner object.
+ * 
  * @author Tim Kral
- **/
+ */
 @Entity
-@CustomObject(readOnlySchema = true, virtualSchema = true)
 public class Owner {
-
-    protected String id;
-    protected String name;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id")
-    public String getId() {
-        return this.id;
-    }
-    
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @Column(name = "Name")
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    String id;
+    String name;
 }

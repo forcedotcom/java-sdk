@@ -46,7 +46,7 @@ import org.datanucleus.metadata.AbstractClassMetaData;
 import com.force.sdk.jpa.ForceManagedConnection;
 import com.force.sdk.jpa.PersistenceUtils;
 import com.force.sdk.jpa.annotation.CustomObject;
-import com.force.sdk.jpa.model.Owner;
+import com.force.sdk.jpa.model.ForceOwner;
 import com.force.sdk.jpa.schema.ForceStoreSchemaHandler;
 import com.force.sdk.jpa.table.TableImpl;
 
@@ -111,9 +111,9 @@ public final class MockForceStoreSchemaHandler {
             }
         }
         
-        // All persistence units load the Owner class so make sure it's registered
+        // All persistence units load the ForceOwner class so make sure it's registered
         // (see ForceMetaDataManager.loadPersistenceUnit)
-        registerTable(Owner.class);
+        registerTable(ForceOwner.class);
     }
     
     @SuppressWarnings("rawtypes")

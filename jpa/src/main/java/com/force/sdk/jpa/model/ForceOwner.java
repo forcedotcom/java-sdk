@@ -24,42 +24,43 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.codegen.entities;
+package com.force.sdk.jpa.model;
 
 import javax.persistence.*;
 
-import com.force.sdk.jpa.model.ForceOwner;
+import com.force.sdk.jpa.annotation.CustomObject;
 
 /**
- * Extension of the Account standard object. 
+ * Java model for a Force.com JPA Owner field.
+ * This contains all common fields for a Force.com
+ * object Owner.
  *
  * @author Tim Kral
- */
-@Entity(name = "AccountCustomFields")
-public class AccountCustomFields extends AccountEntity {
+ **/
+@Entity
+@CustomObject(readOnlySchema = true, virtualSchema = true)
+public class ForceOwner {
 
-    private String someCustomField;
-    
-    public String getSomeCustomField() {
-        return someCustomField;
+    protected String id;
+    protected String name;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
+    public String getId() {
+        return this.id;
     }
     
-    public void setSomeCustomField(String someCustomField) {
-        this.someCustomField = someCustomField;
+    public void setId(String id) {
+        this.id = id;
     }
-    
-    // Override Force.com Owner fetch type to EAGER
-    // This will load the entire owner object 
-    @Override
-    @ManyToOne
-    @Basic(fetch = FetchType.EAGER)
-    @Column(name = "ownerId")
-    public ForceOwner getForceOwner() {
-        return this.forceOwner;
+
+    @Column(name = "Name")
+    public String getName() {
+        return this.name;
     }
-    
-    @Override
-    public void setForceOwner(ForceOwner owner) {
-        this.forceOwner = owner;
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -41,7 +41,7 @@ import org.datanucleus.metadata.*;
 import org.datanucleus.util.NucleusLogger;
 import org.datanucleus.util.StringUtils;
 
-import com.force.sdk.jpa.model.Owner;
+import com.force.sdk.jpa.model.ForceOwner;
 import com.force.sdk.jpa.table.ColumnImpl;
 import com.force.sdk.jpa.table.TableImpl;
 import com.sforce.ws.ConnectionException;
@@ -107,9 +107,9 @@ public class ForceMetaDataManager extends JPAMetaDataManager {
             }
         }
         
-        // The Owner entity is provided by force-jpa
+        // The ForceOwner entity is provided by force-jpa
         // so make sure it is loaded for all persistence units
-        pumd.addClassName(Owner.class.getName());
+        pumd.addClassName(ForceOwner.class.getName());
         FileMetaData[] fileMD = super.loadPersistenceUnit(pumd, loader);
         
         for (FileMetaData md : fileMD) {

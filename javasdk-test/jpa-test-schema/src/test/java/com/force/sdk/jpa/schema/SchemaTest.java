@@ -28,14 +28,25 @@ package com.force.sdk.jpa.schema;
 
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
-import javax.persistence.*;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
 import javax.persistence.metamodel.Attribute;
 
-import org.apache.log4j.*;
+import org.apache.log4j.Appender;
+import org.apache.log4j.AppenderSkeleton;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
 import org.datanucleus.exceptions.NucleusException;
 import org.testng.Assert;
@@ -49,6 +60,7 @@ import com.force.sdk.jpa.schema.entities.StandardFieldLinkingEntity;
 import com.force.sdk.qa.util.TestContext;
 import com.sforce.soap.partner.DescribeSObjectResult;
 import com.sforce.soap.partner.PartnerConnection;
+import com.sforce.soap.partner.fault.InvalidSObjectFault;
 import com.sforce.ws.ConnectionException;
 
 /**
@@ -335,6 +347,17 @@ public class SchemaTest extends SchemaBaseTest {
         verifyFieldsOnSObject("MappedSubclassEntity__c",
                 new String[] {"CreatedById", "CreatedDate", "Id", "IsDeleted", "LastModifiedById",
                 "LastModifiedDate", "Name", "OwnerId", "SystemModstamp", "someSubtypeValue__c", "someSuperTypeValue__c"});
+    }
+    
+    @Test
+    public void testCreateCustomOwnerObject() throws Exception {
+        Persistence.createEntityManagerFactory("testCreateCustomOwnerObject", dynamicOrgConfig).createEntityManager();
+        
+        try {
+            service.describeSObject("Owner__c");
+        } catch (InvalidSObjectFault e) {
+            Assert.fail("Custom Owner object was not created.", e);
+        }
     }
     
     @Test

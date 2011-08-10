@@ -262,7 +262,7 @@ public class ForceStoreManager extends AbstractStoreManager {
     
     /**
      * Registers a virtual table with the schema handler (a table not backed by
-     * an actual object but is still needed for JPA queries, e.g. Owner)
+     * an actual object but is still needed for JPA queries, e.g. ForceOwner)
      * 
      * @param acmd the class metadata of the virtual table to register
      * @return the TableImpl for this object

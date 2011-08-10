@@ -132,8 +132,8 @@ public final class PersistenceUtils {
     /**
      * 
      * A JPA entity is virtual schema if it is not backed by an
-     * object on Force.com (for example, Owner is not backed by an
-     * Owner object on Force.com).
+     * object on Force.com (for example, ForceOwner is not backed by an
+     * ForceOwner object on Force.com).
      * 
      * @param acmd the metadata object of the JPA entity
      * @return  {@code true} if the entity is considered virtual schema
