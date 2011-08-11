@@ -69,7 +69,13 @@ To use the connector, add the following servlet filter to your application's `we
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-The OAuth Connector uses the Force.com API Connector to access the Force.com APIs. The <code>connectionName</code> is used to look up OAuth properties defined in an environment variable, or a Java system property, or in a properties file on the classpath. For more information, see [Force.com Database Connections](connection-url). Other <code>init-param</code> values can be configured to customize behavior:
+The OAuth Connector uses the Force.com API Connector to access the Force.com APIs. The <code>connectionName</code> is used to look up OAuth properties defined in an environment variable, or a Java system property, or in a properties file on the classpath. For example, using an environment variable, the connection URL would appear as:
+
+    force://na1.salesforce.com;user=user@salesforce.com;password=password;oauth_key=3MVG9lKcPoNINVBLqaGC0WiLS7H9aehOXaZad80Ve1OB43i.DpfCjn_SqwIAtyY6Lnuzcvdxgzu.IAaLVk4pH.;oauth_secret=516990866494775428
+
+For more information about setting up connection URLs, see [Force.com Database Connections](connection-url).
+
+Other <code>init-param</code> values can be configured to customize behavior:
 
 - <code>securityContextStorageMethod</code> - Control whether data about the authenticated user is stored in a server side session or an encrypted browser cookie. The default is <code>cookie</code>. Set this to <code>session</code> to use sessions. Sessions should only be used if sticky load balancing is available or if the application runs with a single instance.
 - <code>secure-key-file</code> - AES encryption is used to encrypt the data about the authenticated user when it is stored in a browser cookie. This is only used if browser cookie storage is on. If cookies are used and no file is specified, a key is automatically generated. However, this should only be done for development purposes because it will be problematic in a multi-instance deployment since each instance will generate a different key. The key is base-64 encoded. For example, replace *yourKeyGoesHere* with a secure key in the following file. For more information on AES, see [Using AES with Java Technology](http://java.sun.com/developer/technicalArticles/Security/AES/AES_v1.html).
