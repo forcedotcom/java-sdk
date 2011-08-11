@@ -77,11 +77,11 @@ The OAuth Connector uses the Force.com API Connector to access the Force.com API
         # A valid key in base 64 encoding.   
         private-key=yourKeyGoesHere  
 
-- <code>storeUsername</code> - Flag that sets whether or not the username is stored in the user data. This enables you to avoid storing usernames in browser cookies, but it can be used to prevent username storage in sessions too. Default is true.
+- <code>storeUsername</code> - Flag that sets whether or not the username is stored in the user data. This enables you to avoid storing usernames in browser cookies, but it can be used to prevent username storage in sessions too. The default is `true`.
 
-- <code>logoutFromDatabaseDotCom</code> - controls whether the user will also be logged out from database.com. Note that when this isn't used your users will keep a database.com session open and will automatically be passed through future OAuth attempts because of this existing session. It is recommended that you leave this defaulted to true. The logout from database.com is accomplished via a redirect to the database.com logout link so this will be your user's final destination.
+- <code>logoutFromDatabaseDotCom</code> - controls whether the user will also be logged out from Database.com. The default is `true`. If you set the value to `false`, your users will keep a Database.com session open and will automatically be passed through future OAuth attempts while their session remains active. We recommend that you use the default value. If you use the default value, a logout redirects users to the Database.com logout link so their final destination is the Database.com logout page.
 
-- <code>logoutUrl</code> - the URL that will log the user out. This is what you should point your logout links to. If you aren't logging the user out from database.com you should put your own logout landing page at this URL. This defaults to /logout.
+- <code>logoutUrl</code> - the URL that logs a user out. You should point your logout links to this URL. The default is  `/logout`. If you set <code>logoutFromDatabaseDotCom</code> to `false`, you should create your own logout landing page at this URL.
 
 The <code>filter-mapping</code> element above contains a url-pattern of "/\*". This redirects every URL through the filter. It is not required to do this. If your application requires only certain URL patterns to be authenticated, you can configure the filter to match a subset of requests. However, the filter must always include the "/\_auth\*" URL pattern. Otherwise, the OAuth callback won't be properly handled. For example, if you only wanted to check for authentication for "/Secure" your configuration would look like this:
 
@@ -92,4 +92,4 @@ The <code>filter-mapping</code> element above contains a url-pattern of "/\*". T
 		<url-pattern>/logout</url-pattern>
 	</filter-mapping>
 
-If you plan to utilize the logout functionality then you'll also have to map either "/\logout" or your configured logout url into the filter. The filter can't handle logout for you if you don't send logout requests through it.
+If you are using the logout functionality, you must map either `/logout` or your configured logout URL in the filter mapping. The filter can't handle logout for you if you don't send logout requests through it.
