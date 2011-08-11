@@ -69,9 +69,11 @@ To use the connector, add the following servlet filter to your application's `we
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-The OAuth Connector uses the Force.com API Connector to access the Force.com APIs. The <code>connectionName</code> is used to look up OAuth properties defined in an environment variable, or a Java system property, or in a properties file on the classpath. For example, using an environment variable, the connection URL would be set into FORCE_CONNECTIONNAME_URL and would appear as:
+The OAuth Connector uses the Force.com API Connector to access the Force.com APIs. The <code>connectionName</code> is used to look up OAuth properties defined in an environment variable, or a Java system property, or in a properties file on the classpath. For example, if you use a <code>connectionName</code> of `forceDatabase`, you can encode the connection information in a connection URL set in the FORCE\_*FORCEDATABASE*\_URL environment variable:
 
-    force://na1.salesforce.com;user=user@salesforce.com;password=password;oauth_key=3MVG9lKcPoNINVBLqaGC0WiLS7H9aehOXaZad80Ve1OB43i.DpfCjn_SqwIAtyY6Lnuzcvdxgzu.IAaLVk4pH.;oauth_secret=516990866494775428
+<pre>
+  <code>force://login.salesforce.com;user=<em>user@salesforcedoc.org</em>;password=<em>samplePassword</em>;oauth_key=<em>3MVG9lKcPoNINVBLqaGC0WiLS7H9aehOXaZad80Ve1OB43i.DpfCjn_SqwIAtyY6Lnuzcvdxgzu.IAaLVk4pH.</em>;oauth_secret=<em>516990866494775428</em></code>
+</pre>
 
 For more information about setting up connection URLs, see [Force.com Database Connections](connection-url).
 
