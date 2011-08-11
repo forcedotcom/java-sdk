@@ -20,61 +20,65 @@ import com.force.sdk.connector.ForceServiceConnector;
 import com.force.sdk.oauth.context.ForceSecurityContext;
 import com.force.sdk.oauth.context.ForceSecurityContextHolder;
 import com.force.sdk.oauth.context.SecurityContext;
+import com.force.sdk.oauth.context.SecurityContextService;
 import com.force.sdk.oauth.context.SecurityContextUtil;
 import com.force.sdk.oauth.context.store.SecurityContextCookieStore;
 import com.force.sdk.oauth.context.store.SecurityContextSessionStore;
 import com.sforce.ws.ConnectionException;
 
-public class BasicLogoutFilterTest extends BaseOAuthTest {
+public class BasicLogoutTest extends BaseMockedPartnerConnectionTest {
 	
     @DataProvider
-    protected Object[][] logoutFilterDataProvider() {
+    protected Object[][] logoutDataProvider() {
         return new Object[][] {
                 {true, false, null},
                 {true, true, null},
-                {true, false, "/test.jsp"},
-                {true, true, "/test.jsp"},
+                {true, false, "/logoutFromMyApp"},
+                {true, true, "/logoutFromMyApp"},
                 {false, false, null},
                 {false, true, null},
-                {false, false, "/test.jsp"},
-                {false, true, "/test.jsp"},
+                {false, false, "/logoutFromMyApp"},
+                {false, true, "/logoutFromMyApp"},
         };
     }
 
-    @Test(dataProvider = "logoutFilterDataProvider")
+    @Test(dataProvider = "logoutDataProvider")
 	public void testLogoutFilter(boolean isSessionStorage, boolean logoutFromSFDC, String logoutUrl) throws ConnectionException, ServletException, IOException {    	
 		// Set up logged in state
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
-		ForceServiceConnector connector = new ForceServiceConnector("userInfo");
         // Add session id and endpoint cookies to the request
         Cookie sidCookie =
-            new Cookie(SecurityContextUtil.FORCE_FORCE_SESSION, connector.getConnection().getSessionHeader().getSessionId());
+            new Cookie(SecurityContextUtil.FORCE_FORCE_SESSION, originalSc.getSessionId());
         Cookie endpointCookie =
-            new Cookie(SecurityContextUtil.FORCE_FORCE_ENDPOINT, connector.getConnection().getConfig().getServiceEndpoint());
-        request.setCookies(sidCookie, endpointCookie);
-		
-        // Store the security context in the appropriate location
-        SecurityContext sc = new ForceSecurityContext();
-        sc.setEndPoint(connector.getConnection().getConfig().getServiceEndpoint());
-        sc.setSessionId(connector.getConnection().getSessionHeader().getSessionId());
-        if(isSessionStorage) {
-        	request.getSession().setAttribute(SecurityContextSessionStore.SECURITY_CONTEXT_SESSION_KEY, sc);
-        } else {
-        	Cookie scCookie = new Cookie(SecurityContextCookieStore.SECURITY_CONTEXT_COOKIE_NAME, sc.toString());
-        	request.setCookies(scCookie);
-        }
-        ForceSecurityContextHolder.set(sc);
+            new Cookie(SecurityContextUtil.FORCE_FORCE_ENDPOINT, originalSc.getEndPoint());
         
+        if(logoutUrl == null) {
+        	logoutUrl = "/logout";
+        }
+        request.setServletPath(logoutUrl);
+		
         // Create the LogoutFilter
-        LogoutFilter filter = new LogoutFilter();
+        AuthFilter filter = new AuthFilter();
         MockFilterConfig filterConfig = new MockFilterConfig();
         filterConfig.addInitParameter("securityContextStorageMethod", isSessionStorage ? "session" : "cookie");
-        filterConfig.addInitParameter("logoutFromForceDotCom", String.valueOf(logoutFromSFDC));
-        filterConfig.addInitParameter("logoutSuccessUrl", logoutUrl);
+        filterConfig.addInitParameter("logoutFromDatabaseDotCom", String.valueOf(logoutFromSFDC));
+        filterConfig.addInitParameter("logoutUrl", logoutUrl);
+        filterConfig.addInitParameter("connectionName", "CONNURLENVVAR");
         filter.init(filterConfig);
         
-        filter.doFilter(request, response, new VerifyLogoutFilterChain(isSessionStorage, logoutFromSFDC, logoutUrl));
+        if(!isSessionStorage) {
+        	MockHttpServletResponse tempMockResponse = new MockHttpServletResponse();
+        	SecurityContextService securityContextService = filter.getSecurityContextService();
+        	securityContextService.setSecurityContextToSession(request, tempMockResponse, originalSc);
+        	request.setCookies(sidCookie, endpointCookie,
+        			tempMockResponse.getCookie(SecurityContextCookieStore.SECURITY_CONTEXT_COOKIE_NAME));
+        } else {
+        	request.getSession().setAttribute(SecurityContextSessionStore.SECURITY_CONTEXT_SESSION_KEY, originalSc);
+        	request.setCookies(sidCookie, endpointCookie);
+        }
+        
+        filter.doFilter(request, response, new VerifyLogoutFilterChain(isSessionStorage, logoutFromSFDC));
 	}
 	
     /**
@@ -86,12 +90,10 @@ public class BasicLogoutFilterTest extends BaseOAuthTest {
 
     	private boolean isSessionStorage;
     	private boolean logoutFromSFDC;
-    	private String logoutUrl = null;
     	
-    	public VerifyLogoutFilterChain(boolean isSessionStorage, boolean logoutFromSFDC, String logoutUrl) {
+    	public VerifyLogoutFilterChain(boolean isSessionStorage, boolean logoutFromSFDC) {
     		this.isSessionStorage = isSessionStorage;
     		this.logoutFromSFDC = logoutFromSFDC;
-    		this.logoutUrl = logoutUrl;
     	}
     	
 		@Override
@@ -125,12 +127,6 @@ public class BasicLogoutFilterTest extends BaseOAuthTest {
 			if(logoutFromSFDC) {
 				Assert.assertTrue(res.getRedirectedUrl().contains("secur/logout.jsp"), 
                     "When logging out from SFDC the user must be redirected to the logout page");
-			} else {
-				if(logoutUrl == null) {
-					logoutUrl = "/";
-				}
-				Assert.assertTrue(res.getRedirectedUrl().contains(logoutUrl), 
-                    "After logging out the user should be sent to the specified logout url");
 			}
 			
 		}

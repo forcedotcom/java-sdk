@@ -89,6 +89,10 @@ public class AuthFilter implements Filter, SessionRenewer {
 
     private ForceOAuthConnector oauthConnector;
     private SecurityContextService securityContextService = null;
+    
+    //logout specific parameters
+    private boolean logoutFromDatabaseCom = true;
+    private String logoutUrl = "";
 
     /**
      * Initializes the filter from the init params.
@@ -168,6 +172,17 @@ public class AuthFilter implements Filter, SessionRenewer {
         }
 
         securityContextService = securityContextServiceImpl;
+        
+        //Logout specific parameters
+        if ("false".equalsIgnoreCase(config.getInitParameter("logoutFromDatabaseDotCom"))) {
+            logoutFromDatabaseCom = false;
+        }
+        
+        logoutUrl = config.getInitParameter("logoutUrl");
+
+        if (logoutUrl == null || "".equals(logoutUrl)) {
+            logoutUrl = "/logout";
+        }
     }
 
     /**
@@ -193,6 +208,11 @@ public class AuthFilter implements Filter, SessionRenewer {
         if (!ForceOAuthConnector.REDIRECT_AUTH_URI.equals(request.getServletPath())) {
             sc = securityContextService.getSecurityContextFromSession(request);
         }
+        
+        if (isLogoutUrl(request)) {
+            logout(request, response, sc, chain);
+            return;
+        }
 
         // if there is no valid security context then initiate an OAuth handshake
         if (sc == null) {
@@ -201,6 +221,7 @@ public class AuthFilter implements Filter, SessionRenewer {
         } else {
             securityContextService.setSecurityContextToSession(request, response, sc);
         }
+        
         ForceSecurityContextHolder.set(sc);
         
         ForceConnectorConfig cc = new ForceConnectorConfig();
@@ -290,5 +311,43 @@ public class AuthFilter implements Filter, SessionRenewer {
     @Override
     public SessionRenewalHeader renewSession(ConnectorConfig config) throws ConnectionException {
         throw new ForceOAuthSessionExpirationException();
+    }
+    
+    private void logout(
+        ServletRequest request, ServletResponse response, SecurityContext sc, FilterChain chain)
+        throws IOException, ServletException {
+        
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+        
+        //clear the security context out of the security context holder
+        ForceSecurityContextHolder.release();
+
+        //Clear security context and cookies
+        securityContextService.clearSecurityContext(req, res);
+        SecurityContextUtil.clearCookieValues(res);
+        
+        if (logoutFromDatabaseCom) {
+            String forceComLogoutUrl = getForceDotComLogoutUrl(req, sc, null);
+            res.sendRedirect(res.encodeRedirectURL(forceComLogoutUrl));
+        } else {
+            chain.doFilter(request, response);
+        }
+    }
+    
+    private boolean isLogoutUrl(HttpServletRequest request) {
+        
+        if (logoutUrl != null
+                && !"".equals(logoutUrl)
+                && logoutUrl.equals(request.getServletPath())) {
+            return true;
+        }
+        return false;
+    }
+    
+    private String getForceDotComLogoutUrl(
+            HttpServletRequest request, SecurityContext sc, String logoutTargetUrl) {
+        
+        return oauthConnector.getForceLogoutUrl(request, sc.getEndPoint(), logoutTargetUrl);
     }
 }

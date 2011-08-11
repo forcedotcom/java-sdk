@@ -77,3 +77,35 @@ The <code>filter-mapping</code> element above contains a url-pattern of "/\*". T
 		<url-pattern>/_auth*</url-pattern>
 	</filter-mapping>
 
+### Configuring a logout url
+
+Logging users out is handled through a second filter: LogoutFilter. In order to use this filter in your application you simply need to add a second filter definition and mapping to your web.xml.
+
+	<!-- Enables Logout -->
+	<filter>
+		<filter-name>LogoutFilter</filter-name>
+		<filter-class>com.force.sdk.oauth.LogoutFilter</filter-class>
+			 <!-- Optional parameters -->
+			 <init-param>
+			 	<param-name>logoutFromDatabaseDotCom</param-name>
+			 	<param-value>true or false (defaults to true)</param-value>
+			</init-param>
+			 <init-param>
+			 	<param-name>logoutSuccessUrl</param-name>
+			 	<param-value>the URL to redirect users to after logout. Defaults to "/". Will be ignored when logoutFromDatabaseDotCom is true</param-value>
+			</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>LogoutFilter</filter-name>
+		<url-pattern>/logout</url-pattern> 
+                <!-- make sure this url is also mapped to your auth filter. Information populated by the auth filter is needed for logout -->
+	</filter-mapping>
+
+There are a few things to note about this configuration. First of all you'll notice that all of the parameters are optional. They all have default values. The meanings of the parameters are as follows:
+
+- logoutFromDatabaseDotCom - controls whether the user will also be logged out from force.com
+
+- logoutSuccessUrl - the URL that the user should be redirected to after they are logged out. It is important to note that this parameter will be ignored if logoutFromDatabaseDotCom is set to true. This is because the logout from database.com is accomplished by a redirect to the database.com logout page.
+
+Finally it's important that any URLs that you map to LogoutFilter are also mapped to AuthFilter. This is required because AuthFilter will do some setup work that is needed to perform a clean and complete logout.
+

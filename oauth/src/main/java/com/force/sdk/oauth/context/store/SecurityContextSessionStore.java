@@ -77,14 +77,29 @@ public class SecurityContextSessionStore implements
     @Override
     public void clearSecurityContext(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
-        if(session != null) {
-        	session.invalidate();
+        if (session != null) {
+            session.invalidate();
         }
     }
 
     @Override
     public SecretKeySpec getSecureKey() {
         return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isContextStored(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        
+        if (session != null) {
+            if (session.getAttribute(SECURITY_CONTEXT_SESSION_KEY) != null) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
