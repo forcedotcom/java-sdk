@@ -53,6 +53,16 @@ To use the connector, add the following servlet filter to your application's `we
 			 	<param-name>storeUsername</param-name>
 			 	<param-value>set to false to not store user name in the security context.</param-value>
 			</init-param>
+
+			<!-- Optional parameters for logout configuration -->
+			 <init-param>
+			 	<param-name>logoutFromDatabaseDotCom</param-name>
+			 	<param-value>true or false (defaults to true)</param-value>
+			</init-param>
+			 <init-param>
+			 	<param-name>logoutUrl</param-name>
+			 	<param-value>the URL that will log the user out (defaults to /logout)</param-value>
+			</init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>AuthFilter</filter-name>
@@ -69,43 +79,17 @@ The OAuth Connector uses the Force.com API Connector to access the Force.com API
 
 - <code>storeUsername</code> - Flag that sets whether or not the username is stored in the user data. This enables you to avoid storing usernames in browser cookies, but it can be used to prevent username storage in sessions too. Default is true.
 
+- <code>logoutFromDatabaseDotCom</code> - controls whether the user will also be logged out from database.com. Note that when this isn't used your users will keep a database.com session open and will automatically be passed through future OAuth attempts because of this existing session. It is recommended that you leave this defaulted to true. The logout from database.com is accomplished via a redirect to the database.com logout link so this will be your user's final destination.
+
+- <code>logoutUrl</code> - the URL that will log the user out. This is what you should point your logout links to. If you aren't logging the user out from database.com you should put your own logout landing page at this URL. This defaults to /logout.
+
 The <code>filter-mapping</code> element above contains a url-pattern of "/\*". This redirects every URL through the filter. It is not required to do this. If your application requires only certain URL patterns to be authenticated, you can configure the filter to match a subset of requests. However, the filter must always include the "/\_auth\*" URL pattern. Otherwise, the OAuth callback won't be properly handled. For example, if you only wanted to check for authentication for "/Secure" your configuration would look like this:
 
 	<filter-mapping>
 		<filter-name>AuthFilter</filter-name>
 		<url-pattern>/Secure</url-pattern>
 		<url-pattern>/_auth*</url-pattern>
+		<url-pattern>/logout</url-pattern>
 	</filter-mapping>
 
-### Configuring a logout url
-
-Logging users out is handled through a second filter: LogoutFilter. In order to use this filter in your application you simply need to add a second filter definition and mapping to your web.xml.
-
-	<!-- Enables Logout -->
-	<filter>
-		<filter-name>LogoutFilter</filter-name>
-		<filter-class>com.force.sdk.oauth.LogoutFilter</filter-class>
-			 <!-- Optional parameters -->
-			 <init-param>
-			 	<param-name>logoutFromDatabaseDotCom</param-name>
-			 	<param-value>true or false (defaults to true)</param-value>
-			</init-param>
-			 <init-param>
-			 	<param-name>logoutSuccessUrl</param-name>
-			 	<param-value>the URL to redirect users to after logout. Defaults to "/". Will be ignored when logoutFromDatabaseDotCom is true</param-value>
-			</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>LogoutFilter</filter-name>
-		<url-pattern>/logout</url-pattern> 
-                <!-- make sure this url is also mapped to your auth filter. Information populated by the auth filter is needed for logout -->
-	</filter-mapping>
-
-There are a few things to note about this configuration. First of all you'll notice that all of the parameters are optional. They all have default values. The meanings of the parameters are as follows:
-
-- logoutFromDatabaseDotCom - controls whether the user will also be logged out from force.com
-
-- logoutSuccessUrl - the URL that the user should be redirected to after they are logged out. It is important to note that this parameter will be ignored if logoutFromDatabaseDotCom is set to true. This is because the logout from database.com is accomplished by a redirect to the database.com logout page.
-
-Finally it's important that any URLs that you map to LogoutFilter are also mapped to AuthFilter. This is required because AuthFilter will do some setup work that is needed to perform a clean and complete logout.
-
+If you plan to utilize the logout functionality then you'll also have to map either "/\logout" or your configured logout url into the filter. The filter can't handle logout for you if you don't send logout requests through it.

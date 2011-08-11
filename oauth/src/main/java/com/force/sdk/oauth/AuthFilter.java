@@ -40,7 +40,6 @@ import com.force.sdk.connector.ForceConnectorConfig;
 import com.force.sdk.connector.ForceServiceConnector;
 import com.force.sdk.oauth.connector.ForceOAuthConnectionInfo;
 import com.force.sdk.oauth.connector.ForceOAuthConnector;
-import com.force.sdk.oauth.connector.TokenRetrievalServiceImpl;
 import com.force.sdk.oauth.context.*;
 import com.force.sdk.oauth.context.store.*;
 import com.force.sdk.oauth.exception.ForceOAuthSessionExpirationException;
