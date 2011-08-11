@@ -336,7 +336,7 @@ public class ForceStoreManager extends AbstractStoreManager {
      * This is a flag set by clients that can create schema. Users would not
      * be setting this flag themselves
      * 
-     * @return {@code true} if the schema creation call is being made by a client, such as cliforce
+     * @return {@code true} if the schema creation call is being made by a client
      */
     public boolean isSchemaCreateClient() {
         return schemaCreateClient;

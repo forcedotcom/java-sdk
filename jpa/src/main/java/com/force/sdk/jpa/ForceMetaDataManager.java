@@ -88,7 +88,7 @@ public class ForceMetaDataManager extends JPAMetaDataManager {
         if (storeManager.isSchemaCreateClient()) {
             /**
              * DataNucleus does not automatically initialize classes from jars.
-             * When we are mucking with schema from cliforce and we are using an existing artifact jar we have to
+             * When we are working with schema and we are using an existing artifact jar we have to
              * forceDN to look at the classes in the jar. To do that, we add the jar into the {@code PersistenceUnitMetaData}
              * as if the jar was included there. However, we should only add the jar if the persistence unit does not already
              * contain explicitly provided classes.
