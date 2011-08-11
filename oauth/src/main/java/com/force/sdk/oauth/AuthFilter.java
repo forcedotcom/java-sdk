@@ -216,8 +216,12 @@ public class AuthFilter implements Filter, SessionRenewer {
         }
         
         if (isLogoutUrl(request)) {
-            logout(request, response, sc, chain);
-            return;
+            if(sc != null) {
+            	logout(request, response, sc, chain);
+            	return;
+            } else {
+            	chain.doFilter(request, response);
+            }
         }
 
         // if there is no valid security context then initiate an OAuth handshake
