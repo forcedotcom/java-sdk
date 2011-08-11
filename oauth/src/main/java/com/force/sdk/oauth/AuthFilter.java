@@ -32,10 +32,15 @@ import java.security.Principal;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 import com.force.sdk.connector.ForceConnectorConfig;
 import com.force.sdk.connector.ForceServiceConnector;
 import com.force.sdk.oauth.connector.ForceOAuthConnectionInfo;
 import com.force.sdk.oauth.connector.ForceOAuthConnector;
+import com.force.sdk.oauth.connector.TokenRetrievalServiceImpl;
 import com.force.sdk.oauth.context.*;
 import com.force.sdk.oauth.context.store.*;
 import com.force.sdk.oauth.exception.ForceOAuthSessionExpirationException;
@@ -87,13 +92,15 @@ public class AuthFilter implements Filter, SessionRenewer {
     static final String DEFAULT_USER_PROFILE = "myProfile";
     static final String CONTEXT_STORE_SESSION_VALUE = "session";
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthFilter.class);
+
     private ForceOAuthConnector oauthConnector;
     private SecurityContextService securityContextService = null;
     
     //logout specific parameters
     private boolean logoutFromDatabaseCom = true;
     private String logoutUrl = "";
-
+    
     /**
      * Initializes the filter from the init params.
      * {@inheritDoc} 
@@ -319,6 +326,20 @@ public class AuthFilter implements Filter, SessionRenewer {
         
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
+        
+        ForceConnectorConfig config = new ForceConnectorConfig();
+        try {
+            config.setServiceEndpoint(sc.getEndPoint());
+            config.setSessionId(sc.getSessionId());
+            config.setSessionRenewer(this);
+            ForceServiceConnector connector = new ForceServiceConnector();
+            connector.setConnectorConfig(config);
+            //logout from the partner API
+            connector.getConnection().logout();
+        } catch (ConnectionException e) {
+        	LOGGER.warn("Error logging out through API: ", e.getMessage());
+        	LOGGER.debug("Error logging out through API: ", e);
+        }
         
         //clear the security context out of the security context holder
         ForceSecurityContextHolder.release();
