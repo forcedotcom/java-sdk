@@ -160,9 +160,6 @@ of wines from the result set, the Database.com JPA provider creates an implicit 
     // The actual loading of the collection happens when the next line is executed.
     ArrayList<Wine> wines = (ArrayList<Wine>)jpqlResult.get(0).getWines();
     String wineName = wines.get(0).getName();
-    
-If you add the <code>FetchType.EAGER</code> attribute to the <code>@OneToMany</code> annotation in Producer.java, the collection of wines is
-returned without the need for a second query in the background.
 
 **Note**: If you use a native SOQL query instead of JPQL, there is no implicit join; you would have to write a sub-query
 referencing the parent-to-child relationship.
