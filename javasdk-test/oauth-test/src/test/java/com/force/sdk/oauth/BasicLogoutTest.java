@@ -82,7 +82,7 @@ public class BasicLogoutTest extends BaseMockedPartnerConnectionTest {
         Cookie endpointCookie =
             new Cookie(SecurityContextUtil.FORCE_FORCE_ENDPOINT, originalSc.getEndPoint());
 
-        if(logoutUrl == null) {
+        if (logoutUrl == null) {
             logoutUrl = "/logout";
         }
         request.setServletPath(logoutUrl);
@@ -96,7 +96,7 @@ public class BasicLogoutTest extends BaseMockedPartnerConnectionTest {
         filterConfig.addInitParameter("connectionName", "CONNURLENVVAR");
         filter.init(filterConfig);
 
-        if(!isSessionStorage) {
+        if (!isSessionStorage) {
             MockHttpServletResponse tempMockResponse = new MockHttpServletResponse();
             SecurityContextService securityContextService = filter.getSecurityContextService();
             securityContextService.setSecurityContextToSession(request, tempMockResponse, originalSc);
@@ -136,7 +136,7 @@ public class BasicLogoutTest extends BaseMockedPartnerConnectionTest {
             Assert.assertNull(ForceSecurityContextHolder.get(false), "Security context should be cleared after logout");
 
             //verify that security context cookie or session value is cleared depending on storage method
-            if(isSessionStorage) {
+            if (isSessionStorage) {
                 Assert.assertNull(req.getSession(false), "Session should be null");
             } else {
                 Cookie scCookie = res.getCookie(SecurityContextCookieStore.SECURITY_CONTEXT_COOKIE_NAME);
@@ -154,7 +154,7 @@ public class BasicLogoutTest extends BaseMockedPartnerConnectionTest {
             Assert.assertEquals(sessionIdCookie.getMaxAge(), 0, "Max age of session id cookie should be 0");
 
             //verify that the correct redirect has taken place
-            if(logoutFromSFDC) {
+            if (logoutFromSFDC) {
                 Assert.assertTrue(res.getRedirectedUrl().contains("secur/logout.jsp"),
                         "When logging out from SFDC the user must be redirected to the logout page");
             }
