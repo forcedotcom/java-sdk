@@ -115,7 +115,7 @@ public class BasicLogoutTest extends BaseMockedPartnerConnectionTest {
      *
      * @author John Simone
      */
-    private class VerifyLogoutFilterChain implements FilterChain {
+    private static class VerifyLogoutFilterChain implements FilterChain {
 
         private boolean isSessionStorage;
         private boolean logoutFromSFDC;
