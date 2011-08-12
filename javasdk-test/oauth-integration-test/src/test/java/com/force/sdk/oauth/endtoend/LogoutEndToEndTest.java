@@ -72,7 +72,7 @@ public class LogoutEndToEndTest extends BaseSecurityIntegrationTest {
     protected Object[][] logoutServlets() {
         return new Object[][] {
                 {"logout", "Good bye!", "salesforce.com", true, false},
-                {"logoutA", "Good bye!","salesforce.com", false, false},
+                {"logoutA", "Good bye!", "salesforce.com", false, false},
                 {"logoutB", "Good bye!", "Good bye!", false, true}
         };
     }
@@ -120,7 +120,7 @@ public class LogoutEndToEndTest extends BaseSecurityIntegrationTest {
     }
 
     private void assertNoCookies(String[] cookieNames) {
-        for(String cookieName: cookieNames) {
+        for (String cookieName : cookieNames) {
             assertNoCookie(cookieName);
         }
     }
@@ -131,7 +131,7 @@ public class LogoutEndToEndTest extends BaseSecurityIntegrationTest {
     }
 
     private void assertHasCookies(String[] cookieNames) {
-        for(String cookieName: cookieNames) {
+        for (String cookieName : cookieNames) {
             assertHasCookie(cookieName);
         }
     }
