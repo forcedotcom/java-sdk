@@ -29,7 +29,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="springsecurity-endtoend-integration-tests" verbose="7">
-  <parameter name="testType" value="INTEG_ENDTOEND_SPRING_SECURITY"/>
+  <parameter name="testType" value="ENDTOEND"/>
   
   <listeners>
     <listener class-name="com.force.sdk.qa.util.listener.TestTypeListener"/>

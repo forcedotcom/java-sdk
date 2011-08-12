@@ -1,4 +1,4 @@
-<%--
+<!--
 
     Copyright (c) 2011, salesforce.com, inc.
     All rights reserved.
@@ -24,34 +24,25 @@
     NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
 
---%>
+-->
 
-<%@ page import="java.util.List" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page session="false" %>
+<html xmlns="http://www.w3.org/1999/xhtml">
 
-<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
 
-    <head>
-        <title>Project List</title>
-    </head>
+<div id="content">
+    <p><a href="ProjectList">Projects</a></p>
+    <p><a href="logout">logout: default</a></p>
+    <p><a href="logoutA">logoutA: Logout from DB.com</a></p>
+    <p><a href="logoutB">logoutB: Keep DB.com session</a></p>
+</div>
 
-    <p><a href="index.jsp">Home</a></p>
-
-	<body>
-    <table class="itemlist" width="100%" border="1">
-			<tr>
-				<th>Name</th><th>Desc</th>
-			</tr>
-			<c:forEach items="${list}" var="project">
-				<tr>
-					<td>${project.name}</td>
-					<td>${project.desc}</td>
-				</tr>
-			</c:forEach>
-		</table>
-		<p/>
-
-	</body>
+</body>
 </html>
+

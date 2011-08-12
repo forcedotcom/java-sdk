@@ -53,13 +53,31 @@ To use the connector, add the following servlet filter to your application's `we
 			 	<param-name>storeUsername</param-name>
 			 	<param-value>set to false to not store user name in the security context.</param-value>
 			</init-param>
+
+			<!-- Optional parameters for logout configuration -->
+			 <init-param>
+			 	<param-name>logoutFromDatabaseDotCom</param-name>
+			 	<param-value>true or false (defaults to true)</param-value>
+			</init-param>
+			 <init-param>
+			 	<param-name>logoutUrl</param-name>
+			 	<param-value>the URL that will log the user out (defaults to /logout)</param-value>
+			</init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>AuthFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-The OAuth Connector uses the Force.com API Connector to access the Force.com APIs. The <code>connectionName</code> is used to look up OAuth properties defined in an environment variable, or a Java system property, or in a properties file on the classpath. For more information, see [Force.com Database Connections](connection-url). Other <code>init-param</code> values can be configured to customize behavior:
+The OAuth Connector uses the Force.com API Connector to access the Force.com APIs. The <code>connectionName</code> is used to look up OAuth properties defined in an environment variable, or a Java system property, or in a properties file on the classpath. For example, if you use a <code>connectionName</code> of `forceDatabase`, you can encode the connection information in a connection URL set in the FORCE\_*FORCEDATABASE*\_URL environment variable:
+
+<pre>
+  <code>force://login.salesforce.com;user=<em>user@salesforcedoc.org</em>;password=<em>samplePassword</em>;oauth_key=<em>3MVG9lKcPoNINVBLqaGC0WiLS7H9aehOXaZad80Ve1OB43i.DpfCjn_SqwIAtyY6Lnuzcvdxgzu.IAaLVk4pH.</em>;oauth_secret=<em>516990866494775428</em></code>
+</pre>
+
+For more information about setting up connection URLs, see [Force.com Database Connections](connection-url).
+
+Other <code>init-param</code> values can be configured to customize behavior:
 
 - <code>securityContextStorageMethod</code> - Control whether data about the authenticated user is stored in a server side session or an encrypted browser cookie. The default is <code>cookie</code>. Set this to <code>session</code> to use sessions. Sessions should only be used if sticky load balancing is available or if the application runs with a single instance.
 - <code>secure-key-file</code> - AES encryption is used to encrypt the data about the authenticated user when it is stored in a browser cookie. This is only used if browser cookie storage is on. If cookies are used and no file is specified, a key is automatically generated. However, this should only be done for development purposes because it will be problematic in a multi-instance deployment since each instance will generate a different key. The key is base-64 encoded. For example, replace *yourKeyGoesHere* with a secure key in the following file. For more information on AES, see [Using AES with Java Technology](http://java.sun.com/developer/technicalArticles/Security/AES/AES_v1.html).
@@ -67,7 +85,11 @@ The OAuth Connector uses the Force.com API Connector to access the Force.com API
         # A valid key in base 64 encoding.   
         private-key=yourKeyGoesHere  
 
-- <code>storeUsername</code> - Flag that sets whether or not the username is stored in the user data. This enables you to avoid storing usernames in browser cookies, but it can be used to prevent username storage in sessions too. Default is true.
+- <code>storeUsername</code> - Flag that sets whether or not the username is stored in the user data. This enables you to avoid storing usernames in browser cookies, but it can be used to prevent username storage in sessions too. The default is `true`.
+
+- <code>logoutFromDatabaseDotCom</code> - controls whether the user will also be logged out from Database.com. The default is `true`. If you set the value to `false`, your users will keep a Database.com session open and will automatically be passed through future OAuth attempts while their session remains active. We recommend that you use the default value. If you use the default value, a logout redirects users to the Database.com logout link so their final destination is the Database.com logout page.
+
+- <code>logoutUrl</code> - the URL that logs a user out. You should point your logout links to this URL. The default is  `/logout`. If you set <code>logoutFromDatabaseDotCom</code> to `false`, you should create your own logout landing page at this URL. Note: A logged out user will always go to the logout landing page hosted at the logout URL. We recommend putting a page there even if you use the automatic logout from Database.com. This will prevent a user from getting an error when using their browser's back button.
 
 The <code>filter-mapping</code> element above contains a url-pattern of "/\*". This redirects every URL through the filter. It is not required to do this. If your application requires only certain URL patterns to be authenticated, you can configure the filter to match a subset of requests. However, the filter must always include the "/\_auth\*" URL pattern. Otherwise, the OAuth callback won't be properly handled. For example, if you only wanted to check for authentication for "/Secure" your configuration would look like this:
 
@@ -75,5 +97,7 @@ The <code>filter-mapping</code> element above contains a url-pattern of "/\*". T
 		<filter-name>AuthFilter</filter-name>
 		<url-pattern>/Secure</url-pattern>
 		<url-pattern>/_auth*</url-pattern>
+		<url-pattern>/logout</url-pattern>
 	</filter-mapping>
 
+If you are using the logout functionality, you must map either `/logout` or your configured logout URL in the filter mapping. The filter can't handle logout for you if you don't send logout requests through it.
