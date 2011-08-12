@@ -86,6 +86,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
     </dependency>
+    <!-- This dependency is required by BaseSecurityIntegrationTest.getConfigProps -->
+    <dependency>
+      <groupId>com.googlecode.jmockit</groupId>
+      <artifactId>jmockit</artifactId>
+    </dependency>
   </dependencies>
 
 </project>
