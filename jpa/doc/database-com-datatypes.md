@@ -245,14 +245,14 @@ For example, a Producer entity with a one-to-many relationship to the Wine entit
     @OneToMany(mappedBy="producer")
     private Collection<Wine> wines;
 
-To automatically persist all child records in a collection when you persist the parent record, see the <code>CascadeType.PERSIST</code>
+To automatically persist all new child records in a collection when you persist a new parent record, see the <code>CascadeType.PERSIST</code>
 attribute for the parent <code>@OneToMany</code> field. You must explicitly set the parent field for each child record in the collection. In
 this example, you must set the producer field for each Wine in the collection.
 
 The Database.com JPA provider supports List, Set, and Map collections for an <code>@OneToMany</code> field on the one-side of the
 relationship.The Database.com JPA provider dynamically builds these collections and doesn't explicitly store them in Database.com.
 
-The default key for a Map is the id field. The value of the id field for a new object is <code>null</code> until the object is persisted to 
+The default key for a Map is the `id` field. The value of the `id` field for a new object is <code>null</code> until the object is persisted to 
 Database.com so you can only insert one new entry into a map using the default key. The alternative is to use the <code>@MapKey</code>
 standard annotation to set a different field as the key. Entries must have a unique key value. To continue the earlier example,
 the Producer entity could use a map to track the related wines. The key of the map is the wine name.
@@ -261,11 +261,13 @@ the Producer entity could use a map to track the related wines. The key of the m
     @MapKey(name="wineName")
     private Map<String, Wine> wines;
 
+**Note**: You can�t mark an <code>@OneToMany</code> field with a <code>FetchType.EAGER</code> attribute. For more information, see [Eager Versus Lazy Fetch Types](jpa-queries#eagerVsLazy).
+
 ### Unsupported JPA Annotations
 The Database.com JPA provider doesn't support:
 
-* **One-to-one relationships using the <code>@OneToOne</code> annotation**—Merge the entities into one entity instead.
-* **Many-to-many relationships using the <code>@ManyToMany</code> annotation**—Use a custom junction entity with two <code>@ManyToOne</code>
+* **One-to-one relationships using the <code>@OneToOne</code> annotation**-Merge the entities into one entity instead.
+* **Many-to-many relationships using the <code>@ManyToMany</code> annotation**-Use a custom junction entity with two <code>@ManyToOne</code>
 relationship fields connecting the two entities instead.
 
 <a name="cascade"> </a>
@@ -276,7 +278,7 @@ attributes for <code>@OneToMany</code> fields and ignores any cascading attribut
 <code>@OneToMany</code> fields are:
 
 #### CascadeType.PERSIST
-When this attribute is enabled, persisting a parent record also persists all child records in its collection if you explicitly
+When this attribute is enabled, persisting a new parent record also persists all new child records in its collection if you explicitly
 set the parent field for each child record in the collection. Otherwise, it is up to you to persist child records individually
 as well as the parent in the same transaction.
 
@@ -285,13 +287,14 @@ When this attribute is enabled for Lookup fields, removing a parent entity also 
 Otherwise, it is up to you to remove child entities individually. This attribute is always enabled for Master-Detail fields.
 Removing a parent Master-Detail always removes its children.
 
+#### CascadeType.MERGE
+When this attribute is enabled, merging (updating) an existing parent entity merges the child entities in its collection. <code>CascadeType.MERGE</code> or <code>CascadeType.ALL</code> doesn't persist new child entities in its collection, even when they have their parent field set. Persist any new child entities separately.
+
 #### CascadeType.ALL
-Shorthand for enabling <code>CascadeType.PERSIST</code> and <code>CascadeType.REMOVE</code>.
+Shorthand for enabling all supported cascade types.
+
 The following JPA attributes are not configurable for <code>@OneToMany</code> fields. This list explains the behavior related to these
 attributes for the Database.com JPA provider.
-
-#### CascadeType.MERGE
-Merging (updating) a parent entity always merges the child entities in its collection.
 
 #### CascadeType.REFRESH
 Refreshing a parent entity always refreshes the child entities in its collection.

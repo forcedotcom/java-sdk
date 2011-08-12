@@ -374,7 +374,7 @@ Use a semicolon to check for multiple values in a picklist (boolean AND). Use a 
 
 There are two different fetch types for fields in a record returned by a query: lazy or eager. If a field has an eager fetch type,
 it is loaded at the time the query is executed, and the field is populated in the query results. If a field has a lazy fetch type, the
-query results don't include the data for the field. When the field is accessed by a getter method, for example a separate
+query results don't include the data for the field. When the field is accessed either directly or via a getter method, a separate
 query executes in the background and returns the actual field data.
 
 Fields of the following data types are members of a default fetch group and are eagerly loaded by default.
@@ -427,22 +427,23 @@ These default eager data types are standard for DataNucleus, except for Calendar
 eagerly loaded by the Database.com JPA provider to support optimistic transactions.
 
 You can also explicitly mark a field as eager or lazy by adding the <code>FetchType.EAGER</code> or <code>FetchType.LAZY</code> attribute to an
-<code>@Basic</code>, <code>@OneToMany</code>, or <code>@ManyToOne</code> annotation.
+<code>@Basic</code> or <code>@ManyToOne</code> annotation. A separate query is executed when you access the data for any lazily loaded field.
 
-**Note**: A separate query is executed when you access the data for any lazily loaded field.
+**Note**: <code>@ManyToOne</code> relationship fields are eagerly loaded by default. You can’t mark an <code>@OneToMany</code> field with a <code>FetchType.EAGER</code> attribute. For an <code>@OneToMany</code> field, simply access the collection field and a separate SOQL query will be executed in the background to retrieve your data.
 
 <a name="fetchDepth"> </a>
 ### Fetch Depth
-Fetch depth is the number of levels of relationships traversed and fetched for a query. Consider a Grandchild entity with a
+Fetch depth is the number of levels of relationships traversed from the base object in a query. The default fetch depth is five. You can set the fetch depth to any value between one and five. 
+
+Consider a Grandchild entity with a
 lookup relationship to a Child entity that has a lookup relationship to a Parent entity. If a query references the child-to-parent
 relationships from the Grandchild to Child entities and the Child to Parent entities, you must set the fetch depth to two to
 retrieve <code>FetchType.EAGER</code> fields for the Parent entity.
 
-A query doesn't return an error if it references <code>FetchType.EAGER</code> fields that exceed the fetch depth; it just returns data
-within the fetch depth. Setting fetch depth to zero means that you only get data for the entity in the FROM clause and relationships
-are ignored.
+**Note**: A query doesn't return an error if it references <code>FetchType.EAGER</code> fields that exceed the fetch depth; it just returns data
+within the fetch depth and `null` values for any eager relationship fields that exceed the fetch depth.
 
-The default fetch depth is one. You can change the default fetch depth by setting the **datanucleus.maxFetchDepth**
+You can change the default fetch depth by setting the **datanucleus.maxFetchDepth**
 property in `persistence.xml`. You can also change the fetch depth for an individual query by using a query hint. For
 example, to set the fetch depth to two in a JPQL query:
 
@@ -452,9 +453,4 @@ example, to set the fetch depth to two in a JPQL query:
 Similarly, you can use a query hint in a <code>find()</code> method to set the fetch depth to two:
 
     em.find(SampleEntity.class, "entityIdHere",
-        Collections.singletonMap(QueryHints.MAX_FETCH_DEPTH, (Object)2 ));
-        
-For child-to-parent relationships, the maximum fetch depth is five.
-
-<img src="http://na1.salesforce.com//img/help/helpWarning_icon.gif" alt="Caution icon" /> **Caution:** A query containing a parent-to-child relationship can only traverse one relationship level. Setting query
-depth greater than one on <code>FetchType.EAGER</code> parent-to-child relationships will result in an error.
+        Collections.singletonMap(QueryHints.MAX_FETCH_DEPTH, (Object)2 ));        
