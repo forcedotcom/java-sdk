@@ -216,10 +216,10 @@ public class AuthFilter implements Filter, SessionRenewer {
         }
         
         if (isLogoutUrl(request)) {
-            if(sc != null) {
-            	logout(request, response, sc, chain);
+            if (sc != null) {
+                logout(request, response, sc, chain);
             } else {
-            	chain.doFilter(request, response);
+                chain.doFilter(request, response);
             }
             return;
         }
@@ -340,8 +340,8 @@ public class AuthFilter implements Filter, SessionRenewer {
             //logout from the partner API
             connector.getConnection().logout();
         } catch (ConnectionException e) {
-        	LOGGER.warn("Error logging out through API: ", e.getMessage());
-        	LOGGER.debug("Error logging out through API: ", e);
+            LOGGER.warn("Error logging out through API: ", e.getMessage());
+            LOGGER.debug("Error logging out through API: ", e);
         }
         
         //clear the security context out of the security context holder
