@@ -261,7 +261,7 @@ the Producer entity could use a map to track the related wines. The key of the m
     @MapKey(name="wineName")
     private Map<String, Wine> wines;
 
-**Note**: You can’t mark an <code>@OneToMany</code> field with a <code>FetchType.EAGER</code> attribute. For more information, see [Eager Versus Lazy Fetch Types](jpa-queries#eagerVsLazy).
+**Note**: You can't mark an <code>@OneToMany</code> field with a <code>FetchType.EAGER</code> attribute. For more information, see [Eager Versus Lazy Fetch Types](jpa-queries#eagerVsLazy).
 
 ### Unsupported JPA Annotations
 The Database.com JPA provider doesn't support:
