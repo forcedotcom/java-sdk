@@ -218,10 +218,10 @@ public class AuthFilter implements Filter, SessionRenewer {
         if (isLogoutUrl(request)) {
             if(sc != null) {
             	logout(request, response, sc, chain);
-            	return;
             } else {
             	chain.doFilter(request, response);
             }
+            return;
         }
 
         // if there is no valid security context then initiate an OAuth handshake
@@ -349,8 +349,7 @@ public class AuthFilter implements Filter, SessionRenewer {
 
         //Clear security context and cookies
         securityContextService.clearSecurityContext(req, res);
-        SecurityContextUtil.clearCookieValues(res);
-        
+
         if (logoutFromDatabaseCom) {
             String forceComLogoutUrl = getForceDotComLogoutUrl(req, sc, null);
             res.sendRedirect(res.encodeRedirectURL(forceComLogoutUrl));

@@ -36,6 +36,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
         <version>${failsafe.version}</version>
         <configuration>
           <suiteXmlFiles>
+            <suiteXmlFile>testng-endtoend.xml</suiteXmlFile>
             <suiteXmlFile>testng-mock.xml</suiteXmlFile>
           </suiteXmlFiles>
           <systemPropertyVariables>
@@ -71,6 +72,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     <dependency>
       <groupId>com.force.sdk</groupId>
       <artifactId>qa-utils</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-oauth</artifactId>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.htmlunit</groupId>

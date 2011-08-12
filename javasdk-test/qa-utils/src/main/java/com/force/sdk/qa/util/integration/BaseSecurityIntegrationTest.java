@@ -75,8 +75,7 @@ public abstract class BaseSecurityIntegrationTest extends BaseContainerTest {
     public void suiteSetup() throws Exception {
         super.suiteSetup();
         deployWar(appWarPath);
-        if (TestContext.get().getTestType() == TestType.INTEG_MOCK_SPRING_SECURITY
-                || TestContext.get().getTestType() == TestType.INTEG_MOCK_AUTHFILTER) {
+        if (TestContext.get().getTestType() == TestType.MOCK) {
             deployWar(mockOauthServerWarPath);
         }
     }
@@ -114,8 +113,7 @@ public abstract class BaseSecurityIntegrationTest extends BaseContainerTest {
         map.put(ServletPropertySet.PORT, port);
         map.put(GeneralPropertySet.LOGGING , "high");
 
-        if (TestContext.get().getTestType() == TestType.INTEG_MOCK_SPRING_SECURITY
-                || TestContext.get().getTestType() == TestType.INTEG_MOCK_AUTHFILTER) {
+        if (TestContext.get().getTestType() == TestType.MOCK) {
             // JDK 1.6.0_24 (Linux) seems to have some different implementation of Attach API as compared to 1.6.0_16
             // and was failing with exception when setupMock is used in web applications inside the container.
             // Using the following jvm parameter causes the JMockit agent to load without going through Attach API.
@@ -132,12 +130,11 @@ public abstract class BaseSecurityIntegrationTest extends BaseContainerTest {
     public Map<String, String> getContainerProps() throws IOException {
         loadProps();
         Map<String, String> map = new HashMap<String, String>();
-        if (TestContext.get().getTestType() == TestType.INTEG_ENDTOEND_SPRING_SECURITY) {
+        if (TestContext.get().getTestType() == TestType.ENDTOEND) {
             map.put(useMockApi, "false");
             map.put(forceUrlPropName, "force://" + sfdcEndpoint
                     + ";oauth_key=" + oauthKey + ";oauth_secret=" + oauthSecret);
-        } else if (TestContext.get().getTestType() == TestType.INTEG_MOCK_SPRING_SECURITY
-                ||  TestContext.get().getTestType() == TestType.INTEG_MOCK_AUTHFILTER) {
+        } else if (TestContext.get().getTestType() == TestType.MOCK) {
             map.put(useMockApi, "true");
             map.put(forceUrlPropName, "force://" + mockSfdcEndpoint
                     + ";oauth_key=" + mockOauthKey + ";oauth_secret=" + mockOauthSecret);

@@ -26,45 +26,20 @@
 
 package com.force.servlets;
 
-import com.force.model.Project;
-import com.force.sdk.oauth.context.SecurityContextUtil;
-import com.force.utils.MockSecurityContextUtil;
-import mockit.Mockit;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 
 /**
- * This servlet returns a list of projects. It also sets up a mock for returning user info, when {@code mockapi}
- * system-variable is true.
+ * This servlet redirects the user to logout_success.jsp.
  *
  * @author Nawab Iqbal
  */
-public class ProjectList extends HttpServlet {
-    /**
-     * springsecurity-integration tests will set mockapi=true; when mock server is used.
-     * For using mock server, while running from command-line, set -Dmockapi=true
-     */
-    static {
-        System.out.println(" ------------------------------------------------------------------------");
-        System.out.println("mockapi: " + System.getProperty("mockapi"));
-
-        if (Boolean.getBoolean("mockapi"))
-        {
-            System.out.println("Mock has been setup.");
-            Mockit.setUpMock(SecurityContextUtil.class, MockSecurityContextUtil.class);
-        }
-        System.out.println(" ------------------------------------------------------------------------");
-    }
-
-
+public class LogoutSuccess extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
@@ -72,15 +47,8 @@ public class ProjectList extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List list = new LinkedList<Project>();
-        Project p = new Project();
-        p.setName("a name");
-        p.setDesc("some description");
-        list.add(p);
-        request.setAttribute("list",list);
-        System.out.println(list.size() + " projects.");
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/project_list.jsp");
-		rd.forward(request, response);
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/logout_success.jsp");
+        rd.forward(request, response);
     }
 }
 

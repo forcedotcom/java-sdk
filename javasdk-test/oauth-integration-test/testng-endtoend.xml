@@ -1,4 +1,4 @@
-<%--
+<!--
 
     Copyright (c) 2011, salesforce.com, inc.
     All rights reserved.
@@ -24,34 +24,22 @@
     NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
     POSSIBILITY OF SUCH DAMAGE.
 
---%>
+-->
 
-<%@ page import="java.util.List" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page session="false" %>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<html>
+<suite name="springsecurity-endtoend-integration-tests" verbose="7">
+  <parameter name="testType" value="ENDTOEND"/>
+  
+  <listeners>
+    <listener class-name="com.force.sdk.qa.util.listener.TestTypeListener"/>
+  </listeners>
 
-    <head>
-        <title>Project List</title>
-    </head>
+  <test name="oauth-endtoend-integration-test">
+    <packages>
+       <package name="com.force.sdk.oauth.endtoend" />
+    </packages>
 
-    <p><a href="index.jsp">Home</a></p>
+  </test>
 
-	<body>
-    <table class="itemlist" width="100%" border="1">
-			<tr>
-				<th>Name</th><th>Desc</th>
-			</tr>
-			<c:forEach items="${list}" var="project">
-				<tr>
-					<td>${project.name}</td>
-					<td>${project.desc}</td>
-				</tr>
-			</c:forEach>
-		</table>
-		<p/>
-
-	</body>
-</html>
+</suite>

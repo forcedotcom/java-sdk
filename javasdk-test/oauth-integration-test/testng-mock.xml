@@ -29,7 +29,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="oauth-mock-integration-tests" verbose="7">
-  <parameter name="testType" value="INTEG_MOCK_AUTHFILTER"/>
+  <parameter name="testType" value="MOCK"/>
   
   <listeners>
     <listener class-name="com.force.sdk.qa.util.listener.TestTypeListener"/>
