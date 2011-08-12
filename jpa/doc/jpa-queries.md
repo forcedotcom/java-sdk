@@ -429,7 +429,7 @@ eagerly loaded by the Database.com JPA provider to support optimistic transactio
 You can also explicitly mark a field as eager or lazy by adding the <code>FetchType.EAGER</code> or <code>FetchType.LAZY</code> attribute to an
 <code>@Basic</code> or <code>@ManyToOne</code> annotation. A separate query is executed when you access the data for any lazily loaded field.
 
-**Note**: <code>@ManyToOne</code> relationship fields are eagerly loaded by default. You can’t mark an <code>@OneToMany</code> field with a <code>FetchType.EAGER</code> attribute. For an <code>@OneToMany</code> field, simply access the collection field and a separate SOQL query will be executed in the background to retrieve your data.
+**Note**: <code>@ManyToOne</code> relationship fields are eagerly loaded by default. You can't mark an <code>@OneToMany</code> field with a <code>FetchType.EAGER</code> attribute. For an <code>@OneToMany</code> field, simply access the collection field and a separate SOQL query will be executed in the background to retrieve your data.
 
 <a name="fetchDepth"> </a>
 ### Fetch Depth
