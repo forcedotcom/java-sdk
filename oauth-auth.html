@@ -226,6 +226,16 @@ end
             &lt;param-name&gt;storeUsername&lt;/param-name&gt;
             &lt;param-value&gt;set to false to not store user name in the security context.&lt;/param-value&gt;
         &lt;/init-param&gt;
+
+        &lt;!-- Optional parameters for logout configuration --&gt;
+         &lt;init-param&gt;
+            &lt;param-name&gt;logoutFromDatabaseDotCom&lt;/param-name&gt;
+            &lt;param-value&gt;true or false (defaults to true)&lt;/param-value&gt;
+        &lt;/init-param&gt;
+         &lt;init-param&gt;
+            &lt;param-name&gt;logoutUrl&lt;/param-name&gt;
+            &lt;param-value&gt;the URL that will log the user out (defaults to /logout)&lt;/param-value&gt;
+        &lt;/init-param&gt;
 &lt;/filter&gt;
 &lt;filter-mapping&gt;
     &lt;filter-name&gt;AuthFilter&lt;/filter-name&gt;
@@ -233,7 +243,16 @@ end
 &lt;/filter-mapping&gt;
 </code></pre>
 
-<p>The OAuth Connector uses the Force.com API Connector to access the Force.com APIs. The <code>connectionName</code> is used to look up OAuth properties defined in an environment variable, or a Java system property, or in a properties file on the classpath. For more information, see <a href="connection-url">Force.com Database Connections</a>. Other <code>init-param</code> values can be configured to customize behavior:</p>
+<p>The OAuth Connector uses the Force.com API Connector to access the Force.com APIs. The <code>connectionName</code> is used to look up OAuth properties defined in an environment variable, or a Java system property, or in a properties file on the classpath. For example, if you use a <code>connectionName</code> of <code>forceDatabase</code>, you can encode the connection information in a connection URL set in the FORCE_<em>FORCEDATABASE</em>_URL environment variable:</p>
+
+<pre>
+  <code>force://login.salesforce.com;user=<em>user@salesforcedoc.org</em>;password=<em>samplePassword</em>;oauth_key=<em>3MVG9lKcPoNINVBLqaGC0WiLS7H9aehOXaZad80Ve1OB43i.DpfCjn_SqwIAtyY6Lnuzcvdxgzu.IAaLVk4pH.</em>;oauth_secret=<em>516990866494775428</em></code>
+</pre>
+
+
+<p>For more information about setting up connection URLs, see <a href="connection-url">Force.com Database Connections</a>.</p>
+
+<p>Other <code>init-param</code> values can be configured to customize behavior:</p>
 
 <ul>
 <li><code>securityContextStorageMethod</code> - Control whether data about the authenticated user is stored in a server side session or an encrypted browser cookie. The default is <code>cookie</code>. Set this to <code>session</code> to use sessions. Sessions should only be used if sticky load balancing is available or if the application runs with a single instance.</li>
@@ -242,7 +261,9 @@ end
 <pre><code>  # A valid key in base 64 encoding.   
   private-key=yourKeyGoesHere  
 </code></pre></li>
-<li><p><code>storeUsername</code> - Flag that sets whether or not the username is stored in the user data. This enables you to avoid storing usernames in browser cookies, but it can be used to prevent username storage in sessions too. Default is true.</p></li>
+<li><p><code>storeUsername</code> - Flag that sets whether or not the username is stored in the user data. This enables you to avoid storing usernames in browser cookies, but it can be used to prevent username storage in sessions too. The default is <code>true</code>.</p></li>
+<li><p><code>logoutFromDatabaseDotCom</code> - controls whether the user will also be logged out from Database.com. The default is <code>true</code>. If you set the value to <code>false</code>, your users will keep a Database.com session open and will automatically be passed through future OAuth attempts while their session remains active. We recommend that you use the default value. If you use the default value, a logout redirects users to the Database.com logout link so their final destination is the Database.com logout page.</p></li>
+<li><p><code>logoutUrl</code> - the URL that logs a user out. You should point your logout links to this URL. The default is  <code>/logout</code>. If you set <code>logoutFromDatabaseDotCom</code> to <code>false</code>, you should create your own logout landing page at this URL. Note: A logged out user will always go to the logout landing page hosted at the logout URL. We recommend putting a page there even if you use the automatic logout from Database.com. This will prevent a user from getting an error when using their browser's back button.</p></li>
 </ul>
 
 
@@ -252,8 +273,11 @@ end
     &lt;filter-name&gt;AuthFilter&lt;/filter-name&gt;
     &lt;url-pattern&gt;/Secure&lt;/url-pattern&gt;
     &lt;url-pattern&gt;/_auth*&lt;/url-pattern&gt;
+    &lt;url-pattern&gt;/logout&lt;/url-pattern&gt;
 &lt;/filter-mapping&gt;
 </code></pre>
+
+<p>If you are using the logout functionality, you must map either <code>/logout</code> or your configured logout URL in the filter mapping. The filter can't handle logout for you if you don't send logout requests through it.</p>
 
 		</div>
 	</div>
