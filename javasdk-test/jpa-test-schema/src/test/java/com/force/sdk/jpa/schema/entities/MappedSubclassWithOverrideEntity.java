@@ -24,43 +24,22 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.jpa.model;
+package com.force.sdk.jpa.schema.entities;
 
 import javax.persistence.*;
 
-import com.force.sdk.jpa.annotation.CustomObject;
-
 /**
- * Java model for a Force.com JPA Owner field.
- * This contains all common fields for a Force.com
- * object Owner.
+ * Test entity with illegal override annotations.
  *
- * @author Tim Kral
- **/
+ * @author Dirk Hain
+ */
 @Entity
-@CustomObject(readOnlySchema = true, virtualSchema = true)
-public class Owner {
-
-    protected String id;
-    protected String name;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id")
-    public String getId() {
-        return this.id;
-    }
+@AttributeOverride(name = "name", column = @Column(name = "NAME_COL"))
+@AssociationOverride(name = "id",
+        joinColumns = @JoinColumn(name = "SUPER_ID", referencedColumnName = "ID", nullable = true))
+public class MappedSubclassWithOverrideEntity extends MappedSuperclassEntity {
     
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @Column(name = "Name")
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    /*We currently don't assert any exceptions for @AssociationOverride. This is just an 
+     * example how to use the annotation.*/
+    int someSubtypeValue;
 }

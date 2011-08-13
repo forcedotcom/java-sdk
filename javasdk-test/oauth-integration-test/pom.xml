@@ -6,12 +6,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <groupId>com.force.sdk</groupId>
   <artifactId>force-oauth-integration-test</artifactId>
   <name>force-oauth-integration-test</name>
-  <version>22.0.4-BETA</version>
+  <version>22.0.5-BETA</version>
 
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk-test</artifactId>
-    <version>22.0.4-BETA</version>
+    <version>22.0.5-BETA</version>
   </parent>
 
   <properties>
@@ -36,6 +36,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
         <version>${failsafe.version}</version>
         <configuration>
           <suiteXmlFiles>
+            <suiteXmlFile>testng-endtoend.xml</suiteXmlFile>
             <suiteXmlFile>testng-mock.xml</suiteXmlFile>
           </suiteXmlFiles>
           <systemPropertyVariables>
@@ -73,6 +74,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <artifactId>qa-utils</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.force.sdk</groupId>
+      <artifactId>force-oauth</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>net.sourceforge.htmlunit</groupId>
       <artifactId>htmlunit</artifactId>
     </dependency>
@@ -80,6 +86,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
     </dependency>
+    <!-- This dependency is required by BaseSecurityIntegrationTest.getConfigProps -->
     <dependency>
       <groupId>com.googlecode.jmockit</groupId>
       <artifactId>jmockit</artifactId>

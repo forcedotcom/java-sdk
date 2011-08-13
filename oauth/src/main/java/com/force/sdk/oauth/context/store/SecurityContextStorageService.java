@@ -77,4 +77,12 @@ public interface SecurityContextStorageService {
      * @throws ForceEncryptionException {@link ForceEncryptionException}
      */
     SecretKeySpec getSecureKey() throws ForceEncryptionException;
+    
+    /**
+     * Detects whether or not there is a security context stored via this storage method.
+     * 
+     * @param request HttpServletRequest
+     * @return whether or not the security context is stored using this storage method
+     */
+    boolean isContextStored(HttpServletRequest request);
 }

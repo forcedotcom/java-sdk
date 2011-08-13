@@ -248,6 +248,9 @@ public class ForceOAuthConnector implements ForceConnector {
         // Replace the force endpoint path with the logout path
         StringBuffer forceLogoutUrl =
             new StringBuffer(forceEndpoint.substring(0, forceEndpoint.indexOf('/', 9)) + "/secur/logout.jsp");
+        
+        //TODO: This doesn't work for multiple reasons. First the param is retURL. However fixing that makes
+        //things worse because it won't let you redirect to a non-salesforce.com site.
         if (localLogoutSuccessfulPath != null && localLogoutSuccessfulPath.length() > 0) {
             try {
                 forceLogoutUrl.append("?retUrl=").append(getHostPort(request))

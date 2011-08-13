@@ -202,4 +202,20 @@ public class SecurityContextCookieStore implements
         response.addCookie(clearCookie);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isContextStored(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        
+        for (int i = 0; i < cookies.length; i++) {
+            if (SECURITY_CONTEXT_COOKIE_NAME.equals(cookies[i].getName())) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
 }

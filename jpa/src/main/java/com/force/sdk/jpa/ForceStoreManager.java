@@ -262,7 +262,7 @@ public class ForceStoreManager extends AbstractStoreManager {
     
     /**
      * Registers a virtual table with the schema handler (a table not backed by
-     * an actual object but is still needed for JPA queries, e.g. Owner)
+     * an actual object but is still needed for JPA queries, e.g. ForceOwner)
      * 
      * @param acmd the class metadata of the virtual table to register
      * @return the TableImpl for this object
@@ -336,7 +336,7 @@ public class ForceStoreManager extends AbstractStoreManager {
      * This is a flag set by clients that can create schema. Users would not
      * be setting this flag themselves
      * 
-     * @return {@code true} if the schema creation call is being made by a client, such as cliforce
+     * @return {@code true} if the schema creation call is being made by a client
      */
     public boolean isSchemaCreateClient() {
         return schemaCreateClient;

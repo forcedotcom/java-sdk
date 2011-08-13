@@ -26,6 +26,9 @@
 
 package com.force.sdk.oauth.connector;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -37,6 +40,8 @@ import java.net.URL;
  * @author John Simone
  */
 public class TokenRetrievalServiceImpl implements TokenRetrievalService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TokenRetrievalServiceImpl.class);
 
     /**
      * Obtains an access token by calling the OAuth authentication endpoint and either trading an 
@@ -59,6 +64,8 @@ public class TokenRetrievalServiceImpl implements TokenRetrievalService {
         try {
             writer = new PrintWriter(new OutputStreamWriter(conn.getOutputStream()));
             writer.println(params);
+        } catch (IOException e) {
+            throwDetailedException(conn, e);
         } finally {
             if (writer != null) {
                 writer.flush();
@@ -71,12 +78,37 @@ public class TokenRetrievalServiceImpl implements TokenRetrievalService {
         try {
             reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             responsePayload = reader.readLine();
+        } catch (IOException e) {
+            throwDetailedException(conn, e);
         } finally {
             if (reader != null) reader.close();
         }
         
         return responsePayload;
         
+    }
+
+    private void throwDetailedException(HttpURLConnection conn, IOException e) throws IOException {
+        BufferedReader errorIn = null;
+        try {
+            if (conn.getErrorStream() != null) {
+                errorIn = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+                String message = errorIn.readLine();
+                if (message != null && !"".equals(message)) {
+                    throw new IOException(message, e);
+                } else {
+                    throw e;
+                }
+            }
+        } finally {
+            if (errorIn != null) {
+                try {
+                    errorIn.close();
+                } catch (IOException e1) {
+                    LOGGER.error("Error closing error-input-stream from api call.");
+                }
+            }
+        }
     }
 
 }

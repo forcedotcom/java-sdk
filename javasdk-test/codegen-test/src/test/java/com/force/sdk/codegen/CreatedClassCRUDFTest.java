@@ -46,7 +46,7 @@ import org.testng.annotations.Test;
 import com.force.sdk.codegen.entities.AccountCustomFields;
 import com.force.sdk.codegen.entities.NewCustomObject;
 import com.force.sdk.jpa.model.BaseForceObject;
-import com.force.sdk.jpa.model.Owner;
+import com.force.sdk.jpa.model.ForceOwner;
 import com.force.sdk.qa.util.TestContext;
 import com.force.sdk.qa.util.jpa.BaseMultiEntityManagerJPAFTest;
 
@@ -140,20 +140,20 @@ public class CreatedClassCRUDFTest extends BaseMultiEntityManagerJPAFTest {
         tx.begin();
         entity = em.find(entity.getClass(), entity.getId());
         
-        assertNotNull(entity.getOwner(), "Owner field was not found");
-        assertNotNull(entity.getOwner().getId(), "Owner id was not found");
-        assertNotNull(entity.getOwner().getName(), "Owner name was not found");
+        assertNotNull(entity.getForceOwner(), "Force.com Owner field was not found");
+        assertNotNull(entity.getForceOwner().getId(), "Force.com Owner id was not found");
+        assertNotNull(entity.getForceOwner().getName(), "Force.com Owner name was not found");
         
-        // Assert that the Owner is in the cache
+        // Assert that the Force.com Owner is in the cache
         ObjectManager om = (ObjectManager) em.getDelegate();
-        assertNotNull(om.getObjectFromCache(new StringIdentity(Owner.class, entity.getOwner().getId())));
+        assertNotNull(om.getObjectFromCache(new StringIdentity(ForceOwner.class, entity.getForceOwner().getId())));
         tx.commit();
         
-        // Owner is eagerly fetched on AccountCustomFields so
+        // Force.com Owner is eagerly fetched on AccountCustomFields so
         // it should be available outside of the find transaction
-        assertNotNull(entity.getOwner(), "Owner field did not get eagerly fetched");
-        assertNotNull(entity.getOwner().getId(), "Owner id did not get eagerly fetched");
-        assertNotNull(entity.getOwner().getName(), "Owner name did not get eagerly fetched");
+        assertNotNull(entity.getForceOwner(), "Force.com Owner field did not get eagerly fetched");
+        assertNotNull(entity.getForceOwner().getId(), "Force.com Owner id did not get eagerly fetched");
+        assertNotNull(entity.getForceOwner().getName(), "Force.com Owner name did not get eagerly fetched");
     }
     
     @Test
@@ -233,11 +233,11 @@ public class CreatedClassCRUDFTest extends BaseMultiEntityManagerJPAFTest {
         entity = em.find(entity.getClass(), entity.getId());
         tx.commit();
         
-        // Owner is lazily fetched on NewCustomObject so
+        // Force.com Owner is lazily fetched on NewCustomObject so
         // it should not be available outside of the find transaction
         try {
-            entity.getOwner();
-            fail("Owner field should not be available outside of the find transaction because it is lazily fetched.");
+            entity.getForceOwner();
+            fail("Force.com Owner field should not be available outside of the find transaction because it is lazily fetched.");
         } catch (JDODetachedFieldAccessException expected) {
             // Expected
         }

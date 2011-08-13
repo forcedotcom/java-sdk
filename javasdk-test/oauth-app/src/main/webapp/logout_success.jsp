@@ -28,17 +28,16 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
+<%@ page session="false" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>Home</title>
+    <title>Good bye!</title>
 </head>
 <body>
 
 <div id="content">
-    <p><a href="ProjectList">Projects</a></p>
-
+    Good bye!
 </div>
 
 </body>

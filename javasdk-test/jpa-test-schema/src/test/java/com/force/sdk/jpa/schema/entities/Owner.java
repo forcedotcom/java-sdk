@@ -24,59 +24,23 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.jpa.entities.orderby;
+package com.force.sdk.jpa.schema.entities;
 
-import javax.persistence.*;
-
-import com.force.sdk.jpa.mock.MockApiEntity;
-import com.force.sdk.jpa.mock.MockApiField;
-import com.sforce.soap.partner.FieldType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
- * Test child entity for ordering by int values.
- *
- * @author Jeff Lai
+ * Test entity for creating a custom owner object.
+ * 
+ * @author Tim Kral
  */
 @Entity
-@MockApiEntity
-public class ChildEntityOrderByInt {
-    
+public class Owner {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @MockApiField(name = "Id", type = FieldType.id, custom = false)
-    private String id;
-    
-    @Column(name = "ParentEntityOrderByInt")
-    @ManyToOne
-    @MockApiField(name = "ParentEntityOrderByInt__c", type = FieldType.reference, custom = true,
-                  attrs = { "setRelationshipName=ParentEntityOrderByInt__r" })
-    private ParentEntityOrderByInt parent;
-    
-    @MockApiField(name = "myInt__c", type = FieldType._double, custom = true)
-    private int myInt;
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setParent(ParentEntityOrderByInt parent) {
-        this.parent = parent;
-    }
-
-    public ParentEntityOrderByInt getParent() {
-        return parent;
-    }
-
-    public void setMyInt(int myInt) {
-        this.myInt = myInt;
-    }
-
-    public int getMyInt() {
-        return myInt;
-    }
-
+    String id;
+    String name;
 }

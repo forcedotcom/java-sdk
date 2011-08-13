@@ -24,40 +24,26 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.jpa.entities.orderby;
+package com.force.sdk.jpa.query.entities.orderby;
 
 import javax.persistence.*;
-
-import com.force.sdk.jpa.mock.MockApiEntity;
-import com.force.sdk.jpa.mock.MockApiField;
-import com.sforce.soap.partner.FieldType;
+import java.util.List;
 
 /**
- * Test child entity for ordering by (int, String) tuples.
+ * Test parent entity which orders its children by (int, String) tuples.
  *
  * @author Jeff Lai
  */
 @Entity
-@MockApiEntity
-public class ChildEntityOrderByIntString {
-
+public class ParentEntityOrderByIntString {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @MockApiField(name = "Id", type = FieldType.id, custom = false)
     private String id;
     
-    @Column(name = "ParentEntityOrderByIntString")
-    @ManyToOne
-    @MockApiField(name = "ParentEntityOrderByIntString__c", type = FieldType.reference, custom = true,
-                  attrs = { "setRelationshipName=ParentEntityOrderByIntString__r" })
-    private ParentEntityOrderByIntString parent;
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+    @OrderBy("myInt, myString DESC")
+    private List<ChildEntityOrderByIntString> children;
     
-    @MockApiField(name = "myInt__c", type = FieldType._double, custom = true)
-    private int myInt;
-    
-    @MockApiField(name = "myString__c", type = FieldType.string, custom = true)
-    private int myString;
-
     public void setId(String id) {
         this.id = id;
     }
@@ -66,28 +52,12 @@ public class ChildEntityOrderByIntString {
         return id;
     }
 
-    public void setParent(ParentEntityOrderByIntString parent) {
-        this.parent = parent;
+    public void setChildren(List<ChildEntityOrderByIntString> children) {
+        this.children = children;
     }
 
-    public ParentEntityOrderByIntString getParent() {
-        return parent;
+    public List<ChildEntityOrderByIntString> getChildren() {
+        return children;
     }
-
-    public void setMyInt(int myInt) {
-        this.myInt = myInt;
-    }
-
-    public int getMyInt() {
-        return myInt;
-    }
-
-    public void setMyString(int myString) {
-        this.myString = myString;
-    }
-
-    public int getMyString() {
-        return myString;
-    }
-
+    
 }

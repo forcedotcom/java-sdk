@@ -26,23 +26,27 @@
 
 package com.force.sdk.oauth;
 
-import static org.testng.Assert.*;
-
-import java.io.IOException;
+import com.force.sdk.connector.ForceServiceConnector;
+import com.force.sdk.oauth.connector.TokenRetrievalServiceImpl;
+import com.force.sdk.oauth.context.ForceSecurityContextHolder;
+import com.force.sdk.oauth.context.SecurityContext;
+import com.force.sdk.oauth.context.SecurityContextUtil;
+import com.sforce.soap.partner.Connector;
+import com.sforce.ws.ConnectionException;
+import com.sforce.ws.ConnectorConfig;
+import org.springframework.mock.web.MockFilterChain;
+import org.springframework.mock.web.MockFilterConfig;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequestWrapper;
+import java.io.IOException;
 
-import org.springframework.mock.web.*;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
-import com.force.sdk.connector.ForceServiceConnector;
-import com.force.sdk.oauth.context.*;
-import com.sforce.soap.partner.Connector;
-import com.sforce.ws.ConnectionException;
-import com.sforce.ws.ConnectorConfig;
+import static org.testng.Assert.*;
 
 /**
  * Basic functional tests for the OAuth handshake with Force.com.
@@ -71,7 +75,25 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
         assertTrue(filterChain.getRequest() instanceof MockHttpServletRequest,
                 "AuthFilter should not wrap request if it has been already visited.");
     }
-    
+
+    @DataProvider
+    protected Object[][] tokenRetrievalTests() {
+        return new Object[][] {
+                {"https://login.salesforce.com", "", "unsupported_grant_type"},
+                {"https://login.salesforce.com", "&grant_type=authorization_code", "invalid_client_id"},
+        };
+    }
+
+    @Test(dataProvider = "tokenRetrievalTests")
+    public void testTokenRetrievalService(String url, String params, String message) throws IOException {
+        TokenRetrievalServiceImpl tokenRetrievalService = new TokenRetrievalServiceImpl();
+        try {
+            tokenRetrievalService.retrieveToken(url, params, null, null);
+        }  catch (IOException e) {
+            assertTrue(e.getMessage().contains(message), e.getMessage() + " does not contain " + message);
+        }
+    }
+
     @Test
     public void testOAuthLoginRedirectWithOAuthInfo() throws Exception {
         // Initialize the filter with oauth info

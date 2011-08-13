@@ -28,7 +28,7 @@ package com.force.sdk.codegen.entities;
 
 import javax.persistence.*;
 
-import com.force.sdk.jpa.model.Owner;
+import com.force.sdk.jpa.model.ForceOwner;
 
 /**
  * Extension of the Account standard object. 
@@ -48,18 +48,18 @@ public class AccountCustomFields extends AccountEntity {
         this.someCustomField = someCustomField;
     }
     
-    // Override Owner fetch type to EAGER
+    // Override Force.com Owner fetch type to EAGER
     // This will load the entire owner object 
     @Override
     @ManyToOne
     @Basic(fetch = FetchType.EAGER)
     @Column(name = "ownerId")
-    public Owner getOwner() {
-        return this.owner;
+    public ForceOwner getForceOwner() {
+        return this.forceOwner;
     }
     
     @Override
-    public void setOwner(Owner owner) {
-        this.owner = owner;
+    public void setForceOwner(ForceOwner owner) {
+        this.forceOwner = owner;
     }
 }

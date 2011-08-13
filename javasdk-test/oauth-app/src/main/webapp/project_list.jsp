@@ -36,6 +36,9 @@
     <head>
         <title>Project List</title>
     </head>
+
+    <p><a href="index.jsp">Home</a></p>
+
 	<body>
     <table class="itemlist" width="100%" border="1">
 			<tr>

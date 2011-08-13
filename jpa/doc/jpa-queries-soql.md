@@ -119,8 +119,4 @@ ParentEntity. ChildEntity includes a boolType\__c custom field.
         boolean boolType1 = childEntities.get(0).getBoolType();
     }
     
-Note that Collection objects are lazily loaded by default. A separate query is executed to populate the childEntities
-field when <code>getBoolType()</code> is called. To fetch the Collection eagerly, you can manually mark the childEntities field
-as <code>FetchType.EAGER</code> in an <code>@OneToMany</code> annotation in ParentEntity.java. This avoids execution of the second query.
-
 For more information about the number of levels of relationships that you can traverse in a query, see [Fetch Depth](jpa-queries#fetchDepth).

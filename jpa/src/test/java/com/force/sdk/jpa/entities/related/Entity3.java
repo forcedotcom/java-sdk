@@ -24,47 +24,39 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.jpa.entities.orderby;
+package com.force.sdk.jpa.entities.related;
 
-import java.util.List;
+import com.force.sdk.jpa.mock.MockApiEntity;
+import com.force.sdk.jpa.mock.MockApiField;
+import com.sforce.soap.partner.FieldType;
 
 import javax.persistence.*;
 
-import com.force.sdk.jpa.mock.*;
-import com.sforce.soap.partner.FieldType;
-
 /**
- * Test parent entity which orders its children by (int, String) tuples.
+ * Entities that are chained together for testing relationships and fetch depths.
  *
- * @author Jeff Lai
+ * @author Jill Wetzler
  */
 @Entity
 @MockApiEntity
-public class ParentEntityOrderByIntString {
+public class Entity3 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @MockApiField(name = "Id", type = FieldType.id, custom = false)
-    private String id;
-    
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-    @OrderBy("myInt, myString DESC")
-    @MockApiRelationship(name = "ParentEntityOrderByIntString_childentity__r")
-    private List<ChildEntityOrderByIntString> children;
-    
-    public void setId(String id) {
-        this.id = id;
-    }
+    public String id;
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setChildren(List<ChildEntityOrderByIntString> children) {
-        this.children = children;
-    }
-
-    public List<ChildEntityOrderByIntString> getChildren() {
-        return children;
-    }
-    
+    @MockApiField(name = "Name", type = FieldType.string, custom = false)
+    public String name;
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+     
+    @Column(name = "Entity2")
+    @ManyToOne
+    @MockApiField(name = "entity2__c", type = FieldType.reference, custom = true,
+                  attrs = { "setRelationshipName=entity2__r" })
+    Entity2 entity2;
+    public Entity2 getEntity2() { return entity2; }
+    public void setEntity2(Entity2 entity2) { this.entity2 = entity2; }
 }

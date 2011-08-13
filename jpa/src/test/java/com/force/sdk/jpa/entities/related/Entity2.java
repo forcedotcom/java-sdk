@@ -24,48 +24,39 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.force.sdk.jpa.entities.orderby;
+package com.force.sdk.jpa.entities.related;
 
-import java.util.List;
+import com.force.sdk.jpa.mock.MockApiEntity;
+import com.force.sdk.jpa.mock.MockApiField;
+import com.sforce.soap.partner.FieldType;
 
 import javax.persistence.*;
 
-import com.force.sdk.jpa.mock.*;
-import com.sforce.soap.partner.FieldType;
-
 /**
- * Test parent entity which orders its children by primary key.
+ * Entities that are chained together for testing relationships and fetch depths.
  *
- * @author Jeff Lai
+ * @author Jill Wetzler
  */
 @Entity
 @MockApiEntity
-public class ParentEntityOrderByPk {
-    
+public class Entity2 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @MockApiField(name = "Id", type = FieldType.id, custom = false)
-    private String id;
-    
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-    @OrderBy
-    @MockApiRelationship(name = "ParentEntityOrderByPk_childentityorderby__r")
-    private List<ChildEntityOrderByPk> children;
-    
-    public void setId(String id) {
-        this.id = id;
-    }
+    public String id;
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public String getId() {
-        return id;
-    }
-    
-    public void setChildren(List<ChildEntityOrderByPk> children) {
-        this.children = children;
-    }
+    @MockApiField(name = "Name", type = FieldType.string, custom = false)
+    public String name;
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public List<ChildEntityOrderByPk> getChildren() {
-        return children;
-    }
-
+    @Column(name = "Entity1")
+    @ManyToOne
+    @MockApiField(name = "entity1__c", type = FieldType.reference, custom = true,
+                  attrs = { "setRelationshipName=entity1__r" })
+    Entity1 entity1;
+    public Entity1 getEntity1() { return entity1; }
+    public void setEntity1(Entity1 entity1) { this.entity1 = entity1; }
 }

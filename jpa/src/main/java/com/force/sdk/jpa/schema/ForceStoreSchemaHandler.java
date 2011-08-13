@@ -208,7 +208,7 @@ public class ForceStoreSchemaHandler implements StoreSchemaHandler {
     }
     
     /**
-     * Registers a virtual table (a table not backed by an actual object in Force.com, like Owner).
+     * Registers a virtual table (a table not backed by an actual object in Force.com, like ForceOwner).
      * 
      * @param acmd the class metadata of the virtual table to register with the cache
      * @return the created TableImpl

@@ -32,6 +32,10 @@ import java.security.Principal;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 import com.force.sdk.connector.ForceConnectorConfig;
 import com.force.sdk.connector.ForceServiceConnector;
 import com.force.sdk.oauth.connector.ForceOAuthConnectionInfo;
@@ -87,9 +91,15 @@ public class AuthFilter implements Filter, SessionRenewer {
     static final String DEFAULT_USER_PROFILE = "myProfile";
     static final String CONTEXT_STORE_SESSION_VALUE = "session";
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthFilter.class);
+
     private ForceOAuthConnector oauthConnector;
     private SecurityContextService securityContextService = null;
-
+    
+    //logout specific parameters
+    private boolean logoutFromDatabaseCom = true;
+    private String logoutUrl = "";
+    
     /**
      * Initializes the filter from the init params.
      * {@inheritDoc} 
@@ -168,6 +178,17 @@ public class AuthFilter implements Filter, SessionRenewer {
         }
 
         securityContextService = securityContextServiceImpl;
+        
+        //Logout specific parameters
+        if ("false".equalsIgnoreCase(config.getInitParameter("logoutFromDatabaseDotCom"))) {
+            logoutFromDatabaseCom = false;
+        }
+        
+        logoutUrl = config.getInitParameter("logoutUrl");
+
+        if (logoutUrl == null || "".equals(logoutUrl)) {
+            logoutUrl = "/logout";
+        }
     }
 
     /**
@@ -193,6 +214,15 @@ public class AuthFilter implements Filter, SessionRenewer {
         if (!ForceOAuthConnector.REDIRECT_AUTH_URI.equals(request.getServletPath())) {
             sc = securityContextService.getSecurityContextFromSession(request);
         }
+        
+        if (isLogoutUrl(request)) {
+            if (sc != null) {
+                logout(request, response, sc, chain);
+            } else {
+                chain.doFilter(request, response);
+            }
+            return;
+        }
 
         // if there is no valid security context then initiate an OAuth handshake
         if (sc == null) {
@@ -201,6 +231,7 @@ public class AuthFilter implements Filter, SessionRenewer {
         } else {
             securityContextService.setSecurityContextToSession(request, response, sc);
         }
+        
         ForceSecurityContextHolder.set(sc);
         
         ForceConnectorConfig cc = new ForceConnectorConfig();
@@ -290,5 +321,56 @@ public class AuthFilter implements Filter, SessionRenewer {
     @Override
     public SessionRenewalHeader renewSession(ConnectorConfig config) throws ConnectionException {
         throw new ForceOAuthSessionExpirationException();
+    }
+    
+    private void logout(
+        ServletRequest request, ServletResponse response, SecurityContext sc, FilterChain chain)
+        throws IOException, ServletException {
+        
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+        
+        ForceConnectorConfig config = new ForceConnectorConfig();
+        try {
+            config.setServiceEndpoint(sc.getEndPoint());
+            config.setSessionId(sc.getSessionId());
+            config.setSessionRenewer(this);
+            ForceServiceConnector connector = new ForceServiceConnector();
+            connector.setConnectorConfig(config);
+            //logout from the partner API
+            connector.getConnection().logout();
+        } catch (ConnectionException e) {
+            LOGGER.warn("Error logging out through API: ", e.getMessage());
+            LOGGER.debug("Error logging out through API: ", e);
+        }
+        
+        //clear the security context out of the security context holder
+        ForceSecurityContextHolder.release();
+
+        //Clear security context and cookies
+        securityContextService.clearSecurityContext(req, res);
+
+        if (logoutFromDatabaseCom) {
+            String forceComLogoutUrl = getForceDotComLogoutUrl(req, sc, null);
+            res.sendRedirect(res.encodeRedirectURL(forceComLogoutUrl));
+        } else {
+            chain.doFilter(request, response);
+        }
+    }
+    
+    private boolean isLogoutUrl(HttpServletRequest request) {
+        
+        if (logoutUrl != null
+                && !"".equals(logoutUrl)
+                && logoutUrl.equals(request.getServletPath())) {
+            return true;
+        }
+        return false;
+    }
+    
+    private String getForceDotComLogoutUrl(
+            HttpServletRequest request, SecurityContext sc, String logoutTargetUrl) {
+        
+        return oauthConnector.getForceLogoutUrl(request, sc.getEndPoint(), logoutTargetUrl);
     }
 }

@@ -28,12 +28,20 @@ package com.force.sdk.jpa.query;
 
 import static org.testng.Assert.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import com.force.sdk.jpa.entities.related.Entity6;
+import org.datanucleus.jpa.EntityManagerImpl;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.force.sdk.jpa.entities.FetchTypeOverrideEntity;
 import com.force.sdk.jpa.entities.FetchTypeTestEntity;
+
+import java.util.Collections;
 
 /**
  * Tests for supported fetch types.
@@ -71,5 +79,78 @@ public class FetchTypeTest extends BaseJPAQueryTest {
             }
         });
         q.getResultList();
+    }
+
+    @DataProvider
+    public Object[][] fetchDepthQueries()  {
+        Object [][] params = new Object[][]{
+            {1, "select id, entity5__r.Id, entity5__r.Name, Name from entity6__c"},
+            {2, "select id, entity5__r.entity4__r.Id, entity5__r.entity4__r.Name, entity5__r.Id, entity5__r.Name, Name "
+                    + "from entity6__c"},
+            {3, "select id, entity5__r.entity4__r.entity3__r.Id, entity5__r.entity4__r.entity3__r.Name, "
+                    + "entity5__r.entity4__r.Id, entity5__r.entity4__r.Name, entity5__r.Id, entity5__r.Name, "
+                    + "Name from entity6__c"},
+            {4, "select id, entity5__r.entity4__r.entity3__r.entity2__r.Id, "
+                    + "entity5__r.entity4__r.entity3__r.entity2__r.Name, "
+                    + "entity5__r.entity4__r.entity3__r.Id, entity5__r.entity4__r.entity3__r.Name, "
+                    + "entity5__r.entity4__r.Id, entity5__r.entity4__r.Name, entity5__r.Id, entity5__r.Name, "
+                    + "Name from entity6__c"},
+            {5, "select id, entity5__r.entity4__r.entity3__r.entity2__r.entity1__r.Id, "
+                    + "entity5__r.entity4__r.entity3__r.entity2__r.entity1__r.Name, "
+                    + "entity5__r.entity4__r.entity3__r.entity2__r.Id, entity5__r.entity4__r.entity3__r.entity2__r.Name, "
+                    + "entity5__r.entity4__r.entity3__r.Id, entity5__r.entity4__r.entity3__r.Name, "
+                    + "entity5__r.entity4__r.Id, entity5__r.entity4__r.Name, entity5__r.Id, entity5__r.Name, "
+                    + "Name from entity6__c"},
+            {-1, "select id, entity5__r.entity4__r.entity3__r.entity2__r.entity1__r.Id, "
+                    + "entity5__r.entity4__r.entity3__r.entity2__r.entity1__r.Name, "
+                    + "entity5__r.entity4__r.entity3__r.entity2__r.Id, entity5__r.entity4__r.entity3__r.entity2__r.Name, "
+                    + "entity5__r.entity4__r.entity3__r.Id, entity5__r.entity4__r.entity3__r.Name, "
+                    + "entity5__r.entity4__r.Id, entity5__r.entity4__r.Name, entity5__r.Id, entity5__r.Name, "
+                    + "Name from entity6__c"}
+        };
+
+        return params;
+    }
+
+    @Test(dataProvider = "fetchDepthQueries")
+    public void testFetchDepthQueries(int fetchDepth, String baseQuery) {
+        String entityId = "xxx";
+        String expectedQuery = String.format("%s o ", baseQuery);
+        String expectedFindQuery = String.format("%s where Id='%s'", baseQuery, entityId);
+        mockQueryConn.setExpectedSoqlQuery(expectedQuery);
+        int oldDepth = ((EntityManagerImpl) em).getFetchPlan().getMaxFetchDepth();
+        try {
+            ((EntityManagerImpl) em).getFetchPlan().setMaxFetchDepth(fetchDepth);
+            em.createQuery("select o from Entity6 o)", Entity6.class).getResultList();
+
+            mockQueryConn.setExpectedSoqlQuery(expectedFindQuery);
+            // Test the same with find
+            em.find(Entity6.class, entityId);
+        } finally {
+            ((EntityManagerImpl) em).getFetchPlan().setMaxFetchDepth(oldDepth);
+        }
+
+        em.clear();
+
+        mockQueryConn.setExpectedSoqlQuery(expectedQuery);
+        em.createQuery("select o from Entity6 o)", Entity6.class)
+                    .setHint(QueryHints.MAX_FETCH_DEPTH, fetchDepth).getResultList();
+
+        mockQueryConn.setExpectedSoqlQuery(expectedFindQuery);
+        em.find(Entity6.class, entityId, Collections.singletonMap(QueryHints.MAX_FETCH_DEPTH, (Object) fetchDepth));
+    }
+
+    @Test
+    public void testFetchDepthFromPersistenceUnit() {
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("testFetchDepthInPersistenceUnit");
+        EntityManager manager = factory.createEntityManager();
+        String baseQuery = "select id, entity5__r.Id, entity5__r.Name, Name from entity6__c";
+        String expectedQuery = String.format("%s o ", baseQuery);
+        String expectedFindQuery = String.format("%s where Id='%s'", baseQuery, "xxx");
+        mockQueryConn.setExpectedSoqlQuery(expectedQuery);
+        manager.createQuery("select o from Entity6 o)", Entity6.class).getResultList();
+        mockQueryConn.setExpectedSoqlQuery(expectedFindQuery);
+        // Test the same with find
+        manager.find(Entity6.class, "xxx");
     }
 }

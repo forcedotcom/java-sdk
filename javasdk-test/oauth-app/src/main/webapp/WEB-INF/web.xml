@@ -33,9 +33,8 @@
 		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
            version="2.5">
 
-    <!-- Enables Security -->
     <filter>
-        <filter-name>AuthFilter</filter-name>
+        <filter-name>DefaultFilter</filter-name>
         <filter-class>com.force.sdk.oauth.AuthFilter</filter-class>
              <init-param>
                 <param-name>connectionName</param-name>
@@ -45,13 +44,80 @@
                 <param-name>secure-key-file</param-name>
                 <param-value>oauth-key.properties</param-value>
             </init-param>
+       <init-param>
+           <param-name>securityContextStorageMethod</param-name>
+           <param-value>session</param-value>
+       </init-param>
     </filter>
     <filter-mapping>
-        <filter-name>AuthFilter</filter-name>
-        <url-pattern>/_auth</url-pattern>
-        <url-pattern>/ProjectList</url-pattern>
+        <filter-name>DefaultFilter</filter-name>
+        <url-pattern>/logout</url-pattern>
     </filter-mapping>
 
+
+    <filter>
+        <filter-name>FilterA</filter-name>
+        <filter-class>com.force.sdk.oauth.AuthFilter</filter-class>
+             <init-param>
+                <param-name>connectionName</param-name>
+                <param-value>integrationserver</param-value>
+            </init-param>
+             <init-param>
+                <param-name>secure-key-file</param-name>
+                <param-value>oauth-key.properties</param-value>
+            </init-param>
+        <init-param>
+           <param-name>logoutFromDatabaseDotCom</param-name>
+           <param-value>true</param-value>
+       </init-param>
+       <init-param>
+           <param-name>securityContextStorageMethod</param-name>
+           <param-value>cookie</param-value>
+       </init-param>
+        <init-param>
+            <param-name>logoutUrl</param-name>
+            <param-value>/logoutA</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>FilterA</filter-name>
+        <url-pattern>/_auth</url-pattern>
+        <url-pattern>/ProjectList</url-pattern>
+        <url-pattern>/logoutA</url-pattern>
+    </filter-mapping>
+
+
+    <filter>
+        <filter-name>FilterB</filter-name>
+        <filter-class>com.force.sdk.oauth.AuthFilter</filter-class>
+             <init-param>
+                <param-name>connectionName</param-name>
+                <param-value>integrationserver</param-value>
+            </init-param>
+             <init-param>
+                <param-name>secure-key-file</param-name>
+                <param-value>oauth-key.properties</param-value>
+            </init-param>
+        <init-param>
+           <param-name>logoutFromDatabaseDotCom</param-name>
+           <param-value>false</param-value>
+       </init-param>
+       <init-param>
+           <param-name>securityContextStorageMethod</param-name>
+           <param-value>cookie</param-value>
+       </init-param>
+        <init-param>
+            <param-name>logoutUrl</param-name>
+            <param-value>/logoutB</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>FilterB</filter-name>
+        <url-pattern>/logoutB</url-pattern>
+    </filter-mapping>
+
+
+    <!-- Servlets and Servlet-mappings -->
     <servlet>
         <display-name>ProjectList</display-name>
         <servlet-name>ProjectList</servlet-name>
@@ -63,10 +129,22 @@
         <url-pattern>/ProjectList</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <display-name>LogoutSuccess</display-name>
+        <servlet-name>LogoutSuccess</servlet-name>
+        <servlet-class>com.force.servlets.LogoutSuccess</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutSuccess</servlet-name>
+        <url-pattern>/logout</url-pattern>
+        <url-pattern>/logoutA</url-pattern>
+        <url-pattern>/logoutB</url-pattern>
+    </servlet-mapping>
 
   <welcome-file-list>
     <welcome-file>
-      index.html
+      index.jsp
     </welcome-file>
   </welcome-file-list>
 

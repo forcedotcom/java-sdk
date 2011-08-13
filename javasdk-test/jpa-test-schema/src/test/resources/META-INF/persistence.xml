@@ -90,6 +90,24 @@
       </properties>
     </persistence-unit>
 
+    <persistence-unit name="testCreateCustomOwnerObject">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.Owner</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="false" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit>
+
     <!-- Primary key generation strategy -->
     <persistence-unit name="testNegativePrimaryKey_TABLE">
       <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
@@ -256,10 +274,10 @@
     </persistence-unit>   
 
 	<!-- @AttributeOverride, @AssociationOverride -->
-    <persistence-unit name="testMappedSuperclass">
+    <persistence-unit name="testMappedSuperclassWithOverride">
       <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
       <class>com.force.sdk.jpa.schema.entities.MappedSuperclassEntity</class>
-      <class>com.force.sdk.jpa.schema.entities.MappedSubclassEntity</class>
+      <class>com.force.sdk.jpa.schema.entities.MappedSubclassWithOverrideEntity</class>
       <exclude-unlisted-classes>true</exclude-unlisted-classes>
       <properties>
         <property name="datanucleus.storeManagerType" value="force"/>
@@ -680,6 +698,25 @@
         <property name="force.ConnectionName" value="force-sdk-test"/>
       </properties>
     </persistence-unit>
+
+    <persistence-unit name="testMappedSuperclass">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <class>com.force.sdk.jpa.schema.entities.MappedSuperclassEntity</class>
+      <class>com.force.sdk.jpa.schema.entities.MappedSubclassEntity</class>
+      <exclude-unlisted-classes>true</exclude-unlisted-classes>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.autoCreateSchema" value="true" />
+        <property name="datanucleus.detachAllOnCommit" value="true" />
+        <property name="datanucleus.validateTables" value="false" />
+        <property name="datanucleus.validateConstraints" value="false" />
+        <property name="datanucleus.Optimistic" value="true" />
+        <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
+        <property name="datanucleus.jpa.addClassTransformer" value="false" />
+        <property name="datanucleus.cache.level2.type" value="none"/>
+        <property name="force.ConnectionName" value="force-sdk-test"/>
+      </properties>
+    </persistence-unit> 
 
     <!-- The DN enhancer inspects persistence.xml and will only enhance explicitly listed classes
       or classes that are implicitly retrieved if exclude-unlisted-classes is set to false. -->

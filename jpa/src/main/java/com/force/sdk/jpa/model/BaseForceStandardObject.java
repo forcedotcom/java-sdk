@@ -39,7 +39,7 @@ import javax.persistence.*;
 public abstract class BaseForceStandardObject extends BaseForceObject {
 
     protected String name;
-    protected Owner owner;
+    protected ForceOwner forceOwner;
     protected java.util.Calendar createdDate;
     protected java.util.Calendar lastModifiedDate;
     protected java.util.Calendar systemModstamp;
@@ -56,12 +56,12 @@ public abstract class BaseForceStandardObject extends BaseForceObject {
     @ManyToOne
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "ownerId")
-    public Owner getOwner() {
-        return this.owner;
+    public ForceOwner getForceOwner() {
+        return this.forceOwner;
     }
 
-    public void setOwner(Owner owner) {
-        this.owner = owner;
+    public void setForceOwner(ForceOwner forceOwner) {
+        this.forceOwner = forceOwner;
     }
     
     public java.util.Calendar getCreatedDate() {
