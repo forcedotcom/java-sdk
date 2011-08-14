@@ -21,7 +21,7 @@ This quick start walks you through creating a new Spring MVC application from a 
 
 ### A word about Maven before you get started
 
-Many of the commands in this quick start trigger downloads of additional Maven dependencies. If you have never used Maven before or if you are going through this quick start on a new machine or with a new user account, this can be slow initially. However, once the modules are downloaded, they are cached in a local repository and subsequent commands execute quicker.
+Many of the commands in this quick start trigger downloads of additional Maven dependencies. If you have never used Maven before or if you are going through this quick start on a new machine or with a new user account, this can be slow initially. However, once the modules are downloaded, they are cached in a local repository and subsequent commands execute more quickly.
 
 ## 1. Create a new project from a template
 
@@ -66,7 +66,7 @@ Navigate to <http://localhost:8080/hellocloud> where you should see a welcome sc
 
 ## 4. Next Steps
 
-The Database.com SDK is not tied to any particular runtime. You can now proceed to deploy the application on your own server, Cloud Foundry, EC2 or other cloud runtimes as long as you can make HTTPS connections to Database.com.
+The Database.com SDK is not tied to any particular runtime. You can now proceed to deploy the application on your own server, Cloud Foundry, EC2, or other cloud runtimes as long as you can make HTTPS connections to Database.com.
 
 If you want to take a look at an application that is built out a little bit more, you can look at the "Music Library" application here: <https://github.com/forcedotcom/javasample-musiclib>. You can clone this project by running:
 
@@ -79,7 +79,3 @@ Now, build and run the musiclib application.
     mvn tomcat:run-war
 
 And see it at <http://localhost:8080/musiclib>. It will pick up the same connection parameters that you already set up and create entities in the same Force.com organization.
-
-Happy coding.
-
-

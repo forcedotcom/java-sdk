@@ -109,7 +109,7 @@ You can only execute a limited number of long-running, concurrent requests. The 
 
 ### Total, daily API request limit
 
-You can only execute a certain total number of API calls within a rolling 24 hour period. You can see your current consumption and limit by logging into your organization and clicking *Your Name* > **Setup** > (**Administration Setup**) > **Company Profile** > **Company Information** and looking at the **API Requests, Last 24 Hours** field. The first number is your current consumption. The second number in parentheses is your limit.
+You can only execute a certain total number of API calls within a rolling 24 hour period. You can see your current consumption and limit by logging into your organization and clicking *Your Name* > **Setup** > (**Administration Setup**) > **Company Profile** > **Company Information** and looking at the **API Requests, Last 24 Hours** field. The first number is your current consumption. The second number, in parentheses, is your limit.
 
 ### Storage limit
 

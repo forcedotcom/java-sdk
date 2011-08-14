@@ -17,8 +17,7 @@ is responsible for creating and removing persistent entity instances and finding
 You access an entity manager by first creating an instance of an <code>EntityManagerFactory</code> object for a persistence unit defined
 in `persistence.xml`. Using the factory class, you can then create an <code>EntityManager</code> object.
 
-The following sample creates an entity manager. The details of interacting with your data after creating the entity manager is
-omitted.
+The following sample creates an entity manager. The details of interacting with your data after creating the entity manager are omitted.
 
     private void setupEntityManager(String persistenceUnitName)
     {

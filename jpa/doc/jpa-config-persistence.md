@@ -130,7 +130,7 @@ in the transaction.
 
 If a transaction includes an insert, update, and a delete operation, this property applies to each operation separately. For
 example, if the insert and delete operations have no errors, but the update operation has at least one error, the insert and
-operations are committed, while the update operation doesn't change any records due to the error.
+delete operations are committed, while the update operation doesn't change any records due to the error.
 
 ### datanucleus.Optimistic
 Contact salesforce.com if you want to enable optimistic transactions for your organization. Once salesforce.com has enabled optimistic transactions for your organization, you can set this property to <code>true</code> to use optimistic transactions.

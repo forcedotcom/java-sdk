@@ -6,7 +6,7 @@ title: Introduction
 ---
 # Introduction
 
-Force.com is a complete application development platform that provides tools for managing data, logic, and user interfaces of your cloud apps. Database.com is the underlying database that powers Force.com and all the applications built on the platform, including Sales Cloud, Service Cloud and Chatter.
+Force.com is a complete application development platform that provides tools for managing data, logic, and user interfaces of your cloud apps. Database.com is the underlying database that powers Force.com and all the applications built on the platform, including Sales Cloud, Service Cloud, and Chatter.
 
 If you are a Force.com developer, you are already using Database.com to manage the data for your application and to automatically expose your data in both a [REST API][1] and [SOAP API][2]. It also provides a [Metadata API][3] to handle changes to your data model.
 
@@ -21,7 +21,7 @@ If you are a Java developer and you want to build a Java application that access
 * Leverage the Database.com user security model to manage data access for your application
 * Extend existing Force.com applications with Java logic
 
-The SDK is not tied to any particular runtime. You can build applications that run on your own server, on Amazon's EC2 or other cloud runtimes as long as you can make HTTPS connections to Database.com.
+The SDK is not tied to any particular runtime. You can build applications that run on your own server, on Amazon's EC2, or other cloud runtimes as long as you can make HTTPS connections to Database.com.
 
 You can use the Database.com Java SDK with any organization that has Force.com API calls enabled. This includes Enterprise, Unlimited, Developer, and Database.com Editions.
 

@@ -146,7 +146,7 @@ from multiple queries in your code. The Database.com JPA provider provides a few
 
 <a name="implicitJoins"> </a>
 ### Implicit Joins
-The Database.com JPA provider automatically performs implicit joins on JQPL queries that reference a parent entity with an
+The Database.com JPA provider automatically performs implicit joins on JPQL queries that reference a parent entity with an
 <code>@OneToMany</code> field related to a collection or map of child entity records.
 
 For example, a Producer entity with a one-to-many

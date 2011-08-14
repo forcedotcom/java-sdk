@@ -113,7 +113,7 @@ name="datanucleus.storeManagerType" value="force"/></code> in the <code>persiste
 `persistence.xml` file.        
 
 <a name="propFile"> </a>        
-### Connection Properties File
+### Connection URL in Properties file in the Classpath
 
 You can set the connection URL in a properties file in the classpath. If you add the properties file to the `src/main/resources` directory of your
 application, Maven automatically copies it to your classpath.

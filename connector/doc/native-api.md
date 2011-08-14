@@ -43,6 +43,8 @@ However, for certain advanced use cases, you may wish to issue native API calls 
 
     // ForceConnectorConfig, ForceServiceConnector from SDK 22.0.0
     ForceConnectorConfig config = new ForceConnectorConfig();
+    
+    // Set the API endpoint to include API version 23.0
     config.setConnectionUrl("force://login.salesforce.com/services/Soap/u/23.0;user=user@salesforcedoc.org;password=samplePassword");
  
     // Gets a connection to API version 23.0
