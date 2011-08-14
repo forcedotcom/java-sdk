@@ -56,17 +56,17 @@ The \<oauth /> tag requires that you provide OAuth properties.  This can be done
 **&lt;connectionUrl/>** tag.  This tag allows you to combine the <code>endpoint</code>, <code>oauthKey</code> and <code>oauthSecret</code> properties into one connection URL.  For example:
 
 	<fss:oauth>
-            <fss:connectionUrl url="force://login.salesforce.com;oauth_key=${oauthKey};oauth_secret=${oauthSecret}" />
-        </fss:oauth>
+        <fss:connectionUrl url="force://login.salesforce.com;oauth_key=${oauthKey};oauth_secret=${oauthSecret}" />
+    </fss:oauth>
 
 **&lt;connectionName />** tag.  This tag allows you to define OAuth properties elsewhere and have them looked up by name.  OAuth properties can be stored as an environment variable, or a Java system property, or a properties file on the classpath.  For more information, see [Database.com Database Connections](connection-url). For example:
 
-      SET FORCE_MYCONNECTOR_URL=force://${endpoint};oauth_key=${oauthKey};oauth_secret=${oauth_secret}
+    SET FORCE_MYCONNECTOR_URL=force://${endpoint};oauth_key=${oauthKey};oauth_secret=${oauth_secret}
 
-      <!-- Uses the connection URL in the FORCE_MYCONNECTOR_URL environment variable -->
-      <fss:oauth>
+    <!-- Uses the connection URL in the FORCE_MYCONNECTOR_URL environment variable -->
+    <fss:oauth>
         <fss:connectionName name="myconnector" />
-      </fss:oauth>
+    </fss:oauth>
 
 In these samples, substitute values from your remote access application for the following variables:
 
@@ -77,16 +77,44 @@ For more information about remote access applications, see [Creating a Database.
 
 The following attributes are optional for &lt;fss:oauth> in `spring-configuration.xml`:
 
-| Attribute | Description |
-| ------------ | ------ |
-|default-login-success|A user is redirected to this URL after a successful OAuth logout. The default value is `/spring/logoutSuccess`|
-|default-logout-success|A user is redirected to this URL after a successful OAuth logout. The default value is `/spring/logoutSuccess`|
-|login-url|Navigation to this URL initiates a login sequence. The default value is `/spring/login`|
-|logout-url|Navigation to this URL initiates a logout sequence. The default is `/spring/logout`|
-|logout-from-sfdc|This attribute controls whether a logout from the OAuth application also logs the user out of Database.com. This logout redirects the user to the Database.com logout page so when it is set to `true`, the `default-logout-success` URL is ignored. The default value is `false`.|
-|store-data-in-session|Flag that sets whether data about the authenticated user is stored in a server side session or an encrypted browser cookie. The default is false (cookies are used). Sessions should only be used if sticky load balancing is available or if the application runs with a single instance.|
-|store-user-name|Flag that sets whether or not the username is stored in the user data. This enables you to avoid storing usernames in browser cookies, but it can be used to prevent storing the username in sessions too. The default value is true.|
-|secure-key-file|The name of a secure key file, which must be on the classpath. AES encryption is used to encrypt the data about the authenticated user when it's stored in a browser cookie. This is only used if browser cookie storage is on. If cookies are used and no file is specified, a key is automatically generated. However, this should only be done for development purposes because it will be problematic in a multi-instance deployment since each instance will generate a different key. The key is base-64 encoded.|
+<table border="1">
+<tr>
+    <th>Attribute</th>
+    <th>Description</th>
+</tr>
+<tr>
+    <td>default-login-success</td>
+    <td>A user is redirected to this URL after a successful OAuth logout. The default value is <codeph>/spring/logoutSuccess</codeph></td>
+</tr>    
+<tr>
+    <td>default-logout-success</td>
+    <td>A user is redirected to this URL after a successful OAuth logout. The default value is <codeph>/spring/logoutSuccess</codeph></td>
+</tr>    
+<tr>
+    <td>login-url</td>
+    <td>Navigation to this URL initiates a login sequence. The default value is <codeph>/spring/login</codeph></td>
+</tr>    
+<tr>
+    <td>logout-url</td>
+    <td>Navigation to this URL initiates a logout sequence. The default is <codeph>/spring/logout</codeph></td>
+</tr>    
+<tr>
+    <td>logout-from-sfdc</td>
+    <td>This attribute controls whether a logout from the OAuth application also logs the user out of Database.com. This logout redirects the user to the Database.com logout page so when it is set to <codeph>true</codeph>, the <codeph>default-logout-success</codeph> URL is ignored. The default value is <codeph>false</codeph>.</td>
+</tr>    
+<tr>
+    <td>store-data-in-session</td>
+    <td>Flag that sets whether data about the authenticated user is stored in a server side session or an encrypted browser cookie. The default is <codeph>false</codeph> (cookies are used). Sessions should only be used if sticky load balancing is available or if the application runs with a single instance.</td>
+</tr>    
+<tr>
+    <td>store-user-name</td>
+    <td>Flag that sets whether or not the username is stored in the user data. This enables you to avoid storing usernames in browser cookies, but it can be used to prevent storing the username in sessions too. The default value is <codeph>true</codeph>.</td>
+</tr>    
+<tr>
+    <td>secure-key-file</td>
+    <td>The name of a secure key file, which must be on the classpath. AES encryption is used to encrypt the data about the authenticated user when it's stored in a browser cookie. This is only used if browser cookie storage is on. If cookies are used and no file is specified, a key is automatically generated. However, this should only be done for development purposes because it will be problematic in a multi-instance deployment since each instance will generate a different key. The key is base-64 encoded.</td>
+</tr>    
+</table>
 
 The following is a sample file for the secure-key-file attribute. Replace *yourKeyGoesHere* with a secure key. For more information on AES, see [Using AES with Java Technology](http://java.sun.com/developer/technicalArticles/Security/AES/AES_v1.html).
 

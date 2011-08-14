@@ -88,7 +88,8 @@ Here is a trivial sample that creates, updates, and then deletes a record for a 
         }
         catch (PersistenceException pex) {
             pex.printStackTrace();
-        } finally {
+        }
+        finally {
             em.close();
             tx.rollback();
         }
