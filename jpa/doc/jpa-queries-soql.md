@@ -102,8 +102,8 @@ relationships, see [Understanding Relationship Names](http://www.salesforce.com/
 
 The following sample uses a child entity, ChildEntity, that has a lookup relationship to a parent entity, ParentEntity. The
 parent entity includes a childEntities field that is a Collection of ChildEntity records. The query in the sample
-uses the <code>ParentEntity_ChildEntitys__r</code> relationship name, which represents the parent-to-child relationship in
-ParentEntity. ChildEntity includes a <code>boolType__c</code> custom field.
+uses the <code>ParentEntity_ChildEntitys\__r</code> relationship name, which represents the parent-to-child relationship in
+ParentEntity. ChildEntity includes a <code>boolType\__c</code> custom field.
 
     private void sampleSOQLRelationshipQuery(EntityManager em)
         throws Exception
