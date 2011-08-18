@@ -106,8 +106,6 @@ Use the URL format to encode all authentication information.
 
 Each version of the Database.com Java SDK is automatically linked with an API version. 
 
-<img src="http://na1.salesforce.com//img/help/helpWarning_icon.gif" alt="Caution icon" /> **Caution**: For JPA configuration, we don't support overriding the default API version of the SDK. 
-
 ### force.ConnectionName
 Use this property to define a named connection for a persistence unit. You can refer to the named connection when you are configuring a connection URL outside `persistence.xml`. For example, you can configure a connection URL in an environment variable or Java system property.  
 

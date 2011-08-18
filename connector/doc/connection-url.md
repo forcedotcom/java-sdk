@@ -59,8 +59,7 @@ timing out. This parameter is equivalent to the **datanucleus.datastoreReadTimeo
   <code>force://login.salesforce.com;user=<em>user@salesforcedoc.org</em>;password=<em>samplePassword</em>;timeout=<em>10000</em></code>
 </pre>
 
-Each version of the Database.com Java SDK is automatically linked with an API version. For example, version 22.0.0 of the SDK
-uses API version 22.0. For JPA functionality, the major version of the SDK must always match the API version. To use a native API connection class to override the default API version for the SDK, see <a href="native-api#setAPIversion">Setting an API Version</a>.
+Each version of the Database.com Java SDK is automatically linked with an API version. The major version of the SDK matches the major version of the API. For example, version 22.0.0 of the SDK uses API version 22.0.
 
 <a name ="configConnectionURL"> </a>
 ## Configuring Connection URLs
