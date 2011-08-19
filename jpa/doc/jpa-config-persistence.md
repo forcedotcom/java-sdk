@@ -62,6 +62,8 @@ The **datanucleus.maxFetchDepth** property is not listed in the earlier sample. 
 
 To control whether the Database.com JPA provider automatically creates schema for entities or fields that don't already exist in Database.com, you can configure the following properties in your application's `persistence.xml` file.
 
+To use the reverse process and generate code based on entities in your organization, see [this Maven plugin](https://github.com/forcedotcom/maven-force-plugin).
+
 ### datanucleus.autoCreateSchema
 Set this property to <codeph>true</code> to automatically create schema for entities that don't already exist in Database.com. If the entity already exists, new fields defined in an associated Java class are added to the entity. If schema creation fails, the application is terminated during startup.
 
