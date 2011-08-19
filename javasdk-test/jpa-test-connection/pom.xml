@@ -41,7 +41,7 @@
             </properties>
           <environmentVariables>
             <FORCE_CONNURLENVVAR_URL>
-              force://${endpoint}/services/Soap/u/${force.apiVersion};user=${user};password=${password}
+              force://${endpoint}/services/Soap/u/${force.apiVersion}?user=${user}&amp;password=${password}
             </FORCE_CONNURLENVVAR_URL>
           </environmentVariables>
         </configuration>

@@ -103,8 +103,8 @@ public abstract class BaseForceServiceConnectorTest {
         
         StringBuffer sb = new StringBuffer();
         sb.append("force://").append(parsedEndPoint[parsedEndPoint.length - 1])
-            .append(";user=").append(userInfo.getUserName())
-            .append(";password=").append(userInfo.getPassword());
+            .append("?user=").append(userInfo.getUserName())
+            .append("&password=").append(userInfo.getPassword());
         
         return sb.toString();
     }

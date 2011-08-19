@@ -37,7 +37,7 @@
         <configuration>
           <environmentVariables>
             <FORCE_ENVVARCONN_URL>
-              force://${endpoint}/services/Soap/u/${force.apiVersion};user=${user};password=${password}
+              force://${endpoint}/services/Soap/u/${force.apiVersion}?user=${user}&amp;password=${password}
             </FORCE_ENVVARCONN_URL>
           </environmentVariables>
         </configuration>

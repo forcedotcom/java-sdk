@@ -102,7 +102,7 @@ user must have the "Modify All Data" user permission in their profile to create 
 ### datanucleus.ConnectionURL
 Use the URL format to encode all authentication information.
 
-    force://login.salesforce.com;user=user@salesforcedoc.org;password=samplePassword
+    force://login.salesforce.com?user=user@salesforcedoc.org&amp;password=samplePassword
 
 Each version of the Database.com Java SDK is automatically linked with an API version. 
 

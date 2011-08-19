@@ -41,7 +41,7 @@
 
     <!-- SFDC OAuth security config with connectionUrl-->
     <fss:oauth store-user-name="true">
-        <fss:connectionUrl url="force://endpoint;oauth_key=key;oauth_secret=123456"/>
+        <fss:connectionUrl url="force://endpoint?oauth_key=key&amp;oauth_secret=123456"/>
     </fss:oauth>
     
 	<!-- Configure Spring Security -->

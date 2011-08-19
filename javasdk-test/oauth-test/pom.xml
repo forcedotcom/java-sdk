@@ -37,7 +37,7 @@
         <configuration>
           <environmentVariables>
             <FORCE_CONNURLENVVAR_URL>
-              force://${endpoint};oauth_key=${force.test.oauth.key};oauth_secret=${force.test.oauth.secret}
+              force://${endpoint}?oauth_key=${force.test.oauth.key}&amp;oauth_secret=${force.test.oauth.secret}
             </FORCE_CONNURLENVVAR_URL>
           </environmentVariables>
           <systemPropertyVariables>
