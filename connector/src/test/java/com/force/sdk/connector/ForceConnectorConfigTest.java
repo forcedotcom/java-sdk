@@ -104,7 +104,7 @@ public class ForceConnectorConfigTest {
     @Test(dataProvider = "javaPropertyProvider")
     public void testLoadFromJavaProperty(String propName, String connectionName) throws Exception {
         try {
-            System.setProperty(propName, "force://url;user=user@org.com;password=password");
+            System.setProperty(propName, "force://url?user=user@org.com&password=password");
             ForceConnectorConfig config = ForceConnectorConfig.loadFromName(connectionName);
             assertNotNull(config);
             
@@ -119,7 +119,7 @@ public class ForceConnectorConfigTest {
     @Test
     public void testLoadFromJavaPropertyIsCaseSensitive() throws Exception {
         try {
-            System.setProperty("force.xyz.url", "force://url;user=user@org.com;password=password");
+            System.setProperty("force.xyz.url", "force://url?user=user@org.com&password=password");
             assertNull(ForceConnectorConfig.loadFromName("XYZ"));
         } finally {
             System.clearProperty("force.xyz.url");
@@ -131,7 +131,7 @@ public class ForceConnectorConfigTest {
     public void testLoadEnvVariableBeforeJavaProperty() throws Exception {
         try {
             // Set a Java property that conflicts with the environment variable set in the pom
-            System.setProperty("force.envvarconn.url", "force://url;user=user;password=password");
+            System.setProperty("force.envvarconn.url", "force://url?user=user&password=password");
             
             // Try loading from the environment variable.
             // The assertions in that test should still work.
@@ -145,7 +145,7 @@ public class ForceConnectorConfigTest {
     public void testLoadJavaPropertyBeforePropertyFile() throws Exception {
         try {
             // Set a Java property that conficts with the unitconnurl properties file
-            System.setProperty("force.unitconnurl.url", "force://javapropurl;user=javapropuser;password=javaproppassword");
+            System.setProperty("force.unitconnurl.url", "force://javapropurl?user=javapropuser&password=javaproppassword");
             
             ForceConnectorConfig config = ForceConnectorConfig.loadFromName("unitconnurl");
             assertNotNull(config);
@@ -171,10 +171,11 @@ public class ForceConnectorConfigTest {
             {null},
             {""},
             {"url"},
-            {"url;user=user;password=password"},
+            {"url?user=user&password=password"},
             {"force://"},
             {"force://url"},
-            {"force://url;user=user"},
+            {"force://url?user=user"},
+            {" force://url?user=user&password=password"}, // Leading space
         };
     }
     
@@ -197,11 +198,11 @@ public class ForceConnectorConfigTest {
     @DataProvider
     protected Object[][] connectionUrlWithBadPropertyProvider() {
         return new Object[][] {
-            {"force://;user=user;password=password", "endpoint", null},
-            {"force://url;user=;password=password", "user", null},
-            {"force://url;user=user;password=", "password", null},
-            {"force://url/a;user=user;password=", "endpoint", "url/a"},
-            {"force://url;user=user;password=password;timeout=abc", "timeout", "abc"},
+            {"force://?user=user&password=password", "endpoint", null},
+            {"force://url?user=&password=password", "user", null},
+            {"force://url?user=user&password=", "password", null},
+            {"force://url/a?user=user&password=", "endpoint", "url/a"},
+            {"force://url?user=user&password=password&timeout=abc", "timeout", "abc"},
         };
     }
     
@@ -224,17 +225,13 @@ public class ForceConnectorConfigTest {
     @DataProvider
     protected Object[][] basicGoodConnectionUrlProvider() {
         return new Object[][] {
-            {"force://url;user=user;password=password"},
-            {"force://url;password=password;user=user"},
-            {"force://url/;user=user;password=password"},
-            {"force://url;user=user;password=password;testProp"}, // Ignore unknown properties
-            {"force://url;user=user;password=password;testProp="}, // Ignore unknown properties
-            {"force://url;user=user;password=password;oauth_secret=abc"}, // Ignore unused properties
-            {"force://url;user=user;password=password;"}, // Trailing ';'
-            {" force://url;user=user;password=password"}, // Leading whitespace
-            {"force://url; user=user;password=password"}, // Space between url and user
-            {"force://url;user=user; password=password"}, // Space between user and password
-            {"force://url;user=user;password=password "}, // Trailing whitespace
+            {"force://url?user=user&password=password"},
+            {"force://url?password=password&user=user"},
+            {"force://url/?user=user&password=password"},
+            {"force://url?user=user&password=password&testProp"}, // Ignore unknown properties
+            {"force://url?user=user&password=password&testProp="}, // Ignore unknown properties
+            {"force://url?user=user&password=password&oauth_secret=abc"}, // Ignore unused properties
+            {"force://url?user=user&password=password&"}, // Trailing '&'
         };
     }
     
@@ -255,11 +252,11 @@ public class ForceConnectorConfigTest {
     @DataProvider
     protected Object[][] goodConnectionUrlProvider() {
         return new Object[][] {
-            {"force://url;user=user;password=password;clientid=id;timeout=1;trace=true",
+            {"force://url?user=user&password=password&clientid=id&timeout=1&trace=true",
                     null /* skip validation */, "user", "password", "id", 1},
-            {"force://url/services/Soap/u/0;user=user;password=password",
+            {"force://url/services/Soap/u/0?user=user&password=password",
                     "https://url/services/Soap/u/0", "user", "password", null, 0},
-            {"force://url;user=user;password=password=",
+            {"force://url?user=user&password=password=",
                     null /* skip validation */, "user", "password=", null, 0}, // Trailing '='
         };
     }

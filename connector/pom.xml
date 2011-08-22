@@ -21,7 +21,7 @@
         <configuration>
           <environmentVariables>
             <FORCE_ENVVARCONN_URL>
-              force://url;user=user;password=password
+              force://url?user=user&amp;password=password
             </FORCE_ENVVARCONN_URL>
           </environmentVariables>
         </configuration>

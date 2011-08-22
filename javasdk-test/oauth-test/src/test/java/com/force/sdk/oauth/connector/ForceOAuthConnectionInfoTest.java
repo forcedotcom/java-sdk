@@ -132,7 +132,7 @@ public class ForceOAuthConnectionInfoTest {
     @Test(dataProvider = "javaPropertyProvider")
     public void testLoadFromJavaProperty(String propName, String connectionName) throws Exception {
         try {
-            System.setProperty(propName, "force://url;oauth_key=ABCDEF;oauth_secret=123456");
+            System.setProperty(propName, "force://url?oauth_key=ABCDEF&oauth_secret=123456");
             ForceOAuthConnectionInfo connInfo = ForceOAuthConnectionInfo.loadFromName(connectionName);
             assertNotNull(connInfo);
             
@@ -147,7 +147,7 @@ public class ForceOAuthConnectionInfoTest {
     @Test
     public void testLoadFromJavaPropertyIsCaseSensitive() throws Exception {
         try {
-            System.setProperty("force.xyz.url", "force://url;oauth_key=ABCDEF;oauth_secret=123456");
+            System.setProperty("force.xyz.url", "force://url?oauth_key=ABCDEF&oauth_secret=123456");
             assertNull(ForceOAuthConnectionInfo.loadFromName("XYZ"));
         } finally {
             System.clearProperty("force.xyz.url");
@@ -159,7 +159,7 @@ public class ForceOAuthConnectionInfoTest {
     public void testLoadEnvVariableBeforeJavaProperty() throws Exception {
         try {
             // Set a Java property that conflicts with the environment variable set in the pom
-            System.setProperty("force.connurlenvvar.url", "force://javapropurl;oauth_key=javapropkey;oauth_secret=7891011");
+            System.setProperty("force.connurlenvvar.url", "force://javapropurl?oauth_key=javapropkey&oauth_secret=7891011");
             
             // Try loading from the environment variable.
             // The assertions in that test should still work.
@@ -173,7 +173,7 @@ public class ForceOAuthConnectionInfoTest {
     public void testLoadJavaPropertyBeforePropertyFile() throws Exception {
         try {
             // Set a Java property that conficts with the unitconnurl properties file
-            System.setProperty("force.unitconnurl.url", "force://javapropurl;oauth_key=javapropkey;oauth_secret=7891011");
+            System.setProperty("force.unitconnurl.url", "force://javapropurl?oauth_key=javapropkey&oauth_secret=7891011");
             
             ForceOAuthConnectionInfo connInfo = ForceOAuthConnectionInfo.loadFromName("unitconnurl");
             assertNotNull(connInfo);
@@ -199,10 +199,11 @@ public class ForceOAuthConnectionInfoTest {
             {null},
             {""},
             {"url"},
-            {"url;oauth_key=ABCDEF;oauth_secret=123456"},
+            {"url?oauth_key=ABCDEF&oauth_secret=123456"},
             {"force://"},
             {"force://url"},
-            {"force://url;oauth_key=ABCDEF"},
+            {"force://url?oauth_key=ABCDEF"},
+            {" force://url;oauth_key=ABCDEF;oauth_secret=123456", "url", "ABCDEF", "123456"}, // Leading whitespace
         };
     }
     
@@ -225,11 +226,11 @@ public class ForceOAuthConnectionInfoTest {
     @DataProvider
     protected Object[][] connectionUrlWithBadPropertyProvider() {
         return new Object[][] {
-            {"force://;oauth_key=ABCDEF;oauth_secret=123456", "endpoint", null},
-            {"force://url;oauth_key=;oauth_secret=123456", "oauth_key", null},
-            {"force://url;oauth_key=ABCDEF;oauth_secret=", "oauth_secret", null},
-            {"force://url/a;oauth_key=ABCDEF;oauth_secret=", "endpoint", "url/a"},
-            {"force://url;oauth_key=ABCDEF;oauth_secret=abc", "oauth_secret", "abc"},
+            {"force://?oauth_key=ABCDEF&oauth_secret=123456", "endpoint", null},
+            {"force://url?oauth_key=&oauth_secret=123456", "oauth_key", null},
+            {"force://url?oauth_key=ABCDEF&oauth_secret=", "oauth_secret", null},
+            {"force://url/a?oauth_key=ABCDEF&oauth_secret=", "endpoint", "url/a"},
+            {"force://url?oauth_key=ABCDEF&oauth_secret=abc", "oauth_secret", "abc"},
         };
     }
     
@@ -252,18 +253,14 @@ public class ForceOAuthConnectionInfoTest {
     @DataProvider
     protected Object[][] goodConnectionUrlProvider() {
         return new Object[][] {
-            {"force://url;oauth_key=ABCDEF;oauth_secret=123456", "url", "ABCDEF", "123456"},
-            {"force://url;oauth_secret=123456;oauth_key=ABCDEF", "url", "ABCDEF", "123456"},
-            {"force://url/;oauth_key=ABCDEF;oauth_secret=123456", "url/", "ABCDEF", "123456"},
-            {"force://url/services/Soap/u/0;oauth_key=ABCDEF;oauth_secret=123456", "url/services/Soap/u/0", "ABCDEF", "123456"},
-            {"force://url;oauth_key=ABCDEF;oauth_secret=123456;testProp", "url", "ABCDEF", "123456"}, // Ignore unknown props
-            {"force://url;oauth_key=ABCDEF;oauth_secret=123456;testProp=", "url", "ABCDEF", "123456"}, // Ignore unknown props
-            {"force://url;oauth_key=ABCDEF;oauth_secret=123456;", "url", "ABCDEF", "123456"}, // Trailing ';'
-            {"force://url;oauth_secret=123456;oauth_key=ABCDEF=", "url", "ABCDEF=", "123456"}, // Trailing '='
-            {" force://url;oauth_key=ABCDEF;oauth_secret=123456", "url", "ABCDEF", "123456"}, // Leading whitespace
-            {"force://url; oauth_key=ABCDEF;oauth_secret=123456", "url", "ABCDEF", "123456"}, // Space between url and user
-            {"force://url;oauth_key=ABCDEF; oauth_secret=123456", "url", "ABCDEF", "123456"}, // Space between user and password
-            {"force://url;oauth_key=ABCDEF;oauth_secret=123456 ", "url", "ABCDEF", "123456"}, // Trailing whitespace
+            {"force://url?oauth_key=ABCDEF&oauth_secret=123456", "url", "ABCDEF", "123456"},
+            {"force://url?oauth_secret=123456&oauth_key=ABCDEF", "url", "ABCDEF", "123456"},
+            {"force://url/?oauth_key=ABCDEF&oauth_secret=123456", "url/", "ABCDEF", "123456"},
+            {"force://url/services/Soap/u/0?oauth_key=ABCDEF&oauth_secret=123456", "url/services/Soap/u/0", "ABCDEF", "123456"},
+            {"force://url?oauth_key=ABCDEF&oauth_secret=123456&testProp", "url", "ABCDEF", "123456"}, // Ignore unknown props
+            {"force://url?oauth_key=ABCDEF&oauth_secret=123456&testProp=", "url", "ABCDEF", "123456"}, // Ignore unknown props
+            {"force://url?oauth_key=ABCDEF&oauth_secret=123456&", "url", "ABCDEF", "123456"}, // Trailing '&'
+            {"force://url?oauth_secret=123456&oauth_key=ABCDEF=", "url", "ABCDEF=", "123456"}, // Trailing '='
         };
     }
     

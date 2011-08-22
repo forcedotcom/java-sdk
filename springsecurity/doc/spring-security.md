@@ -61,7 +61,7 @@ The \<oauth /> tag requires that you provide OAuth properties.  This can be done
 
 **&lt;connectionName />** tag.  This tag allows you to define OAuth properties elsewhere and have them looked up by name.  OAuth properties can be stored as an environment variable, or a Java system property, or a properties file on the classpath.  For more information, see [Database.com Database Connections](connection-url). For example:
 
-    SET FORCE_MYCONNECTOR_URL=force://${endpoint};oauth_key=${oauthKey};oauth_secret=${oauth_secret}
+    SET FORCE_MYCONNECTOR_URL=force://${endpoint}?oauth_key=${oauthKey}&oauth_secret=${oauth_secret}
 
     <!-- Uses the connection URL in the FORCE_MYCONNECTOR_URL environment variable -->
     <fss:oauth>

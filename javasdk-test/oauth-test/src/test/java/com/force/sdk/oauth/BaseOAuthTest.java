@@ -73,8 +73,8 @@ public class BaseOAuthTest {
         String host = this.endpoint.split("://", 2)[1];
         StringBuffer connectionUrl = new StringBuffer("force://")
                 .append(host)
-                .append(";oauth_key=").append(oauthKey)
-                .append(";oauth_secret=").append(oauthSecret);
+                .append("?oauth_key=").append(oauthKey)
+                .append("&oauth_secret=").append(oauthSecret);
         
         return connectionUrl.toString();
     }

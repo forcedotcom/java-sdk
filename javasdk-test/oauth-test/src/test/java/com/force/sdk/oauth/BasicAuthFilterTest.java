@@ -179,7 +179,7 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
         filterConfig.addInitParameter("storeUsername", "false");
         
         // Add a bad connection url
-        filterConfig.addInitParameter("url", "force://url;oauth_key=ABCDEF;oauth_secret=123456");
+        filterConfig.addInitParameter("url", "force://url?oauth_key=ABCDEF&oauth_secret=123456");
         
         // Add a bad connection name
         filterConfig.addInitParameter("connectionName", "badConnectionName");

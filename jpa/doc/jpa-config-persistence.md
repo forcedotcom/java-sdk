@@ -62,6 +62,8 @@ The **datanucleus.maxFetchDepth** property is not listed in the earlier sample. 
 
 To control whether the Database.com JPA provider automatically creates schema for entities or fields that don't already exist in Database.com, you can configure the following properties in your application's `persistence.xml` file.
 
+To use the reverse process and generate code based on entities in your organization, see [this Maven plugin](https://github.com/forcedotcom/maven-force-plugin).
+
 ### datanucleus.autoCreateSchema
 Set this property to <codeph>true</code> to automatically create schema for entities that don't already exist in Database.com. If the entity already exists, new fields defined in an associated Java class are added to the entity. If schema creation fails, the application is terminated during startup.
 
@@ -102,11 +104,9 @@ user must have the "Modify All Data" user permission in their profile to create 
 ### datanucleus.ConnectionURL
 Use the URL format to encode all authentication information.
 
-    force://login.salesforce.com;user=user@salesforcedoc.org;password=samplePassword
+    force://login.salesforce.com?user=user@salesforcedoc.org&amp;password=samplePassword
 
 Each version of the Database.com Java SDK is automatically linked with an API version. 
-
-<img src="http://na1.salesforce.com//img/help/helpWarning_icon.gif" alt="Caution icon" /> **Caution**: For JPA configuration, we don't support overriding the default API version of the SDK. 
 
 ### force.ConnectionName
 Use this property to define a named connection for a persistence unit. You can refer to the named connection when you are configuring a connection URL outside `persistence.xml`. For example, you can configure a connection URL in an environment variable or Java system property.  

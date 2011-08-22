@@ -45,7 +45,7 @@ You can encode the JPA connection information for the default integration user a
 The format of a connection URL that includes JPA connection information for the default integration user and OAuth credentials is:
 
 <pre>
-  <code>force://login.salesforce.com;user=<em>user@salesforcedoc.org</em>;password=<em>samplePassword</em>;oauth_key=<em>xyz</em>;oauth_secret=<em>abc</em></code>
+  <code>force://login.salesforce.com?user=<em>user@salesforcedoc.org</em>&password=<em>samplePassword</em>&oauth_key=<em>xyz</em>&oauth_secret=<em>abc</em></code>
 </pre>
 
 Substitute values in the *user* and *password* fields with the username and password for the default integration user.
@@ -56,11 +56,10 @@ There is also an optional *timeout* parameter, which is the number of millisecon
 timing out. This parameter is equivalent to the **datanucleus.datastoreReadTimeout** property in `persistence.xml`. This connection URL shows sample usage:
     
 <pre>
-  <code>force://login.salesforce.com;user=<em>user@salesforcedoc.org</em>;password=<em>samplePassword</em>;timeout=<em>10000</em></code>
+  <code>force://login.salesforce.com?user=<em>user@salesforcedoc.org</em>&password=<em>samplePassword</em>&timeout=<em>10000</em></code>
 </pre>
 
-Each version of the Database.com Java SDK is automatically linked with an API version. For example, version 22.0.0 of the SDK
-uses API version 22.0. For JPA functionality, the major version of the SDK must always match the API version. To use a native API connection class to override the default API version for the SDK, see <a href="native-api#setAPIversion">Setting an API Version</a>.
+Each version of the Database.com Java SDK is automatically linked with an API version. The major version of the SDK matches the major version of the API. For example, version 22.0.0 of the SDK uses API version 22.0.
 
 <a name ="configConnectionURL"> </a>
 ## Configuring Connection URLs
@@ -106,7 +105,7 @@ information for this persistence unit in a Java system property named force.*per
 The following code shows you how to set the authentication information in a Java system property:
 
     System.setProperty("force.persistenceUnitName.url",
-        "force://login.salesforce.com;user=user@salesforcedoc.org;password=samplePassword");
+        "force://login.salesforce.com?user=user@salesforcedoc.org&password=samplePassword");
         
 If you use a Java system property to set the authentication information, you must include <code>\<property
 name="datanucleus.storeManagerType" value="force"/></code> in the <code>persistence-unit</code> element in your application's
@@ -129,13 +128,13 @@ information for this persistence unit in a *persistenceUnitName*.properties file
 
 A file containing this line is an example of a properties file containing a url property.
 
-    url=force://login.salesforce.com;user=user@salesforcedoc.org;password=samplePassword
+    url=force://login.salesforce.com?user=user@salesforcedoc.org&password=samplePassword
 
 <!-- Comment out until release cliforce. Uncomment this section and add a link to the bullet list earlier in the file when ready.
 <a name="UrlConnectionsPropFile"> </a> 
 
 You can set the connection URL in the $HOME/.force/cliforce_urls file, where $HOME refers to your home directory. The format is:
 
-    persistenceUnitName=force://login.salesforce.com;user=user@salesforcedoc.org;password=samplePassword
+    persistenceUnitName=force://login.salesforce.com?user=user@salesforcedoc.org&password=samplePassword
 
 -->

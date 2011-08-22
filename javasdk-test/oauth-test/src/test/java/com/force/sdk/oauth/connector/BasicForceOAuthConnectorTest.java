@@ -81,7 +81,7 @@ public class BasicForceOAuthConnectorTest extends BaseMockedPartnerConnectionTes
 
         //add a bad connection in. The values above should take precedence.
         System.setProperty("force.testExternalConnInfoBeforeConnNameLookup.url",
-            "force://url;oauth_key=ABCDEF;oauth_secret=123456");
+            "force://url?oauth_key=ABCDEF&oauth_secret=123456");
         connector.setConnectionName("testExternalConnInfoBeforeConnNameLookup");
         
         connector.setTokenRetrievalService(new MockTokenRetrievalService(

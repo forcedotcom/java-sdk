@@ -60,7 +60,7 @@
   <persistence-unit name="connUrlPersistenceProp">
     <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
     <properties>
-      <property name="datanucleus.ConnectionURL" value="force://${endpoint};user=${user};password=${password}" />
+      <property name="datanucleus.ConnectionURL" value="force://${endpoint}?user=${user}&amp;password=${password}" />
       <property name="force.skipConfigCache" value="true"/>
     </properties>
   </persistence-unit>
@@ -99,7 +99,7 @@
   <persistence-unit name="fullConnUrlPersistenceProp">
     <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
     <properties>
-      <property name="datanucleus.ConnectionURL" value="force://${endpoint}/services/Soap/u/${force.apiVersion};user=${user};password=${password}" />
+      <property name="datanucleus.ConnectionURL" value="force://${endpoint}/services/Soap/u/${force.apiVersion}?user=${user}&amp;password=${password}" />
       <property name="force.skipConfigCache" value="true"/>
     </properties>
   </persistence-unit>
