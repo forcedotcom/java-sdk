@@ -91,12 +91,12 @@ Other <code>init-param</code> values can be configured to customize behavior:
 
 - <code>logoutUrl</code> - the URL that logs a user out. You should point your logout links to this URL. The default is  `/logout`. If you set <code>logoutFromDatabaseDotCom</code> to `false`, you should create your own logout landing page at this URL. Note: A logged out user will always go to the logout landing page hosted at the logout URL. We recommend putting a page there even if you use the automatic logout from Database.com. This will prevent a user from getting an error when using their browser's back button.
 
-The <code>filter-mapping</code> element above contains a url-pattern of "/\*". This redirects every URL through the filter. It is not required to do this. If your application requires only certain URL patterns to be authenticated, you can configure the filter to match a subset of requests. However, the filter must always include the "/\_auth\*" URL pattern. Otherwise, the OAuth callback won't be properly handled. For example, if you only wanted to check for authentication for "/Secure" your configuration would look like this:
+The <code>filter-mapping</code> element above contains a url-pattern of "/\*". This redirects every URL through the filter. It is not required to do this. If your application requires only certain URL patterns to be authenticated, you can configure the filter to match a subset of requests. However, the filter must always include the "/\_auth" URL pattern. Otherwise, the OAuth callback won't be properly handled. For example, if you only wanted to check for authentication for "/Secure" your configuration would look like this:
 
 	<filter-mapping>
 		<filter-name>AuthFilter</filter-name>
 		<url-pattern>/Secure</url-pattern>
-		<url-pattern>/_auth*</url-pattern>
+		<url-pattern>/_auth</url-pattern>
 		<url-pattern>/logout</url-pattern>
 	</filter-mapping>
 
