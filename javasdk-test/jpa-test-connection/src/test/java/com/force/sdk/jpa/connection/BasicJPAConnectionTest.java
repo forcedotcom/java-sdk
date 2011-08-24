@@ -30,8 +30,6 @@ import org.testng.annotations.Test;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.Collections;
-import java.util.Map;
 
 /**
  * Basic tests for JPA connections.
@@ -70,14 +68,7 @@ public class BasicJPAConnectionTest extends BaseJPAConnectionTest {
         verifyEntityManager(emf.createEntityManager());
     }
 
-    @Test
-    public void testConnFromConnUrlClasspathPropertyFile() throws Exception {
-        // See connUrlPropFile persistence-unit in persistence.xml
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("connUrlPropFile");
-        verifyEntityManager(emf.createEntityManager());
-    }
-    
-    @Test
+      @Test
     public void testConnFromFullConnUrlPersistenceProperty() throws Exception {
         // See connUrlPersistenceProp persistence-unit in persistence.xml
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("fullConnUrlPersistenceProp");
@@ -88,24 +79,6 @@ public class BasicJPAConnectionTest extends BaseJPAConnectionTest {
     public void testConnFromUserInfoPersistenceProperty() throws Exception {
         // See userInfoPersistenceProp persistence-unit in persistence.xml
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("userInfoPersistenceProp");
-        verifyEntityManager(emf.createEntityManager());
-    }
-
-    @Test
-    public void testConnFromUserInfoClasspathPropertyFile() throws Exception {
-        // See userInfoPropFile persistence-unit in persistence.xml
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("userInfoPropFile");
-        verifyEntityManager(emf.createEntityManager());
-    }
-    
-    @Test
-    public void testCustomConnectionName() throws Exception {
-        Map<String, String> customConnNameMap = Collections.singletonMap("force.ConnectionName", "userInfoPropFile");
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("badUserInfoPropFile", customConnNameMap);
-        
-        // We've provided a custom connection name that should lookup the good
-        // configuration in userInfoPropFile.properties and not use the bad
-        // configuration in badUserInfoPropFile.properties
         verifyEntityManager(emf.createEntityManager());
     }
 }

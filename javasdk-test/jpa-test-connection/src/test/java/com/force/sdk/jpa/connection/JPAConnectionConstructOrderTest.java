@@ -26,17 +26,15 @@
 
 package com.force.sdk.jpa.connection;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
+import com.force.sdk.connector.ForceConnectorConfig;
+import com.force.sdk.connector.ForceServiceConnector;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.force.sdk.connector.ForceConnectorConfig;
-import com.force.sdk.connector.ForceServiceConnector;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Tests the order in which the JPA layer get a connection.
@@ -48,15 +46,15 @@ public class JPAConnectionConstructOrderTest extends BaseJPAConnectionTest {
     @DataProvider
     protected Object[][] connectionConstructOrderProvider() {
         return new Object[][] {
-            {"testThreadLocalIsFirst", true, false, false},
-            {"testConnUrlFromPersistencePropIsSecond", null, true, false},
-            {"testUserInfoFromPersistencePropIsThird", null, null, true},
+            {"testThreadLocalIsFirst", true, false},
+            {"testConnUrlFromPersistencePropIsSecond", false, true},
+            {"testUserInfoFromPersistencePropIsThird", false, false},
         };
     }
     
     @Test(dataProvider = "connectionConstructOrderProvider")
     public void testConnectionConstructOrder(String testName, Boolean addGoodThreadLocal,
-            Boolean addGoodConnUrl, Boolean addGoodUserInfo) throws Exception {
+            Boolean addGoodConnUrl) throws Exception {
         try {
             if (addGoodThreadLocal != null && addGoodThreadLocal) {
                 ForceConnectorConfig config = new ForceConnectorConfig();
@@ -69,21 +67,13 @@ public class JPAConnectionConstructOrderTest extends BaseJPAConnectionTest {
             
             Map<String, String> persistencePropMap = new HashMap<String, String>();
             persistencePropMap.put("datanucleus.storeManagerType", "force");
-            persistencePropMap.put("datanucleus.ConnectionUrl", "deadbeef");
-            persistencePropMap.put("datanucleus.ConnectionUserName", "deadbeef");
-            persistencePropMap.put("datanucleus.ConnectionPassword", "deadbeef");
-            
+            persistencePropMap.put("datanucleus.ConnectionUrl", "force://deadbeef?user=u&password=p");
+
             if (addGoodConnUrl != null && addGoodConnUrl) {
                 persistencePropMap.put("datanucleus.ConnectionUrl", createConnectionUrl());
             }
-            
-            if (addGoodUserInfo != null && addGoodUserInfo) {
-                persistencePropMap.put("datanucleus.ConnectionUrl", userInfo.getServerEndpoint());
-                persistencePropMap.put("datanucleus.ConnectionUserName", userInfo.getUserName());
-                persistencePropMap.put("datanucleus.ConnectionPassword", userInfo.getPassword());
-            }
-            
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("badUserInfoPropFile", persistencePropMap);
+
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("badUserInfo", persistencePropMap);
 
             // We should get a good JPA connection because it will use good state
             // based on the order of how things are used for construction

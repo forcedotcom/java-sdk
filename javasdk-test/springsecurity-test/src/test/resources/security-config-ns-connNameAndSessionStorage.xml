@@ -39,8 +39,7 @@
            http://www.salesforce.com/schema/springsecurity
            http://www.salesforce.com/schema/springsecurity/force-springsecurity-1.3.xsd">
 
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    </bean>
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" />
 
     <!-- SFDC OAuth security config with connectionName-->
     <fss:oauth store-data-in-session="true" store-user-name="false">

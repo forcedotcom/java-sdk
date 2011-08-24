@@ -34,17 +34,11 @@
 
   <!-- NOTE: For positive tests, we want to skip the config cache
        to ensure that each test runs in a fresh, clean environment -->  
-  <persistence-unit name="badUserInfoPropFile">
-    <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
-    <properties>
-      <property name="datanucleus.storeManagerType" value="force"/>
-    </properties>
-  </persistence-unit>
-  
   <persistence-unit name="connUrlEnvVar">
     <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
     <properties>
       <property name="datanucleus.storeManagerType" value="force"/>
+      <property name="datanucleus.ConnectionURL" value="${FORCE_CONNURLENVVAR_URL}" />
       <property name="force.skipConfigCache" value="true"/>
     </properties>
   </persistence-unit>
@@ -53,6 +47,7 @@
     <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
     <properties>
       <property name="datanucleus.storeManagerType" value="force"/>
+      <property name="datanucleus.ConnectionURL" value="${force.connUrlJavaProp.url}" />
       <property name="force.skipConfigCache" value="true"/>
     </properties>
   </persistence-unit>
@@ -61,30 +56,6 @@
     <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
     <properties>
       <property name="datanucleus.ConnectionURL" value="force://${endpoint}?user=${user}&amp;password=${password}" />
-      <property name="force.skipConfigCache" value="true"/>
-    </properties>
-  </persistence-unit>
-  
-  <persistence-unit name="connUrlPropFile">
-    <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
-    <properties>
-      <property name="datanucleus.storeManagerType" value="force"/>
-      <property name="force.skipConfigCache" value="true"/>
-    </properties>
-  </persistence-unit>
-  
-  <persistence-unit name="connUrlCliforcePropFile">
-    <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
-    <properties>
-      <property name="datanucleus.storeManagerType" value="force"/>
-      <property name="force.skipConfigCache" value="true"/>
-    </properties>
-  </persistence-unit>
-  
-  <persistence-unit name="connUrlWithOptionsPropFile">
-    <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
-    <properties>
-      <property name="datanucleus.storeManagerType" value="force"/>
       <property name="force.skipConfigCache" value="true"/>
     </properties>
   </persistence-unit>
@@ -108,20 +79,22 @@
     <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
     <properties>
       <property name="datanucleus.storeManagerType" value="force"/>
-      <property name="datanucleus.ConnectionURL" value="${endpoint.protocol}://${endpoint}/services/Soap/u/${force.apiVersion}" />
-      <property name="datanucleus.ConnectionUserName" value="${user}"/>
-      <property name="datanucleus.ConnectionPassword" value="${password}"/>
+      <property name="datanucleus.ConnectionURL" value="${endpoint.protocol}://${endpoint}/services/Soap/u/${force.apiVersion}?user=${user}&amp;password=${password}" />
+      <!--property name="datanucleus.ConnectionUserName" value="${user}"/>
+      <property name="datanucleus.ConnectionPassword" value="${password}"/-->
       <property name="force.skipConfigCache" value="true"/>
     </properties>
   </persistence-unit>
-  
-  <persistence-unit name="userInfoPropFile">
-    <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
-    <properties>
-      <property name="datanucleus.storeManagerType" value="force"/>
-      <property name="force.skipConfigCache" value="true"/>
-    </properties>
-  </persistence-unit>
+
+    <persistence-unit name="badUserInfo">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.ConnectionURL" value="url?user=uuu&amp;password=$ppp" />
+        <property name="force.skipConfigCache" value="false"/> <!-- this PU is intended to test the config cache, do not skip -->
+      </properties>
+    </persistence-unit>
+
 
   <persistence-unit name="connectionCacheTest">
     <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
@@ -139,12 +112,4 @@
     </properties>
   </persistence-unit>
 
-  <persistence-unit name="userInfoWithOptionsPropFile">
-    <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
-    <properties>
-      <property name="datanucleus.storeManagerType" value="force"/>
-      <property name="force.skipConfigCache" value="true"/>
-    </properties>
-  </persistence-unit>
-  
 </persistence>

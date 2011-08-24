@@ -167,8 +167,8 @@ public class ForceConnectorConfig extends ConnectorConfig implements Cloneable {
      * @throws IllegalArgumentException if any of the connection property values are not valid
      * @see ForceConnectionProperty
      */
-    public void setConnectionUrl(String connectionUrl) {
-        Map<ForceConnectionProperty, String> propMap = ForceConnectorUtils.loadConnectorPropsFromUrl(connectionUrl);
+    public void setConnectionUrl(String connectionUrl) throws IOException {
+        Map<ForceConnectionProperty, String> propMap = ForceConnectorUtils.loadConnectorPropsFromName(connectionUrl);
         if (propMap == null || propMap.size() < MIN_CONN_URL_PROPS) {
             throw new IllegalArgumentException("The connection url (" + connectionUrl + ") must contain at least three parts. "
                                                 + "It should be in the form force://<endPoint>?user=<user>&password=<password>");

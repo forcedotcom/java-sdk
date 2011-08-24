@@ -76,11 +76,10 @@ public class ForceMetaDataManager extends JPAMetaDataManager {
         // Default the force connection name to the persistence unit name.  This will be used to
         // potentially look up connection information (see ForceConnectionFactory.createManagedConnection)
 
-        // ### we don't need it anymore; as we default to DATABASE_COM_URL in forceStoreManager.java
-        if (omfContext.getPersistenceConfiguration().getStringProperty("datanucleus.ConnectionURL") == null) {
+        // we don't need it anymore; as we default to DATABASE_COM_URL in forceStoreManager.java
+        /*if (omfContext.getPersistenceConfiguration().getStringProperty("datanucleus.ConnectionURL") == null) {
             throw new NucleusUserException("Must specify unit name or connection url");
-            // Default to DATABASE_COM_URL  DOD IT DODODODODOODODODODOD
-        }
+        }*/
 
         ForceStoreManager storeManager = (ForceStoreManager) omfContext.getStoreManager();
         if (storeManager.isSchemaCreateClient()) {

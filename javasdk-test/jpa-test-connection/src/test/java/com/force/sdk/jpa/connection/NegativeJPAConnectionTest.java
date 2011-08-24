@@ -26,18 +26,20 @@
 
 package com.force.sdk.jpa.connection;
 
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
-
-import java.util.*;
-
-import javax.persistence.*;
-
+import com.sforce.soap.partner.fault.ApiFault;
 import org.datanucleus.exceptions.NucleusException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.sforce.soap.partner.fault.ApiFault;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 /**
  * Negative tests for JPA connections. 
@@ -119,8 +121,6 @@ public class NegativeJPAConnectionTest extends BaseJPAConnectionTest {
         return new Object[][] {
             {"datanucleus.storeManagerType", "There is no available StoreManager"},
             {"datanucleus.ConnectionUrl", "No state was found to construct a connection"},
-            {"datanucleus.ConnectionUserName", "ForceConnectorConfig must have a Username"},
-            {"datanucleus.ConnectionPassword", "Invalid username, password, security token; or user locked out."},
         };
     }
     
@@ -128,9 +128,7 @@ public class NegativeJPAConnectionTest extends BaseJPAConnectionTest {
     public void testMissingUserInfoPersistenceProperty(String missingPersistenceProperty, String expectedMessage) {
         Map<String, String> persistencePropMap = new HashMap<String, String>();
         persistencePropMap.put("datanucleus.storeManagerType", "force");
-        persistencePropMap.put("datanucleus.ConnectionUrl", userInfo.getServerEndpoint());
-        persistencePropMap.put("datanucleus.ConnectionUserName", userInfo.getUserName());
-        persistencePropMap.put("datanucleus.ConnectionPassword", userInfo.getPassword());
+        persistencePropMap.put("datanucleus.ConnectionUrl", "force://url?user=uuuu&password=pppp");
         persistencePropMap.put("force.skipConfigCache", "true"); // Make sure we're testing independent of cached state
         
         persistencePropMap.put(missingPersistenceProperty, null);

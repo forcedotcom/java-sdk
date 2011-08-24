@@ -44,7 +44,7 @@
 	    <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
 	    <property name="datanucleus.jpa.addClassTransformer" value="false" />
 	    <property name="datanucleus.cache.level2.type" value="none"/>
-	    <property name="force.ConnectionName" value="force-sdk-test"/>
+        <property name="datanucleus.ConnectionURL" value="${force-sdk-test}"/>
 	  </properties>
 	</persistence-unit>
 	<!-- testDNJpaPersistence2 is used for optimistic transactions -->
@@ -61,7 +61,7 @@
             <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
             <property name="datanucleus.jpa.addClassTransformer" value="false" />
             <property name="datanucleus.cache.level2.type" value="none"/>
-            <property name="force.ConnectionName" value="force-sdk-test"/>
+            <property name="datanucleus.ConnectionURL" value="${force-sdk-test}"/>
         </properties>
     </persistence-unit>
     <!-- testDNJpaPersistence3 is used for optimistic transactions in all-or-nothing mode -->
@@ -79,7 +79,7 @@
             <property name="datanucleus.jpa.addClassTransformer" value="false" />
             <property name="datanucleus.cache.level2.type" value="none"/>
             <property name="force.AllOrNothing" value="true"/>
-            <property name="force.ConnectionName" value="force-sdk-test"/>
+            <property name="datanucleus.ConnectionURL" value="${force-sdk-test}"/>
         </properties>
     </persistence-unit>
 </persistence>

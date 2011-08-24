@@ -39,11 +39,13 @@
            http://www.salesforce.com/schema/springsecurity
            http://media.developerforce.com/schema/force-springsecurity-1.3.xsd">
 
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" />
+
     <!-- Force.com OAuth security config -->
     <fss:oauth default-login-success="/login_success.html" default-logout-success="/logout_success.html"
         login-url="/login" logout-url="/logout" logout-from-force-dot-com="false" secure-key-file='spring-app-key.properties'>
         
-        <fss:connectionName name="integrationserver"/>
+        <fss:connectionUrl url="${force.integrationserver.url}"/>
     </fss:oauth>
 
 	<!-- Configure Spring Security -->

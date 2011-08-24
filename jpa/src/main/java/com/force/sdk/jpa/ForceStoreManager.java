@@ -41,6 +41,7 @@ import org.datanucleus.store.AbstractStoreManager;
 import org.datanucleus.store.ExecutionContext;
 import org.datanucleus.store.NucleusConnection;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashSet;
@@ -77,24 +78,6 @@ public class ForceStoreManager extends AbstractStoreManager {
     private final boolean forDelete;
     private final boolean schemaCreateClient;
 
-
-    @Override
-    public String getConnectionURL() {
-        String connectionUrl = super.getConnectionURL();
-/*
-Not REUQIRED here :)))
-
-        if (connectionUrl == null) {
-            connectionUrl = "${DATABASE_COM_URL}";
-        }
-
-        if (ForceConnectorUtils.isEnvironmentVariable(connectionUrl)) {
-            return ForceConnectorUtils.extractEnvironmentVariable(connectionUrl);
-        }
-  */
-        return connectionUrl;
-    }
-
     /**
      * Creates a store manager for use with the Force.com API. Set up the API connection
      * configs, set some default properties and read in values from persistence.xml
@@ -104,28 +87,13 @@ Not REUQIRED here :)))
      * @throws NoSuchFieldException thrown if there is a problem setting up the plugin manager
      * @throws IllegalAccessException thrown if there is a problem setting up the plugin manager
      */
-    public ForceStoreManager(ClassLoaderResolver clr, OMFContext omfContext) throws NoSuchFieldException, IllegalAccessException {
+    public ForceStoreManager(ClassLoaderResolver clr, OMFContext omfContext) throws NoSuchFieldException, IllegalAccessException, IOException {
         super(FORCE_KEY, clr, omfContext);
     
-        String endpoint = getConnectionURL();
-        
-        // Grab the connection information from persistence.xml.  If none exists,
-        // we'll use the unit name (see ForceMetaDataManager.loadPersistenceUnit
-        // and ForceConnectionFactory.createManagedConnection).
-        if (endpoint != null) {
-            config = new ForceConnectorConfig();
+        config = new ForceConnectorConfig();
+        // config.setConnectionUrl has fallback logic in case getConnectionURL returns null.
+        config.setConnectionUrl(getConnectionURL());
 
-            // Treat any url starting with force:// as a connection url
-            if (endpoint.startsWith(FORCE_PREFIX)) {
-                config.setConnectionUrl(endpoint);
-            // Any other endpoint, we'll treat as a normal Force.com API url
-            } else {
-                config.setAuthEndpoint(endpoint);
-                config.setUsername(getConnectionUserName());
-                config.setPassword(getConnectionPassword());
-            }
-        }
-        
         setCustomPluginManager();
         
         // Handler for metadata
