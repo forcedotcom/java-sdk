@@ -26,12 +26,11 @@
 
 package com.force.sdk.connector;
 
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
-
+import com.sforce.ws.ConnectionException;
 import org.testng.annotations.Test;
 
-import com.sforce.ws.ConnectionException;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 /**
  * Negative tests for ForceServiceConnector setters.
@@ -86,16 +85,13 @@ public class NegativeForceServiceConnectorSetterTest {
     @Test
     public void testMissingConnectionName() {
         ForceServiceConnector connector = new ForceServiceConnector();
-        connector.setConnectionName("testMissingConnectionName");
+        connector.setConnectionUrl("${testMissingConnectionName}");
         
         try {
             connector.getConnection();
             fail("ForceServiceConnector.getConnection should have failed due to missing connection name");
         } catch (ConnectionException expected) {
-            assertTrue(expected.getMessage().contains("No state was found to construct a connection."));
-            assertTrue(expected.getMessage()
-                    .contains("create a classpath properties file, environment variable or java property"
-                              + " for the name 'testMissingConnectionName'"));
+            assertTrue(expected.getMessage().contains("Unable to load ForceConnectorConfig for name ${testMissingConnectionName}"));
         }
     }
 }

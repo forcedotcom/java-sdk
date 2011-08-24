@@ -26,11 +26,11 @@
 
 package com.force.sdk.jpa;
 
-import java.lang.reflect.Field;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
+import com.force.sdk.connector.ForceConnectorConfig;
+import com.force.sdk.jpa.schema.ForceSchemaWriter;
+import com.force.sdk.jpa.schema.ForceStoreSchemaHandler;
+import com.force.sdk.jpa.schema.SchemaDeleteProperty;
+import com.force.sdk.jpa.table.TableImpl;
 import org.datanucleus.ClassLoaderResolver;
 import org.datanucleus.OMFContext;
 import org.datanucleus.PersistenceConfiguration;
@@ -41,11 +41,10 @@ import org.datanucleus.store.AbstractStoreManager;
 import org.datanucleus.store.ExecutionContext;
 import org.datanucleus.store.NucleusConnection;
 
-import com.force.sdk.connector.ForceConnectorConfig;
-import com.force.sdk.jpa.schema.ForceSchemaWriter;
-import com.force.sdk.jpa.schema.ForceStoreSchemaHandler;
-import com.force.sdk.jpa.schema.SchemaDeleteProperty;
-import com.force.sdk.jpa.table.TableImpl;
+import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 
@@ -77,7 +76,25 @@ public class ForceStoreManager extends AbstractStoreManager {
     private ForceSchemaWriter schemaWriter;
     private final boolean forDelete;
     private final boolean schemaCreateClient;
-    
+
+
+    @Override
+    public String getConnectionURL() {
+        String connectionUrl = super.getConnectionURL();
+/*
+Not REUQIRED here :)))
+
+        if (connectionUrl == null) {
+            connectionUrl = "${DATABASE_COM_URL}";
+        }
+
+        if (ForceConnectorUtils.isEnvironmentVariable(connectionUrl)) {
+            return ForceConnectorUtils.extractEnvironmentVariable(connectionUrl);
+        }
+  */
+        return connectionUrl;
+    }
+
     /**
      * Creates a store manager for use with the Force.com API. Set up the API connection
      * configs, set some default properties and read in values from persistence.xml
@@ -97,7 +114,7 @@ public class ForceStoreManager extends AbstractStoreManager {
         // and ForceConnectionFactory.createManagedConnection).
         if (endpoint != null) {
             config = new ForceConnectorConfig();
-            
+
             // Treat any url starting with force:// as a connection url
             if (endpoint.startsWith(FORCE_PREFIX)) {
                 config.setConnectionUrl(endpoint);

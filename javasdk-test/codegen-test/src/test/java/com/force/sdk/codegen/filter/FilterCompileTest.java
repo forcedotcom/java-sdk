@@ -76,7 +76,7 @@ public class FilterCompileTest {
             if (is != null) is.close();
         }
         // create test force connector
-        connector = new ForceServiceConnector(PropsUtil.FORCE_SDK_TEST_NAME);
+        connector = new ForceServiceConnector(PropsUtil.loadTestConnectionUrl());
         totalNumSObjects = connector.getConnection().describeGlobal().getSobjects().length;
     }
     

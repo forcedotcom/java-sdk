@@ -26,13 +26,12 @@
 
 package com.force.sdk.oauth.connector;
 
-import static org.testng.Assert.*;
+import com.force.sdk.oauth.BaseOAuthTest;
+import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-import org.testng.annotations.Test;
-
-import com.force.sdk.oauth.BaseOAuthTest;
+import static org.testng.Assert.*;
 
 /**
  * Negative functional tests for ForceOAuthConnector.
@@ -70,22 +69,6 @@ public class NegativeForceOAuthConnectorTest extends BaseOAuthTest {
         } catch (IllegalArgumentException expected) {
             assertNotNull(expected.getMessage());
             assertTrue(expected.getMessage().contains("The ForceConnectionProperty (oauth_secret) must have a value"));
-        }
-    }
-    
-    @Test
-    public void testConnectorWithBadName() throws Exception {
-        ForceOAuthConnector connector = new ForceOAuthConnector();
-        connector.setConnectionName("badConnectionName");
-        
-        try {
-            connector.getConnInfo();
-            fail("ForceOAuthConnector.getConnInfo() should have failed due to a bad connection name");
-        } catch (IOException expected) {
-            assertNotNull(expected.getMessage());
-            assertTrue(expected.getMessage()
-                        .contains("Or create a classpath properties file, environment variable or java property "
-                                    + "for the name 'badConnectionName'"));
         }
     }
 }

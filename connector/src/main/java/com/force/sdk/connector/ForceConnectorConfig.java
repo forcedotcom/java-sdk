@@ -26,15 +26,15 @@
 
 package com.force.sdk.connector;
 
-import static com.force.sdk.connector.ForceConnectorUtils.LOGGER;
+import com.force.sdk.connector.logger.ForceLoggerStream;
+import com.force.sdk.connector.logger.ForceLoggerStream.StreamLogger;
+import com.sforce.ws.ConnectorConfig;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Map;
 
-import com.force.sdk.connector.logger.ForceLoggerStream;
-import com.force.sdk.connector.logger.ForceLoggerStream.StreamLogger;
-import com.sforce.ws.ConnectorConfig;
+import static com.force.sdk.connector.ForceConnectorUtils.LOGGER;
 
 /**
  * A Force.com SDK wrapper for the Force.com API {@code ConnectorConfig}.
@@ -67,13 +67,13 @@ public class ForceConnectorConfig extends ConnectorConfig implements Cloneable {
     private String clientId;
     private PrintStream loggerStream;
     
-    static ForceConnectorConfig loadFromName(String connectionName) throws IOException {
+    static ForceConnectorConfig loadFromName(String connectionUrl) throws IOException {
         
-        Map<ForceConnectionProperty, String> propMap = ForceConnectorUtils.loadConnectorPropsFromName(connectionName);
+        Map<ForceConnectionProperty, String> propMap = ForceConnectorUtils.loadConnectorPropsFromName(connectionUrl);
         if (propMap == null) return null;
         
         ForceConnectorConfig config = new ForceConnectorConfig();
-        config.setPropsFromMap(propMap, connectionName);
+        config.setPropsFromMap(propMap, connectionUrl);
         return config;
     }
     

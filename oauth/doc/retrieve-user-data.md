@@ -117,7 +117,7 @@ The <code>fss:customUserDataRetriever</code> tag accepts a reference to a bean t
 This can also be done without the Force.com security namespace by adding the following to your `spring-configuration.xml` file:
 
     <bean id="oauthConnector" class="com.force.sdk.oauth.connector.ForceOAuthConnector">
-        <property name="connectionName" value = "sampleConnectionName" />
+        <property name="url" value = "sampleConnectionName" />
         <property name="userDataRetrievalService" ref="customDataRetrievalService"/>
     </bean>
     

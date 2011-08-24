@@ -168,7 +168,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     private ForceConnectorConfig config;
     
     // State that can be used to construct config
-    private String connectionName;               // Named connections can look up connection construction state        
+    private String connectionUrl;               // Named connections can look up connection construction state
     private ForceConnectorConfig externalConfig; // ForceConnectorConfig injected from an external source
 
     // Extra state used to initialize config (and the connection)
@@ -189,7 +189,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
      * via setters before getting a Force.com connection.
      * 
      * @see ForceServiceConnector#setConnectorConfig(ForceConnectorConfig)
-     * @see ForceServiceConnector#setConnectionName(String)
+     * @see ForceServiceConnector#setConnectionUrl(String)
      * @see ForceServiceConnector#setThreadLocalConnectorConfig(ForceConnectorConfig)
      */
     public ForceServiceConnector() {  }
@@ -197,13 +197,13 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     /**
      * Initializes a {@code ForceServiceConnector} with a named {@code ForceConnectorConfig} source .
      * 
-     * @param connectionName the named {@code ForceConnectorConfig} source from which a valid {@code ForceConnectorConfig}
+     * @param connectionUrl the named {@code ForceConnectorConfig} source from which a valid {@code ForceConnectorConfig}
      *                       can be constructed and used to get Force.com connections
      * @see ForceConnectorUtils#loadConnectorPropsFromName(String)
      */
     // Constructor that will retrieve saved connection construction state
-    public ForceServiceConnector(String connectionName) {
-        this.connectionName = connectionName;
+    public ForceServiceConnector(String connectionUrl) {
+        this.connectionUrl = connectionUrl;
     }
 
     /**
@@ -288,23 +288,23 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
         }
         
         // Next, try to retrieve saved connection construction state using the connection name
-        if (connectionName != null) {
-            final ForceConnectorConfig cachedConfig = getCachedConfig(getCacheIdForConnectionName(connectionName));
+        if (connectionUrl != null) {
+            final ForceConnectorConfig cachedConfig = getCachedConfig(getCacheIdForConnectionName(connectionUrl));
             if (cachedConfig != null) {
                 return cachedConfig;
             }
 
             ForceConnectorConfig loadedConfig;
             try {
-                loadedConfig = ForceConnectorConfig.loadFromName(connectionName);
+                loadedConfig = ForceConnectorConfig.loadFromName(connectionUrl);
             } catch (IOException e) {
-                throw new ConnectionException("Unable to load ForceConnectorConfig for name " + connectionName, e);
+                throw new ConnectionException("Unable to load ForceConnectorConfig for name " + connectionUrl, e);
             }
             
             if (loadedConfig != null) {
                 // Save the client id for possible later use (see initConnection)
                 externalClientId = loadedConfig.getClientId();
-                return checkConfigCache(loadedConfig, connectionName);
+                return checkConfigCache(loadedConfig, connectionUrl);
             }
         }
         
@@ -316,9 +316,9 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
         errorMsg.append("No state was found to construct a connection.")
                 .append(" Please provide a ForceConnectorConfig.");
         
-        if (connectionName != null) {
+        if (connectionUrl != null) {
             errorMsg.append(" Or create a classpath properties file, environment variable or java property for the name '")
-                    .append(connectionName).append("'");
+                    .append(connectionUrl).append("'");
         }
 
         throw new ConnectionException(errorMsg.toString());
@@ -518,7 +518,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
     public void close() {
         this.config = null;
         
-        this.connectionName = null;
+        this.connectionUrl = null;
         
         this.externalConfig = null;
 
@@ -614,8 +614,8 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
      * @return a named {@code ForceConnectorConfig} source
      * @see ForceConnectorUtils#loadConnectorPropsFromName(String)
      */
-    public String getConnectionName() {
-        return connectionName;
+    public String getConnectionUrl() {
+        return connectionUrl;
     }
     
     /**
@@ -627,12 +627,12 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
      * a {@code ForceConnectorConfig}.  Note that a named connection {@code ForceConnectorConfig} 
      * source can be overridden by directly injecting the {@code ForceConnectorConfig} state.
      * 
-     * @param connectionName the name of a {@code ForceConnectorConfig} source
+     * @param connectionUrl the name of a {@code ForceConnectorConfig} source
      * @see ForceConnectorUtils#loadConnectorPropsFromName(String)
      * @see ForceServiceConnector#setConnectorConfig(ForceConnectorConfig)
      */
-    public void setConnectionName(String connectionName) {
-        this.connectionName = connectionName;
+    public void setConnectionUrl(String connectionUrl) {
+        this.connectionUrl = connectionUrl;
     }
 
     /**
@@ -646,7 +646,7 @@ public class ForceServiceConnector implements ForceConnector, SessionRenewer {
      * @param connectorConfig the {@code ForceConnectorConfig} be to used to get Force.com connection
      *               within this {@code ForceServiceConnector}
      * @see ForceConnectorUtils#loadConnectorPropsFromName(String)
-     * @see ForceServiceConnector#setConnectionName(String)
+     * @see ForceServiceConnector#setConnectionUrl(String)
      */
     public void setConnectorConfig(ForceConnectorConfig connectorConfig) {
         this.externalConfig = connectorConfig;

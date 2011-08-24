@@ -26,8 +26,14 @@
 
 package com.force.sdk.springsecurity.config;
 
-import java.util.List;
-
+import com.force.sdk.oauth.connector.ForceOAuthConnectionInfo;
+import com.force.sdk.oauth.connector.ForceOAuthConnector;
+import com.force.sdk.oauth.context.SecurityContextServiceImpl;
+import com.force.sdk.oauth.context.store.SecurityContextCookieStore;
+import com.force.sdk.oauth.context.store.SecurityContextSessionStore;
+import com.force.sdk.oauth.userdata.CustomUserDataRetrievalService;
+import com.force.sdk.oauth.userdata.UserDataRetrievalService;
+import com.force.sdk.springsecurity.*;
 import org.springframework.beans.BeanMetadataElement;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
@@ -44,16 +50,12 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
 import org.springframework.util.StringUtils;
-import org.w3c.dom.*;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-import com.force.sdk.oauth.connector.ForceOAuthConnectionInfo;
-import com.force.sdk.oauth.connector.ForceOAuthConnector;
-import com.force.sdk.oauth.context.SecurityContextServiceImpl;
-import com.force.sdk.oauth.context.store.SecurityContextCookieStore;
-import com.force.sdk.oauth.context.store.SecurityContextSessionStore;
-import com.force.sdk.oauth.userdata.CustomUserDataRetrievalService;
-import com.force.sdk.oauth.userdata.UserDataRetrievalService;
-import com.force.sdk.springsecurity.*;
+import java.util.List;
 
 /**
  * Parses the OAuth namespace and creates the required Spring configuration.
@@ -65,9 +67,6 @@ public class OAuthBeanDefinitionParser implements BeanDefinitionParser {
 
     // These are attributes of child nodes (oauthInfo, connectionUrl, connectionName)
     // that are used to build a ForceOAuthConnector
-    private static final String ENDPOINT_ATTR = "endpoint";
-    private static final String OAUTH_KEY_ATTR = "oauth-key";
-    private static final String OAUTH_SECRET_ATTR = "oauth-secret";
     private static final String CONNECTION_URL_ATTR = "url";
     private static final String CONNECTION_NAME_ATTR = "name";
 
@@ -102,9 +101,7 @@ public class OAuthBeanDefinitionParser implements BeanDefinitionParser {
     private static final String ELEM_CUSTOM_FILTER = "custom-filter";
     private static final String CREATE_SESSION = "create-session";
 
-    private static final String NAME_OAUTH_INFO_ELEMENT = "oauthInfo";
     private static final String NAME_CONN_URL_ELEMENT = "connectionUrl";
-    private static final String NAME_CONN_NAME_ELEMENT = "connectionName";
     private static final String NAME_CUSTOM_DATA_RETRIEVER_ELEMENT = "customUserDataRetriever";
 
     /**
@@ -256,13 +253,7 @@ public class OAuthBeanDefinitionParser implements BeanDefinitionParser {
     private BeanDefinition createOAuthConnector(Element connectionInfo, ParserContext parser) {
         // Build a ForceOAuthConnectionInfo bean, if applicable
         BeanDefinition oauthConnInfo = null;
-        if (NAME_OAUTH_INFO_ELEMENT.equals(connectionInfo.getLocalName())) {
-            // Create a new ForceOAuthConnectionInfo bean and populate it with OAuth Info
-            oauthConnInfo = new RootBeanDefinition(ForceOAuthConnectionInfo.class);
-            oauthConnInfo.getPropertyValues().add("endpoint", connectionInfo.getAttribute(ENDPOINT_ATTR));
-            oauthConnInfo.getPropertyValues().add("oauthKey", connectionInfo.getAttribute(OAUTH_KEY_ATTR));
-            oauthConnInfo.getPropertyValues().add("oauthSecret", connectionInfo.getAttribute(OAUTH_SECRET_ATTR));
-        } else if (NAME_CONN_URL_ELEMENT.equals(connectionInfo.getLocalName())) {
+        if (NAME_CONN_URL_ELEMENT.equals(connectionInfo.getLocalName())) {
             // Create a new ForceOAuthConnectionInfo bean and populate it with Connection Url
             oauthConnInfo = new RootBeanDefinition(ForceOAuthConnectionInfo.class);
             oauthConnInfo.getPropertyValues().add("connectionUrl", connectionInfo.getAttribute(CONNECTION_URL_ATTR));
@@ -274,8 +265,6 @@ public class OAuthBeanDefinitionParser implements BeanDefinitionParser {
             // Register ForceOAuthConnectionInfo bean and give it to the connector
             parser.getRegistry().registerBeanDefinition(OAUTH_CONNECTION_INFO_BEAN_NAME, oauthConnInfo);
             oauthConnector.getPropertyValues().add("connectionInfo", oauthConnInfo);
-        } else if (NAME_CONN_NAME_ELEMENT.equals(connectionInfo.getLocalName())) {
-            oauthConnector.getPropertyValues().add("connectionName", connectionInfo.getAttribute(CONNECTION_NAME_ATTR));
         } else {
             throw new RuntimeException("Unrecognized oauth connection information child element: "
                     + connectionInfo.getLocalName());
@@ -461,7 +450,7 @@ public class OAuthBeanDefinitionParser implements BeanDefinitionParser {
         for (int i = 0; i < children.getLength(); i++) {
             String name = children.item(i).getLocalName();
 
-            if (isConnectionElementName(name)) {
+            if (NAME_CONN_URL_ELEMENT.equals(name)) {
                 conectionElementCount++;
             }
         }
@@ -475,7 +464,7 @@ public class OAuthBeanDefinitionParser implements BeanDefinitionParser {
         for (int i = 0; i < children.getLength(); i++) {
             String name = children.item(i).getLocalName();
 
-            if (isConnectionElementName(name)) { return children.item(i); }
+            if (NAME_CONN_URL_ELEMENT.equals(name)) { return children.item(i); }
         }
         return null;
     }
@@ -487,11 +476,6 @@ public class OAuthBeanDefinitionParser implements BeanDefinitionParser {
             if (isCustomDataRetrieverElementName(name)) { return children.item(i); }
         }
         return null;
-    }
-
-    private boolean isConnectionElementName(String name) {
-        return (NAME_CONN_NAME_ELEMENT.equals(name) || NAME_OAUTH_INFO_ELEMENT.equals(name) || NAME_CONN_URL_ELEMENT
-                .equals(name));
     }
 
     private boolean isCustomDataRetrieverElementName(String name) {

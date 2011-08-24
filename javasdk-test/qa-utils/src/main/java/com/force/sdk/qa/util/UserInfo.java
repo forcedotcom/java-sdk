@@ -26,18 +26,17 @@
 
 package com.force.sdk.qa.util;
 
-import static org.testng.Assert.assertNotNull;
-
-import java.io.IOException;
-import java.util.HashMap;
-
-import org.testng.Assert;
-
 import com.force.sdk.connector.ForceServiceConnector;
 import com.force.sdk.jpa.PersistenceProviderImpl;
 import com.sforce.soap.partner.GetUserInfoResult;
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.ws.ConnectionException;
+import org.testng.Assert;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import static org.testng.Assert.assertNotNull;
 
 /**
  * 
@@ -79,14 +78,16 @@ public class UserInfo {
      */
     public static UserInfo loadFromPropertyFile(String propertyFileName) throws ConnectionException, IOException {
         // Load up the connection properties on the classpath
-        ForceServiceConnector connector = new ForceServiceConnector(propertyFileName);
+
+        ForceServiceConnector connector = new ForceServiceConnector(PropsUtil.getUrlFromProperties(
+                PropsUtil.load(propertyFileName)));
         PartnerConnection conn = connector.getConnection();
         
-        assertNotNull(conn, "Unable to establish API connection. See " + propertyFileName + ".properties");
+        assertNotNull(conn, "Unable to establish API connection. See " + propertyFileName);
         
         // Get the user information from the API connection
         GetUserInfoResult userInfoResult = conn.getUserInfo();
-        assertNotNull(userInfoResult, "Unable to retrieve user info. See " + propertyFileName + ".properties");
+        assertNotNull(userInfoResult, "Unable to retrieve user info. See " + propertyFileName);
         
         return new UserInfo(userInfoResult.getOrganizationId(),
                             userInfoResult.getUserId(),

@@ -26,34 +26,24 @@
 
 package com.force.sdk.connector;
 
-import java.io.File;
-import java.io.FileInputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Shared utilities for Force.com connectors.
  *
  * @author Tim Kral
  */
-public final class ForceConnectorUtils {
-
-    /**
-     * The file in which the cliforce client stores Force.com connection information.
-     */
-    static File cliforceConnFile =
-        new File(System.getProperty("cliforce.home", System.getProperty("user.home")) + "/.force/cliforce_urls");
+public final class  ForceConnectorUtils {
 
     static final Logger LOGGER = LoggerFactory.getLogger("com.force.sdk.connector");
 
@@ -71,6 +61,35 @@ public final class ForceConnectorUtils {
     }
 
     private ForceConnectorUtils() {  }
+
+    public static boolean isEnvironmentVariable(String var) {
+        return var != null && var.startsWith("${") && var.endsWith("}");
+    }
+
+    public static String extractEnvironmentVariable(String var) {
+        if (var != null)  {
+            if(!var.startsWith("${") || !var.endsWith("}")) {
+                return null;
+            }
+
+            var = var.replace("${" , "");
+            var = var.substring(0, var.length() - 1);
+
+            if (var != null) {
+                if (System.getProperty(var) != null) {
+                    LOGGER.info("Connection : loading " + var + " from Java System Properties");
+                    return System.getProperty(var);
+                }
+
+                if (System.getenv(var) != null) {
+                    LOGGER.info("Connection : loading " + var + " from Environment Variables");
+                    return System.getenv(var);
+                }
+            }
+        }
+
+        return null;
+    }
 
     /**
      * Builds a valid Force.com API endpoint.
@@ -157,99 +176,39 @@ public final class ForceConnectorUtils {
      *   </li> 
      * </ol>
      * 
-     * @param connectionName a name representing one of the locations above
+     * @param connectionUrl a name representing one of the locations above
      * @return a {@link Map} which maps {@link ForceConnectionProperty} enum values to connection property values
      * @throws IOException if an attempt to interact with a classpath properties file or the cliforce connection
      *                     file results in a thrown {@code IOException}
      * @see ForceConnectionProperty
      */
-    public static Map<ForceConnectionProperty, String> loadConnectorPropsFromName(String connectionName)
+    public static Map<ForceConnectionProperty, String> loadConnectorPropsFromName(String connectionUrl)
             throws IOException {
 
-        if (connectionName == null) return null;
-
-        if (PROPERTIES_CACHE.containsKey(connectionName)) {
-            LOGGER.info("Connection : loading " + connectionName + " from cache");
-            return PROPERTIES_CACHE.get(connectionName);
+        if (connectionUrl == null) {
+            connectionUrl = "${DATABASE_COM_URL}";
         }
 
-        String connectionUrl;
-        
-        // First, try getting a connection url from an environment variable
-        // Note: This is a case insensitive match
-        String envVarName = "FORCE_" + connectionName.toUpperCase() + "_URL";
-        if ((connectionUrl = System.getenv(envVarName)) != null) {
-            LOGGER.info("Connection : Creating " + connectionName + " from environment variable: " + envVarName);
-            return cache(connectionName, loadConnectorPropsFromUrl(connectionUrl));
+        if (connectionUrl == null) return null;
+
+        String connectionKey = connectionUrl;
+
+        if (PROPERTIES_CACHE.containsKey(connectionKey)) {
+            LOGGER.info("Connection : loading " + connectionKey + " from cache");
+            return PROPERTIES_CACHE.get(connectionKey);
         }
 
-        // Next, try getting a connection url from a java system property
-        // Note: This is a case sensitive match
-        String sysPropName = "force." + connectionName + ".url";
-        if ((connectionUrl = System.getProperty(sysPropName)) != null) {
-            LOGGER.info("Connection : Creating " + connectionName + " from Java system property: " + sysPropName);
-            return cache(connectionName, loadConnectorPropsFromUrl(connectionUrl));
-        }
 
-        // Next, look for a properties file on the classpath
-        // Note: This is a case sensitive match
-        URL propsFileUrl;
-        if ((propsFileUrl = ForceConnectorUtils.class.getResource("/" + connectionName + ".properties")) != null) {
-            LOGGER.info("Connection : Creating " + connectionName + " from classpath properties file: " + propsFileUrl);
-            return cache(connectionName, loadConnectorPropsFromFile(propsFileUrl));
-        }
-
-        // Finally, look for a connection url in the cliforce connections file
-        // Note: This is a case sensitive match
-        if (cliforceConnFile.canRead()) {
-            InputStream is = null;
-            Properties cliforceConnUrls = new Properties();
-            try {
-                // Load up the connection urls from the cliforce connections file
-                // These should be in the form: [connectionName]=[connectionUrl]
-                is = new FileInputStream(cliforceConnFile);
-                cliforceConnUrls.load(is);
-            } finally {
-                if (is != null) is.close();
-            }
-
-            if (cliforceConnUrls.containsKey(connectionName)) {
-                LOGGER.info("Connection : Creating " + connectionName + " from cliforce connections file: " + cliforceConnFile);
-                return cache(connectionName, loadConnectorPropsFromUrl(cliforceConnUrls.getProperty(connectionName)));
+        if (isEnvironmentVariable(connectionUrl)) {
+            LOGGER.info("Connection : loading from variable " + connectionKey);
+            connectionUrl = extractEnvironmentVariable(connectionUrl);
+            if (connectionUrl == null || connectionUrl.equals("")) {
+                throw new IOException("Unable to load ForceConnectorConfig from environment or system property "
+                        + connectionKey);
             }
         }
 
-        return null;
-    }
-
-    static Map<ForceConnectionProperty, String> loadConnectorPropsFromFile(URL fileUrl) throws IOException {
-        if (fileUrl == null) throw new IllegalArgumentException("Connector property file cannot be null.");
-
-        Properties connectorProps = new Properties();
-        InputStream is = null;
-        try {
-            is = fileUrl.openStream();
-            connectorProps.load(is);
-        } finally {
-            if (is != null) is.close();
-        }
-
-        if (connectorProps.containsKey("url")) {
-            return loadConnectorPropsFromUrl(connectorProps.getProperty("url"));
-        }
-
-        Map<ForceConnectionProperty, String> connectorPropMap =
-                new HashMap<ForceConnectionProperty, String>(connectorProps.size());
-
-        for (String propName : connectorProps.stringPropertyNames()) {
-            ForceConnectionProperty connProp = ForceConnectionProperty.fromPropertyName(propName);
-
-            if (connProp != null) {
-                connectorPropMap.put(connProp, connectorProps.getProperty(propName));
-            }
-        }
-
-        return connectorPropMap;
+        return cache(connectionKey, loadConnectorPropsFromUrl(connectionUrl));
     }
 
     /**

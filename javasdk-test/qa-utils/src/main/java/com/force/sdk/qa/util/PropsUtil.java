@@ -26,7 +26,9 @@
 
 package com.force.sdk.qa.util;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 
@@ -40,7 +42,7 @@ public final class PropsUtil {
     /**
      * name for sdk functional and integration test maven parent project.
      */
-    public static final String FORCE_SDK_TEST_NAME = "force-sdk-test";
+    public static final String FORCE_SDK_TEST_NAME = "force-sdk-test.properties";
     /**
      * file name of properties file that contains Force.com organization information for
      * functional and integration tests.
@@ -69,7 +71,35 @@ public final class PropsUtil {
     public static final String FORCE_PROT_PROP = "endpoint.protocol";
     
     private PropsUtil() {  }
-    
+
+    public static String loadTestConnectionUrl() throws IOException {
+        return load(FORCE_SDK_TEST_PROPS).getProperty("url");
+    }
+
+
+    public static String getUrlFromFile(String file) throws IOException {
+        return getUrlFromProperties(load(file));
+    }
+
+    public static String getUrlFromProperties(Properties map) {
+        if (map.getProperty("url") != null) {
+            return map.getProperty("url");
+        }
+
+        String url = map.getProperty("endpoint").replace("http", "force") + "?";
+        if (map.getProperty("user") != null && map.getProperty("password") != null) {
+            url += "user=" + map.getProperty("user") + "&";
+            url +=  "password=" + map.getProperty("password") + "&";
+        }
+
+        if (map.getProperty("oauth_key") != null && map.getProperty("oauth_secret") != null) {
+            url += "oauth_key=" + map.getProperty("oauth_key") + "&";
+            url += "oauth_secret=" + map.getProperty("oauth_secret") + "&";
+        }
+
+        return url;
+    }
+
     /**
      * Utility to load a properties file from the classpath.
      * @param propertiesName name of the properties file. The file needs to be on the classpath.
@@ -82,7 +112,7 @@ public final class PropsUtil {
         if (url == null) {
             throw new FileNotFoundException("Properties file not on classpath: " + propertiesName);
         }
-        
+
         InputStream is = url.openStream();
         try {
             p.load(is);

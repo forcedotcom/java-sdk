@@ -93,7 +93,7 @@ public class BasicLogoutTest extends BaseMockedPartnerConnectionTest {
         filterConfig.addInitParameter("securityContextStorageMethod", isSessionStorage ? "session" : "cookie");
         filterConfig.addInitParameter("logoutFromDatabaseDotCom", String.valueOf(logoutFromSFDC));
         filterConfig.addInitParameter("logoutUrl", logoutUrl);
-        filterConfig.addInitParameter("connectionName", "CONNURLENVVAR");
+        filterConfig.addInitParameter("url", "${FORCE_CONNURLENVVAR_URL}");
         filter.init(filterConfig);
 
         if (!isSessionStorage) {

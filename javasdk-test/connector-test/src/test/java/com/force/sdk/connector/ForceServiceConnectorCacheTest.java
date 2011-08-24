@@ -26,18 +26,17 @@
 
 package com.force.sdk.connector;
 
-import static org.testng.Assert.*;
-
-import java.io.*;
-import java.lang.management.ManagementFactory;
-import java.net.URL;
-
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import com.sforce.soap.partner.Connector;
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.ws.ConnectorConfig;
+import org.testng.annotations.Test;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.management.ManagementFactory;
+
+import static org.testng.Assert.*;
 
 /**
  * Tests for the ForceServiceConnector cache.
@@ -68,11 +67,11 @@ public class ForceServiceConnectorCacheTest extends BaseForceServiceConnectorTes
         try {
             System.setProperty("force.testCacheWithConnectionName.url", connUrl + "&timeout=1234");
 
-            ForceServiceConnector connector = new ForceServiceConnector("testCacheWithConnectionName");
+            ForceServiceConnector connector = new ForceServiceConnector("${force.testCacheWithConnectionName.url}");
             connector.getConnection();
 
             System.setProperty("force.testCacheWithConnectionName.url", connUrl + "&timeout=2345");
-            connector = new ForceServiceConnector("testCacheWithConnectionName");
+            connector = new ForceServiceConnector("${force.testCacheWithConnectionName.url}");
 
             // We should hit the cache here and retrieve the original read timeout
             PartnerConnection conn = connector.getConnection();
@@ -174,24 +173,5 @@ public class ForceServiceConnectorCacheTest extends BaseForceServiceConnectorTes
         }
 
         return count;
-    }
-    
-    // This test is linux specific and will not run on windows. 
-    @Test
-    public void testLoadFromCache() throws Exception {
-        URL propsFileUrl = ForceServiceConnectorCacheTest.class.getResource("/funcconnuserinfo.properties");
-        String path = propsFileUrl.getPath();
-        String commandFormat = "lsof %1$s -p %2$s "; // list open handles for this file.
-        int pid = getProcessId();
-        String cmd = String.format(commandFormat, path, pid);
-
-        int handleCount = executeIt(cmd);
-        
-        for (int i = 0; i < 10; i++) {
-            ForceConnectorUtils.loadConnectorPropsFromFile(propsFileUrl);
-        }
-        
-        int handleCount2 = executeIt(cmd);
-        Assert.assertEquals(handleCount2, handleCount, "Handle count has increased after the test. ");
     }
 }

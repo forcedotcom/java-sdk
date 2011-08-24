@@ -26,19 +26,17 @@
 
 package com.force.sdk.oauth.connector;
 
-import static org.testng.Assert.*;
-
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.force.sdk.oauth.BaseMockedPartnerConnectionTest;
+import com.force.sdk.oauth.mock.MockTokenRetrievalService;
+import com.force.sdk.oauth.userdata.UserDataRetrievalService;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.force.sdk.oauth.BaseMockedPartnerConnectionTest;
-import com.force.sdk.oauth.mock.MockTokenRetrievalService;
-import com.force.sdk.oauth.userdata.UserDataRetrievalService;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+
+import static org.testng.Assert.*;
 
 
 /**
@@ -94,7 +92,7 @@ public class BasicForceOAuthConnectorTest extends BaseMockedPartnerConnectionTes
     @Test
     public void testConnectorWithEnvVariable() throws Exception {
         ForceOAuthConnector connector = new ForceOAuthConnector(new UserDataRetrievalService(true));
-        connector.setConnectionName("CONNURLENVVAR"); // FORCE_CONNURLENVVAR_URL is set in pom file
+        connector.setConnectionName("${FORCE_CONNURLENVVAR_URL}"); // FORCE_CONNURLENVVAR_URL is set in pom file
         connector.setTokenRetrievalService(
                 new MockTokenRetrievalService(
                         partnerSc.getEndPoint(), partnerSc.getSessionId(),
@@ -107,7 +105,7 @@ public class BasicForceOAuthConnectorTest extends BaseMockedPartnerConnectionTes
         ForceOAuthConnector connector = new ForceOAuthConnector(new UserDataRetrievalService(true));
         try {
             System.setProperty("force.connUrlJavaProperty.url", createConnectionUrl());
-            connector.setConnectionName("connUrlJavaProperty");
+            connector.setConnectionName("${force.connUrlJavaProperty.url}");
             connector.setTokenRetrievalService(
                     new MockTokenRetrievalService(
                             partnerSc.getEndPoint(), partnerSc.getSessionId(),
@@ -118,29 +116,8 @@ public class BasicForceOAuthConnectorTest extends BaseMockedPartnerConnectionTes
             System.clearProperty("force.connUrlJavaProperty.url");
         }
     }
-    
-    @Test
-    public void testConnectorWithOAuthInfoPropertyFile() throws Exception {
-        ForceOAuthConnector connector = new ForceOAuthConnector(new UserDataRetrievalService(true));
-        connector.setConnectionName("funcconnoauthinfo"); // funcconnoauthinfo.properties defined in /src/test/resources
-        connector.setTokenRetrievalService(
-                new MockTokenRetrievalService(
-                        partnerSc.getEndPoint(), partnerSc.getSessionId(),
-                        VALID_SFDC_INSTANCEURL, partnerSc.getRefreshToken(), oauthKey, oauthSecret));
-        assertSecurityContextsAreEqual(partnerSc, connector.refreshAccessToken(REFRESH_TOKEN),
-            "Security context should match that which the partner api returned");    }
-    
-    @Test
-    public void testConnectorWithConnUrlPropertyFile() throws Exception {
-        ForceOAuthConnector connector = new ForceOAuthConnector(new UserDataRetrievalService(true));
-        connector.setConnectionName("funcconnurl"); // funcconnoauthinfo.properties defined in /src/test/resources
-        connector.setTokenRetrievalService(
-                new MockTokenRetrievalService(
-                        partnerSc.getEndPoint(), partnerSc.getSessionId(),
-                        VALID_SFDC_INSTANCEURL, partnerSc.getRefreshToken(), oauthKey, oauthSecret));
-        assertSecurityContextsAreEqual(partnerSc, connector.refreshAccessToken(REFRESH_TOKEN),
-            "Security context should match that which the partner api returned");    }
-    
+
+
     @DataProvider
     protected Object[][] forceLogoutUrlParamProvider() {
         

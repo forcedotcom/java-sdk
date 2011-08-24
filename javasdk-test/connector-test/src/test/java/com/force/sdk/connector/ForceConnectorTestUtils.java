@@ -26,9 +26,6 @@
 
 package com.force.sdk.connector;
 
-import java.io.*;
-import java.util.Properties;
-
 /**
  * Class for shared Force.com connector test utils.
  *
@@ -37,42 +34,4 @@ import java.util.Properties;
 public final class ForceConnectorTestUtils {
 
     private ForceConnectorTestUtils() {  }
-    
-    public static void createCliforceConn(String connectionName, String connectionUrl) throws IOException {
-        
-        // Setup the CLIForce connection file to be in the current working directory.
-        // This should be a test directory as the file will eventually get deleted. 
-        ForceConnectorUtils.cliforceConnFile = new File(System.getProperty("user.dir") + "/cliforce_urls_test");
-        
-        if (!ForceConnectorUtils.cliforceConnFile.exists()) {
-            // Create the cliforce connections file
-            File cliforceConnFileDir = ForceConnectorUtils.cliforceConnFile.getParentFile();
-            if (!cliforceConnFileDir.exists())
-                cliforceConnFileDir.mkdirs();
-            
-            ForceConnectorUtils.cliforceConnFile.createNewFile();
-            ForceConnectorUtils.cliforceConnFile.deleteOnExit();
-        }
-        
-        InputStream is = null;
-        Writer writer = null;
-        try {
-            // Read in the cliforce connection urls
-            is = new FileInputStream(ForceConnectorUtils.cliforceConnFile);
-            Properties cliforceConnUrls = new Properties();
-            cliforceConnUrls.load(is);
-            
-            // Add the new url property
-            // Note: We should always do this in case the url changes
-            // (e.g. in the case of static org changes)
-            cliforceConnUrls.put(connectionName, connectionUrl);
-            
-            // Write out the cliforce connection urls
-            writer = new FileWriter(ForceConnectorUtils.cliforceConnFile);
-            cliforceConnUrls.store(writer, null/*comments*/);
-        } finally {
-            if (writer != null) writer.close();
-            if (is != null) is.close();
-        }
-    }
 }

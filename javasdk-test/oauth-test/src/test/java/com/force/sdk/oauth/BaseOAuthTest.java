@@ -26,15 +26,14 @@
 
 package com.force.sdk.oauth;
 
-import static org.testng.Assert.*;
-
-import java.util.Properties;
-
-import org.testng.annotations.BeforeClass;
-
 import com.force.sdk.oauth.context.SecurityContext;
 import com.force.sdk.qa.util.PropsUtil;
 import com.force.sdk.qa.util.UserInfo;
+import org.testng.annotations.BeforeClass;
+
+import java.util.Properties;
+
+import static org.testng.Assert.*;
 
 /**
  * Base class for Force.com OAuth functional tests.
@@ -59,7 +58,7 @@ public class BaseOAuthTest {
         oauthKey = assertAndLoadProperty(oauthProperties, "oauth_key", oauthPropertiesFileName);
         oauthSecret = assertAndLoadProperty(oauthProperties, "oauth_secret", oauthPropertiesFileName);
         
-        userInfo = UserInfo.loadFromPropertyFile("userInfo");
+        userInfo = UserInfo.loadFromPropertyFile("userInfo.properties");
     }
     
     private String assertAndLoadProperty(Properties properties, String propertyName, String propertyFileName) {

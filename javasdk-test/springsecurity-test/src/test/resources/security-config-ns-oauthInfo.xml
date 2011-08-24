@@ -39,9 +39,12 @@
            http://www.salesforce.com/schema/springsecurity
            http://www.salesforce.com/schema/springsecurity/force-springsecurity-1.3.xsd">
 
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    </bean>
+
     <!-- SFDC OAuth security config with oauthInfo	-->
     <fss:oauth>
-        <fss:oauthInfo endpoint="endpoint" oauth-key="key" oauth-secret="123456"/>
+        <fss:connectionUrl url="${FORCE_ENV_URL}"/>
     </fss:oauth>
 
 	<!-- Configure Spring Security -->

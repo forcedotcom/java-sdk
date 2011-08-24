@@ -39,9 +39,12 @@
            http://www.salesforce.com/schema/springsecurity
            http://www.salesforce.com/schema/springsecurity/force-springsecurity-1.2.xsd">
 
-    <!-- SFDC OAuth security config with connectionName and a custom user data retriever defined-->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    </bean>
+
+    <!-- SFDC OAuth security config with url from env variable and a custom user data retriever defined-->
     <fss:oauth>
-        <fss:connectionName name="connName"/>
+        <fss:connectionUrl url="${FORCE_ENV_URL}"/>
         <fss:customUserDataRetriever ref="testUserDataRetriever"/>
     </fss:oauth>
     

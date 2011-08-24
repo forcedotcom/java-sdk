@@ -26,19 +26,16 @@
 
 package com.force.sdk.connector;
 
-import static org.testng.Assert.assertTrue;
-
-import java.io.IOException;
-
+import com.force.sdk.qa.util.logging.MockAppender;
+import com.sforce.async.AsyncApiException;
+import com.sforce.ws.ConnectionException;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.force.sdk.qa.util.logging.MockAppender;
-import com.sforce.async.AsyncApiException;
-import com.sforce.ws.ConnectionException;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Test for connector loglines.
@@ -81,12 +78,12 @@ public class ForceServiceConnectorLoggingTest extends BaseForceServiceConnectorT
         logger.setLevel(Level.INFO);
         
         // FORCE_ENVVARCONN_URL is set in pom file
-        String expectedLogLine = "Connection : Creating envvarconn from environment variable";
+        String expectedLogLine = "Connection : loading FORCE_ENVVARCONN_URL from Environment Variables";
         MockAppender mockAppender = new MockAppender(expectedLogLine);
         logger.addAppender(mockAppender);
         
         try {
-            ForceServiceConnector connector = new ForceServiceConnector("envvarconn");
+            ForceServiceConnector connector = new ForceServiceConnector("${FORCE_ENVVARCONN_URL}");
             connector.getConnection();
         } finally {
             logger.setLevel(oldLevel);
@@ -102,62 +99,17 @@ public class ForceServiceConnectorLoggingTest extends BaseForceServiceConnectorT
         Level oldLevel = logger.getLevel();
         logger.setLevel(Level.INFO);
         
-        String expectedLogLine = "Connection : Creating testLogConnectorLoadFromJavaProp from Java system property";
+        String expectedLogLine = "Connection : loading force.testLogConnectorLoadFromJavaProp.url from Java System Properties";
         MockAppender mockAppender = new MockAppender(expectedLogLine);
         logger.addAppender(mockAppender);
         
         try {
             System.setProperty("force.testLogConnectorLoadFromJavaProp.url", createConnectionUrl());
             
-            ForceServiceConnector connector = new ForceServiceConnector("testLogConnectorLoadFromJavaProp");
+            ForceServiceConnector connector = new ForceServiceConnector("${force.testLogConnectorLoadFromJavaProp.url}");
             connector.getConnection();
         } finally {
             System.clearProperty("force.testLogConnectorLoadFromJavaProp.url");
-            logger.setLevel(oldLevel);
-            logger.removeAppender(mockAppender);
-        }
-        
-        assertTrue(mockAppender.receivedLogLine(), "Did not receive expected log line: " + expectedLogLine);
-    }
-    
-    @Test
-    public void testLogConnectorLoadFromClasspathPropFile() throws ConnectionException {
-        Logger logger = Logger.getLogger("com.force.sdk.connector");
-        Level oldLevel = logger.getLevel();
-        logger.setLevel(Level.INFO);
-
-        String expectedLogLine = "Connection : Creating funcconnuserinfo from classpath properties file";
-        MockAppender mockAppender = new MockAppender(expectedLogLine);
-        logger.addAppender(mockAppender);
-        
-        try {
-            ForceServiceConnector connector = new ForceServiceConnector("funcconnuserinfo");
-            connector.getConnection();
-        } finally {
-            logger.setLevel(oldLevel);
-            logger.removeAppender(mockAppender);
-        }
-        
-        assertTrue(mockAppender.receivedLogLine(), "Did not receive expected log line: " + expectedLogLine);
-    }
-    
-    @Test
-    public void testLogConnectorLoadFromCliforcePropFile() throws ConnectionException, IOException {
-        Logger logger = Logger.getLogger("com.force.sdk.connector");
-        Level oldLevel = logger.getLevel();
-        logger.setLevel(Level.INFO);
-        
-        String connectionName = "ForceServiceConnectorLoggingTest.testLogConnectorLoadFromCliforcePropFile";
-        String expectedLogLine = "Connection : Creating " + connectionName + " from cliforce connections file";
-        MockAppender mockAppender = new MockAppender(expectedLogLine);
-        logger.addAppender(mockAppender);
-        
-        try {
-            ForceConnectorTestUtils.createCliforceConn(connectionName, createConnectionUrl());
-            
-            ForceServiceConnector connector = new ForceServiceConnector(connectionName);
-            connector.getConnection();
-        } finally {
             logger.setLevel(oldLevel);
             logger.removeAppender(mockAppender);
         }

@@ -71,8 +71,8 @@ public abstract class BaseJPAFTest implements ITest {
     @BeforeClass
     protected final void initialize() throws Exception {
         createStaticEntityMangers();
-        populateTestContext(getTestName(), UserInfo.loadFromPropertyFile(PropsUtil.FORCE_SDK_TEST_NAME));
-        ForceServiceConnector connector = new ForceServiceConnector(PropsUtil.FORCE_SDK_TEST_NAME);
+        populateTestContext(getTestName(), UserInfo.loadFromPropertyFile(PropsUtil.FORCE_SDK_TEST_PROPS));
+        ForceServiceConnector connector = new ForceServiceConnector(PropsUtil.loadTestConnectionUrl());
         service = connector.getConnection();
     }
 

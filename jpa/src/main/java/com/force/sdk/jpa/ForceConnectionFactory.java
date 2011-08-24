@@ -72,7 +72,7 @@ public class ForceConnectionFactory extends AbstractConnectionFactory {
             connector.setConnectorConfig(storeManager.getConfig());
         }
         
-        connector.setConnectionName(omfContext.getPersistenceConfiguration().getStringProperty("force.ConnectionName"));
+        connector.setConnectionUrl(omfContext.getPersistenceConfiguration().getStringProperty("datanucleus.ConnectionURL"));
         connector.setClientId(ForceServiceConnector.API_USER_AGENT);
         connector.setTimeout(omfContext.getPersistenceConfiguration().getIntProperty("datanucleus.datastoreReadTimeout"));
         connector.setSkipCache(omfContext.getPersistenceConfiguration()

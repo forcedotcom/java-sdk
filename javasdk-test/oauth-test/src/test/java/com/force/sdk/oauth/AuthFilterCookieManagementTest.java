@@ -120,10 +120,8 @@ public class AuthFilterCookieManagementTest extends BaseMockedPartnerConnectionT
         
         MockFilterConfig filterConfig = new MockFilterConfig();
         
-        // Add good OAuth info
-        filterConfig.addInitParameter("endpoint", VALID_SFDC_ENDPOINT);
-        filterConfig.addInitParameter("oauthKey", CONSUMER_KEY);
-        filterConfig.addInitParameter("oauthSecret", CONSUMER_SECRET);
+        String url = VALID_SFDC_ENDPOINT.replace("https", "force") + "?oauth_key=" + CONSUMER_KEY + "&oauth_secret=" + CONSUMER_SECRET;
+        filterConfig.addInitParameter("url", url);
         
         // this will have different values for each run of this test suite.
         filterConfig.addInitParameter("secure-key-file", keyFile);

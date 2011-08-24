@@ -65,7 +65,7 @@ The \<oauth /> tag requires that you provide OAuth properties.  This can be done
 
     <!-- Uses the connection URL in the FORCE_MYCONNECTOR_URL environment variable -->
     <fss:oauth>
-        <fss:connectionName name="myconnector" />
+        <fss:connectionName connectionUrl="myconnector" />
     </fss:oauth>
 
 In these samples, substitute values from your remote access application for the following variables:

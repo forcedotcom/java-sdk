@@ -26,12 +26,10 @@
 
 package com.force.sdk.jpa;
 
-import static com.force.sdk.jpa.ForceEntityManager.LOGGER;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.*;
-
+import com.force.sdk.jpa.model.ForceOwner;
+import com.force.sdk.jpa.table.ColumnImpl;
+import com.force.sdk.jpa.table.TableImpl;
+import com.sforce.ws.ConnectionException;
 import org.datanucleus.ClassLoaderResolver;
 import org.datanucleus.OMFContext;
 import org.datanucleus.exceptions.NucleusException;
@@ -41,10 +39,13 @@ import org.datanucleus.metadata.*;
 import org.datanucleus.util.NucleusLogger;
 import org.datanucleus.util.StringUtils;
 
-import com.force.sdk.jpa.model.ForceOwner;
-import com.force.sdk.jpa.table.ColumnImpl;
-import com.force.sdk.jpa.table.TableImpl;
-import com.sforce.ws.ConnectionException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+
+import static com.force.sdk.jpa.ForceEntityManager.LOGGER;
 
 /**
  * Custom Metadata Manager so we can control the timing of Force.com object and field creation.
@@ -72,16 +73,13 @@ public class ForceMetaDataManager extends JPAMetaDataManager {
      */
     @Override
     public FileMetaData[] loadPersistenceUnit(PersistenceUnitMetaData pumd, ClassLoader loader) {
-        // Check for a custom force connection name
-        if (!omfContext.getPersistenceConfiguration().hasProperty("force.ConnectionName")) {
-            
-            // Default the force connection name to the persistence unit name.  This will be used to
-            // potentially look up connection information (see ForceConnectionFactory.createManagedConnection)
-            if (pumd.getName() != null && pumd.getName().length() != 0) {
-                omfContext.getPersistenceConfiguration().setProperty("force.ConnectionName", pumd.getName());
-            } else if (omfContext.getPersistenceConfiguration().getStringProperty("datanucleus.ConnectionUrl") == null) {
-                throw new NucleusUserException("Must specify unit name or connection url");
-            }
+        // Default the force connection name to the persistence unit name.  This will be used to
+        // potentially look up connection information (see ForceConnectionFactory.createManagedConnection)
+
+        // ### we don't need it anymore; as we default to DATABASE_COM_URL in forceStoreManager.java
+        if (omfContext.getPersistenceConfiguration().getStringProperty("datanucleus.ConnectionURL") == null) {
+            throw new NucleusUserException("Must specify unit name or connection url");
+            // Default to DATABASE_COM_URL  DOD IT DODODODODOODODODODOD
         }
 
         ForceStoreManager storeManager = (ForceStoreManager) omfContext.getStoreManager();

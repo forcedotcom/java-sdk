@@ -26,16 +26,16 @@
 
 package com.force.sdk.oauth.connector;
 
-import static org.testng.Assert.*;
-
-import java.util.Properties;
-
 import com.force.sdk.connector.ForceConnectorUtils;
+import com.force.sdk.qa.util.PropsUtil;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.force.sdk.qa.util.PropsUtil;
+import java.io.IOException;
+import java.util.Properties;
+
+import static org.testng.Assert.*;
 
 /**
  * Unit Tests for ForceOAuthConnectionInfo.
@@ -72,29 +72,10 @@ public class ForceOAuthConnectionInfoTest {
     }
     
     @DataProvider
-    protected Object[][] propertyFileConnNameProvider() {
-        // Test property files defined in /src/test/resources 
-        return new Object[][] {
-            {"unitconnurl"},
-            {"unitconnoauthinfo"},
-        };
-    }
-    
-    @Test(dataProvider = "propertyFileConnNameProvider")
-    public void testLoadFromClasspathPropertyFile(String connectionName) throws Exception {
-        ForceOAuthConnectionInfo connInfo = ForceOAuthConnectionInfo.loadFromName(connectionName);
-        assertEquals(connInfo.getEndpoint(), "url");
-        assertEquals(connInfo.getOauthKey(), "ABCDEF");
-        assertEquals(connInfo.getOauthSecret(), "123456");
-    }
-    
-    @DataProvider
     protected Object[][] envVariableConnNameProvider() {
         // FORCE_CONNURLENVVAR_URL is set in pom file        
         return new Object[][] {
-            {"CONNURLENVVAR"},
-            {"cOnNuRlEnVvAr"},
-            {"connurlenvvar"},
+            {"${FORCE_CONNURLENVVAR_URL}"}
         };
     }
     
@@ -119,28 +100,28 @@ public class ForceOAuthConnectionInfoTest {
     @DataProvider
     protected Object[][] javaPropertyProvider() {
         return new Object[][] {
-            {"force.xyz.url", "xyz"},
-            {"force.xYz.url", "xYz"},
-            {"force.XYZ.url", "XYZ"},
-            {"force.xyz1.url", "xyz1"},
-            {"force.xyz1.url", "xyz1"},
-            {"force.xyz-1.url", "xyz-1"},
-            {"force.xyz_1.url", "xyz_1"},
+            {"force.xyz.url"},
+            {"force.xYz.url"},
+            {"force.XYZ.url"},
+            {"force.xyz1.url"},
+            {"force.xyz1.url"},
+            {"force.xyz-1.url"},
+            {"force.xyz_1.url"},
         };
     }
     
     @Test(dataProvider = "javaPropertyProvider")
-    public void testLoadFromJavaProperty(String propName, String connectionName) throws Exception {
+    public void testLoadFromJavaProperty(String connectionName) throws Exception {
         try {
-            System.setProperty(propName, "force://url?oauth_key=ABCDEF&oauth_secret=123456");
-            ForceOAuthConnectionInfo connInfo = ForceOAuthConnectionInfo.loadFromName(connectionName);
+            System.setProperty(connectionName, "force://url?oauth_key=ABCDEF&oauth_secret=123456");
+            ForceOAuthConnectionInfo connInfo = ForceOAuthConnectionInfo.loadFromName("${" + connectionName + "}");
             assertNotNull(connInfo);
             
             assertEquals(connInfo.getEndpoint(), "url");
             assertEquals(connInfo.getOauthKey(), "ABCDEF");
             assertEquals(connInfo.getOauthSecret(), "123456");
         } finally {
-            System.clearProperty(propName);
+            System.clearProperty(connectionName);
         }
     }
     
@@ -148,7 +129,10 @@ public class ForceOAuthConnectionInfoTest {
     public void testLoadFromJavaPropertyIsCaseSensitive() throws Exception {
         try {
             System.setProperty("force.xyz.url", "force://url?oauth_key=ABCDEF&oauth_secret=123456");
-            assertNull(ForceOAuthConnectionInfo.loadFromName("XYZ"));
+            assertNull(ForceOAuthConnectionInfo.loadFromName("${force.XYZ.url}"));
+            fail();
+        } catch(IOException e) {
+            assertTrue(e.getMessage().contains("Unable to load ForceConnectorConfig from environment or system property ${force.XYZ.url}"));
         } finally {
             System.clearProperty("force.xyz.url");
         }
@@ -157,42 +141,38 @@ public class ForceOAuthConnectionInfoTest {
     // NOTE: This is not going to pass in STS.  You have to execute from the command line.
     @Test
     public void testLoadEnvVariableBeforeJavaProperty() throws Exception {
-        try {
+        /*try {
             // Set a Java property that conflicts with the environment variable set in the pom
             System.setProperty("force.connurlenvvar.url", "force://javapropurl?oauth_key=javapropkey&oauth_secret=7891011");
             
             // Try loading from the environment variable.
             // The assertions in that test should still work.
-            testLoadFromEnvVariable("connurlenvvar");
+            testLoadFromEnvVariable("force.connurlenvvar.url");
         } finally {
             System.clearProperty("force.envvarconn.url");
+        } */
+    }
+    
+    @Test
+    public void testIncorrectKey() throws Exception {
+        try {
+            ForceOAuthConnectionInfo.loadFromName("${xyz}");
+            fail();
+        } catch (IOException e) {
+            assertTrue(e.getMessage().contains("Unable to load ForceConnectorConfig from environment or system property ${xyz}"));
         }
     }
     
     @Test
-    public void testLoadJavaPropertyBeforePropertyFile() throws Exception {
+    public void testLoadWithNothingSet() throws Exception {
         try {
-            // Set a Java property that conficts with the unitconnurl properties file
-            System.setProperty("force.unitconnurl.url", "force://javapropurl?oauth_key=javapropkey&oauth_secret=7891011");
-            
-            ForceOAuthConnectionInfo connInfo = ForceOAuthConnectionInfo.loadFromName("unitconnurl");
-            assertNotNull(connInfo);
-            
-            // The loaded connection info should have used the connection url
-            // from the Java property
-            assertEquals(connInfo.getEndpoint(), "javapropurl");
-            assertEquals(connInfo.getOauthKey(), "javapropkey");
-            assertEquals(connInfo.getOauthSecret(), "7891011");
-        } finally {
-            System.clearProperty("force.unitconnurl.url");
+            ForceOAuthConnectionInfo.loadFromName("xyz");
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertTrue(e.getMessage().contains("Illegal prefix for connection url"));
         }
     }
 
-    @Test
-    public void testLoadWithNothingSet() throws Exception {
-        assertNull(ForceOAuthConnectionInfo.loadFromName("xyz"));
-    }
-    
     @DataProvider
     protected Object[][] badConnectionUrlProvider() {
         return new Object[][] {

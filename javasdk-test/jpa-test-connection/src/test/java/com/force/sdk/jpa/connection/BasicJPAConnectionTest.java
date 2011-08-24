@@ -26,15 +26,12 @@
 
 package com.force.sdk.jpa.connection;
 
-import java.util.Collections;
-import java.util.Map;
+import org.testng.annotations.Test;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
-import org.testng.annotations.Test;
-
-import com.force.sdk.connector.ForceConnectorTestUtils;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * Basic tests for JPA connections.
@@ -77,15 +74,6 @@ public class BasicJPAConnectionTest extends BaseJPAConnectionTest {
     public void testConnFromConnUrlClasspathPropertyFile() throws Exception {
         // See connUrlPropFile persistence-unit in persistence.xml
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("connUrlPropFile");
-        verifyEntityManager(emf.createEntityManager());
-    }
-    
-    @Test
-    public void testConnFromConnUrlCliforcePropertyFile() throws Exception {
-        // See connUrlCliforcePropFile persistence-unit in persistence.xml
-        ForceConnectorTestUtils.createCliforceConn("connUrlCliforcePropFile", createConnectionUrl());
-            
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("connUrlCliforcePropFile");
         verifyEntityManager(emf.createEntityManager());
     }
     

@@ -54,7 +54,7 @@ public class ForceServiceConnectorConstructOrderTest extends BaseForceServiceCon
             ForceServiceConnector.setThreadLocalConnectorConfig(badConfig);
             
             
-            ForceServiceConnector connector = new ForceServiceConnector("testConnectorConstructOrder");
+            ForceServiceConnector connector = new ForceServiceConnector("${force.testConnectorConstructOrder.url}");
             
             if (addGoodConfig != null && addGoodConfig) {
                 connector.setConnectorConfig(goodConfig);

@@ -26,20 +26,24 @@
 
 package com.force.sdk.connector;
 
-import static com.force.sdk.connector.ForceServiceConnector.DESCRIBE_METADATA_VERSION;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-
-import org.testng.annotations.*;
-
 import com.force.sdk.qa.util.PropsUtil;
 import com.force.sdk.qa.util.UserInfo;
-import com.sforce.async.*;
+import com.sforce.async.AsyncApiException;
+import com.sforce.async.AsyncExceptionCode;
+import com.sforce.async.BulkConnection;
+import com.sforce.async.JobInfo;
 import com.sforce.soap.metadata.DescribeMetadataResult;
 import com.sforce.soap.metadata.MetadataConnection;
 import com.sforce.soap.partner.GetUserInfoResult;
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.ws.ConnectionException;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+
+import static com.force.sdk.connector.ForceServiceConnector.DESCRIBE_METADATA_VERSION;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * Base class for ForceServiceConnector functional tests.
@@ -68,7 +72,7 @@ public abstract class BaseForceServiceConnectorTest {
         
         
         // We will use this to create connectors and verify their connections are valid
-        userInfo = UserInfo.loadFromPropertyFile(PropsUtil.FORCE_SDK_TEST_NAME);
+        userInfo = UserInfo.loadFromPropertyFile(PropsUtil.FORCE_SDK_TEST_PROPS);
     }
     
     @BeforeMethod
@@ -83,8 +87,8 @@ public abstract class BaseForceServiceConnectorTest {
     protected Object[][] propertyFileConnNameProvider() {
         // Test property files defined in /src/test/resources 
         return new Object[][] {
-            {"funcconnurl"},
-            {"funcconnuserinfo"},
+            {"funcconnurl.properties"},
+            {"funcconnuserinfo.properties"},
         };
     }
     

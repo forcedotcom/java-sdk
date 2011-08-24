@@ -26,21 +26,29 @@
 
 package com.force.sdk.oauth;
 
-import java.io.IOException;
-
-import javax.servlet.*;
-import javax.servlet.http.*;
-
-import org.springframework.mock.web.*;
+import com.force.sdk.connector.ForceConnectorConfig;
+import com.force.sdk.connector.ForceServiceConnector;
+import com.force.sdk.oauth.context.ForceSecurityContext;
+import com.force.sdk.oauth.context.SecurityContext;
+import com.force.sdk.oauth.context.SecurityContextUtil;
+import com.force.sdk.oauth.context.store.SecurityContextSessionStore;
+import com.force.sdk.oauth.exception.ForceOAuthSessionExpirationException;
+import org.springframework.mock.web.MockFilterConfig;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockHttpSession;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.force.sdk.connector.ForceConnectorConfig;
-import com.force.sdk.connector.ForceServiceConnector;
-import com.force.sdk.oauth.context.*;
-import com.force.sdk.oauth.context.store.SecurityContextSessionStore;
-import com.force.sdk.oauth.exception.ForceOAuthSessionExpirationException;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * This class tests the session management of the AuthFilter. All tests assume that a user has already authenticated via
@@ -119,9 +127,8 @@ public class AuthFilterSessionManagementTest extends BaseMockedPartnerConnection
         MockFilterConfig filterConfig = new MockFilterConfig();
 
         // Add good OAuth info
-        filterConfig.addInitParameter("endpoint", VALID_SFDC_ENDPOINT);
-        filterConfig.addInitParameter("oauthKey", CONSUMER_KEY);
-        filterConfig.addInitParameter("oauthSecret", CONSUMER_SECRET);
+        String url = VALID_SFDC_ENDPOINT.replace("https", "force") + "?oauth_key=" + CONSUMER_KEY + "&oauth_secret=" + CONSUMER_SECRET;
+        filterConfig.addInitParameter("url", url);
         filterConfig.addInitParameter("securityContextStorageMethod", "session");
         filter.init(filterConfig);
 

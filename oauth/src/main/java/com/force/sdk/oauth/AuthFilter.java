@@ -32,6 +32,7 @@ import java.security.Principal;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import com.force.sdk.connector.ForceConnectorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,8 +60,8 @@ import com.sforce.ws.*;
  *     <filter-name>AuthFilter</filter-name>
  *     <filter-class>com.force.sdk.oauth.AuthFilter</filter-class>
  *          <init-param>
- *             <param-name>connectionName</param-name>
- *             <param-value>nameOfConnectionToUse</param-value>
+ *             <param-name>url</param-name>
+ *             <param-value>value OR name of env OR java property</param-value>
  *         </init-param>
  * </filter>
  * <filter-mapping>
@@ -146,21 +147,17 @@ public class AuthFilter implements Filter, SessionRenewer {
 
         // Build a ForceOAuthConnectionInfo object, if applicable
         ForceOAuthConnectionInfo connInfo = null;
-        if (config.getInitParameter("endpoint") != null) {
+        if (config.getInitParameter("url") != null) {
             connInfo = new ForceOAuthConnectionInfo();
-            connInfo.setEndpoint(config.getInitParameter("endpoint"));
-            connInfo.setOauthKey(config.getInitParameter("oauthKey"));
-            connInfo.setOauthSecret(config.getInitParameter("oauthSecret"));
+            if (ForceConnectorUtils.isEnvironmentVariable(config.getInitParameter("url"))) {
+                connInfo.setConnectionUrl(ForceConnectorUtils.extractEnvironmentVariable(config.getInitParameter("url")));
+            } else {
+                connInfo.setConnectionUrl(config.getInitParameter("url"));
+            }
             oauthConnector.setConnectionInfo(connInfo);
-        } else if (config.getInitParameter("url") != null) {
-            connInfo = new ForceOAuthConnectionInfo();
-            connInfo.setConnectionUrl(config.getInitParameter("url"));
-            oauthConnector.setConnectionInfo(connInfo);
-        } else if (config.getInitParameter("connectionName") != null) {
-            oauthConnector.setConnectionName(config.getInitParameter("connectionName"));
         } else {
             throw new IllegalArgumentException("Could not find any init state for AuthFilter. "
-                    + "Please specify an endpoint, oauthKey and oauthSecret or a connection url or a connection name.");
+                    + "Please specify an endpoint, oauthKey and oauthSecret or a connection url.");
         }
 
         if (CONTEXT_STORE_SESSION_VALUE.equals(config.getInitParameter("securityContextStorageMethod"))) {

@@ -26,15 +26,6 @@
 
 package com.force.sdk.jpa.connection;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-
-import javax.persistence.EntityManager;
-
-import org.datanucleus.ObjectManager;
-import org.datanucleus.store.connection.ConnectionFactory;
-import org.testng.annotations.BeforeClass;
-
 import com.force.sdk.jpa.ForceManagedConnection;
 import com.force.sdk.qa.util.PropsUtil;
 import com.force.sdk.qa.util.UserInfo;
@@ -42,6 +33,14 @@ import com.sforce.soap.metadata.MetadataConnection;
 import com.sforce.soap.partner.GetUserInfoResult;
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.ws.ConnectionException;
+import org.datanucleus.ObjectManager;
+import org.datanucleus.store.connection.ConnectionFactory;
+import org.testng.annotations.BeforeClass;
+
+import javax.persistence.EntityManager;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * Base class for Force.com JPA connection functional tests.
@@ -55,7 +54,7 @@ public class BaseJPAConnectionTest {
     @BeforeClass
     public void classSetUp() throws Exception {
         // Get the userInfo from the force-sdk-test.properties on the classpath
-        userInfo = UserInfo.loadFromPropertyFile(PropsUtil.FORCE_SDK_TEST_NAME);
+        userInfo = UserInfo.loadFromPropertyFile(PropsUtil.FORCE_SDK_TEST_PROPS);
     }
     
     protected String createConnectionUrl() {

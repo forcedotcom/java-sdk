@@ -26,24 +26,24 @@
 
 package com.force.sdk.codegen;
 
-import static org.testng.Assert.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Set;
-
-import org.apache.commons.io.FileUtils;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
 import com.force.sdk.codegen.filter.ObjectNameWithRefFilter;
 import com.force.sdk.connector.ForceServiceConnector;
 import com.force.sdk.qa.util.PropsUtil;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.sforce.ws.ConnectionException;
+import org.apache.commons.io.FileUtils;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Set;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Functional tests for JPACodeGenerator.
@@ -87,7 +87,7 @@ public class JPAClassGeneratorFTest {
             generator.setPackageName("com.ftest.model");
             generator.setObjectFilter(new ObjectNameWithRefFilter(objectNames));
             
-            ForceServiceConnector connector = new ForceServiceConnector(PropsUtil.FORCE_SDK_TEST_NAME);
+            ForceServiceConnector connector = new ForceServiceConnector(PropsUtil.loadTestConnectionUrl());
             
             int classCount = generator.generateCode(connector.getConnection(), new File(TMP_DIR));
             int expectedCount = expectedFileNames.size();

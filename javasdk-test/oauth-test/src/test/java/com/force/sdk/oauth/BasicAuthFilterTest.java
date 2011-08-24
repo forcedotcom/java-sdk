@@ -31,6 +31,7 @@ import com.force.sdk.oauth.connector.TokenRetrievalServiceImpl;
 import com.force.sdk.oauth.context.ForceSecurityContextHolder;
 import com.force.sdk.oauth.context.SecurityContext;
 import com.force.sdk.oauth.context.SecurityContextUtil;
+import com.force.sdk.qa.util.PropsUtil;
 import com.sforce.soap.partner.Connector;
 import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
@@ -95,17 +96,6 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
     }
 
     @Test
-    public void testOAuthLoginRedirectWithOAuthInfo() throws Exception {
-        // Initialize the filter with oauth info
-        MockFilterConfig filterConfig = new MockFilterConfig();
-        filterConfig.addInitParameter("endpoint", endpoint);
-        filterConfig.addInitParameter("oauthKey", oauthKey);
-        filterConfig.addInitParameter("oauthSecret", oauthSecret);
-    
-        testOAuthLoginRedirectInternal(filterConfig);
-    }
-
-    @Test
     public void testOAuthLoginRedirectWithConnUrl() throws Exception {
         // Initialize the filter with a connection url
         MockFilterConfig filterConfig = new MockFilterConfig();
@@ -118,7 +108,7 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
     public void testOAuthLoginRedirectWithEnvVariable() throws Exception {
         // Initialize the filter with an environment variable name
         MockFilterConfig filterConfig = new MockFilterConfig();
-        filterConfig.addInitParameter("connectionName", "CONNURLENVVAR"); // FORCE_CONNURLENVVAR_URL is set in pom file
+        filterConfig.addInitParameter("url", "${FORCE_CONNURLENVVAR_URL}"); // FORCE_CONNURLENVVAR_URL is set in pom file
         
         testOAuthLoginRedirectInternal(filterConfig);
     }
@@ -130,7 +120,7 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
             
             // Initialize the filter with a Java property name
             MockFilterConfig filterConfig = new MockFilterConfig();
-            filterConfig.addInitParameter("connectionName", "filterWithConnUrlJavaProperty");
+            filterConfig.addInitParameter("url", "${force.filterWithConnUrlJavaProperty.url}");
 
             testOAuthLoginRedirectInternal(filterConfig);
         } finally {
@@ -159,33 +149,13 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
     }
 
     @Test(dataProvider = "requestOptions")
-    public void testOAuthLoginRedirectWithPropertyFile(RequestOption option) throws Exception {
+    public void testOAuthLoginRedirectWithUrlProperty(RequestOption option) throws Exception {
         // Initialize the filter with a Java property name
         MockFilterConfig filterConfig = new MockFilterConfig();
-        // funcconnoauthinfo.properties defined in /src/test/resources
-        filterConfig.addInitParameter("connectionName", "funcconnoauthinfo");
+        System.setProperty("funcconnoauthinfo", PropsUtil.getUrlFromFile("funcconnoauthinfo.properties"));
+        filterConfig.addInitParameter("url", "${funcconnoauthinfo}");
 
         testOAuthLoginRedirectInternal(filterConfig, option);
-    }
-    
-    @Test
-    public void testOAuthInfoIsFirst() throws Exception {
-        MockFilterConfig filterConfig = new MockFilterConfig();
-        
-        // Add good OAuth info
-        filterConfig.addInitParameter("endpoint", endpoint);
-        filterConfig.addInitParameter("oauthKey", oauthKey);
-        filterConfig.addInitParameter("oauthSecret", oauthSecret);
-        filterConfig.addInitParameter("storeUsername", "false");
-        
-        // Add a bad connection url
-        filterConfig.addInitParameter("url", "force://url?oauth_key=ABCDEF&oauth_secret=123456");
-        
-        // Add a bad connection name
-        filterConfig.addInitParameter("connectionName", "badConnectionName");
-        
-        // This test should still pass because we use OAuth info first
-        testOAuthLoginRedirectInternal(filterConfig);
     }
     
     @Test
@@ -195,10 +165,7 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
         // Add a good connection url
         filterConfig.addInitParameter("url", createConnectionUrl());
         
-        // Add a bad connection name
-        filterConfig.addInitParameter("connectionName", "badConnectionName");
-        
-        // This test should still pass because we use 
+        // This test should still pass because we use
         // a connection url before a connection name
         testOAuthLoginRedirectInternal(filterConfig);
     }
@@ -258,7 +225,7 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
     @Test
     public void testLoginWithSessionIdAndEndpoint() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
-        ForceServiceConnector connector = new ForceServiceConnector("userInfo");
+        ForceServiceConnector connector = new ForceServiceConnector(PropsUtil.loadTestConnectionUrl());
         
         // Add session id and endpoint cookies to the request
         Cookie sidCookie =
@@ -275,9 +242,7 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
             MockFilterConfig filterConfig = new MockFilterConfig();
             
             // Add good OAuth info
-            filterConfig.addInitParameter("endpoint", endpoint);
-            filterConfig.addInitParameter("oauthKey", oauthKey);
-            filterConfig.addInitParameter("oauthSecret", oauthSecret);
+            filterConfig.addInitParameter("url", "force://url?oauth_key=ABCDEF&oauth_secret=123456");
             filter.init(filterConfig);
             
             // Assert application security state within the LoginWithSessionIdAndEndpointFilterChain
@@ -290,7 +255,7 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
     @Test
     public void testLoginWithSessionIdAndEndpointNoUsername() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
-        ForceServiceConnector connector = new ForceServiceConnector("userInfo");
+        ForceServiceConnector connector = new ForceServiceConnector(PropsUtil.loadTestConnectionUrl());
         
         // Add session id and endpoint cookies to the request
         Cookie sidCookie =
@@ -307,9 +272,7 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
             MockFilterConfig filterConfig = new MockFilterConfig();
             
             // Add good OAuth info
-            filterConfig.addInitParameter("endpoint", endpoint);
-            filterConfig.addInitParameter("oauthKey", oauthKey);
-            filterConfig.addInitParameter("oauthSecret", oauthSecret);
+            filterConfig.addInitParameter("url", "force://url?oauth_key=ABCDEF&oauth_secret=123456");
             filterConfig.addInitParameter("storeUsername", "false");
 
             filter.init(filterConfig);

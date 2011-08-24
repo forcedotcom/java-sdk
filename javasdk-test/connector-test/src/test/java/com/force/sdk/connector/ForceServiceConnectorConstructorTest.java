@@ -49,21 +49,6 @@ public class ForceServiceConnectorConstructorTest extends BaseForceServiceConnec
         }
     }
     
-    @Test(dataProvider = "propertyFileConnNameProvider")
-    public void testGetConnectionFromPropertyFile(String connectionName) throws Exception {
-        ForceServiceConnector connector = new ForceServiceConnector(connectionName);
-        verifyConnection(connector.getConnection());
-    }
-    
-    @Test
-    public void testGetConnectionFromCliforcePropertyFile() throws Exception {
-        String connectionName = "ForceServiceConnectorConstructorTest.testGetConnectionFromCliforcePropertyFile";
-        ForceConnectorTestUtils.createCliforceConn(connectionName, createConnectionUrl());
-        
-        ForceServiceConnector connector = new ForceServiceConnector(connectionName);
-        verifyConnection(connector.getConnection());
-    }
-
     @Test
     public void testGetConnectionWithConfig() throws Exception {
         ForceConnectorConfig config = createConfig();
@@ -75,20 +60,20 @@ public class ForceServiceConnectorConstructorTest extends BaseForceServiceConnec
     @Test
     public void testGetConnectionWithEnvVarConnUrl() throws Exception {
         // FORCE_ENVVARCONN_URL is defined in pom file
-        ForceServiceConnector connector = new ForceServiceConnector("ENVVARCONN");
+        ForceServiceConnector connector = new ForceServiceConnector("${FORCE_ENVVARCONN_URL}");
         verifyConnection(connector.getConnection());
     }
     
     @Test
     public void testGetConnectionWithJavaPropConnUrl() throws Exception {
-        String connectionName = "testGetConnectionWithJavaPropConnUrl";
+        String connectionName = "force.testGetConnectionWithJavaPropConnUrl.url";
         try {
-            System.setProperty("force." + connectionName + ".url", createConnectionUrl());
+            System.setProperty(connectionName, createConnectionUrl());
             
-            ForceServiceConnector connector = new ForceServiceConnector(connectionName);
+            ForceServiceConnector connector = new ForceServiceConnector("${" + connectionName + "}");
             verifyConnection(connector.getConnection());
         } finally {
-            System.clearProperty("force." + connectionName + ".url");
+            System.clearProperty(connectionName);
         }
     }
 }

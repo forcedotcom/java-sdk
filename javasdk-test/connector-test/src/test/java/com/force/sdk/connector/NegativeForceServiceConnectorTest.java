@@ -26,13 +26,11 @@
 
 package com.force.sdk.connector;
 
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
-
-import org.testng.annotations.DataProvider;
+import com.sforce.ws.ConnectionException;
 import org.testng.annotations.Test;
 
-import com.sforce.ws.ConnectionException;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 /**
  * Negative functional tests for ForceServiceConnector.
@@ -62,9 +60,9 @@ public class NegativeForceServiceConnectorTest extends BaseForceServiceConnector
     @Test
     public void testEqualsSignInConnectionUrl() throws Exception {
         try {
-            System.setProperty("force.testMissingStateInConnectionUrl.url", "force://url?useruser&password=password");
+            System.setProperty("testMissingStateInConnectionUrl", "force://url?useruser&password=password");
             
-            ForceServiceConnector connector = new ForceServiceConnector("testMissingStateInConnectionUrl");
+            ForceServiceConnector connector = new ForceServiceConnector("${testMissingStateInConnectionUrl}");
             connector.getConnection();
         } catch (IllegalArgumentException expected) {
             assertTrue(expected.getMessage().contains("The ForceConnectionProperty (user) must have a value"));
@@ -73,34 +71,10 @@ public class NegativeForceServiceConnectorTest extends BaseForceServiceConnector
         }
     }
 
-    @DataProvider
-    protected Object[][] badPropertyFileProvider() {
-        // Test property files defined in /src/test/resources 
-        return new Object[][] {
-            {"funcconnbadtimeout", "timeout", "abc"},
-            {"funcconnmissingendpoint", "endpoint", null},
-        };
-    }
-
-    @Test(dataProvider = "badPropertyFileProvider")
-    public void testGetConnectionWithBadPropertyFile(String connectionName, String badProperty, String badValue)
-    throws Exception {
-        try {
-            ForceServiceConnector connector = new ForceServiceConnector(connectionName);
-            connector.getConnection();
-            fail("ForceServiceConnector.getConnection should have failed because property (" + badProperty + ") is bad");
-        } catch (IllegalArgumentException expected) {
-            assertTrue(expected.getMessage().contains(badProperty));
-            if (badValue != null) {
-                assertTrue(expected.getMessage().contains(badValue));
-            }
-        }
-    }
-
     @Test
     public void testNoEnvVariableOrJavaProperty() throws Exception {
         // No environment variable or java property with this name
-        ForceServiceConnector connector = new ForceServiceConnector("testNoEnvVariableOrJavaProperty");
+        ForceServiceConnector connector = new ForceServiceConnector("${testNoEnvVariableOrJavaProperty}");
         
         try {
             connector.getConnection();
@@ -108,8 +82,7 @@ public class NegativeForceServiceConnectorTest extends BaseForceServiceConnector
                     + " there are no registered env variables or java properties");
         } catch (ConnectionException expected) {
             assertTrue(expected.getMessage()
-                    .contains("Or create a classpath properties file, environment variable or java property"
-                                + " for the name 'testNoEnvVariableOrJavaProperty'"));
+                    .contains("Unable to load ForceConnectorConfig for name ${testNoEnvVariableOrJavaProperty}"));
         }
     }
 }

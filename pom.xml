@@ -9,7 +9,7 @@
   <groupId>com.force.sdk</groupId>
   <artifactId>force-sdk</artifactId>
   <name>force-sdk</name>
-  <version>22.0.6-SNAPSHOT</version>
+  <version>22.0.7-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>Database.com SDK for Java</description>
   <url>http://www.force.com/</url>

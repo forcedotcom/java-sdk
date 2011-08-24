@@ -13,6 +13,19 @@
 
 
   <build>
+      <plugins>
+          <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-surefire-plugin</artifactId>
+                 <configuration>
+                   <environmentVariables>
+                     <FORCE_ENV_URL>
+                       force://endpoint?oauth_key=key&amp;oauth_secret=123456
+                     </FORCE_ENV_URL>
+                   </environmentVariables>
+                 </configuration>
+               </plugin>
+  </plugins>
     <testResources>
       <testResource>
         <directory>${basedir}/src/test/resources</directory>
@@ -80,5 +93,6 @@
       <artifactId>testng</artifactId>
     </dependency>
   </dependencies>
+
 
 </project>

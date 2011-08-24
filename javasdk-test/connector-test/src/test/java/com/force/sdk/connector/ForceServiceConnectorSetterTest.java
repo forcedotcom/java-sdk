@@ -39,13 +39,6 @@ import static org.testng.Assert.assertEquals;
  */
 public class ForceServiceConnectorSetterTest extends BaseForceServiceConnectorTest {
 
-    @Test(dataProvider = "propertyFileConnNameProvider")
-    public void testGetConnectionFromPropertyFile(String connectionName) throws Exception {
-        ForceServiceConnector connector = new ForceServiceConnector();
-        connector.setConnectionName(connectionName);
-        verifyConnection(connector.getConnection());
-    }
-    
     @Test
     public void testGetConnectionWithConfig() throws Exception {
         ForceConnectorConfig config = createConfig();
@@ -59,21 +52,21 @@ public class ForceServiceConnectorSetterTest extends BaseForceServiceConnectorTe
     public void testGetConnectionWithEnvVarConnUrl() throws Exception {
         // FORCE_ENVVARCONN_URL is defined in pom file
         ForceServiceConnector connector = new ForceServiceConnector();
-        connector.setConnectionName("ENVVARCONN");
+        connector.setConnectionUrl("${FORCE_ENVVARCONN_URL}");
         verifyConnection(connector.getConnection());
     }
     
     @Test
     public void testGetConnectionWithJavaPropConnUrl() throws Exception {
-        String connectionName = "testGetConnectionWithJavaPropConnUrl";
+        String connectionUrl = "force.testGetConnectionWithJavaPropConnUrl.url";
         try {
-            System.setProperty("force." + connectionName + ".url", createConnectionUrl());
+            System.setProperty(connectionUrl , createConnectionUrl());
             
             ForceServiceConnector connector = new ForceServiceConnector();
-            connector.setConnectionName(connectionName);
+            connector.setConnectionUrl("${" + connectionUrl + "}");
             verifyConnection(connector.getConnection());
         } finally {
-            System.clearProperty("force." + connectionName + ".url");
+            System.clearProperty(connectionUrl);
         }
     }
     
