@@ -26,6 +26,9 @@
 
 package com.force.sdk.connector;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -38,9 +41,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Shared utilities for Force.com connectors.
@@ -125,6 +125,35 @@ public final class ForceConnectorUtils {
         }
 
         return apiEndpoint.toString();
+    }
+
+    public static boolean isEnvironmentVariable(String var) {
+        return var != null && var.startsWith("${") && var.endsWith("}");
+    }
+
+    public static String extractEnvironmentVariable(String var) {
+        if (var != null)  {
+            if(!var.startsWith("${") || !var.endsWith("}")) {
+                return null;
+            }
+
+            var = var.replace("${" , "");
+            var = var.substring(0, var.length() - 1);
+
+            if (var != null) {
+                if (System.getProperty(var) != null) {
+                    LOGGER.info("Connection : loading " + var + " from Java System Properties");
+                    return System.getProperty(var);
+                }
+
+                if (System.getenv(var) != null) {
+                    LOGGER.info("Connection : loading " + var + " from Environment Variables");
+                    return System.getenv(var);
+                }
+            }
+        }
+
+        return null;
     }
 
     /**

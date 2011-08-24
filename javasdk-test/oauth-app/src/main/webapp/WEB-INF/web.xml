@@ -37,8 +37,8 @@
         <filter-name>DefaultFilter</filter-name>
         <filter-class>com.force.sdk.oauth.AuthFilter</filter-class>
              <init-param>
-                <param-name>connectionName</param-name>
-                <param-value>integrationserver</param-value>
+                <param-name>connectionUrl</param-name>
+                <param-value>${integrationserver.url}</param-value>
             </init-param>
              <init-param>
                 <param-name>secure-key-file</param-name>
@@ -59,8 +59,8 @@
         <filter-name>FilterA</filter-name>
         <filter-class>com.force.sdk.oauth.AuthFilter</filter-class>
              <init-param>
-                <param-name>connectionName</param-name>
-                <param-value>integrationserver</param-value>
+                 <param-name>connectionUrl</param-name>
+                 <param-value>${integrationserver.url}</param-value>
             </init-param>
              <init-param>
                 <param-name>secure-key-file</param-name>
@@ -91,8 +91,8 @@
         <filter-name>FilterB</filter-name>
         <filter-class>com.force.sdk.oauth.AuthFilter</filter-class>
              <init-param>
-                <param-name>connectionName</param-name>
-                <param-value>integrationserver</param-value>
+                 <param-name>connectionUrl</param-name>
+                 <param-value>${integrationserver.url}</param-value>
             </init-param>
              <init-param>
                 <param-name>secure-key-file</param-name>

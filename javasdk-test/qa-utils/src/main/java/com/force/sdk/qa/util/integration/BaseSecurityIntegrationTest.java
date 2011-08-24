@@ -60,7 +60,7 @@ public abstract class BaseSecurityIntegrationTest extends BaseContainerTest {
     protected final String mockOauthKey = "123";
     protected final String mockOauthSecret = "456";
     protected final String mockSfdcEndpoint = "localhost:" + port + "/force-mock-oauth-server-app";
-    protected final String forceUrlPropName = "force.integrationserver.url";
+    protected final String forceUrlPropName = "integrationserver.url";
     protected final String mockAuthCode = "789";
     protected final String useMockApi = "mockapi";
 

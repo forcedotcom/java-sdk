@@ -124,6 +124,46 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
     }
     
     @Test
+    public void testOAuthLoginRedirectWithCustomEnvVariable() throws Exception {
+        // Initialize the filter with an environment variable name
+        MockFilterConfig filterConfig = new MockFilterConfig();
+        filterConfig.addInitParameter("url", "${FORCE_CONNURLENVVAR_URL}"); // FORCE_CONNURLENVVAR_URL is set in pom file
+
+        testOAuthLoginRedirectInternal(filterConfig);
+    }
+
+    @Test
+    public void testOAuthLoginRedirectWithCustomJavaProperty() throws Exception {
+        // Initialize the filter with an environment variable name
+        try {
+            System.setProperty("custom.force.connection", createConnectionUrl());
+
+            MockFilterConfig filterConfig = new MockFilterConfig();
+            filterConfig.addInitParameter("url", "${custom.force.connection}");
+
+            testOAuthLoginRedirectInternal(filterConfig);
+        } finally {
+            System.clearProperty("custom.force.connection");
+        }
+    }
+
+    @Test
+    public void testUrlConfigOrder() throws Exception {
+        // Initialize the filter with an environment variable name
+        try {
+            // pom file creates an env variable with same name but invalid url.
+            System.setProperty("FORCE_URL_ORDER_TEST", createConnectionUrl());
+
+            MockFilterConfig filterConfig = new MockFilterConfig();
+            filterConfig.addInitParameter("url", "${FORCE_URL_ORDER_TEST}");
+
+            testOAuthLoginRedirectInternal(filterConfig);
+        } finally {
+            System.clearProperty("FORCE_URL_ORDER_TEST");
+        }
+    }
+
+    @Test
     public void testOAuthLoginRedirectWithJavaProperty() throws Exception {
         try {
             System.setProperty("force.filterWithConnUrlJavaProperty.url", createConnectionUrl());
