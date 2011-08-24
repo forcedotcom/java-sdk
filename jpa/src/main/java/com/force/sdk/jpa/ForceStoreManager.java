@@ -86,8 +86,8 @@ public class ForceStoreManager extends AbstractStoreManager {
     {
         String connectionUrl = super.getConnectionURL();
 
-        if (ForceConnectorUtils.isEnvironmentVariable(connectionUrl)) {
-            connectionUrl = ForceConnectorUtils.extractEnvironmentVariable(connectionUrl);
+        if (ForceConnectorUtils.isInjectable(connectionUrl)) {
+            connectionUrl = ForceConnectorUtils.extractValue(connectionUrl);
             if (connectionUrl == null || connectionUrl.equals("")) {
                 throw new IllegalArgumentException("Unable to load ForceConnectorConfig from environment or system property "
                         + super.getConnectionURL());

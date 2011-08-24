@@ -157,8 +157,8 @@ public class AuthFilter implements Filter, SessionRenewer {
             connInfo = new ForceOAuthConnectionInfo();
 
             String connectionUrl = config.getInitParameter("url");
-            if (ForceConnectorUtils.isEnvironmentVariable(connectionUrl)) {
-                connectionUrl = ForceConnectorUtils.extractEnvironmentVariable(connectionUrl);
+            if (ForceConnectorUtils.isInjectable(connectionUrl)) {
+                connectionUrl = ForceConnectorUtils.extractValue(connectionUrl);
                 if (connectionUrl == null || connectionUrl.equals("")) {
                     throw new IllegalArgumentException("Unable to load ForceConnectorConfig from environment or system property "
                             + config.getInitParameter("url"));

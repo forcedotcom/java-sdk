@@ -37,7 +37,7 @@
         <filter-name>DefaultFilter</filter-name>
         <filter-class>com.force.sdk.oauth.AuthFilter</filter-class>
              <init-param>
-                <param-name>connectionUrl</param-name>
+                <param-name>url</param-name>
                 <param-value>${integrationserver.url}</param-value>
             </init-param>
              <init-param>
@@ -59,7 +59,7 @@
         <filter-name>FilterA</filter-name>
         <filter-class>com.force.sdk.oauth.AuthFilter</filter-class>
              <init-param>
-                 <param-name>connectionUrl</param-name>
+                 <param-name>url</param-name>
                  <param-value>${integrationserver.url}</param-value>
             </init-param>
              <init-param>
@@ -91,7 +91,7 @@
         <filter-name>FilterB</filter-name>
         <filter-class>com.force.sdk.oauth.AuthFilter</filter-class>
              <init-param>
-                 <param-name>connectionUrl</param-name>
+                 <param-name>url</param-name>
                  <param-value>${integrationserver.url}</param-value>
             </init-param>
              <init-param>

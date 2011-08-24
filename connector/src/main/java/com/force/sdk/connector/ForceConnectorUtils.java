@@ -127,11 +127,11 @@ public final class ForceConnectorUtils {
         return apiEndpoint.toString();
     }
 
-    public static boolean isEnvironmentVariable(String var) {
+    public static boolean isInjectable(String var) {
         return var != null && var.startsWith("${") && var.endsWith("}");
     }
 
-    public static String extractEnvironmentVariable(String var) {
+    public static String extractValue(String var) {
         if (var != null)  {
             if(!var.startsWith("${") || !var.endsWith("}")) {
                 return null;
