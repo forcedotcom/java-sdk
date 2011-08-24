@@ -44,7 +44,7 @@
 	    <property name="datanucleus.datastoreTransactionDelayOperations" value="true"/>
 	    <property name="datanucleus.jpa.addClassTransformer" value="false" />
 	    <property name="datanucleus.cache.level2.type" value="none"/>
-	    <property name="force.ConnectionName" value="force-sdk-test"/>
+        <property name="datanucleus.ConnectionURL" value="${CUSTOM_ENVURL}" />
 	  </properties>
 	</persistence-unit>
 	<!-- testDNJpaPersistence2 is used for optimistic transactions -->

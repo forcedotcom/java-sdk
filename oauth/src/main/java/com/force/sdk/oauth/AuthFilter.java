@@ -32,6 +32,7 @@ import java.security.Principal;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+import com.force.sdk.connector.ForceConnectorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -154,7 +155,17 @@ public class AuthFilter implements Filter, SessionRenewer {
             oauthConnector.setConnectionInfo(connInfo);
         } else if (config.getInitParameter("url") != null) {
             connInfo = new ForceOAuthConnectionInfo();
-            connInfo.setConnectionUrl(config.getInitParameter("url"));
+
+            String connectionUrl = config.getInitParameter("url");
+            if (ForceConnectorUtils.isInjectable(connectionUrl)) {
+                connectionUrl = ForceConnectorUtils.extractValue(connectionUrl);
+                if (connectionUrl == null || connectionUrl.equals("")) {
+                    throw new IllegalArgumentException("Unable to load ForceConnectorConfig from environment or system property "
+                            + config.getInitParameter("url"));
+                }
+            }
+
+            connInfo.setConnectionUrl(connectionUrl);
             oauthConnector.setConnectionInfo(connInfo);
         } else if (config.getInitParameter("connectionName") != null) {
             oauthConnector.setConnectionName(config.getInitParameter("connectionName"));

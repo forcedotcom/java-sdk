@@ -28,7 +28,7 @@
 
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="springsecurity-endtoend-integration-tests" verbose="7">
+<suite name="oauth-endtoend-integration-tests" verbose="7">
   <parameter name="testType" value="ENDTOEND"/>
   
   <listeners>

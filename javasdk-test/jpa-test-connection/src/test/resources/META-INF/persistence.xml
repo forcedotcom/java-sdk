@@ -48,15 +48,33 @@
       <property name="force.skipConfigCache" value="true"/>
     </properties>
   </persistence-unit>
-  
-  <persistence-unit name="connUrlJavaProp">
+
+  <persistence-unit name="connUrlEnvVar2">
     <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
     <properties>
       <property name="datanucleus.storeManagerType" value="force"/>
+      <property name="datanucleus.ConnectionURL" value="${FORCE_CONNURLENVVAR_URL}" />
       <property name="force.skipConfigCache" value="true"/>
     </properties>
   </persistence-unit>
+
+    <persistence-unit name="connUrlJavaProp">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="force.skipConfigCache" value="true"/>
+      </properties>
+    </persistence-unit>
   
+    <persistence-unit name="connUrlJavaProp2">
+      <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
+      <properties>
+        <property name="datanucleus.storeManagerType" value="force"/>
+        <property name="datanucleus.ConnectionURL" value="${custom.url}" />
+        <property name="force.skipConfigCache" value="true"/>
+      </properties>
+    </persistence-unit>
+
   <persistence-unit name="connUrlPersistenceProp">
     <provider>com.force.sdk.jpa.PersistenceProviderImpl</provider>
     <properties>
@@ -146,5 +164,4 @@
       <property name="force.skipConfigCache" value="true"/>
     </properties>
   </persistence-unit>
-  
 </persistence>

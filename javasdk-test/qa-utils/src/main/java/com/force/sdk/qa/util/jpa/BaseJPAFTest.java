@@ -27,11 +27,14 @@
 package com.force.sdk.qa.util.jpa;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 import java.util.Properties;
 
 import javax.persistence.*;
 
+import com.force.sdk.connector.ForceConnectorUtils;
 import org.datanucleus.ObjectManager;
 import org.datanucleus.ObjectManagerImpl;
 import org.datanucleus.store.connection.ConnectionFactory;
@@ -70,10 +73,35 @@ public abstract class BaseJPAFTest implements ITest {
      */
     @BeforeClass
     protected final void initialize() throws Exception {
+        System.setProperty("jpaConnection", getConnectionUrl());
+
         createStaticEntityMangers();
         populateTestContext(getTestName(), UserInfo.loadFromPropertyFile(PropsUtil.FORCE_SDK_TEST_NAME));
         ForceServiceConnector connector = new ForceServiceConnector(PropsUtil.FORCE_SDK_TEST_NAME);
         service = connector.getConnection();
+    }
+
+    private String getConnectionUrl() throws IOException {
+        URL propsFileUrl = ForceConnectorUtils.class.getResource("/" + "force-sdk-test.properties");
+        if (propsFileUrl == null) {
+            throw new IllegalArgumentException("force-sdk-test.properties is not on classpath.");
+        }
+
+        Properties connectorProps = new Properties();
+        InputStream is = null;
+        try {
+            is = propsFileUrl.openStream();
+            connectorProps.load(is);
+        } finally {
+            if (is != null) is.close();
+        }
+
+        return connectorProps.getProperty("url");
+    }
+
+    @AfterClass
+    public void cleanUp() throws Exception {
+        System.clearProperty("jpaConnection");
     }
 
     protected void createStaticEntityMangers() throws Exception {

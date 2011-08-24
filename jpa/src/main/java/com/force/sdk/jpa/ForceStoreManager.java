@@ -26,11 +26,12 @@
 
 package com.force.sdk.jpa;
 
-import java.lang.reflect.Field;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
+import com.force.sdk.connector.ForceConnectorConfig;
+import com.force.sdk.connector.ForceConnectorUtils;
+import com.force.sdk.jpa.schema.ForceSchemaWriter;
+import com.force.sdk.jpa.schema.ForceStoreSchemaHandler;
+import com.force.sdk.jpa.schema.SchemaDeleteProperty;
+import com.force.sdk.jpa.table.TableImpl;
 import org.datanucleus.ClassLoaderResolver;
 import org.datanucleus.OMFContext;
 import org.datanucleus.PersistenceConfiguration;
@@ -41,11 +42,10 @@ import org.datanucleus.store.AbstractStoreManager;
 import org.datanucleus.store.ExecutionContext;
 import org.datanucleus.store.NucleusConnection;
 
-import com.force.sdk.connector.ForceConnectorConfig;
-import com.force.sdk.jpa.schema.ForceSchemaWriter;
-import com.force.sdk.jpa.schema.ForceStoreSchemaHandler;
-import com.force.sdk.jpa.schema.SchemaDeleteProperty;
-import com.force.sdk.jpa.table.TableImpl;
+import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 
@@ -77,7 +77,26 @@ public class ForceStoreManager extends AbstractStoreManager {
     private ForceSchemaWriter schemaWriter;
     private final boolean forDelete;
     private final boolean schemaCreateClient;
-    
+
+    /**
+     * Looks into system variable and environment variables if url is in ${...} format.
+     * @return Connection URL
+     */
+    public String getConnectionURL()
+    {
+        String connectionUrl = super.getConnectionURL();
+
+        if (ForceConnectorUtils.isInjectable(connectionUrl)) {
+            connectionUrl = ForceConnectorUtils.extractValue(connectionUrl);
+            if (connectionUrl == null || connectionUrl.equals("")) {
+                throw new IllegalArgumentException("Unable to load ForceConnectorConfig from environment or system property "
+                        + super.getConnectionURL());
+            }
+        }
+
+        return connectionUrl;
+    }
+
     /**
      * Creates a store manager for use with the Force.com API. Set up the API connection
      * configs, set some default properties and read in values from persistence.xml
@@ -91,6 +110,9 @@ public class ForceStoreManager extends AbstractStoreManager {
         super(FORCE_KEY, clr, omfContext);
     
         String endpoint = getConnectionURL();
+
+
+
         
         // Grab the connection information from persistence.xml.  If none exists,
         // we'll use the unit name (see ForceMetaDataManager.loadPersistenceUnit

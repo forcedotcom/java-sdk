@@ -26,15 +26,13 @@
 
 package com.force.sdk.jpa.connection;
 
-import java.util.Collections;
-import java.util.Map;
+import com.force.sdk.connector.ForceConnectorTestUtils;
+import org.testng.annotations.Test;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
-import org.testng.annotations.Test;
-
-import com.force.sdk.connector.ForceConnectorTestUtils;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * Basic tests for JPA connections.
@@ -53,6 +51,15 @@ public class BasicJPAConnectionTest extends BaseJPAConnectionTest {
         verifyEntityManager(emf.createEntityManager());
     }
     
+    // NOTE: This test is not going to pass in STS.  You have to execute from the command line.
+    @Test
+    public void testConnFromCustomEnvironmentVariable() throws Exception {
+        // FORCE_CONNURLENVVAR_URL is defined in pom.xml
+        // See connUrlEnvVar2 persistence-unit in persistence.xml. The config is read as : ${FORCE_CONNURLENVVAR_URL}
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("connUrlEnvVar2");
+        verifyEntityManager(emf.createEntityManager());
+    }
+
     @Test
     public void testConnFromConnUrlJavaProperty() throws Exception {
         // See connUrlJavaProp persistence-unit in persistence.xml
@@ -66,6 +73,19 @@ public class BasicJPAConnectionTest extends BaseJPAConnectionTest {
         }
     }
     
+    @Test
+    public void testConnFromCustomJavaProperty() throws Exception {
+        // See connUrlJavaProp persistence-unit in persistence.xml
+        try {
+            System.setProperty("custom.url", createConnectionUrl());
+
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("connUrlJavaProp2");
+            verifyEntityManager(emf.createEntityManager());
+        } finally {
+            System.clearProperty("custom.url");
+        }
+    }
+
     @Test
     public void testConnFromConnUrlPersistenceProperty() throws Exception {
         // See connUrlPersistenceProp persistence-unit in persistence.xml
