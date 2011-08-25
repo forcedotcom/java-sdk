@@ -99,11 +99,6 @@ public abstract class BaseJPAFTest implements ITest {
         return connectorProps.getProperty("url");
     }
 
-    @AfterClass
-    public void cleanUp() throws Exception {
-        System.clearProperty("jpaConnection");
-    }
-
     protected void createStaticEntityMangers() throws Exception {
         emfac = Persistence.createEntityManagerFactory(TestContext.get().getPersistenceUnitName());
         em = emfac.createEntityManager();
@@ -122,6 +117,7 @@ public abstract class BaseJPAFTest implements ITest {
     @AfterTest(alwaysRun = true)
     protected void testTeardown() throws Exception {
         cleanSchema();
+        System.clearProperty("jpaConnection");
     }
 
     protected void cleanSchema() throws Exception {

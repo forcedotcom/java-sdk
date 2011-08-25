@@ -82,8 +82,7 @@ public class ForceStoreManager extends AbstractStoreManager {
      * Looks into system variable and environment variables if url is in ${...} format.
      * @return Connection URL
      */
-    public String getConnectionURL()
-    {
+    public String getConnectionURL() {
         String connectionUrl = super.getConnectionURL();
 
         if (ForceConnectorUtils.isInjectable(connectionUrl)) {
