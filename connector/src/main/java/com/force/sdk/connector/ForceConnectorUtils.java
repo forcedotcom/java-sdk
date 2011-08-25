@@ -130,8 +130,8 @@ public final class ForceConnectorUtils {
     /**
      * Returns true if var has some value enclosed in ${ and }; which means that user intended the value to be injected from
      * system variables or environment variables.
-     * @param var
-     * @return true if injectable.
+     * @param var any string.
+     * @return true if var is enclosed by ${ and }
      */
     public static boolean isInjectable(String var) {
         return var != null && var.startsWith("${") && var.endsWith("}");
@@ -140,7 +140,7 @@ public final class ForceConnectorUtils {
     /**
      * This method will fetch and return the value of 'var' from system variables and if not found in system variables
      * then in environment variables.
-     * @param var
+     * @param var name of var enclosed by ${ and }
      * @return value of var
      */
     public static String extractValue(String var) {
