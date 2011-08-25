@@ -45,35 +45,24 @@ The main customizations of interest are:
 - Add the \<fss:oauth /> tag
 - Add the \<security:http /> tag. For more information about this tag, see [Spring Security documentation][ss].
 
-The \<oauth /> tag requires that you provide OAuth properties.  This can be done using an &lt;oauthInfo/>, &lt;connectionUrl/>, or &lt;connectionName /> tag. Note that these tags are mutually exclusive and you can't provide more than one or you will receive an error on application startup. 
-
-**&lt;oauthInfo/>** tag.  This tag allows you to specify an <code>endpoint</code>, <code>oauthKey</code> and <code>oauthSecret</code> as separate attributes. For example:
+The \<oauth /> tag requires that you provide OAuth properties using `connectionUrl` tag. For example:
 
 	<fss:oauth>
-		<fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="${oauthKey}" oauth-secret="${oauthSecret}" />
-	</fss:oauth>
-
-**&lt;connectionUrl/>** tag.  This tag allows you to combine the <code>endpoint</code>, <code>oauthKey</code> and <code>oauthSecret</code> properties into one connection URL.  For example:
-
-	<fss:oauth>
-        <fss:connectionUrl url="force://login.salesforce.com;oauth_key=${oauthKey};oauth_secret=${oauthSecret}" />
+        <fss:connectionUrl url="force://login.salesforce.com;oauth_key=sampleKey;oauth_secret=sampleSecret" />
     </fss:oauth>
 
-**&lt;connectionName />** tag.  This tag allows you to define OAuth properties elsewhere and have them looked up by name.  OAuth properties can be stored as an environment variable, or a Java system property, or a properties file on the classpath.  For more information, see [Database.com Database Connections](connection-url). For example:
+It is better to configure the connection URL as a system property or environment varialbe and enable placeholder configurer by including the following tag in your application context xml: 
 
-    SET FORCE_MYCONNECTOR_URL=force://${endpoint}?oauth_key=${oauthKey}&oauth_secret=${oauth_secret}
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" />
 
-    <!-- Uses the connection URL in the FORCE_MYCONNECTOR_URL environment variable -->
+    <!-- Uses the connection URL in the FORCE_MYCONNECTOR_URL environment variable or Java system property -->
     <fss:oauth>
-        <fss:connectionName name="myconnector" />
+        <fss:connectionUrl url="${FORCE_MYCONNECTOR_URL}" />
     </fss:oauth>
 
-In these samples, substitute values from your remote access application for the following variables:
+The `PropertyPlaceholderConfigurer` will look for `FORCE_MYCONNECTOR_URL` in the system properties and if not found there then in environment variables.
 
-- ${oauthKey} - Specifies the consumer key for the application.
-- ${oauthSecret} - Specifies the consumer secret for the application.
-
-For more information about remote access applications, see [Creating a Database.com Remote Access Application](oauth-auth#createRAA).
+There are also [some other options](deprecated-spring) to specify connection URL but they will be be deprecated.
 
 The following attributes are optional for &lt;fss:oauth> in `spring-configuration.xml`:
 

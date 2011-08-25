@@ -29,14 +29,16 @@ You'll now see your application in the list of remote access applications. Click
 ### Configuring the Force.com OAuth Connector
 
 To use the connector, add the following servlet filter to your application's `web.xml` file:
+You can set the connection URL in the `<param-value>` for the **url** `<param-name>`or you can reference a system property or environment variable that contains the connection URL by setting `<param-value>` to ${CONNECTION_URL}. The AuthFilter will look for the URL in a system property and if not found there then in environment variable. 
+
 
 	<!-- Enables Security -->
 	<filter>
 		<filter-name>AuthFilter</filter-name>
 		<filter-class>com.force.sdk.oauth.AuthFilter</filter-class>
 			 <init-param>
-			 	<param-name>connectionName</param-name>
-			 	<param-value>nameOfConnectionToUse</param-value>
+			 	<param-name>url</param-name>
+			 	<param-value>URL or either an environment variable or a system variable enclosed in ${}</param-value>
 			</init-param>
 
 
