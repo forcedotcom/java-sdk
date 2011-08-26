@@ -85,7 +85,7 @@ public class ForceMetaDataManager extends JPAMetaDataManager {
         }
 
         ForceStoreManager storeManager = (ForceStoreManager) omfContext.getStoreManager();
-        if (storeManager.isSchemaCreateClient()) {
+//        if (storeManager.isSchemaCreateClient()) {
             /**
              * DataNucleus does not automatically initialize classes from jars.
              * When we are working with schema and we are using an existing artifact jar we have to
@@ -105,7 +105,7 @@ public class ForceMetaDataManager extends JPAMetaDataManager {
             if (loader == null) {
                 loader = Thread.currentThread().getContextClassLoader();
             }
-        }
+//        }
         
         // The ForceOwner entity is provided by force-jpa
         // so make sure it is loaded for all persistence units
