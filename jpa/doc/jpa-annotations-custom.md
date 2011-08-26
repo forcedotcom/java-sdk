@@ -116,7 +116,7 @@ relationship names, see the <cite><a href="http://www.salesforce.com/us/develope
 
 <td width="41.06728538283062%" >Description of the field.</td>
 
-<td width="23.665893271461716%" >""</td>
+<td width="23.665893271461716%" ></td>
 
 </tr>
 
@@ -152,7 +152,7 @@ is an external ID field (true) or not (false).</td>
 
 <td width="41.06728538283062%" >Label for the field.</td>
 
-<td width="23.665893271461716%" >""</td>
+<td width="23.665893271461716%" ></td>
 
 </tr>
 
@@ -174,7 +174,7 @@ is an external ID field (true) or not (false).</td>
 
 <td width="41.06728538283062%" >The name of the field used for API access.</td>
 
-<td width="23.665893271461716%" >""</td>
+<td width="23.665893271461716%" ></td>
 
 </tr>
 

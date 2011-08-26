@@ -6,20 +6,20 @@ title: Data Type Mappings
 ---
 # Data Type Mappings
 
-Force.com has its own built-in list of data types optimized for building business applications. This section describes how the Database.com JPA provider maps Java data types to Force.com types and vice versa.
+Database.com has its own built-in list of data types optimized for building business applications. This section describes how the Database.com JPA provider maps Java data types to Database.com types and vice versa.
 
-## Mapping Java to Force.com Data Types
+## Mapping Java to Database.com Data Types
 
-This table maps commonly used Java data types to data types in Force.com. It shows which Force.com data type is created when you use a Java data type. This table is intended as a quick reference for Java developers who are not familiar with data types in Force.com.
+This table maps commonly used Java data types to data types in Database.com. It shows which Database.com data type is created when you use a Java data type. This table is intended as a quick reference for Java developers who are not familiar with data types in Database.com.
 
-Some of the Force.com data types are created with length or precision constraints. The <code>@Column</code> annotations in the Standard JPA Annotation column represent the default constraints that are implied for each data type. You don't have to add the <code>@Column</code> standard JPA annotation when you add a Java field, but the field behaves as if they are present. You can add annotations if you want to modify the default constraints.
+Some of the Database.com data types are created with length or precision constraints. The <code>@Column</code> annotations in the Standard JPA Annotation column represent the default constraints that are implied for each data type. You don't have to add the <code>@Column</code> standard JPA annotation when you add a Java field, but the field behaves as if they are present. You can add annotations if you want to modify the default constraints.
 
 <table cellpadding="4" cellspacing="0" border="1">
 <thead align="left">
 <tr>
 <th width="25.581395348837205%" >Java Data Type</th>
 
-<th width="37.20930232558139%" >Force.com Data Type</th>
+<th width="37.20930232558139%" >Database.com Data Type</th>
 
 <th width="37.20930232558139%" >Standard JPA Annotation</th>
 
@@ -281,9 +281,9 @@ to the right of the decimal point in a number. For example, the number
 <b>Note:</b> The sum of the precision and scale can't exceed 18. If it does, the precision is automatically reduced so that the sum satisfies that limit.</p>
 
 <a name="mapForceToJava"> </a>
-## Mapping Force.com to Java Data Types
+## Mapping Database.com to Java Data Types
 
-This table maps Force.com data types to Java data types. It shows which Java data types are allowed for each Java data type. Some Force.com data types can map to more than one Java data type. This table is intended as a quick reference for Java developers who are familiar with data types in Force.com and want to see how they map to data types in Java and JPA.
+This table maps Database.com data types to Java data types. It shows which Java data types are allowed for each Java data type. Some Database.com data types can map to more than one Java data type. This table is intended as a quick reference for Java developers who are familiar with data types in Database.com and want to see how they map to data types in Java and JPA.
 
 The table includes a column for the standard JPA annotation used for each data type.
 
@@ -291,7 +291,7 @@ The table includes a column for the standard JPA annotation used for each data t
 <table cellpadding="4" cellspacing="0" border="1">
 <thead align="left">
 <tr>
-<th width="22.669491525423734%" >Force.com Data Type</th>
+<th width="22.669491525423734%" >Database.com Data Type</th>
 
 <th width="18.43220338983051%" >Java Data Type</th>
 

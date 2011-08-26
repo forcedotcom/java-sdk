@@ -62,7 +62,7 @@ public class NegativeForceServiceConnectorTest extends BaseForceServiceConnector
     @Test
     public void testEqualsSignInConnectionUrl() throws Exception {
         try {
-            System.setProperty("force.testMissingStateInConnectionUrl.url", "force://url;useruser;password=password");
+            System.setProperty("force.testMissingStateInConnectionUrl.url", "force://url?useruser&password=password");
             
             ForceServiceConnector connector = new ForceServiceConnector("testMissingStateInConnectionUrl");
             connector.getConnection();

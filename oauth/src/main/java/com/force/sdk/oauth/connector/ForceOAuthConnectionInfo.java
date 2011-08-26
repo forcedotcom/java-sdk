@@ -87,7 +87,7 @@ public class ForceOAuthConnectionInfo {
         if (propMap == null || propMap.size() < MIN_CONN_URL_PROPS) {
             throw new IllegalArgumentException("The connection url (" + connectionUrl + ") must contain at least three parts. "
                                                + "It should be in the form "
-                                               + "force://<endPoint>;oauth_key=<oauthKey>;oauth_secret=<oauthSecret>");
+                                               + "force://<endPoint>?oauth_key=<oauthKey>&oauth_secret=<oauthSecret>");
         }
         
         setPropsFromMap(propMap, connectionUrl);

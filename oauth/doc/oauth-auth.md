@@ -72,14 +72,14 @@ To use the connector, add the following servlet filter to your application's `we
 The OAuth Connector uses the Force.com API Connector to access the Force.com APIs. The <code>connectionName</code> is used to look up OAuth properties defined in an environment variable, or a Java system property, or in a properties file on the classpath. For example, if you use a <code>connectionName</code> of `forceDatabase`, you can encode the connection information in a connection URL set in the FORCE\_*FORCEDATABASE*\_URL environment variable:
 
 <pre>
-  <code>force://login.salesforce.com;user=<em>user@salesforcedoc.org</em>;password=<em>samplePassword</em>;oauth_key=<em>3MVG9lKcPoNINVBLqaGC0WiLS7H9aehOXaZad80Ve1OB43i.DpfCjn_SqwIAtyY6Lnuzcvdxgzu.IAaLVk4pH.</em>;oauth_secret=<em>516990866494775428</em></code>
+  <code>force://login.salesforce.com?user=<em>user@salesforcedoc.org</em>&password=<em>samplePassword</em>&oauth_key=<em>3MVG9lKcPoNINVBLqaGC0WiLS7H9aehOXaZad80Ve1OB43i.DpfCjn_SqwIAtyY6Lnuzcvdxgzu.IAaLVk4pH.</em>&oauth_secret=<em>516990866494775428</em></code>
 </pre>
 
 For more information about setting up connection URLs, see [Force.com Database Connections](connection-url).
 
 Other <code>init-param</code> values can be configured to customize behavior:
 
-- <code>securityContextStorageMethod</code> - Control whether data about the authenticated user is stored in a server side session or an encrypted browser cookie. The default is <code>cookie</code>. Set this to <code>session</code> to use sessions. Sessions should only be used if sticky load balancing is available or if the application runs with a single instance.
+- <code>securityContextStorageMethod</code> - Controls whether data about the authenticated user is stored in a server side session or an encrypted browser cookie. The default is <code>cookie</code>. Set this to <code>session</code> to use sessions. Sessions should only be used if sticky load balancing is available or if the application runs with a single instance.
 - <code>secure-key-file</code> - AES encryption is used to encrypt the data about the authenticated user when it is stored in a browser cookie. This is only used if browser cookie storage is on. If cookies are used and no file is specified, a key is automatically generated. However, this should only be done for development purposes because it will be problematic in a multi-instance deployment since each instance will generate a different key. The key is base-64 encoded. For example, replace *yourKeyGoesHere* with a secure key in the following file. For more information on AES, see [Using AES with Java Technology](http://java.sun.com/developer/technicalArticles/Security/AES/AES_v1.html).
 
         # A valid key in base 64 encoding.   
@@ -91,12 +91,12 @@ Other <code>init-param</code> values can be configured to customize behavior:
 
 - <code>logoutUrl</code> - the URL that logs a user out. You should point your logout links to this URL. The default is  `/logout`. If you set <code>logoutFromDatabaseDotCom</code> to `false`, you should create your own logout landing page at this URL. Note: A logged out user will always go to the logout landing page hosted at the logout URL. We recommend putting a page there even if you use the automatic logout from Database.com. This will prevent a user from getting an error when using their browser's back button.
 
-The <code>filter-mapping</code> element above contains a url-pattern of "/\*". This redirects every URL through the filter. It is not required to do this. If your application requires only certain URL patterns to be authenticated, you can configure the filter to match a subset of requests. However, the filter must always include the "/\_auth\*" URL pattern. Otherwise, the OAuth callback won't be properly handled. For example, if you only wanted to check for authentication for "/Secure" your configuration would look like this:
+The <code>filter-mapping</code> element above contains a url-pattern of "/\*". This redirects every URL through the filter. It is not required to do this. If your application requires only certain URL patterns to be authenticated, you can configure the filter to match a subset of requests. However, the filter must always include the "/\_auth" URL pattern. Otherwise, the OAuth callback won't be properly handled. For example, if you only wanted to check for authentication for "/Secure" your configuration would look like this:
 
 	<filter-mapping>
 		<filter-name>AuthFilter</filter-name>
 		<url-pattern>/Secure</url-pattern>
-		<url-pattern>/_auth*</url-pattern>
+		<url-pattern>/_auth</url-pattern>
 		<url-pattern>/logout</url-pattern>
 	</filter-mapping>
 

@@ -26,14 +26,12 @@
 
 package com.force.sdk.springsecurity.config;
 
-import static mockit.Deencapsulation.invoke;
-import static org.testng.Assert.*;
-
-import java.net.MalformedURLException;
-import java.util.*;
-
-import javax.servlet.Filter;
-
+import com.force.sdk.oauth.connector.ForceOAuthConnectionInfo;
+import com.force.sdk.oauth.connector.ForceOAuthConnector;
+import com.force.sdk.oauth.context.store.AESUtil;
+import com.force.sdk.oauth.userdata.UserDataRetrievalService;
+import com.force.sdk.springsecurity.AuthenticationProcessingFilter;
+import com.force.sdk.springsecurity.ForceConnectionStorageFilter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.web.FilterChainProxy;
@@ -44,12 +42,14 @@ import org.testng.SkipException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.force.sdk.oauth.connector.ForceOAuthConnectionInfo;
-import com.force.sdk.oauth.connector.ForceOAuthConnector;
-import com.force.sdk.oauth.context.store.AESUtil;
-import com.force.sdk.oauth.userdata.UserDataRetrievalService;
-import com.force.sdk.springsecurity.AuthenticationProcessingFilter;
-import com.force.sdk.springsecurity.ForceConnectionStorageFilter;
+import javax.servlet.Filter;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static mockit.Deencapsulation.invoke;
+import static org.testng.Assert.*;
 
 /**
  * Unit tests for the OAuthBeanDefinitionParser.
@@ -98,10 +98,28 @@ public class OAuthBeanDefinitionParserTest {
         
         verifyAllFiltersArePresent(context);
     }
-    
-    @Test
-    public void testParseConnectionUrl() {
-        String configLocation = "security-config-ns-connUrl.xml";
+
+    @DataProvider
+    public Object[][] connectionUrlXml() throws NumberFormatException, MalformedURLException {
+        Object [][] params = new Object[][]{
+                {"security-config-ns-connUrl.xml", false},
+                {"security-config-ns-connUrl-env.xml", false },
+                {"security-config-ns-connUrl-javaprop.xml", true},
+        };
+
+        return params;
+    }
+
+    @Test(dataProvider = "connectionUrlXml")
+    public void testParseConnectionUrl(String configLocation, boolean systemVariabe) {
+        if (systemVariabe) {
+            System.setProperty("CUSTOM_JAVA_VAR_URL", System.getenv("CUSTOM_ENV_URL"));
+        }
+
+        verifyConnectionUrlMethod(configLocation);
+    }
+
+    private void verifyConnectionUrlMethod(String configLocation) {
         ApplicationContext context = new ClassPathXmlApplicationContext(configLocation);
         assertTrue(context.containsBean("oauthConnectionInfo"),
                     "Could not find oauthConnectionInfo bean after parsing " + configLocation);
@@ -113,24 +131,24 @@ public class OAuthBeanDefinitionParserTest {
                     "Could not find rememberMeFilter bean after parsing " + configLocation);
         assertTrue(context.containsBean("connectionStorageFilter"),
                     "Could not find connectionStorageFilter bean after parsing " + configLocation);
-        
+
         ForceOAuthConnectionInfo connInfo = context.getBean("oauthConnectionInfo", ForceOAuthConnectionInfo.class);
         ForceOAuthConnector connector = context.getBean("oauthConnector", ForceOAuthConnector.class);
         UserDataRetrievalService userDataRetrievalService =
             context.getBean("userDataRetrievalService", UserDataRetrievalService.class);
-        
+
         assertTrue(userDataRetrievalService.isStoreUsername(),
                 "store-user-name was set to true so the storeUsername value "
                     + "on the user data retrieval service should be true");
         validateConnectionInfo(connInfo, "Parsing " + configLocation + ", checking ForceOAuthConnectionInfo");
-        
+
         ForceOAuthConnectionInfo connInfoOnConnector = invoke(connector, "getConnInfo");
         validateConnectionInfo(connInfoOnConnector,
                 "Parsing " + configLocation + ", checking ForceOAuthConnectionInfo on ForceOAuthConnector");
-        
+
         verifyAllFiltersArePresent(context);
     }
-    
+
     @Test
     public void testParseConnectionName() {
         String configLocation = "security-config-ns-connName.xml";

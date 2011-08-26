@@ -60,7 +60,7 @@ public abstract class BaseSecurityIntegrationTest extends BaseContainerTest {
     protected final String mockOauthKey = "123";
     protected final String mockOauthSecret = "456";
     protected final String mockSfdcEndpoint = "localhost:" + port + "/force-mock-oauth-server-app";
-    protected final String forceUrlPropName = "force.integrationserver.url";
+    protected final String forceUrlPropName = "integrationserver.url";
     protected final String mockAuthCode = "789";
     protected final String useMockApi = "mockapi";
 
@@ -133,11 +133,11 @@ public abstract class BaseSecurityIntegrationTest extends BaseContainerTest {
         if (TestContext.get().getTestType() == TestType.ENDTOEND) {
             map.put(useMockApi, "false");
             map.put(forceUrlPropName, "force://" + sfdcEndpoint
-                    + ";oauth_key=" + oauthKey + ";oauth_secret=" + oauthSecret);
+                    + "?oauth_key=" + oauthKey + "&oauth_secret=" + oauthSecret);
         } else if (TestContext.get().getTestType() == TestType.MOCK) {
             map.put(useMockApi, "true");
             map.put(forceUrlPropName, "force://" + mockSfdcEndpoint
-                    + ";oauth_key=" + mockOauthKey + ";oauth_secret=" + mockOauthSecret);
+                    + "?oauth_key=" + mockOauthKey + "&oauth_secret=" + mockOauthSecret);
         }
 
         return map;

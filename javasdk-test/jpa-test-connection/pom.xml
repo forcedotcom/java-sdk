@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk-test</artifactId>
-    <version>22.0.5-BETA</version>
+    <version>22.0.6-BETA</version>
   </parent>
 
   <build>
@@ -41,7 +41,7 @@
             </properties>
           <environmentVariables>
             <FORCE_CONNURLENVVAR_URL>
-              force://${endpoint}/services/Soap/u/${force.apiVersion};user=${user};password=${password}
+              force://${endpoint}/services/Soap/u/${force.apiVersion}?user=${user}&amp;password=${password}
             </FORCE_CONNURLENVVAR_URL>
           </environmentVariables>
         </configuration>

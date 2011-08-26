@@ -34,6 +34,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -123,6 +125,47 @@ public final class ForceConnectorUtils {
         }
 
         return apiEndpoint.toString();
+    }
+
+    /**
+     * Returns true if var has some value enclosed in ${ and }; which means that user intended the value to be injected from
+     * system variables or environment variables.
+     * @param var any string.
+     * @return true if var is enclosed by ${ and }
+     */
+    public static boolean isInjectable(String var) {
+        return var != null && var.startsWith("${") && var.endsWith("}");
+    }
+
+    /**
+     * This method will fetch and return the value of 'var' from system variables and if not found in system variables
+     * then in environment variables.
+     * @param var name of var enclosed by ${ and }
+     * @return value of var
+     */
+    public static String extractValue(String var) {
+        if (var != null)  {
+            if (!var.startsWith("${") || !var.endsWith("}")) {
+                return null;
+            }
+
+            var = var.replace("${" , "");
+            var = var.substring(0, var.length() - 1);
+
+            if (var != null) {
+                if (System.getProperty(var) != null) {
+                    LOGGER.info("Connection : loading " + var + " from Java System Properties");
+                    return System.getProperty(var);
+                }
+
+                if (System.getenv(var) != null) {
+                    LOGGER.info("Connection : loading " + var + " from Environment Variables");
+                    return System.getenv(var);
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -272,31 +315,41 @@ public final class ForceConnectorUtils {
         if (connectionUrl == null) throw new IllegalArgumentException("Connection url cannot be null.");
 
         // Parse the connection url
-        String[] parsedConnectionUrl = connectionUrl.split(";");
-        for (int i = 0; i < parsedConnectionUrl.length; i++) {
-            parsedConnectionUrl[i] = parsedConnectionUrl[i].trim();
+        URI connectionUri;
+        try {
+            connectionUri = new URI(connectionUrl);
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException("Unable to parse connection url (" + connectionUrl + ")", e);
         }
 
         // Basic validation of connection url
-        if (parsedConnectionUrl.length < 0) throw new IllegalArgumentException("Connection url cannot be empty.");
-        if (!parsedConnectionUrl[0].startsWith("force://")) {
+        if (!"force".equals(connectionUri.getScheme())) {
             throw new IllegalArgumentException("Illegal prefix for connection url (" + connectionUrl + "). "
                     + "It must start with force://");
-        } else {
-            // Strip out the "force://" prefix
-            parsedConnectionUrl[0] = parsedConnectionUrl[0].split("://", 2)[1];
         }
-
-        Map<ForceConnectionProperty, String> connectorPropMap =
-                new HashMap<ForceConnectionProperty, String>(parsedConnectionUrl.length);
+        
+        Map<ForceConnectionProperty, String> connectorPropMap = new HashMap<ForceConnectionProperty, String>(3);
 
         // In a connection url, the endpoint won't be marked with a property key
         // so add it here first
-        ForceConnectionProperty.ENDPOINT.validateValue(parsedConnectionUrl[0], "Illegal connection url (" + connectionUrl + ").");
-        connectorPropMap.put(ForceConnectionProperty.ENDPOINT, parsedConnectionUrl[0]);
+        String endpoint = connectionUri.getHost();
+        if (endpoint != null) {
+            StringBuffer sb = new StringBuffer(endpoint);
+            if (connectionUri.getPort() > -1) sb.append(":").append(connectionUri.getPort());
+            if (connectionUri.getPath() != null) sb.append(connectionUri.getPath());
+            
+            endpoint = sb.toString();
+        }
+        
+        ForceConnectionProperty.ENDPOINT.validateValue(endpoint, "Illegal connection url (" + connectionUrl + ").");
+        connectorPropMap.put(ForceConnectionProperty.ENDPOINT, endpoint);
 
-        for (int i = 1; i < parsedConnectionUrl.length; i++) {
-            String[] parsedUrlProperty = parsedConnectionUrl[i].split("=", 2);
+        String queryString = connectionUri.getQuery();
+        if (queryString == null) return connectorPropMap;
+        
+        String[] parsedQueryString = connectionUri.getQuery().split("&");
+        for (String queryParam : parsedQueryString) {
+            String[] parsedUrlProperty = queryParam.split("=", 2);
 
             if (parsedUrlProperty.length == 2) {
                 ForceConnectionProperty connProp = ForceConnectionProperty.fromPropertyName(parsedUrlProperty[0]);

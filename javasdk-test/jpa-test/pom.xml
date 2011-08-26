@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk-test</artifactId>
-    <version>22.0.5-BETA</version>
+    <version>22.0.6-BETA</version>
   </parent>
 
 
@@ -69,6 +69,11 @@
         </configuration>
       </plugin>
 
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>properties-maven-plugin</artifactId>
+        </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -77,7 +82,12 @@
           <suiteXmlFiles>
             <suiteXmlFile>testng.xml</suiteXmlFile>
           </suiteXmlFiles>
-        </configuration>
+            <environmentVariables>
+              <CUSTOM_ENVURL>
+                force://${endpoint}/services/Soap/u/${force.apiVersion}?user=${user}&amp;password=${password}
+              </CUSTOM_ENVURL>
+            </environmentVariables>
+         </configuration>
       </plugin>
 
       <plugin>

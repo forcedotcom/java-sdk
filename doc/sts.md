@@ -27,18 +27,18 @@ The Database.com JPA provider uses the [DataNucleus Access Platform](http://www.
 To install DataNucleus Eclipse plugin: 
 
 1. Click the SpringSource icon in the toolbar to open the Dashboard. 
-- Click the Extensions tab at the bottom left of the Dashboard. 
+- Click the **Extensions** tab at the bottom left of the Dashboard. 
 - Search for DataNucleus and install the DataNucleus Eclipse Plugin. 
-- Click Install at the bottom right of the Dashboard. 
-- An Install popup window lists the items for installation. Click Next. 
-- Review the installation details and click Next and Finish. 
+- Click **Install** at the bottom right of the Dashboard. 
+- An Install popup window lists the items for installation. Click **Next**. 
+- Review the installation details and click **Next** and **Finish**. 
 - Restart SpringSource Tool Suite for the changes to take effect.
 
 ## 3. Import the Quick Start Sample Application
 
 1. Once you have STS installed, launch it with a new workspace.
 1. Click **File > Import**.
-1. In the import source list, click **Maven > Existing Maven Projects** and then click Next.
+1. In the import source list, click **Maven > Existing Maven Projects** and then click **Next**.
 1. Click **Browse** and navigate to the root folder of the `hellocloud` sample application you created in the [quick start](quick-start). The root folder contains pom.xml.
 1. Click **OK** and you should see your pom.xml and project name in the Projects list.
 1. Click **Finish**.

@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk-test</artifactId>
-    <version>22.0.5-BETA</version>
+    <version>22.0.6-BETA</version>
   </parent>
 
   <build>
@@ -36,9 +36,12 @@
         <version>${surefire.version}</version>
         <configuration>
           <environmentVariables>
-            <FORCE_CONNURLENVVAR_URL>
-              force://${endpoint};oauth_key=${force.test.oauth.key};oauth_secret=${force.test.oauth.secret}
-            </FORCE_CONNURLENVVAR_URL>
+              <FORCE_CONNURLENVVAR_URL>
+                force://${endpoint}?oauth_key=${force.test.oauth.key}&amp;oauth_secret=${force.test.oauth.secret}
+              </FORCE_CONNURLENVVAR_URL>
+              <FORCE_URL_ORDER_TEST>
+                force://url?oauth_key=ABCDEF&amp;oauth_secret=123456
+              </FORCE_URL_ORDER_TEST>
           </environmentVariables>
           <systemPropertyVariables>
             <loginConfigPath>${basedir}/src/test/resources</loginConfigPath>

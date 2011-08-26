@@ -4,15 +4,15 @@ layout: doc
 title: Force.com Data Types
 
 ---
-# Force.com Data Types
+# Database.com Data Types
 
-Force.com has its own built-in list of data types optimized for building business applications. To see how these data types map to standard Java data types, see [Mapping Force.com to Java Data Types](java-db-com-datatypes-map#mapForceToJava).
+Database.com has its own built-in list of data types optimized for building business applications. To see how these data types map to standard Java data types, see [Mapping Database.com to Java Data Types](java-db-com-datatypes-map#mapForceToJava).
 
 **Note**: Field names in Java classes must start with a lowercase letter to match bean-naming conventions. For example, use <code>String id</code> instead of <code>String Id</code>.
 
 For information on primary key fields, see [Primary Keys](jpa-provider#primaryKeys).
 
-The rest of this section highlights useful information about a subset of Force.com data types. For a list of all the data types, see [Mapping Force.com to Java Data Types](java-db-com-datatypes-map#mapForceToJava).
+The rest of this section highlights useful information about a subset of Database.com data types. For a list of all the data types, see [Mapping Database.com to Java Data Types](java-db-com-datatypes-map#mapForceToJava).
 
 - [Text Fields](#text)
 - [Number Fields](#number)
@@ -31,7 +31,7 @@ The rest of this section highlights useful information about a subset of Force.c
 
 <a name="text"> </a>
 ## Text Fields
-The Force.com Text data type is used for string and character fields.
+The Database.com Text data type is used for string and character fields.
 
 The length of Text fields is controlled by the length attribute of the <code>@Column</code> annotation. For example:
 
@@ -42,18 +42,18 @@ This code defines a Text field called flag of length 1. The default length is 25
 
 <a name="number"> </a>
 ## Number Fields
-The Force.com Number data type is used for numbers of various sizes. The precision and scale is set by the <code>@Column</code> annotation.
+The Database.com Number data type is used for numbers of various sizes. The precision and scale is set by the <code>@Column</code> annotation.
 For example:
 
     @Column(precision=1, scale=0)
     int digit;
 
-This code defines an integer that can range from 0 to 9. The default precision and scale are 18 and 0 for integers and 18 and
-2 for floats and doubles. For more information, see [Mapping Force.com to Java Data Types](java-db-com-datatypes-map#mapForceToJava).
+This code defines an integer that can range from 0 to 9. The default precision and scale are 18 and 0 for integers and 16 and
+2 for floats and doubles. For more information, see [Mapping Database.com to Java Data Types](java-db-com-datatypes-map#mapForceToJava).
 
 <a name="autoNumber"> </a>
 ## Auto Number Fields
-To create a Force.com auto number field, use <code>@CustomField(type=FieldType.AutoNumber</code>) with an int or Integer
+To create a Database.com auto number field, use <code>@CustomField(type=FieldType.AutoNumber</code>) with an int or Integer
 Java type. For example:
 
     @CustomField(type=FieldType.AutoNumber)
@@ -63,17 +63,17 @@ The default start value for the number is 0. Use the optional <code>startValue</
 
 <a name="currency"> </a>
 ## Currency Fields
-To create a Force.com currency field, use a BigDecimal Java type. You can also use another number type in Java, but you must add a  <code>@CustomField(type=FieldType.Currency)</code> annotation. For example:
+To create a Database.com currency field, use a BigDecimal Java type. You can also use another number type in Java, but you must add a  <code>@CustomField(type=FieldType.Currency)</code> annotation. For example:
 
     @CustomField(type=FieldType.Currency)
     double revenue;
 
 <a name="date"> </a>
 ## Date Fields
-Force.com has two date types: Date and Date/Time. Date doesn't include hours, minutes, and seconds. By default, the
+Database.com has two date types: Date and Date/Time. Date doesn't include hours, minutes, and seconds. By default, the
 Database.com JPA provider maps <code>java.util.Calendar</code> to Date/Time and <code>java.util.Date</code> to Date. You can customize
 this behavior using the JPA <code>@Temporal</code> annotation. For example, the following two Java fields are both mapped to a Date/Time
-field in Force.com.
+field in Database.com.
 
     java.util.Calendar lastUpdated;
 
@@ -92,7 +92,7 @@ The <code>java.util.GregorianCalendar</code> class can be used instead of <code>
 
 <a name="picklist"> </a>
 ## Enumeration (Picklist) Fields
-Force.com supports enumerations as a data type. Enumerations are referred to as picklists and multi-select picklists in Force.com
+Database.com supports enumerations as a data type. Enumerations are referred to as picklists and multi-select picklists in Database.com
 terminology. Define picklist values by using a Java enumeration. For example:
 
     public enum Varietal { Cabernet_Sauvignon, Syrah, Pinot_Noir, Zinfandel }
@@ -100,7 +100,7 @@ terminology. Define picklist values by using a Java enumeration. For example:
     @Enumerated
     private Varietal varietal;
 
-By default, Force.com stores ordinal values for the selected value. For example, if you set the varietal variable to Syrah, the
+By default, Database.com stores ordinal values for the selected value. For example, if you set the varietal variable to Syrah, the
 value 1 is stored in the database. To store the value strings instead of ordinals, use <code>@Enumerated(EnumType.STRING)</code>.
 
     public enum Varietal { Cabernet_Sauvignon, Syrah, Pinot_Noir, Zinfandel }
@@ -108,7 +108,7 @@ value 1 is stored in the database. To store the value strings instead of ordinal
     @Enumerated(EnumType.STRING)
     private Varietal varietal;
 
-Force.com also supports multi-value selections. To pick multiple varietals for a single wine, use an array type instead.
+Database.com also supports multi-value selections. To pick multiple varietals for a single wine, use an array type instead.
 
     public enum Varietal { Cabernet_Sauvignon, Syrah, Pinot_Noir, Zinfandel }
 
@@ -116,8 +116,8 @@ Force.com also supports multi-value selections. To pick multiple varietals for a
     private Varietal[] varietal;
 
 <a name="restrictedPicklist"> </a>
-## Restricted Versus Non-Restricted Picklists
-Force.com supports two types of picklists: restricted and non-restricted. A restricted picklist only allows valid enumeration
+## Restricted versus Non-Restricted Picklists
+Database.com supports two types of picklists: restricted and non-restricted. A restricted picklist only allows valid enumeration
 values. The field type should match the type of the enum representing the picklist values for picklists or an array of the enum
 type for multi-select picklists. For example:
 
@@ -150,28 +150,28 @@ non-restricted picklists.
 
 <a name="email"> </a>
 ## Email Fields
-To create a Force.com email field, use <code>@CustomField(type=FieldType.Email)</code> with a String Java type. For example:
+To create a Database.com email field, use <code>@CustomField(type=FieldType.Email)</code> with a String Java type. For example:
 
     @CustomField(type=FieldType.Email)
     String orderEmail;
 
 <a name="phone"> </a>
 ## Phone Fields
-To create a Force.com phone field, use <code>@CustomField(type=FieldType.Phone)</code> with a String Java type. For example:
+To create a Database.com phone field, use <code>@CustomField(type=FieldType.Phone)</code> with a String Java type. For example:
 
     @CustomField(type=FieldType.Email)
     String orderEmail;
 
 <a name="url"> </a>
 ## URL Fields
-To create a Force.com URL field, use the [@Basic annotation](jpa-annotations-standard#basicAnnotation) with a URL Java type. You need the <code>@Basic</code> annotation to enable persistence for the field because URL is not one of the Java types that is persisted by default. For example:
+To create a Database.com URL field, use the [@Basic annotation](jpa-annotations-standard#basicAnnotation) with a URL Java type. You need the <code>@Basic</code> annotation to enable persistence for the field because URL is not one of the Java types that is persisted by default. For example:
 
     @Basic
     URL companyUrl;
 
 <a name="percent"> </a>
 ## Percent Fields
-To create a Force.com percent field, use <code>@CustomField(type=FieldType.Percent)</code> with any Java type that [maps to a Force.com Number field](java-db-com-datatypes-map), such as int or double. For example:
+To create a Database.com percent field, use <code>@CustomField(type=FieldType.Percent)</code> with any Java type that [maps to a Database.com Number field](java-db-com-datatypes-map), such as int or double. For example:
 
     @CustomField(type=FieldType.Percent)
     int mainVarietalPercent;
@@ -181,19 +181,19 @@ To create a Force.com percent field, use <code>@CustomField(type=FieldType.Perce
 A formula is a field whose value is derived from other fields, expressions, or values. For more information about formula fields,
 see [Building Formulas](http://na1.salesforce.com/help/doc/en/customize_formulas.htm).
 
-To create a Force.com formula field, use a <code>@CustomField</code> annotation with a String Java type. For example:
+To create a Database.com formula field, use a <code>@CustomField</code> annotation with a String Java type. For example:
 
     @CustomField(type=FieldType.Text, formula="formulaValue")
     String snazzyFormula;
 
-Formula fields are read only. A formula can return a Currency, Date, DateTime, Number, Percent, or Text FieldType. To see how these types map to Java data types, see [Mapping Force.com to Java Data Types](java-db-com-datatypes-map#mapForceToJava).
+Formula fields are read only. A formula can return a Currency, Date, DateTime, Number, Percent, or Text FieldType. To see how these types map to Java data types, see [Mapping Database.com to Java Data Types](java-db-com-datatypes-map#mapForceToJava).
 
 Use the optional <code>treatBlankAs</code> attribute to control how blank values are interpreted. The default value is
 <code>TreatBlanksAs.BlankAsBlank</code>.
 
 <a name="relFields"> </a>
 ## Relationship Fields
-Force.com supports two types of relationships between entities: Lookup and Master-Detail. You can perform
+Database.com supports two types of relationships between entities: Lookup and Master-Detail. You can perform
 join queries on entities connected by a relationship field.
 
 ### Master-Detail
@@ -222,7 +222,7 @@ entity as a producer Lookup field with a <code>@ManyToOne</code> annotation.
     @ManyToOne
     private Producer producer;
 
-To set the Lookup field name in Force.com to be something other than producer, use the <code>@Column</code> annotation.
+To set the Lookup field name in Database.com to be something other than producer, use the <code>@Column</code> annotation.
 
     @Column(name = "wine_producer")
     @ManyToOne
@@ -306,7 +306,7 @@ For more information on cascading attributes, see the [DataNucleus documentation
 
 <a name="binaryFields"> </a>
 ## Binary (Base64) Fields
-Force.com only supports binary values for [Attachment](http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_objects_attachment.htm), [Document](http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_objects_document.htm), or [Scontrol](http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_objects_scontrol.htm) standard objects. You can't use byte[] fields
+Database.com only supports binary values for [Attachment](http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_objects_attachment.htm), [Document](http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_objects_document.htm), or [Scontrol](http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_objects_scontrol.htm) standard objects. You can't use byte[] fields
 to represent binary (blob) data in custom Database.com entities.
 
 In Java classes representing Attachment, Document, or Scontrol standard objects, use a byte[] field for the base64–encoded

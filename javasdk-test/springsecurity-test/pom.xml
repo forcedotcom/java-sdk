@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk-test</artifactId>
-    <version>22.0.5-BETA</version>
+    <version>22.0.6-BETA</version>
   </parent>
 
 
@@ -23,6 +23,27 @@
       </testResource>
     </testResources>
 
+      <plugins>
+
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>properties-maven-plugin</artifactId>
+          </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${failsafe.version}</version>
+          <configuration>
+              <environmentVariables>
+                <CUSTOM_ENV_URL>
+                  force://endpoint?oauth_key=key&amp;oauth_secret=123456
+                </CUSTOM_ENV_URL>
+              </environmentVariables>
+           </configuration>
+        </plugin>
+
+      </plugins>
 
   </build>
 

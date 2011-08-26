@@ -66,12 +66,12 @@ public class ForceServiceConnectorCacheTest extends BaseForceServiceConnectorTes
     public void testCacheWithConnectionName() throws Exception {
         String connUrl = createConnectionUrl();
         try {
-            System.setProperty("force.testCacheWithConnectionName.url", connUrl + ";timeout=1234");
+            System.setProperty("force.testCacheWithConnectionName.url", connUrl + "&timeout=1234");
 
             ForceServiceConnector connector = new ForceServiceConnector("testCacheWithConnectionName");
             connector.getConnection();
 
-            System.setProperty("force.testCacheWithConnectionName.url", connUrl + ";timeout=2345");
+            System.setProperty("force.testCacheWithConnectionName.url", connUrl + "&timeout=2345");
             connector = new ForceServiceConnector("testCacheWithConnectionName");
 
             // We should hit the cache here and retrieve the original read timeout
