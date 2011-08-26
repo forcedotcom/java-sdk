@@ -69,19 +69,23 @@ may want to manage authentication information differently in development, stagin
 
 You can specify the connection URL as follows: 
 
+[TODO @Nawab]: in which file? you're leaving too many gaps in the doc.
+
      <property name="datanucleus.ConnectionURL" value="force://login.salesforce.com?user=user@salesforcedoc.org&amp;password=samplePassword" />
 
-Notice that & has been escaped as &amp as & has special meaning in xml files. 
+Notice that `&` has been escaped as `&amp;` as `&` has special meaning in XML files. 
 
 If you specify the connection URL in a system property or environment variable, you can reference it in your `persistence.xml` configuration file:
 
      <property name="datanucleus.ConnectionURL" value="${CONNECTION_URL}" />
 
-The Database.com JPA provider will look for CONNECTION_URL first in Java system properties and if not found it will look into environment variables. 
+The Database.com JPA provider first looks for the connection URL in a Java system property called `CONNECTION_URL`. If it doesn't find a matching Java system property, it looks for an environment variable called `CONNECTION_URL`. 
+
+[TODO @Nawab]: similar to a // in another file, please be specific whether matching is case sensitive. Also, for the rest of this file, see my //s in spring-security.md as the text is almost identical.
 
 In Spring-based applications, be sure that you have the property placeholder configurer enabled by including the following tag in your application context xml: 
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" />
 
 
-There are some [other mechanisms](deprecated-config) of configuring connection URL, but they will be deprecated.
+There are some [deprecated options](deprecated-config) for configuring a connection URL.vThese are not recommended and will eventually be removed.

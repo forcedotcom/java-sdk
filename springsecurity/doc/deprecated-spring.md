@@ -1,7 +1,18 @@
-# Database.com Spring Security Integration
+---
 
+layout: doc
+title: Deprecated Spring Security Configuration Options
 
-Besides &lt;connectionUrl />, other options to provide OAuth info are  &lt;oauthInfo/> or &lt;connectionName /> tag. Note that these tags are mutually exclusive and you can't provide more than one or you will receive an error on application startup. 
+---
+# Deprecated Spring Security Configuration Options
+
+[TODO @Nawab]: i changed the title but the text seems to be more about OAuth than conenction URL. Please update title accordingly.
+
+We recommend using  &lt;connectionUrl /> for configuring a connection URL. Besides &lt;connectionUrl />, other options to provide OAuth info are  &lt;oauthInfo/> or &lt;connectionName /> tags. Note that these tags are mutually exclusive and you can't provide more than one or you will receive an error on application startup. 
+
+[TODO @Nawab]: "other options to provide OAuth info are  &lt;oauthInfo/> or &lt;connectionName /> tags." Are we only talking about OAuth here or regular username/password too. Sounds like just OAuth from description above.
+
+**Note**: These options are deprecated. They are not recommended and will eventually be removed.
 
 **&lt;oauthInfo/>** tag.  This tag allows you to specify an <code>endpoint</code>, <code>oauthKey</code> and <code>oauthSecret</code> as separate attributes. For example:
 

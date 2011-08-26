@@ -45,24 +45,30 @@ The main customizations of interest are:
 - Add the \<fss:oauth /> tag
 - Add the \<security:http /> tag. For more information about this tag, see [Spring Security documentation][ss].
 
-The \<oauth /> tag requires that you provide OAuth properties using `connectionUrl` tag. For example:
+The \<oauth /> tag requires that you provide OAuth properties using the `connectionUrl` tag. For example:
 
 	<fss:oauth>
         <fss:connectionUrl url="force://login.salesforce.com;oauth_key=sampleKey;oauth_secret=sampleSecret" />
     </fss:oauth>
 
-It is better to configure the connection URL as a system property or environment varialbe and enable placeholder configurer by including the following tag in your application context xml: 
+It is preferable to configure the connection URL as a system property or environment variable rather than setting the URL directly in the `connectionUrl` tag. You can enable configuration of the connection URL in a system property or an environment variable by including the following tag in your application context xml: 
+
+[TODO @Nawab]: be specific here. what is the file name? applicationContext.xml or something similar?
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" />
+
+Set the following in your `spring-configuration.xml` file:
 
     <!-- Uses the connection URL in the FORCE_MYCONNECTOR_URL environment variable or Java system property -->
     <fss:oauth>
         <fss:connectionUrl url="${FORCE_MYCONNECTOR_URL}" />
     </fss:oauth>
 
-The `PropertyPlaceholderConfigurer` will look for `FORCE_MYCONNECTOR_URL` in the system properties and if not found there then in environment variables.
+The `PropertyPlaceholderConfigurer` looks for a `FORCE_MYCONNECTOR_URL` Java system property. If that's not found, it looks for a `FORCE_MYCONNECTOR_URL` environment variable.
 
-There are also [some other options](deprecated-spring) to specify connection URL but they will be be deprecated.
+[TODO @Nawab]: is the search case sensitice for both system prop and env variable?
+
+There are also some [deprecated options](deprecated-spring) to specify connection URL. These are not recommended and will eventually be removed.
 
 The following attributes are optional for &lt;fss:oauth> in `spring-configuration.xml`:
 

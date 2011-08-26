@@ -29,8 +29,9 @@ You'll now see your application in the list of remote access applications. Click
 ### Configuring the Force.com OAuth Connector
 
 To use the connector, add the following servlet filter to your application's `web.xml` file:
-You can set the connection URL in the `<param-value>` for the **url** `<param-name>`or you can reference a system property or environment variable that contains the connection URL by setting `<param-value>` to ${CONNECTION_URL}. The AuthFilter will look for the URL in a system property and if not found there then in environment variable. 
+You can set the connection URL in the `<param-value>` for the **url** `<param-name>`or you can reference a system property or environment variable that contains the connection URL by setting `<param-value>` to ${CONNECTION_URL}. The AuthFilter will look for the URL in a system property. If it's not found there, thit looks for an environment variable. 
 
+[TODO @Nawab]: link to somewhere else that explains how it looks for this info as it's not obvious here. you might want to centralize the discussion somewhere and link to it from places like here.
 
 	<!-- Enables Security -->
 	<filter>
@@ -38,7 +39,7 @@ You can set the connection URL in the `<param-value>` for the **url** `<param-na
 		<filter-class>com.force.sdk.oauth.AuthFilter</filter-class>
 			 <init-param>
 			 	<param-name>url</param-name>
-			 	<param-value>URL or either an environment variable or a system variable enclosed in ${}</param-value>
+			 	<param-value>URL or either a Java system property or an environment variable enclosed in ${}</param-value>
 			</init-param>
 
 
@@ -72,6 +73,8 @@ You can set the connection URL in the `<param-value>` for the **url** `<param-na
 	</filter-mapping>
 
 The OAuth Connector uses the Force.com API Connector to access the Force.com APIs. The <code>connectionName</code> is used to look up OAuth properties defined in an environment variable, or a Java system property, or in a properties file on the classpath. For example, if you use a <code>connectionName</code> of `forceDatabase`, you can encode the connection information in a connection URL set in the FORCE\_*FORCEDATABASE*\_URL environment variable:
+
+[TODO @Nawab]: is the above paragraph still relevant? connectionName and props file? please review. 
 
 <pre>
   <code>force://login.salesforce.com?user=<em>user@salesforcedoc.org</em>&password=<em>samplePassword</em>&oauth_key=<em>3MVG9lKcPoNINVBLqaGC0WiLS7H9aehOXaZad80Ve1OB43i.DpfCjn_SqwIAtyY6Lnuzcvdxgzu.IAaLVk4pH.</em>&oauth_secret=<em>516990866494775428</em></code>

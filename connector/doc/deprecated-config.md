@@ -1,5 +1,9 @@
 ## Configuring Connection URLs
 
+[TODO @Nawab]: notice that all the other files have a layout: doc header. you should include that.
+[TODO @Nawab]: you need a title explaining what this page is. you just copied the content from somewhere else and changed the file name. is this all deprecated behavior? there is nothing in the title or content of this page that indicates that behavior is deprecated. you can't rely on the file name to impart this.
+[TODO @Nawab]: this doc explains usage of env variables and system props better than the bits you added. you need to take the relevant parts fro this page and put it back in the main doc.
+
 There are multiple options for configuring a connection URL. These options offer you flexibility for managing your configuration information in different environments. For example, you
 may want to manage authentication information differently in development, staging, and production environments.
 
