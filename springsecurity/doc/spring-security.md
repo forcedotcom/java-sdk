@@ -51,9 +51,12 @@ The \<oauth /> tag requires that you provide OAuth properties using the `connect
         <fss:connectionUrl url="force://login.salesforce.com;oauth_key=sampleKey;oauth_secret=sampleSecret" />
     </fss:oauth>
 
-It is preferable to configure the connection URL as a system property or environment variable rather than setting the URL directly in the `connectionUrl` tag. You can enable configuration of the connection URL in a system property or an environment variable by including the following tag in your application context xml: 
+It is preferable to configure the connection URL as a system property or environment variable rather than setting the URL directly in the `connectionUrl` tag. 
+We don't recommend specifying the URL directly in your configuration because you should not check your oauth key and secret into version control. These may vary from one environment to another and should be protected.
 
-[TODO @Nawab]: be specific here. what is the file name? applicationContext.xml or something similar?
+Instead, set the connection URL as a system property or environment variable and enable the configuration by including the following tag in your application context xml:
+
+[TODO @Nawab]: be specific here. what is the file name? applicationContext.xml or something similar? 
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" />
 
