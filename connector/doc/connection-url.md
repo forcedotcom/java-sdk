@@ -64,24 +64,22 @@ Each version of the Database.com Java SDK is automatically linked with an API ve
 <a name ="configConnectionURL"> </a>
 ## Configuring Connection URLs
 
-The connection URL is specified in your `persistence.xml` file. 
-
-You can specify the connection URL as follows: 
+Specify the connection URL in your `persistence.xml` file as follows: 
 
      <property name="datanucleus.ConnectionURL" value="force://login.salesforce.com?user=user@salesforcedoc.org&amp;password=samplePassword" />
 
-Notice that & has been escaped as &amp as & has special meaning in xml files. 
+Notice that & has been escaped as &amp as & has special meaning in XML files. 
 
-It's also possibly to put your connection URL in a system property or environment variable. Then you can reference it in your `persistence.xml` with dollar sign curly brace notation:
+You can also configure your connection URL in a system property or environment variable. Then you can reference it in your `persistence.xml` file with dollar sign curly brace notation:
 
      <property name="datanucleus.ConnectionURL" value="${CONNECTION_URL}" />
 
-The Database.com JPA provider will look for CONNECTION_URL first in Java system properties and if not found it will look into environment variables.
+The Database.com JPA provider will first look for a Java system property named `CONNECTION_URL` and, if the property doesn't exist, the provider looks for a `CONNECTION_URL` environment variable.
 
-Note: the name of the variable is case sensitive so be sure that you have the case correct.
+**Note**: The name of the variable is case sensitive so make sure that you have the correct case.
 
-We recommend that you don't store any files that contain your connection url in version control. The connection url contains sensitive information. It will also vary from one environment to another so keeping it in version control makes your application lifecycle harder to manage. Using environment variables or system properties is the best way to avoid this.
+We recommend that you don't store any files that contain your connection URL in version control as the connection URL contains sensitive information. It will also vary from one environment to another so keeping it in version control makes your application lifecycle harder to manage. Using environment variables or system properties is the best way to avoid this.
 
-The format for specifying the environment variable name is the same that is used by Spring's property placeholder configured. In a Spring based application Spring will try to resolve these values for you. This isn't an issue because system properties and environment variables are supported by Spring in the same way. However if you're using Spring be sure that you have the property placeholder configurer enabled. You can do this by including the following tag in your application context xml: 
+The format for specifying the environment variable name is the same that is used by Spring's property placeholder configurer. In a Spring-based application, Spring will try to resolve these values for you. This isn't an issue because system properties and environment variables are supported by Spring in the same way. However if you're using Spring, make sure that you have the property placeholder configurer enabled. You can do this by including the following tag in your application context xml: 
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" />

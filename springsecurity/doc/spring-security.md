@@ -12,6 +12,8 @@ The Database.com Spring Security integration simplifies usage of the OAuth Conne
 
 The simplest way to configure a Spring application is to include the fss namespace in your `spring-configuration.xml` file.
 
+<pre>
+    <code>
 	<?xml version="1.0" encoding="UTF-8"?>
 	<beans xmlns="http://www.springframework.org/schema/beans"
 	       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -27,8 +29,8 @@ The simplest way to configure a Spring application is to include the fss namespa
 
 	    <!-- Database.com OAuth security config -->
 	    <fss:oauth logout-from-sfdc="true" />
-		<fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="${sfdc.oauthKey}"
-		oauth-secret="${sfdc.oauthSecret}" />
+		<fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="<em>sfdc.oauthKey</em>"
+		oauth-secret="<em>sfdc.oauthSecret</em>" />
 	    </fss:oauth>
 
 	    <!-- Configure Spring Security -->
@@ -37,6 +39,8 @@ The simplest way to configure a Spring application is to include the fss namespa
 	    </security:http>
 	   
 	</beans>
+    </code>
+</pre>
 
 The main customizations of interest are:
 
