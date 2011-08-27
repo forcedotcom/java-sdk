@@ -54,9 +54,7 @@ The \<oauth /> tag requires that you provide OAuth properties using the `connect
 It is preferable to configure the connection URL as a system property or environment variable rather than setting the URL directly in the `connectionUrl` tag. 
 We don't recommend specifying the URL directly in your configuration because you should not check your oauth key and secret into version control. These may vary from one environment to another and should be protected.
 
-Instead, set the connection URL as a system property or environment variable and enable the configuration by including the following tag in your application context xml:
-
-[TODO @Nawab]: be specific here. what is the file name? applicationContext.xml or something similar? 
+Instead, set the connection URL as a system property or environment variable and enable the configuration by including the following tag in your `spring-configuration.xml` file:
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" />
 
@@ -68,10 +66,6 @@ Set the following in your `spring-configuration.xml` file:
     </fss:oauth>
 
 The `PropertyPlaceholderConfigurer` looks for a `FORCE_MYCONNECTOR_URL` Java system property. If that's not found, it looks for a `FORCE_MYCONNECTOR_URL` environment variable.
-
-[TODO @Nawab]: is the search case sensitice for both system prop and env variable?
-
-There are also some [deprecated options](deprecated-spring) to specify connection URL. These are not recommended and will eventually be removed.
 
 The following attributes are optional for &lt;fss:oauth> in `spring-configuration.xml`:
 
