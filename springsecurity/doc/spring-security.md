@@ -38,7 +38,7 @@ The simplest way to configure a Spring application is to include the fss namespa
 	   
 	</beans>
 
-You must substitute values for the `oauth-key` and `oauth-secret` placeholders in the `<fss:oauthInfo>` tag.
+You must substitute values for the `sfdc.oauthKey` and `sfdc.oauthSecret` placeholders in the `<fss:oauthInfo>` tag.
 
 The main customizations of interest are:
 
