@@ -103,16 +103,15 @@ The second <code>init-param</code> element defines the fully qualified name of t
 
 If you're using Spring Security, you can inject your CustomUserDataRetriever into the framework via the Force.com Spring Security namespace or through standard configuration. The custom namespace looks like this:
 
-<pre>
-    <code>
+
     <!-- SFDC OAuth security config -->
     <fss:oauth logout-from-sfdc="true" />
-	<fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="<em>sfdc.oauthKey</em>"
-	oauth-secret="<em>sfdc.oauthSecret</em>" />
+	<fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="sfdc.oauthKey"
+	oauth-secret="sfdc.oauthSecret" />
 	<fss:customUserDataRetriever ref="sampleUserDataRetriever"/>
     </fss:oauth>
-    </code>
-</pre>
+
+Substitute values for the `sfdc.oauthKey` and `sfdc.oauthSecret` placeholders.
 
     <bean id="sampleUserDataRetriever" class="com.force.samples.SampleUserDataRetriever"/>
 
@@ -160,16 +159,14 @@ To use server side sessions, you need to add an additional <code>init-param</cod
 
 If you're using the Force.com security namespace, add the <code>store-data-in-session</code> attribute to the oauth tag to configure session-based user-data storage.
 
-<pre>
-    <code>
     <!-- SFDC OAuth security config -->
     <fss:oauth logout-from-sfdc="true" store-data-in-session="true"/>
-        <fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="<em>sfdc.oauthKey</em>"
-	    oauth-secret="<em>sfdc.oauthSecret</em>" />
+        <fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="sfdc.oauthKey"
+	    oauth-secret="sfdc.oauthSecret" />
         <fss:customUserDataRetriever ref="sampleUserDataRetriever"/>
     </fss:oauth>
-    </code>
-</pre>
+
+Substitute values for the `sfdc.oauthKey` and `sfdc.oauthSecret` placeholders.
 
 If you're not using the namespace, you need to change the class that you wire into the securityContextStorageServiceBean. The example above shows SecurityContextCookieStore wired into the bean. To use server sessions to store user data, change it to SecurityContextSessionStore:
 
