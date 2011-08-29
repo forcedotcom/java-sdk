@@ -76,7 +76,6 @@ public class ForceStoreManager extends AbstractStoreManager {
     private final boolean enableOptimisticTransactions;
     private ForceSchemaWriter schemaWriter;
     private final boolean forDelete;
-    private final boolean schemaCreateClient;
 
     /**
      * Looks into system variable and environment variables if url is in ${...} format.
@@ -156,7 +155,6 @@ public class ForceStoreManager extends AbstractStoreManager {
         boolean purgeOnDelete = conf.getBooleanProperty("force.purgeOnDeleteSchema");
         
         schemaWriter = new ForceSchemaWriter(new SchemaDeleteProperty(forDelete, purgeOnDelete));
-        schemaCreateClient = conf.getBooleanProperty("force.schemaCreateClient");
         
         // how often should the evictor run
         poolTimeBetweenEvictionRunsMillis = conf.getIntProperty("datanucleus.connectionPool.timeBetweenEvictionRunsMillis");
@@ -351,15 +349,5 @@ public class ForceStoreManager extends AbstractStoreManager {
      */
     public boolean isForDelete() {
         return forDelete;
-    }
-    
-    /**
-     * This is a flag set by clients that can create schema. Users would not
-     * be setting this flag themselves
-     * 
-     * @return {@code true} if the schema creation call is being made by a client
-     */
-    public boolean isSchemaCreateClient() {
-        return schemaCreateClient;
     }
 }

@@ -40,6 +40,7 @@ import com.force.sdk.jpa.entities.*;
 import com.force.sdk.qa.util.TestContext;
 import com.force.sdk.qa.util.jpa.BaseMultiEntityManagerJPAFTest;
 import com.force.sdk.qa.util.logging.ForceLogAppenderValidator;
+import com.force.test.model.JarEntity;
 
 /**
  * 
@@ -60,6 +61,27 @@ public class BasicCRUDTest extends BaseMultiEntityManagerJPAFTest {
             Assert.assertTrue(em.contains(entity), "The entity was not stored to the database.");
             em.remove(entity);
             Assert.assertFalse(em.contains(entity), "The entity was not deleted from the database");
+        } catch (PersistenceException pex) {
+            pex.printStackTrace();
+        } finally {
+            tx.rollback();
+        }
+    }
+    
+    /**
+     * Tests the persistence of an entity that is found in a jar file.
+     */
+    @Test
+    public void testBasicPersistJarEntity() {
+        JarEntity entity = new JarEntity();
+        entity.setName("jar entity");
+        EntityTransaction tx = em4.getTransaction();
+        try {
+            tx.begin();
+            em4.persist(entity);
+            Assert.assertTrue(em4.contains(entity), "The entity was not stored to the database.");
+            em4.remove(entity);
+            Assert.assertFalse(em4.contains(entity), "The entity was not deleted from the database");
         } catch (PersistenceException pex) {
             pex.printStackTrace();
         } finally {

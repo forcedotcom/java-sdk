@@ -179,6 +179,10 @@
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
     </dependency>
+      <dependency>
+        <groupId>com.force.sdk</groupId>
+        <artifactId>force-jpa-test-entity-jar</artifactId>
+      </dependency>
   </dependencies>
 
 </project>

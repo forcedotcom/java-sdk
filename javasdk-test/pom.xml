@@ -28,6 +28,7 @@
     <module>jpa-test-connection</module>
     <module>jpa-test-query</module>
     <module>jpa-test-schema</module>
+    <module>jpa-test-entity-jar</module>
     <module>codegen-test</module>
     <module>oauth-test</module>
     <module>springsecurity-test</module>
@@ -48,6 +49,11 @@
         <classifier>tests</classifier>
         <version>${force.sdk.version}</version>
         <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.force.sdk</groupId>
+        <artifactId>force-jpa-test-entity-jar</artifactId>
+        <version>${force.sdk.version}</version>
       </dependency>
       <dependency>
         <groupId>com.force.sdk</groupId>

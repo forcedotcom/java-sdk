@@ -85,27 +85,25 @@ public class ForceMetaDataManager extends JPAMetaDataManager {
         }
 
         ForceStoreManager storeManager = (ForceStoreManager) omfContext.getStoreManager();
-//        if (storeManager.isSchemaCreateClient()) {
-            /**
-             * DataNucleus does not automatically initialize classes from jars.
-             * When we are working with schema and we are using an existing artifact jar we have to
-             * forceDN to look at the classes in the jar. To do that, we add the jar into the {@code PersistenceUnitMetaData}
-             * as if the jar was included there. However, we should only add the jar if the persistence unit does not already
-             * contain explicitly provided classes.
-             */
-            if ((pumd.getClassNames() == null || pumd.getClassNames().size() == 0)
-                    && "jar".equals(pumd.getRootURI().getScheme())) {
-                try {
-                    String path = pumd.getRootURI().getSchemeSpecificPart();
-                    pumd.addJarFile(new URL(path.substring(0, path.length() - 1)));
-                } catch (MalformedURLException ue) {
-                    throw new NucleusUserException(ue.getMessage());
-                }
+        /**
+         * DataNucleus does not automatically initialize classes from jars.
+         * When we are working with schema and we are using an existing artifact jar we have to
+         * forceDN to look at the classes in the jar. To do that, we add the jar into the {@code PersistenceUnitMetaData}
+         * as if the jar was included there. However, we should only add the jar if the persistence unit does not already
+         * contain explicitly provided classes.
+         */
+        if ((pumd.getClassNames() == null || pumd.getClassNames().size() == 0)
+                && "jar".equals(pumd.getRootURI().getScheme())) {
+            try {
+                String path = pumd.getRootURI().getSchemeSpecificPart();
+                pumd.addJarFile(new URL(path.substring(0, path.length() - 1)));
+            } catch (MalformedURLException ue) {
+                throw new NucleusUserException(ue.getMessage());
             }
-            if (loader == null) {
-                loader = Thread.currentThread().getContextClassLoader();
-            }
-//        }
+        }
+        if (loader == null) {
+            loader = Thread.currentThread().getContextClassLoader();
+        }
         
         // The ForceOwner entity is provided by force-jpa
         // so make sure it is loaded for all persistence units
