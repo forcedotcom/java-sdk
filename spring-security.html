@@ -230,7 +230,7 @@ end
 <p><strong>&lt;connectionUrl/></strong> tag.  This tag allows you to combine the <code>endpoint</code>, <code>oauthKey</code> and <code>oauthSecret</code> properties into one connection URL.  For example:</p>
 
 <pre><code>&lt;fss:oauth&gt;
-    &lt;fss:connectionUrl url="force://login.salesforce.com;oauth_key=${oauthKey};oauth_secret=${oauthSecret}" /&gt;
+    &lt;fss:connectionUrl url="force://login.salesforce.com?oauth_key=${oauthKey}&amp;amp;oauth_secret=${oauthSecret}" /&gt;
 &lt;/fss:oauth&gt;
 </code></pre>
 
