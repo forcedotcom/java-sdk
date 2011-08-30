@@ -56,7 +56,7 @@ The \<oauth /> tag requires that you provide OAuth properties.  This can be done
 **&lt;connectionUrl/>** tag.  This tag allows you to combine the <code>endpoint</code>, <code>oauthKey</code> and <code>oauthSecret</code> properties into one connection URL.  For example:
 
 	<fss:oauth>
-        <fss:connectionUrl url="force://login.salesforce.com;oauth_key=${oauthKey};oauth_secret=${oauthSecret}" />
+        <fss:connectionUrl url="force://login.salesforce.com?oauth_key=${oauthKey}&amp;oauth_secret=${oauthSecret}" />
     </fss:oauth>
 
 **&lt;connectionName />** tag.  This tag allows you to define OAuth properties elsewhere and have them looked up by name.  OAuth properties can be stored as an environment variable, or a Java system property, or a properties file on the classpath.  For more information, see [Database.com Database Connections](connection-url). For example:
