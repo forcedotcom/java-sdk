@@ -25,10 +25,8 @@ This first approach returns a list of SObject records.
     
         try {
             String soqlQuery = "SELECT Email, LastName " +
-                    "FROM User WHERE FirstName = :firstName";
+                    "FROM User WHERE FirstName = 'Bob'";
             Query q = em.createNativeQuery(soqlQuery);
-            // Bind the named parameter into the query
-            q.setParameter("firstName", "Bob");
     
             List<SObject> results = q.getResultList();
             int size = results.size();
