@@ -27,7 +27,7 @@ Many of the commands in this quick start trigger downloads of additional Maven d
 
 Navigate to the directory where you want to create the new project and create it from a Maven archetype by executing the following command:
 
-    mvn archetype:generate -DarchetypeGroupId=com.force.sdk -DarchetypeArtifactId=springmvc-archetype
+    mvn archetype:generate -DarchetypeCatalog=http://oss.sonatype.org/content/repositories/snapshots/archetype-catalog.xml -DarchetypeArtifactId=springmvc-archetype -DarchetypeGroupId=com.force.sdk -DarchetypeVersion=22.0.5-SNAPSHOT
     
 You will be prompted for a couple of properties for your project. You only need to fill out two: groupId and artifactId. Set groupId to the Java package name for your code and artifactId to your application's name:
 
@@ -66,7 +66,9 @@ Navigate to <http://localhost:8080/hellocloud> where you should see a welcome sc
 
 ## 4. Next Steps
 
-The Database.com SDK is not tied to any particular runtime. You can now proceed to deploy the application on your own server, Cloud Foundry, EC2, or other cloud runtimes as long as you can make HTTPS connections to Database.com.
+The Database.com SDK is not tied to any particular runtime. You can now proceed to deploy the application on your own server, Cloud Foundry, Heroku, EC2, or other cloud runtimes as long as you can make HTTPS connections to Database.com.
+
+See [Running your quick start application on Heroku](quick-start-on-heroku) for instructions to get your application running on Heroku.
 
 If you want to take a look at an application that is built out a little bit more, you can look at the "Music Library" application here: <https://github.com/forcedotcom/javasample-musiclib>. You can clone this project by running:
 
