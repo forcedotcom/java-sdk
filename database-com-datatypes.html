@@ -173,15 +173,15 @@ end
 
 	<div id="content">
 		<div class="topic_content">
-      <h1>Force.com Data Types</h1>
+      <h1>Database.com Data Types</h1>
 
-<p>Force.com has its own built-in list of data types optimized for building business applications. To see how these data types map to standard Java data types, see <a href="java-db-com-datatypes-map#mapForceToJava">Mapping Force.com to Java Data Types</a>.</p>
+<p>Database.com has its own built-in list of data types optimized for building business applications. To see how these data types map to standard Java data types, see <a href="java-db-com-datatypes-map#mapForceToJava">Mapping Database.com to Java Data Types</a>.</p>
 
 <p><strong>Note</strong>: Field names in Java classes must start with a lowercase letter to match bean-naming conventions. For example, use <code>String id</code> instead of <code>String Id</code>.</p>
 
 <p>For information on primary key fields, see <a href="jpa-provider#primaryKeys">Primary Keys</a>.</p>
 
-<p>The rest of this section highlights useful information about a subset of Force.com data types. For a list of all the data types, see <a href="java-db-com-datatypes-map#mapForceToJava">Mapping Force.com to Java Data Types</a>.</p>
+<p>The rest of this section highlights useful information about a subset of Database.com data types. For a list of all the data types, see <a href="java-db-com-datatypes-map#mapForceToJava">Mapping Database.com to Java Data Types</a>.</p>
 
 <ul>
 <li><a href="#text">Text Fields</a></li>
@@ -205,7 +205,7 @@ end
 
 <h2>Text Fields</h2>
 
-<p>The Force.com Text data type is used for string and character fields.</p>
+<p>The Database.com Text data type is used for string and character fields.</p>
 
 <p>The length of Text fields is controlled by the length attribute of the <code>@Column</code> annotation. For example:</p>
 
@@ -219,21 +219,21 @@ String flag;
 
 <h2>Number Fields</h2>
 
-<p>The Force.com Number data type is used for numbers of various sizes. The precision and scale is set by the <code>@Column</code> annotation.
+<p>The Database.com Number data type is used for numbers of various sizes. The precision and scale is set by the <code>@Column</code> annotation.
 For example:</p>
 
 <pre><code>@Column(precision=1, scale=0)
 int digit;
 </code></pre>
 
-<p>This code defines an integer that can range from 0 to 9. The default precision and scale are 18 and 0 for integers and 18 and
-2 for floats and doubles. For more information, see <a href="java-db-com-datatypes-map#mapForceToJava">Mapping Force.com to Java Data Types</a>.</p>
+<p>This code defines an integer that can range from 0 to 9. The default precision and scale are 18 and 0 for integers and 16 and
+2 for floats and doubles. For more information, see <a href="java-db-com-datatypes-map#mapForceToJava">Mapping Database.com to Java Data Types</a>.</p>
 
 <p><a name="autoNumber"> </a></p>
 
 <h2>Auto Number Fields</h2>
 
-<p>To create a Force.com auto number field, use <code>@CustomField(type=FieldType.AutoNumber</code>) with an int or Integer
+<p>To create a Database.com auto number field, use <code>@CustomField(type=FieldType.AutoNumber</code>) with an int or Integer
 Java type. For example:</p>
 
 <pre><code>@CustomField(type=FieldType.AutoNumber)
@@ -246,7 +246,7 @@ int referenceNum;
 
 <h2>Currency Fields</h2>
 
-<p>To create a Force.com currency field, use a BigDecimal Java type. You can also use another number type in Java, but you must add a  <code>@CustomField(type=FieldType.Currency)</code> annotation. For example:</p>
+<p>To create a Database.com currency field, use a BigDecimal Java type. You can also use another number type in Java, but you must add a  <code>@CustomField(type=FieldType.Currency)</code> annotation. For example:</p>
 
 <pre><code>@CustomField(type=FieldType.Currency)
 double revenue;
@@ -256,10 +256,10 @@ double revenue;
 
 <h2>Date Fields</h2>
 
-<p>Force.com has two date types: Date and Date/Time. Date doesn't include hours, minutes, and seconds. By default, the
+<p>Database.com has two date types: Date and Date/Time. Date doesn't include hours, minutes, and seconds. By default, the
 Database.com JPA provider maps <code>java.util.Calendar</code> to Date/Time and <code>java.util.Date</code> to Date. You can customize
 this behavior using the JPA <code>@Temporal</code> annotation. For example, the following two Java fields are both mapped to a Date/Time
-field in Force.com.</p>
+field in Database.com.</p>
 
 <pre><code>java.util.Calendar lastUpdated;
 
@@ -282,7 +282,7 @@ java.util.Calendar transactionDate;
 
 <h2>Enumeration (Picklist) Fields</h2>
 
-<p>Force.com supports enumerations as a data type. Enumerations are referred to as picklists and multi-select picklists in Force.com
+<p>Database.com supports enumerations as a data type. Enumerations are referred to as picklists and multi-select picklists in Database.com
 terminology. Define picklist values by using a Java enumeration. For example:</p>
 
 <pre><code>public enum Varietal { Cabernet_Sauvignon, Syrah, Pinot_Noir, Zinfandel }
@@ -291,7 +291,7 @@ terminology. Define picklist values by using a Java enumeration. For example:</p
 private Varietal varietal;
 </code></pre>
 
-<p>By default, Force.com stores ordinal values for the selected value. For example, if you set the varietal variable to Syrah, the
+<p>By default, Database.com stores ordinal values for the selected value. For example, if you set the varietal variable to Syrah, the
 value 1 is stored in the database. To store the value strings instead of ordinals, use <code>@Enumerated(EnumType.STRING)</code>.</p>
 
 <pre><code>public enum Varietal { Cabernet_Sauvignon, Syrah, Pinot_Noir, Zinfandel }
@@ -300,7 +300,7 @@ value 1 is stored in the database. To store the value strings instead of ordinal
 private Varietal varietal;
 </code></pre>
 
-<p>Force.com also supports multi-value selections. To pick multiple varietals for a single wine, use an array type instead.</p>
+<p>Database.com also supports multi-value selections. To pick multiple varietals for a single wine, use an array type instead.</p>
 
 <pre><code>public enum Varietal { Cabernet_Sauvignon, Syrah, Pinot_Noir, Zinfandel }
 
@@ -310,9 +310,9 @@ private Varietal[] varietal;
 
 <p><a name="restrictedPicklist"> </a></p>
 
-<h2>Restricted Versus Non-Restricted Picklists</h2>
+<h2>Restricted versus Non-Restricted Picklists</h2>
 
-<p>Force.com supports two types of picklists: restricted and non-restricted. A restricted picklist only allows valid enumeration
+<p>Database.com supports two types of picklists: restricted and non-restricted. A restricted picklist only allows valid enumeration
 values. The field type should match the type of the enum representing the picklist values for picklists or an array of the enum
 type for multi-select picklists. For example:</p>
 
@@ -349,7 +349,7 @@ non-restricted picklists.</p>
 
 <h2>Email Fields</h2>
 
-<p>To create a Force.com email field, use <code>@CustomField(type=FieldType.Email)</code> with a String Java type. For example:</p>
+<p>To create a Database.com email field, use <code>@CustomField(type=FieldType.Email)</code> with a String Java type. For example:</p>
 
 <pre><code>@CustomField(type=FieldType.Email)
 String orderEmail;
@@ -359,7 +359,7 @@ String orderEmail;
 
 <h2>Phone Fields</h2>
 
-<p>To create a Force.com phone field, use <code>@CustomField(type=FieldType.Phone)</code> with a String Java type. For example:</p>
+<p>To create a Database.com phone field, use <code>@CustomField(type=FieldType.Phone)</code> with a String Java type. For example:</p>
 
 <pre><code>@CustomField(type=FieldType.Email)
 String orderEmail;
@@ -369,7 +369,7 @@ String orderEmail;
 
 <h2>URL Fields</h2>
 
-<p>To create a Force.com URL field, use the <a href="jpa-annotations-standard#basicAnnotation">@Basic annotation</a> with a URL Java type. You need the <code>@Basic</code> annotation to enable persistence for the field because URL is not one of the Java types that is persisted by default. For example:</p>
+<p>To create a Database.com URL field, use the <a href="jpa-annotations-standard#basicAnnotation">@Basic annotation</a> with a URL Java type. You need the <code>@Basic</code> annotation to enable persistence for the field because URL is not one of the Java types that is persisted by default. For example:</p>
 
 <pre><code>@Basic
 URL companyUrl;
@@ -379,7 +379,7 @@ URL companyUrl;
 
 <h2>Percent Fields</h2>
 
-<p>To create a Force.com percent field, use <code>@CustomField(type=FieldType.Percent)</code> with any Java type that <a href="java-db-com-datatypes-map">maps to a Force.com Number field</a>, such as int or double. For example:</p>
+<p>To create a Database.com percent field, use <code>@CustomField(type=FieldType.Percent)</code> with any Java type that <a href="java-db-com-datatypes-map">maps to a Database.com Number field</a>, such as int or double. For example:</p>
 
 <pre><code>@CustomField(type=FieldType.Percent)
 int mainVarietalPercent;
@@ -392,13 +392,13 @@ int mainVarietalPercent;
 <p>A formula is a field whose value is derived from other fields, expressions, or values. For more information about formula fields,
 see <a href="http://na1.salesforce.com/help/doc/en/customize_formulas.htm">Building Formulas</a>.</p>
 
-<p>To create a Force.com formula field, use a <code>@CustomField</code> annotation with a String Java type. For example:</p>
+<p>To create a Database.com formula field, use a <code>@CustomField</code> annotation with a String Java type. For example:</p>
 
 <pre><code>@CustomField(type=FieldType.Text, formula="formulaValue")
 String snazzyFormula;
 </code></pre>
 
-<p>Formula fields are read only. A formula can return a Currency, Date, DateTime, Number, Percent, or Text FieldType. To see how these types map to Java data types, see <a href="java-db-com-datatypes-map#mapForceToJava">Mapping Force.com to Java Data Types</a>.</p>
+<p>Formula fields are read only. A formula can return a Currency, Date, DateTime, Number, Percent, or Text FieldType. To see how these types map to Java data types, see <a href="java-db-com-datatypes-map#mapForceToJava">Mapping Database.com to Java Data Types</a>.</p>
 
 <p>Use the optional <code>treatBlankAs</code> attribute to control how blank values are interpreted. The default value is
 <code>TreatBlanksAs.BlankAsBlank</code>.</p>
@@ -407,7 +407,7 @@ String snazzyFormula;
 
 <h2>Relationship Fields</h2>
 
-<p>Force.com supports two types of relationships between entities: Lookup and Master-Detail. You can perform
+<p>Database.com supports two types of relationships between entities: Lookup and Master-Detail. You can perform
 join queries on entities connected by a relationship field.</p>
 
 <h3>Master-Detail</h3>
@@ -440,7 +440,7 @@ entity as a producer Lookup field with a <code>@ManyToOne</code> annotation.</p>
 private Producer producer;
 </code></pre>
 
-<p>To set the Lookup field name in Force.com to be something other than producer, use the <code>@Column</code> annotation.</p>
+<p>To set the Lookup field name in Database.com to be something other than producer, use the <code>@Column</code> annotation.</p>
 
 <pre><code>@Column(name = "wine_producer")
 @ManyToOne
@@ -543,7 +543,7 @@ attributes for the Database.com JPA provider.</p>
 
 <h2>Binary (Base64) Fields</h2>
 
-<p>Force.com only supports binary values for <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_objects_attachment.htm">Attachment</a>, <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_objects_document.htm">Document</a>, or <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_objects_scontrol.htm">Scontrol</a> standard objects. You can't use byte[] fields
+<p>Database.com only supports binary values for <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_objects_attachment.htm">Attachment</a>, <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_objects_document.htm">Document</a>, or <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_objects_scontrol.htm">Scontrol</a> standard objects. You can't use byte[] fields
 to represent binary (blob) data in custom Database.com entities.</p>
 
 <p>In Java classes representing Attachment, Document, or Scontrol standard objects, use a byte[] field for the base64–encoded

@@ -187,8 +187,7 @@ is responsible for creating and removing persistent entity instances and finding
 <p>You access an entity manager by first creating an instance of an <code>EntityManagerFactory</code> object for a persistence unit defined
 in <code>persistence.xml</code>. Using the factory class, you can then create an <code>EntityManager</code> object.</p>
 
-<p>The following sample creates an entity manager. The details of interacting with your data after creating the entity manager is
-omitted.</p>
+<p>The following sample creates an entity manager. The details of interacting with your data after creating the entity manager are omitted.</p>
 
 <pre><code>private void setupEntityManager(String persistenceUnitName)
 {
@@ -260,7 +259,8 @@ omitted.</p>
     }
     catch (PersistenceException pex) {
         pex.printStackTrace();
-    } finally {
+    }
+    finally {
         em.close();
         tx.rollback();
     }

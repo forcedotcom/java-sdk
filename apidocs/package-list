@@ -1,8 +1,8 @@
 com.force.sdk.codegen
 com.force.sdk.codegen.builder
 com.force.sdk.codegen.filter
-com.force.sdk.codegen.injector
 com.force.sdk.codegen.renderer
+com.force.sdk.codegen.selector
 com.force.sdk.codegen.template
 com.force.sdk.codegen.writer
 com.force.sdk.connector

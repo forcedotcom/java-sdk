@@ -175,7 +175,7 @@ end
 		<div class="topic_content">
       <h1>Introduction</h1>
 
-<p>Force.com is a complete application development platform that provides tools for managing data, logic, and user interfaces of your cloud apps. Database.com is the underlying database that powers Force.com and all the applications built on the platform, including Sales Cloud, Service Cloud and Chatter.</p>
+<p>Force.com is a complete application development platform that provides tools for managing data, logic, and user interfaces of your cloud apps. Database.com is the underlying database that powers Force.com and all the applications built on the platform, including Sales Cloud, Service Cloud, and Chatter.</p>
 
 <p>If you are a Force.com developer, you are already using Database.com to manage the data for your application and to automatically expose your data in both a <a href="http://developer.force.com/REST">REST API</a> and <a href="http://www.salesforce.com/us/developer/docs/api/index.htm">SOAP API</a>. It also provides a <a href="http://www.salesforce.com/us/developer/docs/api_meta/index.htm">Metadata API</a> to handle changes to your data model.</p>
 
@@ -189,7 +189,7 @@ end
 </ul>
 
 
-<p>The SDK is not tied to any particular runtime. You can build applications that run on your own server, on Amazon's EC2 or other cloud runtimes as long as you can make HTTPS connections to Database.com.</p>
+<p>The SDK is not tied to any particular runtime. You can build applications that run on your own server, on Amazon's EC2, or other cloud runtimes as long as you can make HTTPS connections to Database.com.</p>
 
 <p>You can use the Database.com Java SDK with any organization that has Force.com API calls enabled. This includes Enterprise, Unlimited, Developer, and Database.com Editions.</p>
 
@@ -207,21 +207,29 @@ end
 
 <p><a href="jpa-provider">Read more</a></p>
 
-<h2>OAuth authentication and authorization</h2>
+<h2>OAuth Authentication and Authorization</h2>
 
 <p>If you're building an application for authenticated Database.com users, you can configure single sign-on and leverage the security model in Database.com using OAuth2.</p>
 
 <p><a href="oauth-auth">Read more</a></p>
 
-<h2>Spring security plugin</h2>
+<h2>Spring Security Plugin</h2>
 
 <p>This plugin enables you to use Spring Security for authentication and authorization in your applications. The Spring Security library uses the API Connector and the OAuth Connector to allow authentication via the Force.com APIs. There is also a custom Spring Security namespace that helps to simplify configuration.</p>
 
 <p><a href="spring-security">Read more</a></p>
 
-<h2>Spring MVC project template</h2>
+<h2>Spring MVC Project Template</h2>
 
 <p>The SDK includes a Spring MVC project template distributed as a Maven archetype. You can quickly and easily create new projects from this template. The template sets up all the Maven dependencies needed for a new Spring MVC application using the JPA provider and Spring Security plugin.</p>
+
+<p>To see the Maven archetype in action, read the <a href="quick-start">quick start</a>.</p>
+
+<h2>Code Generation Plugin</h2>
+
+<p>This plugin is not part of the Database.com Java SDK, but you can use it to generate Java classes based on the objects already present in your organization.</p>
+
+<p><a href="https://github.com/forcedotcom/maven-force-plugin">Read more</a></p>
 
 		</div>
 	</div>

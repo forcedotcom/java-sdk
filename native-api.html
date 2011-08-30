@@ -195,34 +195,6 @@ end
 
 <p><a href="http://www.salesforce.com/us/developer/docs/api_asynch/">Read more about the Bulk API</a></p>
 
-<p><a name="setAPIversion"> </a></p>
-
-<h2>Setting an API Version</h2>
-
-<p>By default, a Database.com Service Connector is bound to the API whose major version matches its own. For example, a service connector from SDK version 22.0.0 is automatically bound to API version 22.0.</p>
-
-<pre><code>// ForceConnectorConfig, ForceServiceConnector from SDK 22.0.0
-ForceConnectorConfig config = new ForceConnectorConfig();
-config.setConnectionUrl("force://login.salesforce.com;user=user@salesforcedoc.org;password=samplePassword");
-
-// Gets a connection to API version 22.0
-ForceServiceConnector connector = new ForceServiceConnector(config);
-PartnerConnection connection = connector.getConnection();
-</code></pre>
-
-<p>However, for certain advanced use cases, you may wish to issue native API calls to a different version of the API. To do this, you can override the default API version bound to a service connector by specifying a fully qualified API endpoint. In the following example, we are getting an API version 23.0 connection using SDK version 22.0.0.</p>
-
-<pre><code>// ForceConnectorConfig, ForceServiceConnector from SDK 22.0.0
-ForceConnectorConfig config = new ForceConnectorConfig();
-config.setConnectionUrl("force://login.salesforce.com/services/Soap/u/23.0;user=user@salesforcedoc.org;password=samplePassword");
-
-// Gets a connection to API version 23.0
-ForceServiceConnector connector = new ForceServiceConnector(config);
-PartnerConnection connection = connector.getConnection();
-</code></pre>
-
-<p>For more information about connection endpoints, see <a href="connection-url#configConnectionURL">Connection Configuration</a>.</p>
-
 <h2>API Queries</h2>
 
 <p>An alternative to using JPQL or SOQL queries is to bypass JPA and execute a <a href="http://www.salesforce.com/us/developer/docs/api/index_Left.htm#StartTopic=Content/sforce_api_calls_query.htm">query()</a> call using the Web services API. The advantage of using JPQL or SOQL rather than a <code>query()</code> call is that JPA entities are
