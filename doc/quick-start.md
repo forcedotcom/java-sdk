@@ -66,7 +66,7 @@ Navigate to <http://localhost:8080/hellocloud> where you should see a welcome sc
 
 ## 4. Next Steps
 
-The Database.com SDK is not tied to any particular runtime. You can now proceed to deploy the application on your own server, Cloud Foundry, Heroku, EC2, or other cloud runtimes as long as you can make HTTPS connections to Database.com.
+The Database.com SDK is not tied to any particular runtime. You can now proceed to deploy the application on your own server, Heroku, EC2, or other cloud runtimes as long as you can make HTTPS connections to Database.com.
 
 See [Running your quick start application on Heroku](quick-start-on-heroku) for instructions to get your application running on Heroku.
 
