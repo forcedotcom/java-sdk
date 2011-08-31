@@ -31,7 +31,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Database.com Java SDK - Java and Database.com Terminology</title>
+	<title>Database.com Java SDK - Running Your Quick Start Application on Heroku</title>
 	<link type="text/css" rel="stylesheet" href="stylesheets/docs.css" media="screen" />
 	<link type="text/css" rel="stylesheet" href="stylesheets/header.css" media="screen" />
 	<link type="text/css" rel="stylesheet" href="stylesheets/coderay.css" media="screen" />
@@ -175,57 +175,78 @@ end
 
 	<div id="content">
 		<div class="topic_content">
-      <h1>Java and Database.com Terminology</h1>
+      <h1>Running Your Quick Start Application on Heroku</h1>
 
-<p>Database.com uses different terminology compared to a relational database. It's helpful to understand these terminology differences and how Database.com terminology maps to Java concepts that you are already familiar with. This table summarizes the terminology mapping.</p>
+<p>Once you have run through the <a href="quick-start">Quick Start Tutorial</a> you'll have a simple application that uses the Database.com SDK. If you want to run this application, or one that you have built using the same structure, in the cloud then one of your choices is the <a href="http://www.heroku.com">Heroku</a> platform. This tutorial will show you how to run your application on Heroku.</p>
 
-<table border="1">
-<tr>
-    <th>Java Terminology</th>
-    <th>Relational Database Terminology</th>
-    <th>Database.com Terminology</th>
-</tr>
+<h2>Getting Set Up To Use Heroku</h2>
 
-<tr>
-    <td>N/A</td>
-    <td>database</td>
-    <td>organization</td>
-</tr>
-<tr>
-    <td>
-        <ul>
-            <li>Java class <sup>1</sup></li>
-            <li>JPA entity</li>
-        </ul>
-    </td>
-    <td>table</td>
-    <td>
-        <ul>
-            <li>custom object</li>
-            <li>Database.com entity</li>
-        </ul>
-    </td>
-</tr>
-<tr>
-    <td>Java field</td>
-    <td>column</td>
-    <td>field</td>
-</tr>
-<tr>
-    <td>Java object</td>
-    <td>row</td>
-    <td>record</td>
-</tr>
+<p>You can sign up for an account at <a href="http://www.heroku.com">Heroku's website</a>.</p>
 
-</table>
+<p>You'll also find instructions on <a href="http://devcenter.heroku.com/articles/quickstart">Installing the Heroku gem</a>.</p>
 
+<p>Make sure you have both of those things set up before continuing.</p>
 
+<h2>Build Your App</h2>
 
+<p>Build your app locally:</p>
 
-<p>
-<sup>1</sup> If any table cell has more than one entry, the terms are equivalent.
-</p>
+<pre><code>$ mvn package
+</code></pre>
 
+<h2>Store Your App in Git</h2>
+
+<p>Create a git repository for your application and do your initial commit.</p>
+
+<pre><code>$ git init
+$ git add .
+$ git commit -m "init"
+</code></pre>
+
+<h1>Deploy to Heroku/Cedar</h1>
+
+<p>Create the app on the Cedar stack:</p>
+
+<pre><code>$ heroku create --stack cedar
+Creating stark-sword-398... done, stack is cedar
+http://stark-sword-398.herokuapp.com/ | git@heroku.com:stark-sword-398.git
+Git remote heroku added
+</code></pre>
+
+<p>Deploy your code:</p>
+
+<pre><code>$ git push heroku master
+Counting objects: 9, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (9/9), 1.37 KiB, done.
+Total 9 (delta 0), reused 0 (delta 0)
+
+-----&gt; Heroku receiving push
+-----&gt; Java app detected
+-----&gt; Installing Maven 3.0.3..... done
+-----&gt; executing .maven/bin/mvn -B -Duser.home=/tmp/build_1cq2vqzdjg7yh -DskipTests=true clean install
+       [INFO] Scanning for projects...
+       [INFO]                                                                         
+       [INFO] ------------------------------------------------------------------------
+       [INFO] Building hellocloud 1.0-SNAPSHOT
+       [INFO] ------------------------------------------------------------------------
+       ...
+       [INFO] ------------------------------------------------------------------------
+       [INFO] BUILD SUCCESS
+       [INFO] ------------------------------------------------------------------------
+       [INFO] Total time: 25.671s
+       [INFO] Finished at: Thu Aug 18 05:22:18 UTC 2011
+       [INFO] Final Memory: 10M/225M
+       [INFO] ------------------------------------------------------------------------
+-----&gt; Discovering process types
+       Procfile declares types -&gt; web
+-----&gt; Compiled slug size is 43.4MB
+-----&gt; Launching... done, v1
+       http://stark-sword-398.herokuapp.com deployed to Heroku
+</code></pre>
+
+<p>Looks good.  We can now visit the app with <code>heroku open</code>.</p>
 
 		</div>
 	</div>

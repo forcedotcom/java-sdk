@@ -77,6 +77,8 @@
 
  <li><a href="quick-start">Quick Start</a></li>
 
+ <li><a href="quick-start-on-heroku">Running The Quick Start On Heroku</a></li>
+
  <li><a href="sts">SpringSource Tool Suite</a></li>
 
  <li><a href="java-database-terminology">Database.com Terminology</a></li>
@@ -194,7 +196,7 @@ end
 
 <p>Navigate to the directory where you want to create the new project and create it from a Maven archetype by executing the following command:</p>
 
-<pre><code>mvn archetype:generate -DarchetypeGroupId=com.force.sdk -DarchetypeArtifactId=springmvc-archetype
+<pre><code>mvn archetype:generate -DarchetypeCatalog=http://oss.sonatype.org/content/repositories/snapshots/archetype-catalog.xml -DarchetypeArtifactId=springmvc-archetype -DarchetypeGroupId=com.force.sdk -DarchetypeVersion=22.0.5-SNAPSHOT
 </code></pre>
 
 <p>You will be prompted for a couple of properties for your project. You only need to fill out two: groupId and artifactId. Set groupId to the Java package name for your code and artifactId to your application's name:</p>
@@ -239,7 +241,9 @@ Define value for property 'artifactId': : hellocloud
 
 <h2>4. Next Steps</h2>
 
-<p>The Database.com SDK is not tied to any particular runtime. You can now proceed to deploy the application on your own server, Cloud Foundry, EC2, or other cloud runtimes as long as you can make HTTPS connections to Database.com.</p>
+<p>The Database.com SDK is not tied to any particular runtime. You can now proceed to deploy the application on your own server, Heroku, EC2, or other cloud runtimes as long as you can make HTTPS connections to Database.com.</p>
+
+<p>See <a href="quick-start-on-heroku">Running your quick start application on Heroku</a> for instructions to get your application running on Heroku.</p>
 
 <p>If you want to take a look at an application that is built out a little bit more, you can look at the "Music Library" application here: <a href="https://github.com/forcedotcom/javasample-musiclib">https://github.com/forcedotcom/javasample-musiclib</a>. You can clone this project by running:</p>
 
