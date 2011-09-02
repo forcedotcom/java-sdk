@@ -30,7 +30,7 @@ The simplest way to configure a Spring application is to include the fss namespa
  		 <fss:connectionUrl url="URL or a ${Java system property} or ${environment variable}" />
 	    </fss:oauth>
 
-	    <!-- Include this bean, if connection URL is in Java system property or environment variable.
+	    <!-- Include this bean, if connection URL is in Java system property or environment variable. -->
 	    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" />
 
 	    <!-- Configure Spring Security -->

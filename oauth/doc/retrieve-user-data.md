@@ -106,10 +106,11 @@ If you're using Spring Security, you can inject your CustomUserDataRetriever int
 
     <!-- SFDC OAuth security config -->
     <fss:oauth logout-from-sfdc="true" />
-	<fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="sfdc.oauthKey"
-	oauth-secret="sfdc.oauthSecret" />
-	<fss:customUserDataRetriever ref="sampleUserDataRetriever"/>
+    <fss:connectionUrl url="URL or a ${Java system property} or ${environment variable}" />
     </fss:oauth>
+
+	 <!-- Include this bean, if connection URL is in Java system property or environment variable. -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" />
 
 Substitute values for the `sfdc.oauthKey` and `sfdc.oauthSecret` placeholders.
 
