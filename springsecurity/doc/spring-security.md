@@ -27,9 +27,11 @@ The simplest way to configure a Spring application is to include the fss namespa
 
 	    <!-- Database.com OAuth security config -->
 	    <fss:oauth logout-from-sfdc="true" />
-		<fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="sfdc.oauthKey"
-		oauth-secret="sfdc.oauthSecret" />
+ 		 <fss:connectionUrl url="URL or a ${Java system property} or ${environment variable}" />
 	    </fss:oauth>
+
+	    <!-- Include this bean, if connection URL is in Java system property or environment variable.
+	    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" />
 
 	    <!-- Configure Spring Security -->
 	    <security:http>
@@ -37,8 +39,6 @@ The simplest way to configure a Spring application is to include the fss namespa
 	    </security:http>
 	   
 	</beans>
-
-You must substitute values for the `sfdc.oauthKey` and `sfdc.oauthSecret` placeholders in the `<fss:oauthInfo>` tag.
 
 The main customizations of interest are:
 
@@ -50,7 +50,7 @@ The main customizations of interest are:
 The \<oauth /> tag requires that you provide OAuth properties using the `connectionUrl` tag. For example:
 
 	<fss:oauth>
-        <fss:connectionUrl url="force://login.salesforce.com;oauth_key=sampleKey;oauth_secret=sampleSecret" />
+        <fss:connectionUrl url="force://login.salesforce.com?oauth_key=sampleKey&amp;oauth_secret=sampleSecret" />
     </fss:oauth>
 
 It is preferable to configure the connection URL as a system property or environment variable rather than setting the URL directly in the `connectionUrl` tag. 
@@ -62,12 +62,12 @@ Instead, set the connection URL as a system property or environment variable and
 
 Set the following in your `spring-configuration.xml` file:
 
-    <!-- Uses the connection URL in the FORCE_MYCONNECTOR_URL environment variable or Java system property -->
+    <!-- Uses the connection URL in the CONNECTION_URL environment variable or Java system property -->
     <fss:oauth>
-        <fss:connectionUrl url="${FORCE_MYCONNECTOR_URL}" />
+        <fss:connectionUrl url="${CONNECTION_URL}" />
     </fss:oauth>
 
-The `PropertyPlaceholderConfigurer` looks for a `FORCE_MYCONNECTOR_URL` Java system property. If that's not found, it looks for a `FORCE_MYCONNECTOR_URL` environment variable.
+The `PropertyPlaceholderConfigurer` looks for a `CONNECTION_URL` Java system property. If that's not found, it looks for a `CONNECTION_URL` environment variable.
 
 The following attributes are optional for &lt;fss:oauth> in `spring-configuration.xml`:
 

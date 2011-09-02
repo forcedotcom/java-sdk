@@ -23,6 +23,7 @@ to persist them. Each persistence unit has a unique name. In this example, there
             will be autodiscovered based on @Entity annotation -->
             <properties>
                 <property name="datanucleus.storeManagerType" value="force" />
+                <property name="datanucleus.connectionURL" value="${CONNECTION_URL}" />
                 <property name="datanucleus.autoCreateSchema" value="true" />
                 <property name="datanucleus.validateTables" value="false" />
                 <property name="datanucleus.validateConstraints" value="false" />
@@ -107,9 +108,6 @@ Use the URL format to encode all authentication information.
     force://login.salesforce.com?user=user@salesforcedoc.org&amp;password=samplePassword
 
 Each version of the Database.com Java SDK is automatically linked with an API version. 
-
-### force.ConnectionName
-Use this property to define a named connection for a persistence unit. You can refer to the named connection when you are configuring a connection URL outside `persistence.xml`. For example, you can configure a connection URL in an environment variable or Java system property.  
 
 For more details, see [Configuring Connection URLs](connection-url#configConnectionURL).
 

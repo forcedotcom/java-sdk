@@ -88,8 +88,8 @@ If you aren't using Spring Security, you must provide the name of your CustomUse
 		<filter-name>AuthFilter</filter-name>
 		<filter-class>com.force.sdk.oauth.AuthFilter</filter-class>
 			 <init-param>
-			 	<param-name>connectionName</param-name>
-			 	<param-value>oauthSampleApp</param-value>
+			 	<param-name>url</param-name>
+			 	<param-value>URL or a ${Java system property} or ${environment variable}</param-value>
 			 </init-param>
 			 <init-param>
 			 	<param-name>customDataRetriever</param-name>

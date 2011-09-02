@@ -68,7 +68,7 @@ Specify the connection URL in your `persistence.xml` file as follows:
 
      <property name="datanucleus.ConnectionURL" value="force://login.salesforce.com?user=user@salesforcedoc.org&amp;password=samplePassword" />
 
-Notice that & has been escaped as &amp as & has special meaning in XML files. 
+Notice that & has been escaped as &amp; as & has special meaning in XML files. 
 
 You can also configure your connection URL in a system property or environment variable. Then you can reference it in your `persistence.xml` file with dollar sign curly brace notation:
 
