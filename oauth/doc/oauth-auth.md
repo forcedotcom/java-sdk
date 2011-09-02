@@ -29,14 +29,15 @@ You'll now see your application in the list of remote access applications. Click
 ### Configuring the Force.com OAuth Connector
 
 To use the connector, add the following servlet filter to your application's `web.xml` file:
+You can set the connection URL in the `<param-value>` for the **url** `<param-name>` or you can reference a system property or environment variable that contains the connection URL by setting `<param-value>` to ${CONNECTION_URL}. The AuthFilter will look for the URL in a system property named `CONNECTION_URL`. If it's not found there, it looks for an environment variable named `CONNECTION_URL`. 
 
 	<!-- Enables Security -->
 	<filter>
 		<filter-name>AuthFilter</filter-name>
 		<filter-class>com.force.sdk.oauth.AuthFilter</filter-class>
 			 <init-param>
-			 	<param-name>connectionName</param-name>
-			 	<param-value>nameOfConnectionToUse</param-value>
+			 	<param-name>url</param-name>
+			 	<param-value>URL or a ${Java system property} or ${environment variable}</param-value>
 			</init-param>
 
 
@@ -69,11 +70,13 @@ To use the connector, add the following servlet filter to your application's `we
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-The OAuth Connector uses the Force.com API Connector to access the Force.com APIs. The <code>connectionName</code> is used to look up OAuth properties defined in an environment variable, or a Java system property, or in a properties file on the classpath. For example, if you use a <code>connectionName</code> of `forceDatabase`, you can encode the connection information in a connection URL set in the FORCE\_*FORCEDATABASE*\_URL environment variable:
+The OAuth Connector uses the Force.com API Connector to access the Force.com APIs. The <code>url</code> is used to define OAuth properties. For example, the connection URL below specifies the OAuth key and secret that your application will need:
 
 <pre>
   <code>force://login.salesforce.com?user=<em>user@salesforcedoc.org</em>&password=<em>samplePassword</em>&oauth_key=<em>3MVG9lKcPoNINVBLqaGC0WiLS7H9aehOXaZad80Ve1OB43i.DpfCjn_SqwIAtyY6Lnuzcvdxgzu.IAaLVk4pH.</em>&oauth_secret=<em>516990866494775428</em></code>
 </pre>
+
+This URL can be stored in a system property or environment variable. Just put the case-sensitive name of that property or variable into the <code><param-value></code> tag of the url param in the following format: <code>${PARAMETER_NAME}</code>.
 
 For more information about setting up connection URLs, see [Force.com Database Connections](connection-url).
 
