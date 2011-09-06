@@ -73,6 +73,14 @@ public class BasicCRUDTest extends BaseMultiEntityManagerJPAFTest {
      */
     @Test
     public void testBasicPersistJarEntity() {
+        
+        EntityManagerFactory emfac4;
+        EntityManager em4;
+        
+        TestContext ctx = TestContext.get();
+        emfac4 = Persistence.createEntityManagerFactory(ctx.getPersistenceUnitName() + "4");
+        em4 = emfac4.createEntityManager();
+
         JarEntity entity = new JarEntity();
         entity.setName("jar entity");
         EntityTransaction tx = em4.getTransaction();

@@ -43,10 +43,8 @@ public abstract class BaseMultiEntityManagerJPAFTest extends BaseJPAFTest {
 
     protected EntityManagerFactory emfac2;
     protected EntityManagerFactory emfac3;
-    protected EntityManagerFactory emfac4;
     public EntityManager em2;
     public EntityManager em3;
-    public EntityManager em4;
 
     @Override
     protected void createStaticEntityMangers() throws Exception {
@@ -54,10 +52,8 @@ public abstract class BaseMultiEntityManagerJPAFTest extends BaseJPAFTest {
         TestContext ctx = TestContext.get();
         emfac2 = Persistence.createEntityManagerFactory(ctx.getPersistenceUnitName() + "2");
         emfac3 = Persistence.createEntityManagerFactory(ctx.getPersistenceUnitName() + "3");
-        emfac4 = Persistence.createEntityManagerFactory(ctx.getPersistenceUnitName() + "4");
         em2 = emfac2.createEntityManager();
         em3 = emfac3.createEntityManager();
-        em4 = emfac4.createEntityManager();
     }
         
     /**
@@ -73,9 +69,6 @@ public abstract class BaseMultiEntityManagerJPAFTest extends BaseJPAFTest {
         }
         if (em3.getTransaction().isActive()) {
             em3.getTransaction().rollback();
-        }
-        if (em4.getTransaction().isActive()) {
-            em4.getTransaction().rollback();
         }
     }
 }
