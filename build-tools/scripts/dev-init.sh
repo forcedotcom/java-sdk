@@ -117,6 +117,9 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
   fi
 
   echo
+  read -p "Please provide your api security token: " force_apiToken
+
+  echo
   echo "Developer Edition Force.com orgs can carry a namespace. These can be created under Setup > Create > Packages."
   echo "If the test org has a Force.com namespace, please enter it below. If no namespace exists or has been created, then simple hit [ENTER]."
   FORCE_NAMESPACE_DEFAULT=$(grep ^force\.namespace= $TEST_ORG_PROPERTIES_FILE | cut -d '=' -f2)
@@ -149,6 +152,7 @@ if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
   sed -i s/^force.apiVersion=.*/force.apiVersion=$force_apiVersion/g $TEST_ORG_PROPERTIES_FILE
   sed -i s/^user=.*/user=$user/g $TEST_ORG_PROPERTIES_FILE
   sed -i s/^password=.*/password=$password/g $TEST_ORG_PROPERTIES_FILE
+  sed -i s/^api.security.token=.*/api.security.token=$force_apiToken/g $TEST_ORG_PROPERTIES_FILE
   sed -i s/^force.namespace=.*/force.namespace=$force_namespace/g $TEST_ORG_PROPERTIES_FILE
   sed -i s/^force.test.oauth.key=.*/force.test.oauth.key=$force_test_oauth_key/g $TEST_ORG_PROPERTIES_FILE
   sed -i s/^force.test.oauth.secret=.*/force.test.oauth.secret=$force_test_oauth_secret/g $TEST_ORG_PROPERTIES_FILE
