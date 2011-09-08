@@ -26,26 +26,19 @@
 
 package com.force.sdk.jpa;
 
-import com.force.sdk.connector.ForceConnectorConfig;
-import com.force.sdk.connector.ForceConnectorUtils;
-import com.force.sdk.jpa.schema.ForceSchemaWriter;
-import com.force.sdk.jpa.schema.ForceStoreSchemaHandler;
-import com.force.sdk.jpa.schema.SchemaDeleteProperty;
-import com.force.sdk.jpa.table.TableImpl;
-import org.datanucleus.ClassLoaderResolver;
-import org.datanucleus.OMFContext;
-import org.datanucleus.PersistenceConfiguration;
+import java.lang.reflect.Field;
+import java.util.*;
+
+import org.datanucleus.*;
 import org.datanucleus.metadata.AbstractClassMetaData;
 import org.datanucleus.plugin.PluginManager;
 import org.datanucleus.plugin.PluginRegistry;
-import org.datanucleus.store.AbstractStoreManager;
-import org.datanucleus.store.ExecutionContext;
-import org.datanucleus.store.NucleusConnection;
+import org.datanucleus.store.*;
 
-import java.lang.reflect.Field;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import com.force.sdk.connector.ForceConnectorConfig;
+import com.force.sdk.connector.ForceConnectorUtils;
+import com.force.sdk.jpa.schema.*;
+import com.force.sdk.jpa.table.TableImpl;
 
 /**
  * 
@@ -81,6 +74,7 @@ public class ForceStoreManager extends AbstractStoreManager {
      * Looks into system variable and environment variables if url is in ${...} format.
      * @return Connection URL
      */
+    @Override
     public String getConnectionURL() {
         String connectionUrl = super.getConnectionURL();
 
