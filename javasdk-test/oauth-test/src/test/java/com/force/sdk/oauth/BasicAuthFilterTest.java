@@ -418,8 +418,8 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
                 ForceServiceConnector forceConn = new ForceServiceConnector(config);
                 PartnerConnection partnerConn = forceConn.getConnection();
                 QueryResult qr = partnerConn.query("select ProfileId from User where Id='" + userInfo.getUserId() + "'");
-                String ProfileId = (String) qr.getRecords()[0].getField("ProfileId");
-                qr = partnerConn.query("select Name from Profile where Id='" + ProfileId + "'");
+                String profileId = (String) qr.getRecords()[0].getField("ProfileId");
+                qr = partnerConn.query("select Name from Profile where Id='" + profileId + "'");
                 userRole = (String) qr.getRecords()[0].getField("Name");
             } catch (ConnectionException e) {
                 throw new IOException(e);
