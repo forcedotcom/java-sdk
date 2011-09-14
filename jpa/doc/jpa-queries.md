@@ -423,8 +423,7 @@ Fields of the following data types are members of a default fetch group and are 
     </dd>
 </dl>
 
-These default eager data types are standard for DataNucleus, except for Calendar and GregorianCalendar, which are
-eagerly loaded by the Database.com JPA provider to support optimistic transactions.
+These default eager data types are standard for DataNucleus, except for Calendar and GregorianCalendar.
 
 You can also explicitly mark a field as eager or lazy by adding the <code>FetchType.EAGER</code> or <code>FetchType.LAZY</code> attribute to an
 <code>@Basic</code> or <code>@ManyToOne</code> annotation. A separate query is executed when you access the data for any lazily loaded field.

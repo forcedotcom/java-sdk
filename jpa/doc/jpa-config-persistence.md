@@ -23,6 +23,7 @@ to persist them. Each persistence unit has a unique name. In this example, there
             will be autodiscovered based on @Entity annotation -->
             <properties>
                 <property name="datanucleus.storeManagerType" value="force" />
+                <property name="datanucleus.connectionURL" value="${CONNECTION_URL}" />
                 <property name="datanucleus.autoCreateSchema" value="true" />
                 <property name="datanucleus.validateTables" value="false" />
                 <property name="datanucleus.validateConstraints" value="false" />
@@ -108,9 +109,6 @@ Use the URL format to encode all authentication information.
 
 Each version of the Database.com Java SDK is automatically linked with an API version. 
 
-### force.ConnectionName
-Use this property to define a named connection for a persistence unit. You can refer to the named connection when you are configuring a connection URL outside `persistence.xml`. For example, you can configure a connection URL in an environment variable or Java system property.  
-
 For more details, see [Configuring Connection URLs](connection-url#configConnectionURL).
 
 <a name="transProps"> </a>
@@ -131,27 +129,6 @@ in the transaction.
 If a transaction includes an insert, update, and a delete operation, this property applies to each operation separately. For
 example, if the insert and delete operations have no errors, but the update operation has at least one error, the insert and
 delete operations are committed, while the update operation doesn't change any records due to the error.
-
-### datanucleus.Optimistic
-Contact salesforce.com if you want to enable optimistic transactions for your organization. Once salesforce.com has enabled optimistic transactions for your organization, you can set this property to <code>true</code> to use optimistic transactions.
-
-Optimistic concurrency control is a method that assumes that
-multiple transactions can complete without affecting each other, and that transactions can proceed without locking the
-data resources that they affect. Before committing, each transaction verifies that no other transaction has modified its
-data. If the check reveals conflicting modifications, the committing transaction rolls back.
-
-When this property is set to <code>true</code>, each Java class that models an entity used in a transaction should include a field with
-the following signature:
-
-    @Version
-    private Calendar lastModifiedDate;
-
-The lastModifiedDate field is a system field that is automatically created for every object in Database.com.
-The @Version annotation enables JPA to use this date field to do <code>ifModifiedBefore()</code> checks on update and
-delete operations. If this check indicates that another operation has updated a record in the transaction, <code>javax.persistence.OptimisticLockException</code> is thrown as the record in the transaction has stale data. If the
-**sfdc.AllOrNothing** property is enabled, the transaction is rolled back.
-
-**Note**: If you're using optimistic transactions and you don't specify a lastModifiedDate field with an <code>@Version</code> annotation, then your transaction always succeeds even if another operation has updated a record in the transaction.
 
 ### datanucleus.detachAllOnCommit
 Set this property to <code>true</code> to detach all objects enlisted in a transaction when the transaction is committed.

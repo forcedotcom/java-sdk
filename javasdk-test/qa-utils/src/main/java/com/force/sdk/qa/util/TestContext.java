@@ -28,8 +28,11 @@ package com.force.sdk.qa.util;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
+
+import javax.persistence.EntityManagerFactory;
 
 
 /**
@@ -68,7 +71,10 @@ public final class TestContext implements Serializable {
     private transient volatile UserInfo userInfo; //last created org during this test run
     private Properties testrunProps;
     private TestType testType;
-    private static ConcurrentHashMap<String, UserInfo> testOrgInfo = new ConcurrentHashMap<String, UserInfo>();
+    private static Map<String, UserInfo> testOrgInfo = new ConcurrentHashMap<String, UserInfo>();
+    
+    private static Map<String, EntityManagerFactory> entityManagerFactoryMap
+        = new ConcurrentHashMap<String, EntityManagerFactory>();
     
     private static final InheritableThreadLocal<TestContext> TLTC =
         new InheritableThreadLocal<TestContext>() {
@@ -200,4 +206,9 @@ public final class TestContext implements Serializable {
     public void clearTestType() {
         testType = null;
     }
+
+    public Map<String, EntityManagerFactory> getEntityManagerFactoryMap() {
+        return entityManagerFactoryMap;
+    }
+
 }

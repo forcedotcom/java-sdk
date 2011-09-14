@@ -44,11 +44,13 @@ The template application that you just created defines a simple JPA entity in a 
 
 For Linux, set this variable by running the following command after replacing the user and password with your own username and password. Remember to append your security token to the password and to enclose the URL in quotes.
 
-    export FORCE_FORCEDATABASE_URL="force://login.salesforce.com;user=scott@acme.com;password=tigerVXoAIbgYSMOhSEVtcGxgt4mRP"
+    export FORCE_FORCEDATABASE_URL="force://login.salesforce.com?user=scott@acme.com&password=tigerVXoAIbgYSMOhSEVtcGxgt4mRP"
 
 For Windows, set this variable by running the following command after replacing the user and password with your own username and password.
 
-    set FORCE_FORCEDATABASE_URL=force://login.salesforce.com;user=scott@acme.com;password=tigerVXoAIbgYSMOhSEVtcGxgt4mRP
+    set FORCE_FORCEDATABASE_URL=force://login.salesforce.com?user=scott@acme.com^&password=tigerVXoAIbgYSMOhSEVtcGxgt4mRP
+
+Notice that & has been escaped as ^& for configuring on Windows.
 
 For more information about connection URLs, see [Connection URLs](connection-url).
 

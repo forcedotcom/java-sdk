@@ -56,12 +56,6 @@ public class SchemaBaseTest extends BaseJPAFTest {
         super.testCleanup();
         cleanSchema();
     }
-
-    @AfterTest
-    @Override
-    protected void testTeardown() throws Exception {
-        //don't let parent class cleanSchema, we're doing that in the testCleanup method
-    }
     
     @BeforeClass
     public void loadPersistenceUnit() throws Exception {

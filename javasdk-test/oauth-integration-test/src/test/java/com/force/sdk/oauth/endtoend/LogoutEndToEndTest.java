@@ -26,19 +26,17 @@
 
 package com.force.sdk.oauth.endtoend;
 
+import java.io.IOException;
+
+import org.testng.Assert;
+import org.testng.annotations.*;
+
 import com.force.sdk.oauth.context.SecurityContextUtil;
 import com.force.sdk.oauth.context.store.SecurityContextCookieStore;
 import com.force.sdk.qa.util.integration.BaseSecurityIntegrationTest;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
-import java.io.IOException;
 
 
 /**
@@ -50,7 +48,6 @@ import java.io.IOException;
 
 public class LogoutEndToEndTest extends BaseSecurityIntegrationTest {
 
-    private static String [] sdkCookies = {"force_sid", "force_ep", "security_context"};
     private static String [] forceDotComCookies = {"sid", "sid_Client", "clientSrc"};
     private WebClient webClient;
 

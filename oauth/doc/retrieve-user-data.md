@@ -88,8 +88,8 @@ If you aren't using Spring Security, you must provide the name of your CustomUse
 		<filter-name>AuthFilter</filter-name>
 		<filter-class>com.force.sdk.oauth.AuthFilter</filter-class>
 			 <init-param>
-			 	<param-name>connectionName</param-name>
-			 	<param-value>oauthSampleApp</param-value>
+			 	<param-name>url</param-name>
+			 	<param-value>URL or a ${Java system property} or ${environment variable}</param-value>
 			 </init-param>
 			 <init-param>
 			 	<param-name>customDataRetriever</param-name>
@@ -103,12 +103,16 @@ The second <code>init-param</code> element defines the fully qualified name of t
 
 If you're using Spring Security, you can inject your CustomUserDataRetriever into the framework via the Force.com Spring Security namespace or through standard configuration. The custom namespace looks like this:
 
+
     <!-- SFDC OAuth security config -->
     <fss:oauth logout-from-sfdc="true" />
-	<fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="${sfdc.oauthKey}"
-	oauth-secret="${sfdc.oauthSecret}" />
-	<fss:customUserDataRetriever ref="sampleUserDataRetriever"/>
+    <fss:connectionUrl url="URL or a ${Java system property} or ${environment variable}" />
     </fss:oauth>
+
+	 <!-- Include this bean, if connection URL is in Java system property or environment variable. -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" />
+
+Substitute values for the `sfdc.oauthKey` and `sfdc.oauthSecret` placeholders.
 
     <bean id="sampleUserDataRetriever" class="com.force.samples.SampleUserDataRetriever"/>
 
@@ -158,10 +162,11 @@ If you're using the Force.com security namespace, add the <code>store-data-in-se
 
     <!-- SFDC OAuth security config -->
     <fss:oauth logout-from-sfdc="true" store-data-in-session="true"/>
-        <fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="${sfdc.oauthKey}"
-	    oauth-secret="${sfdc.oauthSecret}" />
+        <fss:connectionUrl url="force://login.salesforce.com?oauth_key=sfdc.oauthKey&amp;oauth_secret=sfdc.oauthSecret" />
         <fss:customUserDataRetriever ref="sampleUserDataRetriever"/>
     </fss:oauth>
+
+Substitute values for the `sfdc.oauthKey` and `sfdc.oauthSecret` placeholders.
 
 If you're not using the namespace, you need to change the class that you wire into the securityContextStorageServiceBean. The example above shows SecurityContextCookieStore wired into the bean. To use server sessions to store user data, change it to SecurityContextSessionStore:
 

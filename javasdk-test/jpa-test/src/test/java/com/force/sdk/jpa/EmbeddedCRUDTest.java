@@ -26,18 +26,21 @@
 
 package com.force.sdk.jpa;
 
-import java.util.Calendar;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.force.sdk.jpa.sample.*;
 import com.force.sdk.jpa.sample.PhoneNumber.Phonetype;
-import com.force.sdk.qa.util.jpa.BaseMultiEntityManagerJPAFTest;
+import com.force.sdk.qa.util.TestContext;
+import com.force.sdk.qa.util.jpa.BaseJPAFTest;
+import com.sforce.ws.ConnectionException;
 
 /**
  * 
@@ -45,7 +48,26 @@ import com.force.sdk.qa.util.jpa.BaseMultiEntityManagerJPAFTest;
  *
  * @author Fiaz Hossain
  */
-public class EmbeddedCRUDTest extends BaseMultiEntityManagerJPAFTest {
+public class EmbeddedCRUDTest extends BaseJPAFTest {
+    
+    EntityManager em2;
+    EntityManager em3;
+    
+    @Override
+    @BeforeClass
+    public void initialize() throws IOException, ConnectionException {
+        super.initialize();
+        em2 = getAdditionalEntityManagers().get(TestContext.get().getPersistenceUnitName() + "2");
+        em3 = getAdditionalEntityManagers().get(TestContext.get().getPersistenceUnitName() + "3");
+    }
+    
+    @Override
+    public Set<String> getAdditionalPersistenceUnitNames() {
+        return new HashSet<String>(Arrays.asList(new String[] {
+                TestContext.get().getPersistenceUnitName() + "2",
+                TestContext.get().getPersistenceUnitName() + "3"
+        }));
+    }
 
     @Test
     public void testCRUDForEmbedded() {

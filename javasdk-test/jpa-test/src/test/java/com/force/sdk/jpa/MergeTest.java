@@ -38,7 +38,7 @@ import org.testng.annotations.Test;
 import com.force.sdk.jpa.entities.PersonEntity;
 import com.force.sdk.jpa.entities.PhoneEntity;
 import com.force.sdk.jpa.query.QueryHints;
-import com.force.sdk.qa.util.jpa.BaseMultiEntityManagerJPAFTest;
+import com.force.sdk.qa.util.jpa.BaseJPAFTest;
 
 /**
  * This class tests:-
@@ -47,7 +47,7 @@ import com.force.sdk.qa.util.jpa.BaseMultiEntityManagerJPAFTest;
  *
  * @author Nawab Iqbal
  */
-public class MergeTest extends BaseMultiEntityManagerJPAFTest {
+public class MergeTest extends BaseJPAFTest {
 
     private static String personAName = "Person A";
     private static String personBName = "Person B";

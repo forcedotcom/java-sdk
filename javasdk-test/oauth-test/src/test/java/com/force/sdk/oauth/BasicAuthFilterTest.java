@@ -26,27 +26,25 @@
 
 package com.force.sdk.oauth;
 
-import com.force.sdk.connector.ForceServiceConnector;
-import com.force.sdk.oauth.connector.TokenRetrievalServiceImpl;
-import com.force.sdk.oauth.context.ForceSecurityContextHolder;
-import com.force.sdk.oauth.context.SecurityContext;
-import com.force.sdk.oauth.context.SecurityContextUtil;
-import com.sforce.soap.partner.Connector;
-import com.sforce.ws.ConnectionException;
-import com.sforce.ws.ConnectorConfig;
-import org.springframework.mock.web.MockFilterChain;
-import org.springframework.mock.web.MockFilterConfig;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import static org.testng.Assert.*;
+
+import java.io.IOException;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequestWrapper;
-import java.io.IOException;
 
-import static org.testng.Assert.*;
+import org.springframework.mock.web.*;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import com.force.sdk.connector.ForceConnectorConfig;
+import com.force.sdk.connector.ForceServiceConnector;
+import com.force.sdk.oauth.connector.TokenRetrievalServiceImpl;
+import com.force.sdk.oauth.context.*;
+import com.sforce.soap.partner.*;
+import com.sforce.ws.ConnectionException;
+import com.sforce.ws.ConnectorConfig;
 
 /**
  * Basic functional tests for the OAuth handshake with Force.com.
@@ -383,7 +381,8 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
                         "Unexpected remote user. Expected remote user (" + request.getRemoteUser() + ") "
                             + "to start with " + endpoint);
             }
-            assertTrue(request.isUserInRole("System Administrator"), "User should be in the default role: ROLE_USER");
+            String expectedUserRole = getExpectedUserRole();
+            assertTrue(request.isUserInRole(expectedUserRole), "User should be in the default role: ROLE_USER");
             
             SecurityContext sc = ForceSecurityContextHolder.get();
             assertNotNull(sc, "SecurityContext thread local should have been set");
@@ -407,5 +406,26 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
             
             verifySecurityContext(sc, true /* checkApiEndpoint*/);
         }
+        
+        private String getExpectedUserRole() throws IOException {
+            ForceConnectorConfig config = new ForceConnectorConfig();
+            config.setAuthEndpoint(userInfo.getServerEndpoint());
+            config.setUsername(userInfo.getUserName());
+            config.setPassword(userInfo.getPassword());
+            String userRole = null;
+            
+            try {
+                ForceServiceConnector forceConn = new ForceServiceConnector(config);
+                PartnerConnection partnerConn = forceConn.getConnection();
+                QueryResult qr = partnerConn.query("select ProfileId from User where Id='" + userInfo.getUserId() + "'");
+                String profileId = (String) qr.getRecords()[0].getField("ProfileId");
+                qr = partnerConn.query("select Name from Profile where Id='" + profileId + "'");
+                userRole = (String) qr.getRecords()[0].getField("Name");
+            } catch (ConnectionException e) {
+                throw new IOException(e);
+            }
+            return userRole;
+        }
+        
     }
 }

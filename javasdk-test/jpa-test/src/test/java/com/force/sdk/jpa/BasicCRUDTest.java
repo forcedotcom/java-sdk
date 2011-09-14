@@ -26,6 +26,7 @@
 
 package com.force.sdk.jpa;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.*;
 
@@ -34,12 +35,15 @@ import javax.persistence.*;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.force.sdk.jpa.entities.*;
 import com.force.sdk.qa.util.TestContext;
-import com.force.sdk.qa.util.jpa.BaseMultiEntityManagerJPAFTest;
+import com.force.sdk.qa.util.jpa.BaseJPAFTest;
 import com.force.sdk.qa.util.logging.ForceLogAppenderValidator;
+import com.force.test.model.JarEntity;
+import com.sforce.ws.ConnectionException;
 
 /**
  * 
@@ -47,7 +51,26 @@ import com.force.sdk.qa.util.logging.ForceLogAppenderValidator;
  *
  * @author Dirk Hain
  */
-public class BasicCRUDTest extends BaseMultiEntityManagerJPAFTest {
+public class BasicCRUDTest extends BaseJPAFTest {
+    
+    EntityManager em2;
+    EntityManager em3;
+    
+    @Override
+    @BeforeClass
+    public void initialize() throws IOException, ConnectionException {
+        super.initialize();
+        em2 = getAdditionalEntityManagers().get(TestContext.get().getPersistenceUnitName() + "2");
+        em3 = getAdditionalEntityManagers().get(TestContext.get().getPersistenceUnitName() + "3");
+    }
+    
+    @Override
+    public Set<String> getAdditionalPersistenceUnitNames() {
+        return new HashSet<String>(Arrays.asList(new String[] {
+                TestContext.get().getPersistenceUnitName() + "2",
+                TestContext.get().getPersistenceUnitName() + "3"
+        }));
+    }
     
     @Test
     public void testBasicPersist() {
@@ -60,6 +83,35 @@ public class BasicCRUDTest extends BaseMultiEntityManagerJPAFTest {
             Assert.assertTrue(em.contains(entity), "The entity was not stored to the database.");
             em.remove(entity);
             Assert.assertFalse(em.contains(entity), "The entity was not deleted from the database");
+        } catch (PersistenceException pex) {
+            pex.printStackTrace();
+        } finally {
+            tx.rollback();
+        }
+    }
+    
+    /**
+     * Tests the persistence of an entity that is found in a jar file.
+     */
+    @Test
+    public void testBasicPersistJarEntity() {
+        
+        EntityManagerFactory emfac4;
+        EntityManager em4;
+        
+        TestContext ctx = TestContext.get();
+        emfac4 = Persistence.createEntityManagerFactory(ctx.getPersistenceUnitName() + "4");
+        em4 = emfac4.createEntityManager();
+
+        JarEntity entity = new JarEntity();
+        entity.setName("jar entity");
+        EntityTransaction tx = em4.getTransaction();
+        try {
+            tx.begin();
+            em4.persist(entity);
+            Assert.assertTrue(em4.contains(entity), "The entity was not stored to the database.");
+            em4.remove(entity);
+            Assert.assertFalse(em4.contains(entity), "The entity was not deleted from the database");
         } catch (PersistenceException pex) {
             pex.printStackTrace();
         } finally {
@@ -327,13 +379,13 @@ public class BasicCRUDTest extends BaseMultiEntityManagerJPAFTest {
         testPersistLifecycleUpdateExistingTransientObjectInternal(em, true);
     }
     
-    @Test
+    @Test(enabled = false)
     public void testPersistLifecycleUpdateExistingTransientObjectOptimistic() {
         testPersistLifecycleUpdateExistingTransientObjectInternal(em2, false);
         testPersistLifecycleUpdateExistingTransientObjectInternal(em2, true);
     }
     
-    @Test
+    @Test(enabled = false)
     public void testPersistLifecycleUpdateExistingTransientObjectOptimisticAllOrNothing() {
         testPersistLifecycleUpdateExistingTransientObjectInternal(em3, false);
         testPersistLifecycleUpdateExistingTransientObjectInternal(em3, true);
@@ -499,7 +551,7 @@ public class BasicCRUDTest extends BaseMultiEntityManagerJPAFTest {
         "Deleting object: [a-zA-Z0-9]{18}"
     };
     
-    @Test
+    @Test(enabled = false)
     public void testBasicPersistGoesToDbWithOptimisticTransaction() throws Exception {
         for (int i = 0; i < 2; i++) {
             TestEntity entity = new TestEntity();
@@ -545,7 +597,7 @@ public class BasicCRUDTest extends BaseMultiEntityManagerJPAFTest {
         "Deleting objects: \\[[a-zA-Z0-9]{18}\\]"
     };
     
-    @Test
+    @Test(enabled = false)
     public void testBasicPersistGoesToDbWithOptimisticTransactionAllOrNothing() throws Exception {
         for (int i = 0; i < 2; i++) {
             TestEntity entity = new TestEntity();
@@ -719,7 +771,7 @@ public class BasicCRUDTest extends BaseMultiEntityManagerJPAFTest {
         Assert.assertNull(emm.find(TestEntity.class, entity.getId()));
     }
     
-    @Test
+    @Test(enabled = false)
     /**
      * Optimistic transaction test with non-repeatable read.
      * 1. Create one TestEntity and initialize it.
@@ -740,7 +792,7 @@ public class BasicCRUDTest extends BaseMultiEntityManagerJPAFTest {
         }
     }
     
-    @Test
+    @Test(enabled = false)
     /**
      * Optimistic transaction with non-repeatable read with method annotations.
      * @hierarchy javasdk
@@ -757,7 +809,7 @@ public class BasicCRUDTest extends BaseMultiEntityManagerJPAFTest {
         }
     }
     
-    @Test
+    @Test(enabled = false)
     /**
      * Optimistic transaction with non-repeatable read in all-or-nothing mode.
      * Test optimistic transaction with non-repeatable read with all-or-nothing. The 

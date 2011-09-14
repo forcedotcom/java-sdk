@@ -23,52 +23,42 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package com.force.test.model;
 
-package com.force.sdk.qa.util.jpa;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Entity;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+@Entity
+public class JarEntity {
 
-import org.testng.annotations.AfterMethod;
+	// The Force.com JPA provider only supports annotating fields. Don't annotate
+	// the getter and setter properties below.
+	
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+	private String id;
+    
+	private String name;
 
-import com.force.sdk.qa.util.TestContext;
+	// TODO: Add additional commented-out sample fields
+	
+	public String getId() {
+		return id;
+	}
 
-/**
- * Extend this class if you need more than one EntityManager form different entity manager factory.
- * 
- * @author Fiaz Hossain
- */
-public abstract class BaseMultiEntityManagerJPAFTest extends BaseJPAFTest {
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    protected EntityManagerFactory emfac2;
-    protected EntityManagerFactory emfac3;
-    public EntityManager em2;
-    public EntityManager em3;
+	public String getName() {
+		return name;
+	}
 
-    @Override
-    protected void createStaticEntityMangers() throws Exception {
-        super.createStaticEntityMangers();
-        TestContext ctx = TestContext.get();
-        emfac2 = Persistence.createEntityManagerFactory(ctx.getPersistenceUnitName() + "2");
-        emfac3 = Persistence.createEntityManagerFactory(ctx.getPersistenceUnitName() + "3");
-        em2 = emfac2.createEntityManager();
-        em3 = emfac3.createEntityManager();
-    }
-        
-    /**
-     * Any test unspecific cleaning that needs to be done.
-     * @throws IOException 
-     */
-    @AfterMethod
-    @Override
-    protected void testCleanup() throws Exception {
-        super.testCleanup();
-        if (em2.getTransaction().isActive()) {
-            em2.getTransaction().rollback();
-        }
-        if (em3.getTransaction().isActive()) {
-            em3.getTransaction().rollback();
-        }
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
 }

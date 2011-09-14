@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk-test</artifactId>
-    <version>22.0.6-BETA</version>
+    <version>22.0.7-BETA</version>
   </parent>
 
 
@@ -179,6 +179,10 @@
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
     </dependency>
+      <dependency>
+        <groupId>com.force.sdk</groupId>
+        <artifactId>force-jpa-test-entity-jar</artifactId>
+      </dependency>
   </dependencies>
 
 </project>

@@ -64,11 +64,6 @@ This is a sample for a custom MyCustomObject__c entity:
 ## @Version
 Defines a field as holding the version for the class.
 
-If you are using optimistic concurrency, you must include a lastModifiedDate field in your entity as follows:
-
-    @Version
-    private java.util.Calendar lastModifiedDate;
-
 For information on usage of the <code>@ManyToOne</code> and <code>@OneToMany</code> annotations, see [Relationship Fields](database-com-datatypes#relFields).
 
 ## Required and Unique Fields
