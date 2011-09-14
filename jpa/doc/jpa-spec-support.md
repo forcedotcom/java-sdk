@@ -95,7 +95,7 @@ Supported with limitations. For more details, see [Transaction Properties](jpa-c
 
 #### 3.4.1 Optimistic Locking
 
-Supported with some variation from the specification. For more details, see [Transaction Properties](jpa-config-persistence#transProps).
+Not supported
 
 #### 3.4.2 Version Attributes
 
@@ -111,7 +111,7 @@ Not supported
 
 #### 3.4.5 OptimisticLockException
 
-Supported
+Not supported
 
 ### 3.5 Entity Listeners and Callback Methods
 
