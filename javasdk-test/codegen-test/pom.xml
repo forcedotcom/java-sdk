@@ -3,7 +3,6 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.force.sdk</groupId>
   <artifactId>force-codegen-test</artifactId>
-  <version>22.0.7-BETA</version>
   
   <name>force-codegen-test</name>
 
