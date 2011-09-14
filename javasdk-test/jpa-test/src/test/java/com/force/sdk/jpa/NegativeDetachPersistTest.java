@@ -135,7 +135,7 @@ public class NegativeDetachPersistTest extends BaseJPAFTest {
         } catch (IllegalStateException ise) {
             Assert.assertTrue(ise.getMessage().contains("EntityManager is already closed"),
                     "unexpected error message: " + ise.getMessage());
-        } 
+        }
     }
 
     @Test

@@ -51,7 +51,7 @@ public abstract class BaseJPAFTest implements ITest {
     public EntityManager em;
     protected EntityManagerFactory emfac;
     protected PartnerConnection service;
-    private  Map<String,EntityManager> additionalEntityManagers = new HashMap<String,EntityManager>();
+    private  Map<String, EntityManager> additionalEntityManagers = new HashMap<String, EntityManager>();
 
     @BeforeSuite(alwaysRun = true)
     public void suiteSetup() throws IOException {
@@ -99,10 +99,10 @@ public abstract class BaseJPAFTest implements ITest {
         createPrimaryEntityManager();
         
         try {
-            createAdditionalEntityManagers();   
+            createAdditionalEntityManagers();
         } catch (NullPointerException e) {
             createEntityManagerFactories();
-            createAdditionalEntityManagers(); 
+            createAdditionalEntityManagers();
         }
 
         populateTestContext(getTestName(), UserInfo.loadFromPropertyFile(PropsUtil.FORCE_SDK_TEST_NAME));
@@ -119,7 +119,8 @@ public abstract class BaseJPAFTest implements ITest {
     private void createAdditionalEntityManagers() {
         if (getAdditionalPersistenceUnitNames() != null) {
             for (String addPName : getAdditionalPersistenceUnitNames()) {
-                additionalEntityManagers.put(addPName, TestContext.get().getEntityManagerFactoryMap().get(addPName).createEntityManager());
+                additionalEntityManagers.put(addPName,
+                        TestContext.get().getEntityManagerFactoryMap().get(addPName).createEntityManager());
             }
         }
     }
@@ -156,7 +157,7 @@ public abstract class BaseJPAFTest implements ITest {
 
         // Get the EntityManager's PartnerConnection
         ConnectionFactory connFactory = om.getStoreManager().getConnectionManager().lookupConnectionFactory("force");
-        ForceManagedConnection mconn = (ForceManagedConnection)connFactory.createManagedConnection(null, null);
+        ForceManagedConnection mconn = (ForceManagedConnection) connFactory.createManagedConnection(null, null);
         SfdcSchemaUtil.cleanSchema(mconn);
     }
 
@@ -252,9 +253,9 @@ public abstract class BaseJPAFTest implements ITest {
     }
 
     private TableImpl getTable(EntityManager emm, Class<?> entity) {
-        ForceStoreSchemaHandler schemaHandler = (ForceStoreSchemaHandler)((ObjectManagerImpl)emm.getDelegate())
+        ForceStoreSchemaHandler schemaHandler = (ForceStoreSchemaHandler) ((ObjectManagerImpl) emm.getDelegate())
                 .getStoreManager().getSchemaHandler();
-        return schemaHandler.getTable(((ForceStoreManager)schemaHandler.getStoreManager()).getMetaDataManager()
+        return schemaHandler.getTable(((ForceStoreManager) schemaHandler.getStoreManager()).getMetaDataManager()
                 .getMetaDataForClass(entity, null));
     }
 
@@ -270,7 +271,7 @@ public abstract class BaseJPAFTest implements ITest {
         return getTable(emm, entity).getColumnByJavaName(field).getForceApiRelationshipName();
     }
 
-    public Map<String,EntityManager> getAdditionalEntityManagers() {
+    public Map<String, EntityManager> getAdditionalEntityManagers() {
         return additionalEntityManagers;
     }
 
