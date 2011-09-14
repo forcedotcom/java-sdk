@@ -28,8 +28,7 @@ package com.force.sdk.jpa;
 
 import java.util.Random;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityTransaction;
+import javax.persistence.*;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -55,8 +54,10 @@ public class NegativeDetachPersistTest extends BaseJPAFTest {
     public void testPersistDetachedEntityByRemoval() {
         AccountEntity account = createTestAccount(true);
 
+        EntityTransaction transaction = null;
+        
         try {
-            EntityTransaction transaction = em.getTransaction();
+            transaction = em.getTransaction();
             transaction.begin();
 
             em.remove(account);
@@ -65,6 +66,8 @@ public class NegativeDetachPersistTest extends BaseJPAFTest {
         } catch (IllegalArgumentException iae) {
             Assert.assertTrue(iae.getMessage().contains("detached yet this operation requires it to be attached"),
                     "unexpected error message: " + iae.getMessage());
+        } finally {
+           if (transaction != null) transaction.rollback();
         }
     }
 
@@ -72,8 +75,10 @@ public class NegativeDetachPersistTest extends BaseJPAFTest {
     public void testPersistDetachedEntityByEntityManagerClear() {
         AccountEntity account = createTestAccount(false);
 
+        EntityTransaction transaction = null;
+        
         try {
-            EntityTransaction transaction = em.getTransaction();
+            transaction = em.getTransaction();
             transaction.begin();
             em.persist(account);
 
@@ -87,15 +92,17 @@ public class NegativeDetachPersistTest extends BaseJPAFTest {
         } catch (EntityExistsException e) {
             Assert.assertEquals(e.getMessage(),
                     "Entity already exists. Use merge to save changes.", "unexpected error message: " + e.getMessage());
+        } finally {
+            if (transaction != null) transaction.rollback();
         }
     }
 
     @Test
     public void testMergeDetachedEntityByEntityManagerClear() {
         AccountEntity account = createTestAccount(false);
-
+        EntityTransaction transaction = null;
         try {
-            EntityTransaction transaction = em.getTransaction();
+            transaction = em.getTransaction();
             transaction.begin();
             em.persist(account);
 
@@ -110,13 +117,15 @@ public class NegativeDetachPersistTest extends BaseJPAFTest {
         } catch (IllegalArgumentException e) {
             Assert.assertEquals(e.getMessage(), "Detached entity with null id cannot be merged.",
                     "unexpected error message: " + e.getMessage());
+        } finally {
+            if (transaction != null) transaction.rollback();
         }
     }
 
     @Test
     public void testCloseEntityManagerThenPersist() {
         AccountEntity account = createTestAccount(false);
-
+        EntityManager em = emfac.createEntityManager();
         // recreating the em is expensive
         // TODO: mock the em so we don't actually close and recreate
         try {
@@ -126,9 +135,7 @@ public class NegativeDetachPersistTest extends BaseJPAFTest {
         } catch (IllegalStateException ise) {
             Assert.assertTrue(ise.getMessage().contains("EntityManager is already closed"),
                     "unexpected error message: " + ise.getMessage());
-        } finally {
-            em = emfac.createEntityManager();
-        }
+        } 
     }
 
     @Test

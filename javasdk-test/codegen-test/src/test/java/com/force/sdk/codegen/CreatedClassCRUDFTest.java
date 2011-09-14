@@ -26,12 +26,10 @@
 
 package com.force.sdk.codegen;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
 
-import java.util.List;
-import java.util.Properties;
+import java.io.IOException;
+import java.util.*;
 
 import javax.jdo.JDODetachedFieldAccessException;
 import javax.jdo.identity.StringIdentity;
@@ -39,16 +37,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import org.datanucleus.ObjectManager;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import com.force.sdk.codegen.entities.AccountCustomFields;
 import com.force.sdk.codegen.entities.NewCustomObject;
 import com.force.sdk.jpa.model.BaseForceObject;
 import com.force.sdk.jpa.model.ForceOwner;
 import com.force.sdk.qa.util.TestContext;
-import com.force.sdk.qa.util.jpa.BaseMultiEntityManagerJPAFTest;
+import com.force.sdk.qa.util.jpa.BaseJPAFTest;
+import com.sforce.ws.ConnectionException;
 
 /**
  * Tests that created JPA Java classes 
@@ -58,20 +55,42 @@ import com.force.sdk.qa.util.jpa.BaseMultiEntityManagerJPAFTest;
  * @author Fiaz Hossain
  * @author Tim Kral
  */
-public class CreatedClassCRUDFTest extends BaseMultiEntityManagerJPAFTest {
+public class CreatedClassCRUDFTest extends BaseJPAFTest {
+    
+    EntityManager em2;
+    EntityManager em3;
 
-    @BeforeTest
-    public void testSetUp() {
+    @Override
+    @BeforeSuite(alwaysRun = true)
+    public void suiteSetup() throws IOException {
         Properties persistenceUnitName = new Properties();
         persistenceUnitName.setProperty(TestContext.PERSISTENCE_UNIT_NAME, "CodeGenTest");
-        
         TestContext.get().addTestProps(persistenceUnitName);
+        super.suiteSetup();
     }
     
-    @AfterClass
-    public void classTearDown() {
-        // Release the context because we set a custom persistence unit name in testSetUp
+    @Override
+    @BeforeClass
+    public void initialize() throws IOException, ConnectionException {
+        super.initialize();
+        em2 = getAdditionalEntityManagers().get(TestContext.get().getPersistenceUnitName() + "2");
+        em3 = getAdditionalEntityManagers().get(TestContext.get().getPersistenceUnitName() + "3");
+    }
+    
+    @Override
+    @AfterSuite(alwaysRun = true)
+    public void suiteTeardown() throws Exception {
+        super.suiteTeardown();
+        // Release the context because we set a custom persistence unit name in suiteSetup
         TestContext.release();
+    }
+    
+    @Override
+    public Set<String> getAdditionalPersistenceUnitNames() {
+        return new HashSet<String>(Arrays.asList(new String[] {
+                TestContext.get().getPersistenceUnitName() + "2",
+                TestContext.get().getPersistenceUnitName() + "3"
+        }));
     }
 
     
