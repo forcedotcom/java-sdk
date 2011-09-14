@@ -8,7 +8,7 @@
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk-test</artifactId>
-    <version>22.0.7-SNAPSHOT</version>
+    <version>22.0.7-BETA</version>
   </parent>
 
   <build>
