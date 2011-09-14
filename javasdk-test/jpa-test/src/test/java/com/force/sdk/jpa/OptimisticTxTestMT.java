@@ -59,7 +59,6 @@ public class OptimisticTxTestMT extends BaseJPAFTest {
             new OptimisticLockException("Some instances failed to flush successfully due to optimistic verification problems.");
     protected int threadcount = 0;
     
-    EntityManager em2;
     EntityManager em3;
     EntityManagerFactory emfac2;
     EntityManagerFactory emfac3;
@@ -68,7 +67,6 @@ public class OptimisticTxTestMT extends BaseJPAFTest {
     @BeforeClass(enabled = false)
     public void initialize() throws IOException, ConnectionException {
         super.initialize();
-        em2 = getAdditionalEntityManagers().get(TestContext.get().getPersistenceUnitName() + "2");
         em3 = getAdditionalEntityManagers().get(TestContext.get().getPersistenceUnitName() + "3");
         emfac2 = TestContext.get().getEntityManagerFactoryMap().get(TestContext.get().getPersistenceUnitName() + "2");
         emfac3 = TestContext.get().getEntityManagerFactoryMap().get(TestContext.get().getPersistenceUnitName() + "3");
