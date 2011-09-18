@@ -264,8 +264,8 @@ public class SampleUserDataRetriever extends CustomUserDataRetriever&lt;SampleSe
     &lt;filter-name&gt;AuthFilter&lt;/filter-name&gt;
     &lt;filter-class&gt;com.force.sdk.oauth.AuthFilter&lt;/filter-class&gt;
          &lt;init-param&gt;
-            &lt;param-name&gt;connectionName&lt;/param-name&gt;
-            &lt;param-value&gt;oauthSampleApp&lt;/param-value&gt;
+            &lt;param-name&gt;url&lt;/param-name&gt;
+            &lt;param-value&gt;URL or a ${Java system property} or ${environment variable}&lt;/param-value&gt;
          &lt;/init-param&gt;
          &lt;init-param&gt;
             &lt;param-name&gt;customDataRetriever&lt;/param-name&gt;
@@ -282,12 +282,16 @@ public class SampleUserDataRetriever extends CustomUserDataRetriever&lt;SampleSe
 
 <pre><code>&lt;!-- SFDC OAuth security config --&gt;
 &lt;fss:oauth logout-from-sfdc="true" /&gt;
-&lt;fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="${sfdc.oauthKey}"
-oauth-secret="${sfdc.oauthSecret}" /&gt;
-&lt;fss:customUserDataRetriever ref="sampleUserDataRetriever"/&gt;
+&lt;fss:connectionUrl url="URL or a ${Java system property} or ${environment variable}" /&gt;
 &lt;/fss:oauth&gt;
 
-&lt;bean id="sampleUserDataRetriever" class="com.force.samples.SampleUserDataRetriever"/&gt;
+ &lt;!-- Include this bean, if connection URL is in Java system property or environment variable. --&gt;
+&lt;bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" /&gt;
+</code></pre>
+
+<p>Substitute values for the <code>sfdc.oauthKey</code> and <code>sfdc.oauthSecret</code> placeholders.</p>
+
+<pre><code>&lt;bean id="sampleUserDataRetriever" class="com.force.samples.SampleUserDataRetriever"/&gt;
 </code></pre>
 
 <p>The <code>fss:customUserDataRetriever</code> tag accepts a reference to a bean that is defined as your SampleUserDataRetriever class.</p>
@@ -338,11 +342,12 @@ oauth-secret="${sfdc.oauthSecret}" /&gt;
 
 <pre><code>&lt;!-- SFDC OAuth security config --&gt;
 &lt;fss:oauth logout-from-sfdc="true" store-data-in-session="true"/&gt;
-    &lt;fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="${sfdc.oauthKey}"
-    oauth-secret="${sfdc.oauthSecret}" /&gt;
+    &lt;fss:connectionUrl url="force://login.salesforce.com?oauth_key=sfdc.oauthKey&amp;amp;oauth_secret=sfdc.oauthSecret" /&gt;
     &lt;fss:customUserDataRetriever ref="sampleUserDataRetriever"/&gt;
 &lt;/fss:oauth&gt;
 </code></pre>
+
+<p>Substitute values for the <code>sfdc.oauthKey</code> and <code>sfdc.oauthSecret</code> placeholders.</p>
 
 <p>If you're not using the namespace, you need to change the class that you wire into the securityContextStorageServiceBean. The example above shows SecurityContextCookieStore wired into the bean. To use server sessions to store user data, change it to SecurityContextSessionStore:</p>
 

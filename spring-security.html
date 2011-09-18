@@ -198,9 +198,11 @@ end
 
     &lt;!-- Database.com OAuth security config --&gt;
     &lt;fss:oauth logout-from-sfdc="true" /&gt;
-    &lt;fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="${sfdc.oauthKey}"
-    oauth-secret="${sfdc.oauthSecret}" /&gt;
+     &lt;fss:connectionUrl url="URL or a ${Java system property} or ${environment variable}" /&gt;
     &lt;/fss:oauth&gt;
+
+    &lt;!-- Include this bean, if connection URL is in Java system property or environment variable. --&gt;
+    &lt;bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" /&gt;
 
     &lt;!-- Configure Spring Security --&gt;
     &lt;security:http&gt;
@@ -220,41 +222,30 @@ end
 </ul>
 
 
-<p>The &lt;oauth /> tag requires that you provide OAuth properties.  This can be done using an &lt;oauthInfo/>, &lt;connectionUrl/>, or &lt;connectionName /> tag. Note that these tags are mutually exclusive and you can't provide more than one or you will receive an error on application startup.</p>
-
-<p><strong>&lt;oauthInfo/></strong> tag.  This tag allows you to specify an <code>endpoint</code>, <code>oauthKey</code> and <code>oauthSecret</code> as separate attributes. For example:</p>
+<p>The &lt;oauth /> tag requires that you provide OAuth properties using the <code>connectionUrl</code> tag. For example:</p>
 
 <pre><code>&lt;fss:oauth&gt;
-    &lt;fss:oauthInfo endpoint="https://login.salesforce.com" oauth-key="${oauthKey}" oauth-secret="${oauthSecret}" /&gt;
+    &lt;fss:connectionUrl url="force://login.salesforce.com?oauth_key=sampleKey&amp;amp;oauth_secret=sampleSecret" /&gt;
 &lt;/fss:oauth&gt;
 </code></pre>
 
-<p><strong>&lt;connectionUrl/></strong> tag.  This tag allows you to combine the <code>endpoint</code>, <code>oauthKey</code> and <code>oauthSecret</code> properties into one connection URL.  For example:</p>
+<p>It is preferable to configure the connection URL as a system property or environment variable rather than setting the URL directly in the <code>connectionUrl</code> tag.
+We don't recommend specifying the URL directly in your configuration because you should not check your oauth key and secret into version control. These may vary from one environment to another and should be protected.</p>
 
-<pre><code>&lt;fss:oauth&gt;
-    &lt;fss:connectionUrl url="force://login.salesforce.com?oauth_key=${oauthKey}&amp;amp;oauth_secret=${oauthSecret}" /&gt;
-&lt;/fss:oauth&gt;
+<p>Instead, set the connection URL as a system property or environment variable and enable the configuration by including the following tag in your <code>spring-configuration.xml</code> file:</p>
+
+<pre><code>&lt;bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" /&gt;
 </code></pre>
 
-<p><strong>&lt;connectionName /></strong> tag.  This tag allows you to define OAuth properties elsewhere and have them looked up by name.  OAuth properties can be stored as an environment variable, or a Java system property, or a properties file on the classpath.  For more information, see <a href="connection-url">Database.com Database Connections</a>. For example:</p>
+<p>Set the following in your <code>spring-configuration.xml</code> file:</p>
 
-<pre><code>SET FORCE_MYCONNECTOR_URL=force://${endpoint}?oauth_key=${oauthKey}&amp;oauth_secret=${oauth_secret}
-
-&lt;!-- Uses the connection URL in the FORCE_MYCONNECTOR_URL environment variable --&gt;
+<pre><code>&lt;!-- Uses the connection URL in the CONNECTION_URL environment variable or Java system property --&gt;
 &lt;fss:oauth&gt;
-    &lt;fss:connectionName name="myconnector" /&gt;
+    &lt;fss:connectionUrl url="${CONNECTION_URL}" /&gt;
 &lt;/fss:oauth&gt;
 </code></pre>
 
-<p>In these samples, substitute values from your remote access application for the following variables:</p>
-
-<ul>
-<li>${oauthKey} - Specifies the consumer key for the application.</li>
-<li>${oauthSecret} - Specifies the consumer secret for the application.</li>
-</ul>
-
-
-<p>For more information about remote access applications, see <a href="oauth-auth#createRAA">Creating a Database.com Remote Access Application</a>.</p>
+<p>The <code>PropertyPlaceholderConfigurer</code> looks for a <code>CONNECTION_URL</code> Java system property. If that's not found, it looks for a <code>CONNECTION_URL</code> environment variable.</p>
 
 <p>The following attributes are optional for &lt;fss:oauth> in <code>spring-configuration.xml</code>:</p>
 

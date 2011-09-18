@@ -238,89 +238,30 @@ timing out. This parameter is equivalent to the <strong>datanucleus.datastoreRea
 
 <h2>Configuring Connection URLs</h2>
 
-<p>There are multiple options for configuring a connection URL. These options offer you flexibility for managing your configuration information in different environments. For example, you
-may want to manage authentication information differently in development, staging, and production environments.</p>
+<p><strong>Note</strong>: If you are facing issues with connection, please upgrade your version and follow these instructions:</p>
 
-<p>The Database.com JPA provider looks for a connection URL in the following order. The first matching configuration is used.</p>
+<p>Specify the connection URL in your <code>persistence.xml</code> file as follows:</p>
 
-<ol>
-<li><a href="#UrlEnvVar">Connection URL in Environment Variable</a></li>
-<li><a href="#UrlJavaSysProp">Connection URL in Java System Property</a></li>
-<li><a href="#propFile">Connection URL in Properties file in the Classpath</a></li>
-</ol>
-
-
-<p><a name="UrlEnvVar"> </a></p>
-
-<h3>Connection URL in Environment Variable</h3>
-
-<p>You can set the connection URL in an environment
-variable. The name of the environment variable depends on values in your application's <a href="jpa-config-persistence#authProps"><code>persistence.xml</code></a> file. If a <code>persistence-unit</code> element contains a <strong>force.ConnectionName</strong> property, the name depends on the property value; otherwise, it depends on the <code>persistence-unit</code> name.</p>
-
-<p>For example, if you have a <code>&lt;persistence-unit name="persistenceUnitName"></code> element, set the authentication
-information for this persistence unit in an environment variable named FORCE_<em>PERSISTENCEUNITNAME</em>_URL. However, if the <code>persistence-unit</code> contains <code>&lt;property name="force.ConnectionName" value="forceDatabase"/></code>, the environment variable name should be FORCE_<em>FORCEDATABASE</em>_URL.</p>
-
-<p><strong>Note</strong>: The environment variable name must contain all uppercase characters including the name of the
-<code>persistence-unit</code> element or the <strong>force.ConnectionName</strong> property converted to uppercase characters.</p>
-
-<p>If you use an environment variable to set the authentication information, you must include <code>&lt;property
-name="datanucleus.storeManagerType" value="force"/></code> in the <code>persistence-unit</code> element in your application's
-<code>persistence.xml</code> file.</p>
-
-<p><a name="UrlJavaSysProp"> </a></p>
-
-<h3>Connection URL in Java System Property</h3>
-
-<p>You can set the connection URL in a Java system
-property. The name of the Java system property depends on values in your application's <code>persistence.xml</code> file. If a
-<code>persistence-unit</code> element contains a <strong>force.ConnectionName</strong> property, the name of the Java system property depends
-on the <strong>force.ConnectionName</strong> property value; otherwise, it depends on the <code>persistence-unit</code> name.</p>
-
-<p>For example, if you have a <code>&lt;persistence-unit name="persistenceUnitName"></code> element, set the authentication
-information for this persistence unit in a Java system property named force.<em>persistenceUnitName</em>.url.</p>
-
-<p><strong>Note</strong>: The Java system property name is case sensitive.</p>
-
-<p>The following code shows you how to set the authentication information in a Java system property:</p>
-
-<pre><code>System.setProperty("force.persistenceUnitName.url",
-    "force://login.salesforce.com?user=user@salesforcedoc.org&amp;password=samplePassword");
+<pre><code> &lt;property name="datanucleus.ConnectionURL" value="force://login.salesforce.com?user=user@salesforcedoc.org&amp;amp;password=samplePassword" /&gt;
 </code></pre>
 
-<p>If you use a Java system property to set the authentication information, you must include <code>&lt;property
-name="datanucleus.storeManagerType" value="force"/></code> in the <code>persistence-unit</code> element in your application's
-<code>persistence.xml</code> file.</p>
+<p>Notice that &amp; has been escaped as <code>&amp;amp;</code> as &amp; has special meaning in XML files.</p>
 
-<p><a name="propFile"> </a></p>
+<p>You can also configure your connection URL in a system property or environment variable. Then you can reference it in your <code>persistence.xml</code> file with dollar sign curly brace notation:</p>
 
-<h3>Connection URL in Properties file in the Classpath</h3>
-
-<p>You can set the connection URL in a properties file in the classpath. If you add the properties file to the <code>src/main/resources</code> directory of your
-application, Maven automatically copies it to your classpath.</p>
-
-<p>The name of the properties file depends on values in your application's <code>persistence.xml</code> file. If a <code>persistence-unit</code>
-element contains a <strong>force.ConnectionName</strong> property, the file name depends on the property value; otherwise, it depends
-on the <code>persistence-unit</code> name.</p>
-
-<p>For example, if you have a <code>&lt;persistence-unit name="persistenceUnitName"></code> element, set the authentication
-information for this persistence unit in a <em>persistenceUnitName</em>.properties file in the classpath.</p>
-
-<p><strong>Note</strong>: The property file name and lookup of property names in the file are case sensitive.</p>
-
-<p>A file containing this line is an example of a properties file containing a url property.</p>
-
-<pre><code>url=force://login.salesforce.com?user=user@salesforcedoc.org&amp;password=samplePassword
+<pre><code> &lt;property name="datanucleus.ConnectionURL" value="${CONNECTION_URL}" /&gt;
 </code></pre>
 
-<!-- Comment out until release cliforce. Uncomment this section and add a link to the bullet list earlier in the file when ready.
-<a name="UrlConnectionsPropFile"> </a> 
+<p>The Database.com JPA provider will first look for a Java system property named <code>CONNECTION_URL</code> and, if the property doesn't exist, the provider looks for a <code>CONNECTION_URL</code> environment variable.</p>
 
-You can set the connection URL in the $HOME/.force/cliforce_urls file, where $HOME refers to your home directory. The format is:
+<p><strong>Note</strong>: The name of the variable is case sensitive so make sure that you have the correct case.</p>
 
-    persistenceUnitName=force://login.salesforce.com?user=user@salesforcedoc.org&password=samplePassword
+<p>We recommend that you don't store any files that contain your connection URL in version control as the connection URL contains sensitive information. It will also vary from one environment to another so keeping it in version control makes your application lifecycle harder to manage. Using environment variables or system properties is the best way to avoid this.</p>
 
--->
+<p>The format for specifying the environment variable name is the same that is used by Spring's property placeholder configurer. In a Spring-based application, Spring will try to resolve these values for you. This isn't an issue because system properties and environment variables are supported by Spring in the same way. However if you're using Spring, make sure that you have the property placeholder configurer enabled. You can do this by including the following tag in your application context xml:</p>
 
+<pre><code>&lt;bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" /&gt;
+</code></pre>
 
 		</div>
 	</div>

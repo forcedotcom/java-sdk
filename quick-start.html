@@ -196,7 +196,7 @@ end
 
 <p>Navigate to the directory where you want to create the new project and create it from a Maven archetype by executing the following command:</p>
 
-<pre><code>mvn archetype:generate -DarchetypeCatalog=http://oss.sonatype.org/content/repositories/snapshots/archetype-catalog.xml -DarchetypeArtifactId=springmvc-archetype -DarchetypeGroupId=com.force.sdk -DarchetypeVersion=22.0.5-SNAPSHOT
+<pre><code>mvn archetype:generate -DarchetypeGroupId=com.force.sdk -DarchetypeArtifactId=springmvc-archetype
 </code></pre>
 
 <p>You will be prompted for a couple of properties for your project. You only need to fill out two: groupId and artifactId. Set groupId to the Java package name for your code and artifactId to your application's name:</p>
@@ -215,13 +215,15 @@ Define value for property 'artifactId': : hellocloud
 
 <p>For Linux, set this variable by running the following command after replacing the user and password with your own username and password. Remember to append your security token to the password and to enclose the URL in quotes.</p>
 
-<pre><code>export FORCE_FORCEDATABASE_URL="force://login.salesforce.com;user=scott@acme.com;password=tigerVXoAIbgYSMOhSEVtcGxgt4mRP"
+<pre><code>export FORCE_FORCEDATABASE_URL="force://login.salesforce.com?user=scott@acme.com&amp;password=tigerVXoAIbgYSMOhSEVtcGxgt4mRP"
 </code></pre>
 
 <p>For Windows, set this variable by running the following command after replacing the user and password with your own username and password.</p>
 
-<pre><code>set FORCE_FORCEDATABASE_URL=force://login.salesforce.com;user=scott@acme.com;password=tigerVXoAIbgYSMOhSEVtcGxgt4mRP
+<pre><code>set FORCE_FORCEDATABASE_URL=force://login.salesforce.com?user=scott@acme.com^&amp;password=tigerVXoAIbgYSMOhSEVtcGxgt4mRP
 </code></pre>
+
+<p>Notice that &amp; has been escaped as ^&amp; for configuring on Windows.</p>
 
 <p>For more information about connection URLs, see <a href="connection-url">Connection URLs</a>.</p>
 
