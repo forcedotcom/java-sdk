@@ -26,16 +26,17 @@
 #
 
 if test $# -lt 3; then
-    echo usage: $0 docSiteLocation workindDir gitRepo commitMessage
-    echo example: deployDocs.sh /var/www/site /home/myDir git@github.com:user/repo.git "'my commit message'"
+    echo usage: $0 docSiteLocation gitRepo commitMessage
+    echo example: deployDocs.sh /home/myDir git@github.com:user/repo.git "'my commit message'"
     exit
 fi
 DOCLOCATION=$1
-WORKDIR=$2
-GITREPO=$3
-COMMITMSG=$4
-rm -r -f $WORKDIR/*
-rm -r -f $WORKDIR/.git*
+GITREPO=$2
+COMMITMSG=$3
+
+WORKDIR=~/temp$RANDOM
+mkdir $WORKDIR
+
 cd $WORKDIR
 git clone $GITREPO .
 git checkout gh-pages
@@ -44,3 +45,4 @@ cp -r $DOCLOCATION/* $WORKDIR
 git add .
 git commit -m "$COMMITMSG"
 git push origin gh-pages:gh-pages
+rm -rf $WORKDIR
