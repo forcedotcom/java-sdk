@@ -32,14 +32,20 @@ Create a git repository for your application and do your initial commit.
 
 # Deploy to Heroku/Cedar
 
-Create the app on the Cedar stack:
+## Create the app on the Cedar stack
 
     $ heroku create --stack cedar
     Creating stark-sword-398... done, stack is cedar
     http://stark-sword-398.herokuapp.com/ | git@heroku.com:stark-sword-398.git
     Git remote heroku added
 
-Deploy your code:
+## Set the connection URL on Heroku
+
+Just as you did locally, you'll need to set up the Database.com connection URL on Heroku. This is done with a command like the following:
+
+    heroku config:add FORCE_FORCEDATABASE_URL="force://login.salesforce.com?user=scott@acme.com&password=tigerVXoAIbgYSMOhSEVtcGxgt4mRP"
+
+## Deploy your code
 
     $ git push heroku master
     Counting objects: 9, done.
