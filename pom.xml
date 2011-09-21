@@ -540,6 +540,7 @@
         <module>javasdk-test/jpa-test</module>
         <module>javasdk-test/jpa-test-beanvalidation</module>
         <module>javasdk-test/jpa-test-connection</module>
+        <module>javasdk-test/jpa-test-entity-jar</module>
         <module>javasdk-test/jpa-test-query</module>
         <module>javasdk-test/jpa-test-schema</module>
         <module>javasdk-test/codegen-test</module>
