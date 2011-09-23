@@ -26,9 +26,8 @@
 
 package com.force.sdk.qa.util.integration;
 
-import com.force.sdk.qa.util.PropsUtil;
-import com.force.sdk.qa.util.TestContext;
-import com.force.sdk.qa.util.TestContext.TestType;
+import java.io.IOException;
+import java.util.*;
 
 import org.apache.http.HttpResponse;
 import org.codehaus.cargo.container.property.GeneralPropertySet;
@@ -37,10 +36,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import com.force.sdk.qa.util.*;
+import com.force.sdk.qa.util.TestContext.TestType;
 
 /**
  * 
@@ -87,7 +84,7 @@ public abstract class BaseSecurityIntegrationTest extends BaseContainerTest {
 
     @Override
     public String getZipInstallerUrl() {
-        return "http://apache.mirrors.redwire.net/tomcat/tomcat-6/v6.0.32/bin/apache-tomcat-6.0.32.zip";
+        return "http://www.gtlib.gatech.edu/pub/apache/tomcat/tomcat-6/v6.0.33/bin/apache-tomcat-6.0.33.zip";
     }
 
     @Override
