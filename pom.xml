@@ -836,7 +836,7 @@
     </profile>
     
     <profile>
-      <id>jekyll</id>
+      <id>docs-local</id>
       <build>
         <plugins>
           <plugin>
@@ -963,7 +963,66 @@
         </plugins>
       </build>
     </profile>
-    
+
+    <profile>
+      <id>docs-for-github</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.5</version>
+            <executions>
+              <execution>
+                <id>docs</id>
+                <phase>site</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${doc.site.destination}</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>springsecurity/doc</directory>
+                    </resource>
+                    <resource>
+                      <directory>jpa/doc</directory>
+                    </resource>
+                    <resource>
+                      <directory>oauth/doc</directory>
+                    </resource>
+                    <resource>
+                      <directory>connector/doc</directory>
+                    </resource>
+                    <resource>
+                      <directory>codegen/doc</directory>
+                    </resource>
+                    <resource>
+                      <directory>doc</directory>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+              <execution>
+                <id>javadoc-copy</id>
+                <phase>site</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <outputDirectory>${doc.site.destination}/apidocs</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>${maven.site.destination}/apidocs</directory>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+           </executions>
+         </plugin>
+
+        </plugins>
+      </build>
+    </profile>
   </profiles>
   
 </project>
