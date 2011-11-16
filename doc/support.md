@@ -8,7 +8,7 @@ title: Getting Support
 
 If you encounter any errors when using the SDK:
 
-1. Look for related open issues in [github issues](href to https://github.com/forcedotcom/java-sdk/issues).
+1. Look for related open issues at [github issues](https://github.com/forcedotcom/java-sdk/issues).
 1. If there are no related open issues, create a new issue.
 
 The development team monitors these issues.
