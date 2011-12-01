@@ -26,6 +26,10 @@
 
 package com.force.sdk.jpa;
 
+import com.force.sdk.jpa.entities.*;
+import com.force.sdk.jpa.entities.TestEntity.PickValues;
+import org.testng.Assert;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -33,11 +37,6 @@ import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
-
-import org.testng.Assert;
-
-import com.force.sdk.jpa.entities.*;
-import com.force.sdk.jpa.entities.TestEntity.PickValues;
 
 
 /**
@@ -562,6 +561,14 @@ public final class JPATestUtils {
             } else if (expected instanceof EmbeddedTestEntity && actual instanceof EmbeddedTestEntity) {
                 Assert.assertEquals(((EmbeddedTestEntity) actual).getEmbedded(), ((EmbeddedTestEntity) expected).getEmbedded(),
                         "Embedded object values are different: ");
+            } else if ("richTextArea".equals(fieldName)) {
+                // There is a bug in 176 RTAs where the line breaks get lost when persisted.
+                // @see https://gist.github.com/a2118d02cffacd7c2193
+                // This is a workaround to strip out the line breaks on both expected
+                // and actual values to work with both 174 and 176.
+                // TODO: Remove this once RTA bug is fixed
+                Assert.assertEquals(actual.toString().replaceAll("\n", ""), expected.toString().replaceAll("\n", ""),
+                        "Difference at field " + fieldName + ": ");
             } else {
                 Assert.assertEquals(actual, expected, "Difference at field " + fieldName + ": ");
             }
