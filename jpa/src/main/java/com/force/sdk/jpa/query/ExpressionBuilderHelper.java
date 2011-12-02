@@ -62,14 +62,10 @@ public class ExpressionBuilderHelper {
     Map<TupleName, String> relatedJoinAliases; // fieldname => alias
     boolean isInSelect;
     private final boolean isTopLevel;
-    Set<String> queriedRelationships; // a set of strings in the form of ParentEntityName->ChildEntityName (or
-                                              // vice versa) so we can keep track of which relationships we've already
-                                              // included in our query, will help us avoid cycles
-    private static final String RELATIONSHIP_SEPARATOR = "->";
 
     ExpressionBuilderHelper(ForceQueryUtils forceQuery, int length, TableImpl table,
-            AbstractClassMetaData acmd, boolean isJoin, QueryCompilation compilation, FetchPlan fetchPlan,
-            int fetchDepth, ExpressionBuilderHelper parent, Set<String> queriedRelationships) {
+                            AbstractClassMetaData acmd, boolean isJoin, QueryCompilation compilation, FetchPlan fetchPlan,
+                            int fetchDepth, ExpressionBuilderHelper parent) {
         this.forceQuery = forceQuery;
         this.sb = new StringBuilder(length);
         this.table = table;
@@ -79,7 +75,6 @@ public class ExpressionBuilderHelper {
         this.compilation = compilation;
         this.fetchPlan = fetchPlan;
         this.fetchDepth = fetchDepth;
-        this.queriedRelationships = queriedRelationships != null ? queriedRelationships : new HashSet<String>();
         Object mfd = forceQuery.getHints(QueryHints.MAX_FETCH_DEPTH);
         /**
          * For maxFetchDepth use the following priority -
@@ -130,9 +125,6 @@ public class ExpressionBuilderHelper {
             sb.append(col.getFieldName());
             return;
         }
-
-        String relationshipString = colCmd.getEntityName() + RELATIONSHIP_SEPARATOR + ammd.getName();
-        queriedRelationships.add(relationshipString);
 
         TableImpl joinTable = ((ForceStoreManager) forceQuery.getExecutionContext().getStoreManager()).getTable(cmd);
 
@@ -188,14 +180,7 @@ public class ExpressionBuilderHelper {
      * @return true if the current depth of the query is greater or equal to the maximum depth we can fetch
      */
     public boolean skipRelationship(AbstractClassMetaData cmd, int fieldNum) {
-        if (fetchDepth >= maxFetchDepth) return true;
-        AbstractMemberMetaData ammd = cmd.getMetaDataForManagedMemberAtAbsolutePosition(fieldNum);
-
-        String relationshipString = cmd.getEntityName() + RELATIONSHIP_SEPARATOR + ammd.getName();
-        if (queriedRelationships.contains(relationshipString)) {
-            return true;
-        }
-        return false;
+        return fetchDepth >= maxFetchDepth;
     }
     
     private void initRelatedAliases(QueryCompilation queryCompilation) {

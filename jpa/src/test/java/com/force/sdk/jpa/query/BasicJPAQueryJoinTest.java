@@ -161,9 +161,20 @@ public class BasicJPAQueryJoinTest extends BaseJPAQueryTest {
 
     @Test
     public void testCircularReferences() {
-        mockQueryConn.setExpectedSoqlQuery("select id, Name, Paper__r.Id, Paper__r.Name, Paper__r.Scissors__r.Id, "
-                + "Paper__r.Scissors__r.Name, Paper__r.Scissors__r.Rock__r.Id, Paper__r.Scissors__r.Rock__r.Name "
-                + "from rock__c r ");
+        mockQueryConn.setExpectedSoqlQuery("select " +
+                                               "id, " +
+                                               "Name, " +
+                                               "Paper__r.Id, " +
+                                               "Paper__r.Name, " +
+                                               "Paper__r.Scissors__r.Id, " +
+                                               "Paper__r.Scissors__r.Name, " +
+                                               "Paper__r.Scissors__r.Rock__r.Id, " +
+                                               "Paper__r.Scissors__r.Rock__r.Name, " +
+                                               "Paper__r.Scissors__r.Rock__r.Paper__r.Id, " +
+                                               "Paper__r.Scissors__r.Rock__r.Paper__r.Name, " +
+                                               "Paper__r.Scissors__r.Rock__r.Paper__r.Scissors__r.Id, " +
+                                               "Paper__r.Scissors__r.Rock__r.Paper__r.Scissors__r.Name " +
+                                           "from rock__c r ");
 
         em.createQuery("select r from " + Rock.class.getSimpleName() + " r").getResultList();
     }
