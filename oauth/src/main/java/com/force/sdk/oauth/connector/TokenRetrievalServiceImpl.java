@@ -53,30 +53,25 @@ public class TokenRetrievalServiceImpl implements TokenRetrievalService {
     public String retrieveToken(
             String hostAndPort, String params, String refreshToken, ForceOAuthConnectionInfo connInfo) throws IOException {
 
-        URL accessURL = new URL(hostAndPort + "/services/oauth2/token?" + params);
-
+        URL accessURL = new URL(hostAndPort + "/services/oauth2/token");
+    
         HttpURLConnection conn = (HttpURLConnection) accessURL.openConnection();
         conn.setDoOutput(true);
         conn.setRequestMethod("POST");
-
-//      This is a workaround for an apparent issue in 176 that does not allow the parameter
-//      to be in the request body, but works as URL parameters
-//      TODO: Remove this workaround once root cause is corrected
-//
-//        conn.addRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-//
-//        PrintWriter writer = null;
-//        try {
-//            writer = new PrintWriter(new OutputStreamWriter(conn.getOutputStream()));
-//            writer.println(params);
-//        } catch (IOException e) {
-//            throwDetailedException(conn, e);
-//        } finally {
-//            if (writer != null) {
-//                writer.flush();
-//                writer.close();
-//            }
-//        }
+        conn.addRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(new OutputStreamWriter(conn.getOutputStream()));
+            writer.print(params);
+        } catch (IOException e) {
+            throwDetailedException(conn, e);
+        } finally {
+            if (writer != null) {
+                writer.flush();
+                writer.close();
+            }
+        }
         
         BufferedReader reader = null;
         String responsePayload = null;
