@@ -31,6 +31,7 @@ import java.util.*;
 
 import org.datanucleus.*;
 import org.datanucleus.metadata.AbstractClassMetaData;
+import org.datanucleus.metadata.IdentityStrategy;
 import org.datanucleus.plugin.PluginManager;
 import org.datanucleus.plugin.PluginRegistry;
 import org.datanucleus.store.*;
@@ -343,5 +344,21 @@ public class ForceStoreManager extends AbstractStoreManager {
      */
     public boolean isForDelete() {
         return forDelete;
+    }
+
+    @Override
+    public boolean isStrategyDatastoreAttributed(IdentityStrategy identityStrategy, boolean datastoreIdentityField) {
+        if (identityStrategy == null)
+        {
+            return false;
+        }
+
+        if (identityStrategy == IdentityStrategy.IDENTITY || identityStrategy == IdentityStrategy.NATIVE)
+        {
+            // "identity" and "native" are processed in the datastore
+            return true;
+        }
+
+        return false;
     }
 }
