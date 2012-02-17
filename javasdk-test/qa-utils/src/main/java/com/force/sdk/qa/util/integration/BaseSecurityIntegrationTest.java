@@ -84,7 +84,7 @@ public abstract class BaseSecurityIntegrationTest extends BaseContainerTest {
 
     @Override
     public String getZipInstallerUrl() {
-        return "http://www.gtlib.gatech.edu/pub/apache/tomcat/tomcat-6/v6.0.33/bin/apache-tomcat-6.0.33.zip";
+        return "http://dbdotcom-sdk-test.s3.amazonaws.com/apache-tomcat-6.0.35.zip";
     }
 
     @Override

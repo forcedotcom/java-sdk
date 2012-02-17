@@ -772,9 +772,9 @@ public class WhereHavingOperatorTest extends BaseJPAQueryTest {
     public Object[][] createNullCheckData() {
         return new Object[][]{
             { QUERY_BASE, FIELD_ALPHA, "IS NULL",
-                EXPECTED_QUERY_BASE + " where (o.Name = 'NULL')"},
+                EXPECTED_QUERY_BASE + " where (o.Name = null)"},
             { QUERY_BASE, FIELD_ALPHA, "IS NOT NULL",
-                EXPECTED_QUERY_BASE + " where (o.Name <> 'NULL')"},
+                EXPECTED_QUERY_BASE + " where (o.Name <> null)"},
         };
     }
     
