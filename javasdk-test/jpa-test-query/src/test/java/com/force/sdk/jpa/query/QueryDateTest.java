@@ -53,6 +53,7 @@ public class QueryDateTest extends BaseJPAFTest {
         dateTestData.add(DateTestEntity.init("PastEntity", new Date(System.currentTimeMillis() - 2 * 24 * 3600 * 1000)));
         dateTestData.add(DateTestEntity.init("PresentEntity", new Date()));
         dateTestData.add(DateTestEntity.init("FutureEntity", new Date(System.currentTimeMillis() + 2 * 24 * 3600 * 1000)));
+        dateTestData.add(DateTestEntity.init("NullEntity", null));
         
         addTestDataInTx(dateTestData);
     }
@@ -67,6 +68,13 @@ public class QueryDateTest extends BaseJPAFTest {
         String query = "select o from " + DateTestEntity.class.getSimpleName() + " o where o.date < CURRENT_DATE";
         List<DateTestEntity> results = em.createQuery(query, DateTestEntity.class).getResultList();
         Assert.assertEquals(results.size(), 1, "Unexpected number of results for query " + query);
+    }
+    
+    @Test
+    public void testNullDateQueryNoHint() {
+    	String query = "select o from " + DateTestEntity.class.getSimpleName() + " o where o.date is null";
+    	List<DateTestEntity> results = em.createQuery(query, DateTestEntity.class).getResultList();
+    	Assert.assertEquals(results.size(), 1, "Unexpected number of results for query " + query);
     }
     
     @DataProvider

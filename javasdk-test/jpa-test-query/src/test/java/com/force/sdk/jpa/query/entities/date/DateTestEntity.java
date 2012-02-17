@@ -75,8 +75,11 @@ public class DateTestEntity {
         DateTestEntity dte = new DateTestEntity();
         dte.setName(name);
         
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
+        Calendar cal = null;
+        if(date != null) {
+        	cal = Calendar.getInstance();
+        	cal.setTime(date);
+        }
         dte.setDate(cal);
         
         return dte;

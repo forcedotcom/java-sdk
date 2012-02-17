@@ -1080,7 +1080,6 @@ public class ForceQueryUtils {
                 }
             } else if (expr instanceof Literal) {
                 Object literal = ((Literal) expr).getLiteral();
-                if (literal == null) literal = "NULL";
                 appendValue(h, literal);
             } else if (expr instanceof OrderExpression) {
                 appendExpression(h, expr.getLeft(), executionContext);
@@ -1251,7 +1250,10 @@ public class ForceQueryUtils {
     }
     
     private void appendValue(ExpressionBuilderHelper h, Object value) {
-        Class clazz = value.getClass();
+    	Class clazz = null;
+    	if(value != null) {
+    		clazz = value.getClass();
+    	}
         if (clazz == String.class || clazz == Character.class || clazz == URL.class
                 || clazz == Byte.class || clazz == byte.class) {
             h.sb.append(String.format("'%s'", value));
