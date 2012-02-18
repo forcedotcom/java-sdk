@@ -77,8 +77,8 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
     @DataProvider
     protected Object[][] tokenRetrievalTests() {
         return new Object[][] {
-                {"https://login.salesforce.com", "", "unsupported_grant_type"},
-                {"https://login.salesforce.com", "&grant_type=authorization_code", "invalid_client_id"},
+                {"https://login.salesforce.com", "&redirect_uri=http://www.test.com", "unsupported_grant_type"},
+                {"https://login.salesforce.com", "&grant_type=authorization_code&redirect_uri=http://www.test.com", "invalid_client_id"},
         };
     }
 
