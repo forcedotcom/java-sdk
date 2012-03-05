@@ -6,12 +6,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <groupId>com.force.sdk</groupId>
   <artifactId>force-springsecurity-integration-test</artifactId>
   <name>force-springsecurity-integration-test</name>
-  <version>22.0.8-SNAPSHOT</version>
+  <version>22.0.8-BETA</version>
 
   <parent>
     <groupId>com.force.sdk</groupId>
     <artifactId>force-sdk-test</artifactId>
-    <version>22.0.8-SNAPSHOT</version>
+    <version>22.0.8-BETA</version>
   </parent>
 
   <properties>
