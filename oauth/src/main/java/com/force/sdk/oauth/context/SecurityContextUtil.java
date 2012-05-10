@@ -169,9 +169,14 @@ public final class SecurityContextUtil {
         GetUserInfoResult userInfoResult = Connector.newConnection(config).getUserInfo();
         
         securityContext.init(userInfoResult);
-        
-        SObject[] results = Connector.newConnection(config).retrieve("Name", "Profile",
-                                                                new String[] {userInfoResult.getProfileId()});
+
+        SObject[] results;
+        try {
+            results = Connector.newConnection(config).retrieve("Name", "Profile",
+                new String[] {userInfoResult.getProfileId()});
+        } catch (ConnectionException e) {
+            results = null;
+        }
         
         String role = null;
         if (results != null && results.length > 0) {
