@@ -26,6 +26,10 @@
 
 package com.force.sdk.oauth.store;
 
+import com.force.sdk.oauth.context.ForceSecurityContext;
+import com.force.sdk.oauth.context.SecurityContextUtil;
+import com.sforce.ws.ConnectionException;
+import mockit.Mockit;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.testng.Assert;
@@ -34,6 +38,8 @@ import org.testng.annotations.Test;
 import com.force.sdk.oauth.BaseMockedPartnerConnectionTest;
 import com.force.sdk.oauth.context.SecurityContext;
 import com.force.sdk.oauth.context.store.*;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * 
@@ -63,5 +69,19 @@ public class SecurityContextCookieStoreTest extends BaseMockedPartnerConnectionT
         Assert.assertNotNull(sc, "Security context should not be null after retrieval from the cookie store");
         assertSecurityContextsAreEqual(
                 originalSc, sc, "Security context should be equal after serialization and deserialization to a cookie");
+    }
+
+    @Test
+    public void userWithoutProfileAccessShouldHaveDefaultRole() throws ConnectionException {
+        try {
+            Mockit.setUpMocks(MockInsufficientProfileAccessPartnerConnection.class);
+            SecurityContext sc = new ForceSecurityContext();
+            sc.setEndPoint(originalSc.getEndPoint());
+            sc.setSessionId(VALID_SFDC_SID);
+            SecurityContextUtil.initializeSecurityContextFromApi(sc);
+            assertEquals(sc.getRole(), SecurityContextUtil.DEFAULT_ROLE);
+        } finally {
+            Mockit.tearDownMocks(MockInsufficientProfileAccessPartnerConnection.class);
+        }
     }
 }
