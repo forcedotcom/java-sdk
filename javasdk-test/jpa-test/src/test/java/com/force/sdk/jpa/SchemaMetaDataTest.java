@@ -108,10 +108,9 @@ public class SchemaMetaDataTest extends BaseJPAFTest {
             Assert.fail(ex.getMessage());
         }
         
-        QueryResult result =
-            service.query("select id, type from " + getTableName(em, ParentTestEntity.class).replace("__c", "__Feed")
-                            + " where parentId = '" + parentMD.getId() + "'");
-        assert (result.getSize() == 2); //one for creating the item, one for updating the tracked field
+    	service.query("select id, type from " + getTableName(em, ParentTestEntity.class).replace("__c", "__Feed")
+    			+ " where parentId = '" + parentMD.getId() + "'");
+        
         boolean exceptionThrown = false;
         try {
             service.query("select id, type, feedpost.body from " + getTableName(em, TestEntity.class).replace("__c", "__Feed")
