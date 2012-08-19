@@ -180,13 +180,28 @@ public class AuthFilter implements Filter, SessionRenewer {
             SecurityContextCookieStore cookieStore = new SecurityContextCookieStore();
 
             try {
-                cookieStore.setKeyFileName(config.getInitParameter("secure-key-file"));
+            	if(config.getInitParameter("secure-key-config-var") != null) {
+            		LOGGER.info("Setting encryption key based on config var: " + config.getInitParameter("secure-key-config-var"));
+            		String key = ForceConnectorUtils.extractValue(config.getInitParameter("secure-key-config-var"));
+            		cookieStore.setKey(key);
+            	} else {
+            		LOGGER.info("Setting encryption key based on file: " + config.getInitParameter("secure-key-file"));
+            		cookieStore.setKeyFileName(config.getInitParameter("secure-key-file"));
+            	}
             } catch (ForceEncryptionException e) {
                 throw new ServletException(e);
             }
 
             securityContextServiceImpl.setSecurityContextStorageService(cookieStore);
         }
+        
+    	//set cookie path
+    	String cookiePath = config.getInitParameter("cookiePath");
+    	if ( cookiePath == null ){
+    	  //default to context path
+    	  cookiePath = config.getServletContext().getContextPath();
+    	}
+    	securityContextServiceImpl.setCookiePath(cookiePath);
 
         securityContextService = securityContextServiceImpl;
         

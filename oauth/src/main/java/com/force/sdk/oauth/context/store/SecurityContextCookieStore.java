@@ -172,6 +172,15 @@ public class SecurityContextCookieStore implements
     }
     
     /**
+     * Sets the key directly
+     * @param fileName String
+     * @throws ForceEncryptionException {@link ForceEncryptionException}
+     */
+    public void setKey(String key) throws ForceEncryptionException {
+    	skeySpec  = AESUtil.getSecretKeySpec(key);
+    }
+    
+    /**
      * Returns a base-64 encoded byte array.
      * 
      * @param b - byte array
