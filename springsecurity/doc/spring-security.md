@@ -106,8 +106,12 @@ The following attributes are optional for &lt;fss:oauth> in `spring-configuratio
 </tr>    
 <tr>
     <td>secure-key-file</td>
-    <td>The name of a secure key file, which must be on the classpath. AES encryption is used to encrypt the data about the authenticated user when it's stored in a browser cookie. This is only used if browser cookie storage is on. If cookies are used and no file is specified, a key is automatically generated. However, this should only be done for development purposes because it will be problematic in a multi-instance deployment since each instance will generate a different key. The key is base-64 encoded.</td>
+    <td>The name of a secure key file, which must be on the classpath. AES encryption is used to encrypt the data about the authenticated user when it's stored in a browser cookie. This is only used if browser cookie storage is on. If cookies are used and no file is specified, a key is automatically generated. However, this should only be done for development purposes because it will be problematic in a multi-instance deployment since each instance will generate a different key. The key is base-64 encoded. This is to be used instead of the secure-key attribute.</td>
 </tr>    
+<tr>
+    <td>secure-key</td>
+    <td>The secure key. AES encryption is used to encrypt the data about the authenticated user when it's stored in a browser cookie. This is only used if browser cookie storage is on. If cookies are used and no file is specified, a key is automatically generated. However, this should only be done for development purposes because it will be problematic in a multi-instance deployment since each instance will generate a different key. The key is base-64 encoded. This is to be used instead of the secure-key-file attribute.</td>
+</tr> 
 </table>
 
 The following is a sample file for the secure-key-file attribute. Replace *yourKeyGoesHere* with a secure key. For more information on AES, see [Using AES with Java Technology](http://java.sun.com/developer/technicalArticles/Security/AES/AES_v1.html).
