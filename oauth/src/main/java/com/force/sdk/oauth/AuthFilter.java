@@ -108,6 +108,7 @@ public class AuthFilter implements Filter, SessionRenewer {
     @Override
     public void init(FilterConfig config) throws ServletException {
 
+    	LOGGER.info("Initializing AuthFilter...");
         SecurityContextServiceImpl securityContextServiceImpl = new SecurityContextServiceImpl();
 
         String customDataRetrieverName = config.getInitParameter("customDataRetriever");

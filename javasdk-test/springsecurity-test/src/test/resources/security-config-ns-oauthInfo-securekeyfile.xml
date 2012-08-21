@@ -37,10 +37,10 @@
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security-3.0.xsd
            http://www.salesforce.com/schema/springsecurity
-           http://www.salesforce.com/schema/springsecurity/force-springsecurity-1.4.xsd">
+           http://media.developerforce.com/schema/force-springsecurity-1.3.xsd">
 
     <!-- SFDC OAuth security config with oauthInfo	http://www.salesforce.com/schema/springsecurity/force-springsecurity-1.3.xsd-->
-    <fss:oauth  secure-key="WIxR4rQdz1fKe58kmK3ZvA==">
+    <fss:oauth  secure-key-file="valid-key-file.properties">
         <fss:oauthInfo endpoint="endpoint" oauth-key="key" oauth-secret="123456"/>
     </fss:oauth>
 
