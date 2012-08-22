@@ -175,7 +175,7 @@ public class SecurityContextCookieStore implements
     
     /**
      * Sets the key directly
-     * @param fileName String
+     * @param key String
      * @throws ForceEncryptionException {@link ForceEncryptionException}
      */
     public void setKey(String key) throws ForceEncryptionException {
