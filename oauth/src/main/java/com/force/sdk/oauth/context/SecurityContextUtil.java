@@ -109,7 +109,7 @@ public final class SecurityContextUtil {
      * @param response HttpServletResponse
      * @param secure Whether or not the cookie should be secure
      */
-    public static void setCookieValues(SecurityContext sc, HttpServletResponse response, boolean secure) {
+    public static void setCookieValues(SecurityContext sc, HttpServletResponse response, boolean secure, String path) {
 
         Map<String, String> cookieValueMap = new HashMap<String, String>();
         cookieValueMap.put(FORCE_FORCE_SESSION, sc.getSessionId());
@@ -119,7 +119,7 @@ public final class SecurityContextUtil {
             LOGGER.error("Cannot save endpoint information: ", e);
         }
 
-        setCookieValues(cookieValueMap, response, secure);
+        setCookieValues(cookieValueMap, response, secure, path);
     }
 
     /**
@@ -129,11 +129,12 @@ public final class SecurityContextUtil {
      * @param response HttpServletResponse
      * @param secure Whether or not the cookie should be secure
      */
-    public static void setCookieValues(Map<String, String> cookieValueMap, HttpServletResponse response, boolean secure) {
+    public static void setCookieValues(Map<String, String> cookieValueMap, HttpServletResponse response, boolean secure, String path) {
 
         for (Map.Entry<String, String> cookieEntry : cookieValueMap.entrySet()) {
             Cookie cookie = new Cookie(cookieEntry.getKey(), cookieEntry.getValue());
             cookie.setSecure(secure);
+            cookie.setPath(path);
             response.addCookie(cookie);
         }
 
@@ -169,9 +170,14 @@ public final class SecurityContextUtil {
         GetUserInfoResult userInfoResult = Connector.newConnection(config).getUserInfo();
         
         securityContext.init(userInfoResult);
-        
-        SObject[] results = Connector.newConnection(config).retrieve("Name", "Profile",
-                                                                new String[] {userInfoResult.getProfileId()});
+
+        SObject[] results;
+        try {
+            results = Connector.newConnection(config).retrieve("Name", "Profile",
+                new String[] {userInfoResult.getProfileId()});
+        } catch (ConnectionException e) {
+            results = null;
+        }
         
         String role = null;
         if (results != null && results.length > 0) {

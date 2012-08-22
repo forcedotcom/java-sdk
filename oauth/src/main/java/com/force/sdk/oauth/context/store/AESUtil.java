@@ -182,10 +182,14 @@ public final class AESUtil {
             }
         }
         
-        SecretKeySpec secretKey;
-         secretKey = AESUtil.recreateSecretKeySpec(key);
-        
-        return secretKey;
+        return getSecretKeySpec(key);
+    }
+    
+    public static SecretKeySpec getSecretKeySpec(String key) throws ForceEncryptionException {
+       SecretKeySpec secretKey;
+       secretKey = AESUtil.recreateSecretKeySpec(key);
+       
+       return secretKey;
     }
     
     /**

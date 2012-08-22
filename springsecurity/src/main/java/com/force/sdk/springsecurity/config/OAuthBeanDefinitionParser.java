@@ -78,6 +78,7 @@ public class OAuthBeanDefinitionParser implements BeanDefinitionParser {
     private static final String LOGOUT_FROM_FORCE_DOT_COM_ATTR = "logout-from-force-dot-com";
     private static final String STORE_DATA_IN_SESSION = "store-data-in-session";
     private static final String SECURE_KEY_FILE = "secure-key-file";
+    private static final String SECURE_KEY = "secure-key";
     private static final String STORE_USER_NAME = "store-user-name";
 
     private static final String OAUTH_CONNECTION_INFO_BEAN_NAME = "oauthConnectionInfo";
@@ -441,12 +442,17 @@ public class OAuthBeanDefinitionParser implements BeanDefinitionParser {
     private BeanDefinition createSecurityContextStorageService(Element element) {
         String storeDataInSession = element.getAttribute(STORE_DATA_IN_SESSION);
         String secureKeyFileName = element.getAttribute(SECURE_KEY_FILE);
+        String secureKey = element.getAttribute(SECURE_KEY);
         BeanDefinition securityContextStorageService = null;
         if ("true".equalsIgnoreCase(storeDataInSession)) {
             securityContextStorageService = new RootBeanDefinition(SecurityContextSessionStore.class);
         } else {
             securityContextStorageService = new RootBeanDefinition(SecurityContextCookieStore.class);
-            securityContextStorageService.getPropertyValues().add("keyFileName", secureKeyFileName);
+            if(secureKey != null) {
+            	securityContextStorageService.getPropertyValues().add("key", secureKey);
+            } else {
+            	securityContextStorageService.getPropertyValues().add("keyFileName", secureKeyFileName);
+        	}
         }
         return securityContextStorageService;
     }

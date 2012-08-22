@@ -108,6 +108,7 @@ public class AuthFilter implements Filter, SessionRenewer {
     @Override
     public void init(FilterConfig config) throws ServletException {
 
+    	LOGGER.info("Initializing AuthFilter...");
         SecurityContextServiceImpl securityContextServiceImpl = new SecurityContextServiceImpl();
 
         String customDataRetrieverName = config.getInitParameter("customDataRetriever");
@@ -174,17 +175,39 @@ public class AuthFilter implements Filter, SessionRenewer {
                     + "Please specify an endpoint, oauthKey and oauthSecret or a connection url or a connection name.");
         }
 
+        //set cookie path
+        String cookiePath = config.getInitParameter("cookiePath");
+        if ( cookiePath == null || cookiePath.isEmpty()){
+        	//default to context path
+        	cookiePath = config.getServletContext().getContextPath();
+        	if(cookiePath.isEmpty()) { //if in the root context set cookie path to "/"
+        		cookiePath = "/";
+        	}
+        }
+
+        LOGGER.info("Using " + cookiePath + " as path for session cookies");
+        securityContextServiceImpl.setCookiePath(cookiePath);
+
         if (CONTEXT_STORE_SESSION_VALUE.equals(config.getInitParameter("securityContextStorageMethod"))) {
             securityContextServiceImpl.setSecurityContextStorageService(new SecurityContextSessionStore());
         } else {
             SecurityContextCookieStore cookieStore = new SecurityContextCookieStore();
 
             try {
-                cookieStore.setKeyFileName(config.getInitParameter("secure-key-file"));
+            	if(config.getInitParameter("secure-key-config-var") != null) {
+            		LOGGER.info("Setting encryption key based on config var: " + config.getInitParameter("secure-key-config-var"));
+            		String key = ForceConnectorUtils.extractValue(config.getInitParameter("secure-key-config-var"));
+            		cookieStore.setKey(key);
+            	} else {
+            		LOGGER.info("Setting encryption key based on file: " + config.getInitParameter("secure-key-file"));
+            		cookieStore.setKeyFileName(config.getInitParameter("secure-key-file"));
+            	}
             } catch (ForceEncryptionException e) {
                 throw new ServletException(e);
             }
 
+            cookieStore.setCookiePath(cookiePath);
+            
             securityContextServiceImpl.setSecurityContextStorageService(cookieStore);
         }
 

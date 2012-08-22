@@ -56,6 +56,7 @@ public class SecurityContextServiceImpl implements SecurityContextService {
 
     private UserDataRetrievalService userDataRetrievalService = null;
     private SecurityContextStorageService securityContextStorageService = null;
+    private String cookiePath = null;
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityContextServiceImpl.class);
 
     public void setUserDataRetrievalService(UserDataRetrievalService userDataRetrievalService) {
@@ -77,7 +78,7 @@ public class SecurityContextServiceImpl implements SecurityContextService {
         } catch (ContextStoreException e) {
             LOGGER.error("Cannot store security information: ", e);
         }
-        SecurityContextUtil.setCookieValues(sc, response, SecurityContextUtil.useSecureCookies(request));
+        SecurityContextUtil.setCookieValues(sc, response, SecurityContextUtil.useSecureCookies(request), cookiePath);
     }
     
     /**
@@ -142,6 +143,7 @@ public class SecurityContextServiceImpl implements SecurityContextService {
             try {
                 sc = userDataRetrievalService.retrieveUserData(sessionId, endpoint, null);
             } catch (ConnectionException e) {
+            	LOGGER.info("Force.com session is invalid. Refreshing... ");
                 sc = null;
             }
         }
@@ -163,6 +165,10 @@ public class SecurityContextServiceImpl implements SecurityContextService {
     @Override
     public SecretKeySpec getSecretKey() throws ForceEncryptionException {
         return securityContextStorageService.getSecureKey();
+    }
+    
+    public void setCookiePath(String cookiePath) {
+      this.cookiePath = cookiePath;
     }
     
 }

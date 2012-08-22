@@ -133,6 +133,15 @@ public class BaseMockedPartnerConnectionTest extends BaseOAuthTest {
             
         }
     }
+
+    @MockClass(realClass = PartnerConnection.class, instantiation = Instantiation.PerMockSetup)
+    public static class MockInsufficientProfileAccessPartnerConnection extends MockQueryPartnerConnection {
+        @Mock
+        @Override
+        public SObject[] retrieve(String fieldList, String sObjectType, String[] ids) throws ConnectionException {
+            throw new ConnectionException("You don't have access to retrieve profile info.");
+        }
+    }
     
     @BeforeClass
     public void beforeClass() {

@@ -64,6 +64,7 @@ public class OAuthBeanDefinitionParserTest {
         Object [][] params = new Object[][]{
                 {"security-config-ns-oauthInfo.xml"},
                 {"security-config-ns-oauthInfo-securekey.xml"},
+                {"security-config-ns-oauthInfo-securekeyfile.xml"},
         };
         
         return params;
