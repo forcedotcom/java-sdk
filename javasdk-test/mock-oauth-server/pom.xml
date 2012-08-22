@@ -7,9 +7,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <artifactId>force-mock-oauth-server-app</artifactId>
   <name>force-mock-oauth-server-app</name>
   <packaging>war</packaging>
-  <version>22.0.9-BETA</version>
+  <version>22.0.10-SNAPSHOT</version>
   <properties>
-    <force.sdk.version>22.0.9-BETA</force.sdk.version>
+    <force.sdk.version>22.0.10-SNAPSHOT</force.sdk.version>
     <apache.cxf.version>2.3.0</apache.cxf.version>
     <!-- Need to upgrade when http://jira.codehaus.org/browse/MCHECKSTYLE-147 is fixed -->
     <checkstyle.plugin.version>2.4</checkstyle.plugin.version>

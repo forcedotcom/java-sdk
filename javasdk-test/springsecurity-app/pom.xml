@@ -5,13 +5,13 @@
     <artifactId>force-springsecurity-app</artifactId>
     <name>force-springsecurity-app</name>
     <packaging>war</packaging>
-    <version>22.0.9-BETA</version>
+    <version>22.0.10-SNAPSHOT</version>
 
     <properties>
       <!-- Need to upgrade when http://jira.codehaus.org/browse/MCHECKSTYLE-147 is fixed -->
       <checkstyle.plugin.version>2.4</checkstyle.plugin.version>
       <force.api.version>22.0.0</force.api.version>
-      <force.sdk.version>22.0.9-BETA</force.sdk.version>
+      <force.sdk.version>22.0.10-SNAPSHOT</force.sdk.version>
       <spring.version>3.0.3.RELEASE</spring.version>
       <spring.security.version>3.0.3.RELEASE</spring.security.version>
       <java.compile.version>1.6</java.compile.version>
