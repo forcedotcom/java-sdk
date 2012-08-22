@@ -53,6 +53,7 @@ public class SecurityContextCookieStore implements
     public static final String SECURITY_CONTEXT_COOKIE_NAME = "security_context";
     private SecretKeySpec skeySpec = null;
     private boolean encrypted = true;
+    private String cookiePath = null;
     
     /**
      * Saves the security context to a browser cookie.
@@ -68,6 +69,7 @@ public class SecurityContextCookieStore implements
             byte[] securityContextSer = serializeSecurityContext(securityContext, encrypted);
             contextCookie = new Cookie(SECURITY_CONTEXT_COOKIE_NAME, URLEncoder.encode(b64encode(securityContextSer), "UTF-8"));
             contextCookie.setSecure(SecurityContextUtil.useSecureCookies(request));
+            contextCookie.setPath(cookiePath);
             response.addCookie(contextCookie);
         } catch (ForceEncryptionException e) {
             throw new ContextStoreException(e);
@@ -225,6 +227,14 @@ public class SecurityContextCookieStore implements
         }
         
         return false;
+    }
+    
+    /**
+     * Sets the path for the cookie to use
+     * @param cookiePath
+     */
+    public void setCookiePath(String cookiePath) {
+    	this.cookiePath = cookiePath;
     }
 
 }

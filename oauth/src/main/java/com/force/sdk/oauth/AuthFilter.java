@@ -175,6 +175,19 @@ public class AuthFilter implements Filter, SessionRenewer {
                     + "Please specify an endpoint, oauthKey and oauthSecret or a connection url or a connection name.");
         }
 
+        //set cookie path
+        String cookiePath = config.getInitParameter("cookiePath");
+        if ( cookiePath == null || cookiePath.isEmpty()){
+        	//default to context path
+        	cookiePath = config.getServletContext().getContextPath();
+        	if(cookiePath.isEmpty()) { //if in the root context set cookie path to "/"
+        		cookiePath = "/";
+        	}
+        }
+
+        LOGGER.info("Using " + cookiePath + " as path for session cookies");
+        securityContextServiceImpl.setCookiePath(cookiePath);
+
         if (CONTEXT_STORE_SESSION_VALUE.equals(config.getInitParameter("securityContextStorageMethod"))) {
             securityContextServiceImpl.setSecurityContextStorageService(new SecurityContextSessionStore());
         } else {
@@ -193,16 +206,10 @@ public class AuthFilter implements Filter, SessionRenewer {
                 throw new ServletException(e);
             }
 
+            cookieStore.setCookiePath(cookiePath);
+            
             securityContextServiceImpl.setSecurityContextStorageService(cookieStore);
         }
-        
-    	//set cookie path
-    	String cookiePath = config.getInitParameter("cookiePath");
-    	if ( cookiePath == null ){
-    	  //default to context path
-    	  cookiePath = config.getServletContext().getContextPath();
-    	}
-    	securityContextServiceImpl.setCookiePath(cookiePath);
 
         securityContextService = securityContextServiceImpl;
         
