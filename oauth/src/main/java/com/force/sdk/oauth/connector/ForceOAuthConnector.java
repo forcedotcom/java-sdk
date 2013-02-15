@@ -135,7 +135,7 @@ public class ForceOAuthConnector implements ForceConnector {
      * @throws IOException i/o error
      */
     public SecurityContext getAccessToken(String accessCode, String redirectUri) throws IOException {
-        StringBuffer urlParams = new StringBuffer("grant_type=authorization_code")
+        StringBuffer urlParams = new StringBuffer("grant_type=refresh_token")
         .append("&code=").append(accessCode)
         .append("&redirect_uri=").append(URLEncoder.encode(redirectUri, "UTF-8"));
 
