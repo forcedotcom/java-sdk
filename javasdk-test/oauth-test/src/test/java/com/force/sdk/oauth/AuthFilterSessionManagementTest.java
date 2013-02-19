@@ -158,7 +158,7 @@ public class AuthFilterSessionManagementTest extends BaseMockedPartnerConnection
         Assert.assertEquals(
                 response.getRedirectedUrl(),
                 VALID_SFDC_ENDPOINT
-                + "/services/oauth2/authorize?response_type=code&redirect_uri=https%3A%2F%2Flocalhost%3A8443%2F_auth&"
+                + "/services/oauth2/authorize?response_type=code&scope=api+refresh_token&redirect_uri=https%3A%2F%2Flocalhost%3A8443%2F_auth&"
                 + "state=https%3A%2F%2Flocalhost%3A8443&client_id="
                 + CONSUMER_KEY,
                 "Should send redirect url on a session renewal attempt. Url is not correct.");
