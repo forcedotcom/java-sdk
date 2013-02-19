@@ -341,6 +341,7 @@ public class ForceOAuthConnector implements ForceConnector {
         StringBuffer loginRedirectUrl =
             new StringBuffer(getHostPort(getConnInfo().getEndpoint(), null)).append("/services/oauth2/authorize")
                 .append("?response_type=code")
+                .append("&scope=").append(URLEncoder.encode("api refresh_token", "UTF-8"))
                 .append("&redirect_uri=").append(URLEncoder.encode(getRedirectUri(request), "UTF-8"))
                 .append("&state=").append(URLEncoder.encode(state.toString(), "UTF-8"));
     
