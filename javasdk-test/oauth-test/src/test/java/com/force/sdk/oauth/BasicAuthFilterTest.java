@@ -276,7 +276,6 @@ public class BasicAuthFilterTest extends BaseOAuthTest {
         // Filter should redirect us to OAuth login page
         assertEquals(response.getRedirectedUrl(),
                 endpoint + "/services/oauth2/authorize?response_type=code&"
-                         + "scope=api+refresh_token&"
                          + "redirect_uri=https%3A%2F%2Fhost%2Fcontextpath%2F_auth&"
                          + "state=" + state + "&"
                          + "client_id=" + oauthKey,
