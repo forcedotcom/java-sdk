@@ -189,10 +189,12 @@ public class ForceMetaDataListener implements MetaDataListener {
                         "Primay field name should be ID. Offending entity: ", "ID field type should be String."
                         + " Offending entity: ", cmd);
                 
-                // The only supported strategy is Identity
-                if (ammd.getValueStrategy() == null || ammd.getValueStrategy() != IdentityStrategy.IDENTITY) {
+                // The only supported strategies are Identity and Auto (Native). Auto gives the provider the choice
+                // and for Auto we choose the semantics of Identity.
+                IdentityStrategy valueStratagy = ammd.getValueStrategy();
+                if (!(IdentityStrategy.IDENTITY.equals(valueStratagy) ||  IdentityStrategy.NATIVE.equals(valueStratagy))) {
                     throw new NucleusUserException("@Id column requires value generation"
-                                                    + " @GeneratedValue(strategy = GenerationType.IDENTITY)."
+                                                    + " @GeneratedValue(strategy = GenerationType.AUTO)."
                                                     + " Offending entity: " + cmd.getFullClassName());
                 }
             }
