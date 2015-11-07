@@ -1,3 +1,7 @@
+# NO LONGER MAINTAINED
+
+This library is no longer maintained. Use [wsc](https://github.com/forcedotcom/wsc) for building Java applications that connect to Force.com API.
+
 # Database.com SDK for Java
 
 For more information on how to use the Java SDK, please read our documentation at http://forcedotcom.github.com/java-sdk/force-sdk-overview
