@@ -1,6 +1,6 @@
 # NO LONGER MAINTAINED
 
-This library is no longer maintained. Use [wsc](https://github.com/forcedotcom/wsc) for building Java applications that connect to Force.com API.
+This library is no longer maintained. Use [wsc](https://github.com/forcedotcom/wsc) for building Java applications that connect to the Force.com SOAP API or Bulk API.
 
 # Database.com SDK for Java
 
