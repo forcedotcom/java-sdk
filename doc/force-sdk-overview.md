@@ -4,6 +4,10 @@ layout: doc
 title: Introduction
 
 ---
+# NO LONGER MAINTAINED
+
+This library is no longer maintained. Use [wsc](https://github.com/forcedotcom/wsc) for building Java applications that connect to the Force.com SOAP API or Bulk API.
+
 # Introduction
 
 Force.com is a complete application development platform that provides tools for managing data, logic, and user interfaces of your cloud apps. Database.com is the underlying database that powers Force.com and all the applications built on the platform, including Sales Cloud, Service Cloud, and Chatter.
